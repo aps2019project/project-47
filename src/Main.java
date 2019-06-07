@@ -3,8 +3,12 @@ import controllers.console.MainMenu;
 import defentions.Defentions;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
+import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import models.Account;
@@ -27,6 +31,11 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
         Parent root = FXMLLoader.load(getClass().getResource("layouts/mainPageLayout.fxml"));
+        root.getStylesheets().add("resources/stylesheets/mainPageStyle.css");
+        root.getStyleClass().add("mainPage");
+        Image img = new Image(getClass().getResourceAsStream("resources/cursor.png"));
+        ImageCursor cursor = new ImageCursor(img, 30, 30);
+        root.setCursor(cursor);
         primaryStage.setMaximized(true);
         primaryStage.setFullScreen(true);
         primaryStage.setTitle("DUELYST");
