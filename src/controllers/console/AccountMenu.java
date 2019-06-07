@@ -112,7 +112,7 @@ public class AccountMenu {
         }
     }
     private static boolean login (Account account){
-        MyPrinter.green("Put your password to log in or 'back' to return to models.Account-menu.");
+        MyPrinter.green("Put your password to log in or 'back' to return to Account-menu.");
         while (true) {
             String commadnTxt = scanner.nextLine();
             pattern = Pattern.compile(passwordSTR);
@@ -158,7 +158,7 @@ public class AccountMenu {
         return null;
     }
     public static boolean creatAccount(String userName){
-        MyPrinter.yellow("Put your password to create an account or 'back' to return to models.Account-menu.");
+        MyPrinter.yellow("Put your password to create an account or 'back' to return to Account-menu.");
         while (true) {
             String commadnTxt = scanner.nextLine();
             pattern = Pattern.compile(passwordSTR);
