@@ -39,7 +39,7 @@ public class MainMenu {
                 continue;
             }
             if (commandTxt.equals("shop") || commandTxt.equals("2")){
-                new Shop().open_shopMenu();
+                Shop.getInstance().open_shopMenu();
                 continue;
             }
             if (commandTxt.equals("battle") ||commandTxt.equals("3")){

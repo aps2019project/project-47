@@ -13,6 +13,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Shop {
+
+    private static Shop ourInstance = new Shop();
+
+    public static Shop getInstance() {
+        return ourInstance;
+    }
+
     private static Pattern pattern;
     private static Matcher matcher;
     private static Scanner scanner=new Scanner(System.in);
@@ -20,7 +27,7 @@ public class Shop {
     private ArrayList<Card> cards;
     private ArrayList<Item> items;
 
-    public Shop() {
+    private Shop() {
         cards= Defentions.defineCard();
         items= Defentions.all_item_by_type(ItemType.usable);
     }
