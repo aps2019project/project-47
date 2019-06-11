@@ -4,25 +4,30 @@
     -fx-background-size: 1920 1080;
     -fx-background-position: center center;
     -fx-effect: dropshadow(three-pass-box, black, 30, 0.5, 0, 0);
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
 }
 
 .tabContainer {
     -fx-pref-width: 500;
     -fx-max-width: 500;
-    -fx-pref-height: 500;
-    -fx-max-height: 500;
+    -fx-pref-height: 400;
+    -fx-max-height: 400;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-background-color: #654323;
 }
 
 .tab-header-area {
     -fx-padding: 0 -150 0 150;
-    -fx-background-color: transparent;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-background-color: white;
 }
 
-
-.tabContainer > .tab-header-area > .headers-region > .tab > .tab-container > .tab-label {
-    -fx-alignment: CENTER;
-    -fx-pref-width: 50.0;
-    -fx-text-fill: -fx-text-base-color;
+.tab-header-background {
+    -fx-background-color: #292929;
+    -fx-background-radius: 5px;
 }
 
 .duelystTabName .tab-label {
@@ -34,13 +39,19 @@
 }
 
 .duelystTab {
-    /*-fx-pref-height: 500px;*/
-    /*-fx-pref-width: 300px;*/
-    /*-fx-padding: 0 0 0 0;*/
     -fx-alignment: center;
     -fx-background-color: #292929;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-padding: 30;
 }
 
 .regularButton {
+    -fx-background-color: #d73521;
+    -fx-font-size: 20px;
+}
 
+.regular-textBox {
+    -fx-background-color: #404040;
+    -fx-font-size: 25px;
 }
