@@ -23,8 +23,6 @@ public class AccountMenu {
     private static Matcher matcher;
     private static ArrayList<Account> accounts;
     private static Account loginAccount;
-    private static String loginSTR ="^login ([^ ]+)$";
-    private static String passwordSTR="^[0-9]+$";
     private static String showLeaderBoardSTR ="show leaderBoard";
     private static String logoutSTR ="logout";
     private static String helpSTR ="help";
@@ -51,28 +49,20 @@ public class AccountMenu {
             matcher = pattern.matcher(commandTxt);
             if (matcher.find()){
                 String name=matcher.group(1);
-                if (findAccount(name)!=null || name.equals("pc")){
-                    MyPrinter.red("Taken userName...,make another one.");
-                    continue;
-                }
-                if (creatAccount(name)){
+                String password=matcher.group(2);
+                if (command_creatAccount(name,password)){
                     MyPrinter.green("Your account was created successfully.");
                 }
                 continue;
             }
             //login
-            pattern = Pattern.compile(loginSTR);
+            pattern = Pattern.compile("^login ([^ ]+) ([^ ]+)$");
             matcher = pattern.matcher(commandTxt);
             if (matcher.find()){
                 String userName=matcher.group(1);
-                Account account=findAccount(userName);
-                if (account==null){
-                    MyPrinter.red("Invalid userName!");
-                    continue;
-                }
-                if (login(account)){
-                    MyPrinter.green("You logged in successfully.");
-                }
+                String password=matcher.group(2);
+
+                command_login(userName,password);
                 continue;
             }
             //show leaderBoard
@@ -116,25 +106,24 @@ public class AccountMenu {
             MyPrinter.red("Invalid command!");
         }
     }
-    private static boolean login (Account account){
-        MyPrinter.green("Put your password to log in or 'back' to return to Account-menu.");
-        while (true) {
-            String commadnTxt = scanner.nextLine();
-            pattern = Pattern.compile(passwordSTR);
-            matcher = pattern.matcher(commadnTxt);
-            if (matcher.find()){
-                if (account.checkPassword(commadnTxt)){
-                    loginAccount = account;
-                    return true;
-                }
-                MyPrinter.red("Wrong password,try again...");
-                continue;
-            }
-            if (commadnTxt.equals("back")){
-                return false;
-            }
-            MyPrinter.red("Invalid password...(password is only digits:0-9)");
+
+    private static void command_login(String userName,String password) {
+        Account account=findAccount(userName);
+        if (account==null){
+            MyPrinter.red("Invalid userName!");
+            return;
         }
+        login(account,password);
+    }
+
+    private static boolean login (Account account,String password){
+        if (account.checkPassword(password)){
+            loginAccount = account;
+            MyPrinter.green("You logged in successfully.");
+            return true;
+        }
+        MyPrinter.red("Wrong password,try again...");
+        return false;
     }
     private static void showLeaderBoard(){
         if (accounts.size()==0){
@@ -162,23 +151,14 @@ public class AccountMenu {
         }
         return null;
     }
-    public static boolean creatAccount(String userName){
-        MyPrinter.yellow("Put your password to create an account or 'back' to return to Account-menu.");
-        while (true) {
-            String commadnTxt = scanner.nextLine();
-            pattern = Pattern.compile(passwordSTR);
-            matcher = pattern.matcher(commadnTxt);
-            if (matcher.find()){
-                Account account=new Account(userName);
-                    account.setPassword(commadnTxt);
-                    addAccount(account);
-                return true;
-            }
-            if (commadnTxt.equals("back")){
-                return false;
-            }
-            MyPrinter.red("Invalid password...(password is only digits:0-9)");
+    public static boolean command_creatAccount(String userName,String password){
+        if (findAccount(userName)!=null || userName.equals("pc")){
+            MyPrinter.red("Taken userName...,make another one.");
+            return false;
         }
+        Account account=new Account(userName,password);
+        addAccount(account);
+        return true;
     }
     public static void help(){
         MyPrinter.blue("1. create account [user name]");

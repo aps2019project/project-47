@@ -21,7 +21,7 @@ public class Account implements Cloneable{
     private int storyLvl;
     private Deck mainDeck;
 
-    public Account(String userName) {
+    public Account(String userName,String password) {
         this.userName = new String(userName);
         this.money = 15000;
         storyLvl=1;
@@ -29,7 +29,7 @@ public class Account implements Cloneable{
         cards=new ArrayList<>();
         items=new ArrayList<>();
         this.decks = new ArrayList<Deck>();
-        this.password=new String();
+        this.password= password;
     }
     public int getStoryLvl() {
         return storyLvl;

@@ -16,7 +16,7 @@ public class runConsole {
     public static void main(String[] args) {
         MainMenu mainMenu = new MainMenu();
         {
-            Account Mmd = new Account("Mmd");
+            Account Mmd = new Account("Mmd","1234");
             Deck deck1 = new Deck("best");
             ArrayList<Minion> minions = Defentions.defineMinion();
             ArrayList<Hero> heroes = Defentions.defineHero();

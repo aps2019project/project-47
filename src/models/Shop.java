@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 public class Shop {
 
     private static Shop ourInstance = new Shop();
@@ -27,7 +26,7 @@ public class Shop {
     private ArrayList<Card> cards;
     private ArrayList<Item> items;
 
-    private Shop() {
+    public Shop() {
         cards= Defentions.defineCard();
         items= Defentions.all_item_by_type(ItemType.usable);
     }
@@ -91,7 +90,7 @@ public class Shop {
         }
     }
 
-    private void command_show_my_collection(Account account) {
+    public void command_show_my_collection(Account account) {
         if (account==null){
         MyPrinter.red("no account was logged in!");
             return;
@@ -99,7 +98,7 @@ public class Shop {
         account.showAllCollection();
     }
 
-    private void help(){
+    public void help(){
         MyPrinter.blue("1. command_buy <code>");
         System.out.println("2. command_buy <code> to <code>");
         System.out.println("3. command_sell <code>");
@@ -119,7 +118,7 @@ public class Shop {
             item.show();
         }
     }
-    private void command_buy(int code){
+    public void command_buy(int code){
         Account account= AccountMenu.getLoginAccount();
         if (account==null){
             MyPrinter.red("no account was logged in!");
@@ -143,7 +142,7 @@ public class Shop {
         MyPrinter.green("selected thing was bought successfully!");
         account.addCardOrItem(object);
     }
-    private int determine_price(int code){
+    public int determine_price(int code){
         for (Card card:cards){
             if (card.getCode()==code){
                 return card.getPrice();
@@ -156,7 +155,7 @@ public class Shop {
         }
         return 0;
     }
-    private Object find_in_shop(int code){
+    public Object find_in_shop(int code){
         for (Card card:cards){
             if (card.getCode()==code){
                 return card;
@@ -169,7 +168,7 @@ public class Shop {
         }
         return null;
     }
-    private void command_sell(int code){
+    public void command_sell(int code){
         Account account= AccountMenu.getLoginAccount();
         if (account==null){
             MyPrinter.red("no account was logged in!");
