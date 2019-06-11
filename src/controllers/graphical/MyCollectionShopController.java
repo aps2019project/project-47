@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class MyCollectionShopController implements Initializable {
-    Shop shop;
+    Shop shop = Shop.getInstance();
     private ArrayList<Card> cards = new ArrayList<>();
     private ArrayList<Item> items = new ArrayList<>();
 
@@ -38,23 +38,20 @@ public class MyCollectionShopController implements Initializable {
             splitPane.setDividerPosition(1, 0.18);
             Button button = new Button("sell" + card.getName());
             splitPane.getItems().add(1, button);
-            button.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent event) {
-                    
-                }
-            });
+            button.setOnAction(event -> shop.command_sell(card.getCode()));
             ImageView imageView = new ImageView("resources/generals/general_portrait_image_tutorial1.png");
             splitPane.getItems().add(0, imageView);
         }
+
         for (Item item : items) {
             SplitPane splitPane = new SplitPane();
             bottomContainer.getChildren().add(splitPane);
             splitPane.setPrefHeight(((ScrollPane) splitPane.getParent()).getPrefHeight());
             splitPane.setDividerPosition(0, 0.82);
             splitPane.setDividerPosition(1, 0.18);
-            Label label = new Label(item.getName());
-            splitPane.getItems().add(1, label);
+            Button button = new Button("sell" + item.getName());
+            splitPane.getItems().add(1, button);
+            button.setOnAction(event -> shop.command_sell(item.getCode()));
             ImageView imageView = new ImageView("resources/generals/general_portrait_image_hex_rook.png");
             splitPane.getItems().add(0, imageView);
         }

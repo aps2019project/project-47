@@ -12,6 +12,12 @@ import models.Account;
 //sdf
 public class AccountMenu {
 
+    private static AccountMenu ourInstance = new AccountMenu();
+
+    public static AccountMenu getInstance() {
+        return ourInstance;
+    }
+
     private static Scanner scanner=new Scanner(System.in);
     private static Pattern pattern;
     private static Matcher matcher;

@@ -16,7 +16,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class UniversalShopController implements Initializable {
-    Shop shop;
+    Shop shop = Shop.getInstance();
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         topContainer.setPrefHeight(((ScrollPane)topContainer.getParent()).getPrefHeight());
