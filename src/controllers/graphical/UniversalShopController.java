@@ -9,12 +9,14 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import models.Shop;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class UniversalShopController implements Initializable {
+    Shop shop;
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         topContainer.setPrefHeight(((ScrollPane)topContainer.getParent()).getPrefHeight());
@@ -193,7 +195,7 @@ public class UniversalShopController implements Initializable {
     void buyCard(ActionEvent event) {
         String codeStr = ((Button)event.getSource()).getId();
         Integer code = Integer.parseInt(codeStr.substring(1));
-
+        shop.command_buy(code);
     }
 
     @FXML

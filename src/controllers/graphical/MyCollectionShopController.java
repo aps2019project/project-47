@@ -1,6 +1,7 @@
 package controllers.graphical;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -12,6 +13,7 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import models.Shop;
 import models.cards.Card;
 import models.item.Item;
 
@@ -21,6 +23,7 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class MyCollectionShopController implements Initializable {
+    Shop shop;
     private ArrayList<Card> cards = new ArrayList<>();
     private ArrayList<Item> items = new ArrayList<>();
 
@@ -33,8 +36,14 @@ public class MyCollectionShopController implements Initializable {
             splitPane.setOrientation(Orientation.VERTICAL);
             splitPane.setDividerPosition(0, 0.82);
             splitPane.setDividerPosition(1, 0.18);
-            Label label = new Label(card.getName());
-            splitPane.getItems().add(1, label);
+            Button button = new Button("sell" + card.getName());
+            splitPane.getItems().add(1, button);
+            button.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    
+                }
+            });
             ImageView imageView = new ImageView("resources/generals/general_portrait_image_tutorial1.png");
             splitPane.getItems().add(0, imageView);
         }

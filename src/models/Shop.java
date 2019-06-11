@@ -83,7 +83,7 @@ public class Shop {
         }
     }
 
-    private void command_show_my_collection(Account account) {
+    public void command_show_my_collection(Account account) {
         if (account==null){
         MyPrinter.red("no account was logged in!");
             return;
@@ -91,7 +91,7 @@ public class Shop {
         account.showAllCollection();
     }
 
-    private void help(){
+    public void help(){
         MyPrinter.blue("1. command_buy <code>");
         System.out.println("2. command_buy <code> to <code>");
         System.out.println("3. sell <code>");
@@ -101,7 +101,7 @@ public class Shop {
         System.out.println("7. earn <value>");
         System.out.println("8. exit");
     }
-    private void command_show(){
+    public void command_show(){
         for (Card card:cards){
             MyPrinter.cyan("code : "+card.getCode()+" , price : "+card.getPrice());
             card.showInfo();
@@ -111,7 +111,7 @@ public class Shop {
             item.show();
         }
     }
-    private void command_buy(int code){
+    public void command_buy(int code){
         Account account= AccountMenu.getLoginAccount();
         if (account==null){
             MyPrinter.red("no account was logged in!");
@@ -135,7 +135,7 @@ public class Shop {
         MyPrinter.green("selected thing was bought successfully!");
         account.addCardOrItem(object);
     }
-    private int determine_price(int code){
+    public int determine_price(int code){
         for (Card card:cards){
             if (card.getCode()==code){
                 return card.getPrice();
@@ -148,7 +148,7 @@ public class Shop {
         }
         return 0;
     }
-    private Object find_in_shop(int code){
+    public Object find_in_shop(int code){
         for (Card card:cards){
             if (card.getCode()==code){
                 return card;
@@ -161,7 +161,7 @@ public class Shop {
         }
         return null;
     }
-    private void sell(int code){
+    public void sell(int code){
         Account account= AccountMenu.getLoginAccount();
         if (account==null){
             MyPrinter.red("no account was logged in!");
