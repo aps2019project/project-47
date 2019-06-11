@@ -4,29 +4,32 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.layout.VBox?>
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXPasswordField?>
 <VBox fx:id="mainContainer"
       xmlns="http://javafx.com/javafx/11.0.1" stylesheets="@styles.css" styleClass="mainPage"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.graphical.MainPageController"
       prefWidth="1920" prefHeight="1080"
       alignment="center">
-    <JFXTabPane fx:id="mainPage"
-                styleClass="tabContainer"
-    >
-        <Tab text="LOG IN"
-             styleClass="duelystTabName"
-        >
-            <VBox fx:id="loginTab"
-                  styleClass="duelystTab">
-                <JFXButton fx:id="loginButton"
-                           text="Login">
+    <JFXTabPane fx:id="mainPage" styleClass="tabContainer">
+        <Tab text="LOG IN" styleClass="duelystTabName">
+            <VBox fx:id="loginTab" styleClass="duelystTab" spacing="30">
+                <JFXTextField fx:id="userNameField" promptText="User Name" styleClass="regular-textBox" prefWidth="400" prefHeight="80">
+                </JFXTextField>
+                <JFXPasswordField fx:id="passwordField" promptText="Password" styleClass="regular-textBox" prefWidth="400" prefHeight="80">
+                </JFXPasswordField>
+                <JFXButton fx:id="loginButton" text="LOG IN" styleClass="regularButton" prefWidth="440" prefHeight="80" onAction="#loginButtonAction" >
                 </JFXButton>
             </VBox>
         </Tab>
-        <Tab text="REGISTER"
-             styleClass="duelystTabName"
-        >
-            <VBox fx:id="registerTab"
-                  styleClass="duelystTab">
+        <Tab text="REGISTER" styleClass="duelystTabName">
+            <VBox fx:id="registerTab" styleClass="duelystTab" spacing="30">
+                <JFXTextField fx:id="newUserNameField" promptText="User Name" styleClass="regular-textBox" prefWidth="400" prefHeight="80">
+                </JFXTextField>
+                <JFXPasswordField fx:id="newPasswordField" promptText="Password" styleClass="regular-textBox" prefWidth="400" prefHeight="80">
+                </JFXPasswordField>
+                <JFXButton fx:id="registerButton" text="REGISTER" styleClass="regularButton" prefWidth="440" prefHeight="80" onAction="#loginButtonAction" >
+                </JFXButton>
             </VBox>
         </Tab>
     </JFXTabPane>
