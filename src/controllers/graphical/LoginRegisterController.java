@@ -6,12 +6,11 @@ import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import static controllers.console.AccountMenu.doCommand;
-import static controllers.console.constants.*;
+import static controllers.console.Constants.*;
 
 public class LoginRegisterController implements Initializable {
 
@@ -31,13 +30,38 @@ public class LoginRegisterController implements Initializable {
 
 
     public void loginButtonAction() {
-        if (newUserNameField.getText().equals("") | newPasswordField.getText().equals(""))
-            return;
+        if (checkFreeBoxes(userNameField, passwordField, messageLabelLogin)) return;
+        switch (doCommand("login " + userNameField.getText() + " " + passwordField.getText())){
+            case INVALID_USERNAME:
+                userNameField.getStyleClass().add("wrong");
+                userNameField.setText("");
+                passwordField.getStyleClass().removeIf(style -> style.equals("wrong"));
+                messageLabelLogin.getStyleClass().removeIf(style -> !style.equals("badMessage"));
+                messageLabelLogin.getStyleClass().add("badMessage");
+                messageLabelLogin.setText("Invalid user name!");
+                return;
+            case WRONG_PASSWORD:
+                passwordField.getStyleClass().add("wrong");
+                passwordField.setText("");
+                userNameField.getStyleClass().removeIf(style -> style.equals("wrong"));
+                messageLabelLogin.getStyleClass().removeIf(style -> !style.equals("badMessage"));
+                messageLabelLogin.getStyleClass().add("badMessage");
+                messageLabelLogin.setText("Wrong password,try again...");
+                return;
+            case SUCCESSFUL_LOGIN:
+                userNameField.setText("");
+                passwordField.setText("");
+                userNameField.getStyleClass().removeIf(style -> style.equals("wrong"));
+                passwordField.getStyleClass().removeIf(style -> style.equals("wrong"));
+                messageLabelLogin.setText("You are logged in successfully!");
+                messageLabelLogin.getStyleClass().removeIf(style -> !style.equals("goodMessage"));
+                messageLabelLogin.getStyleClass().add("goodMessage");
+                //todo mainPage
+        }
     }
 
     public void registerButtonAction() {
-        if (newUserNameField.getText().equals("") | newPasswordField.getText().equals(""))
-            return;
+        if (checkFreeBoxes(newUserNameField, newPasswordField, messageLabelRegister)) return;
         if (doCommand("create account " + newUserNameField.getText() + " " + newPasswordField.getText()) == ACCOUNT_CREATE_SUCCESSFULLY) {
             messageLabelRegister.setText("The account with name " + newUserNameField.getText() + " created.");
             messageLabelRegister.getStyleClass().removeIf(style -> !style.equals("goodMessage"));
@@ -45,6 +69,31 @@ public class LoginRegisterController implements Initializable {
             newPasswordField.setText("");
             newUserNameField.setText("");
         }
+    }
+
+    private boolean checkFreeBoxes(JFXTextField userNameField, JFXPasswordField passwordField, Label messageLabel) {
+        if (!userNameField.getText().equals(""))
+            userNameField.getStyleClass().removeIf(style -> style.equals("wrong"));
+        if (!passwordField.getText().equals(""))
+            passwordField.getStyleClass().removeIf(style -> style.equals("wrong"));
+        if (userNameField.getText().equals("")) {
+            userNameField.getStyleClass().add("wrong");
+            printFreeBoxMessage(messageLabel);
+            return true;
+        }
+        if (passwordField.getText().equals("")) {
+            passwordField.getStyleClass().add("wrong");
+            printFreeBoxMessage(messageLabel);
+            return true;
+        }
+        messageLabel.setText("");
+        return false;
+    }
+
+    private void printFreeBoxMessage(Label messageLabel) {
+        messageLabel.getStyleClass().removeIf(style -> !style.equals("badMessage"));
+        messageLabel.getStyleClass().add("badMessage");
+        messageLabel.setText("Enter free fields!");
     }
 
     public void validateUserName() {
@@ -59,5 +108,20 @@ public class LoginRegisterController implements Initializable {
             messageLabelRegister.getStyleClass().removeIf(style -> !style.equals("regularMessage"));
             messageLabelRegister.getStyleClass().add("regularMessage");
         }
+    }
+
+    public void typeOnUserNameField(){
+        userNameField.getStyleClass().removeIf(style -> style.equals("wrong"));
+        messageLabelLogin.setText("");
+    }
+
+    public void typeOnPasswordField() {
+        passwordField.getStyleClass().removeIf(style -> style.equals("wrong"));
+        messageLabelLogin.setText("");
+    }
+
+    public void typeOnNewPasswordField() {
+        newPasswordField.getStyleClass().removeIf(style -> style.equals("wrong"));
+        messageLabelRegister.setText("");
     }
 }

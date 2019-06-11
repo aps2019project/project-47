@@ -10,7 +10,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static controllers.console.constants.*;
+import static controllers.console.Constants.*;
 
 public class AccountMenu {
 
@@ -84,9 +84,7 @@ public class AccountMenu {
         if (matcher.find()) {
             String userName = matcher.group(1);
             String password = matcher.group(2);
-
-            command_login(userName, password);
-            return 0;
+            return command_login(userName, password);
         }
         //show leaderBoard
         if (commandTxt.equals(showLeaderBoardSTR) || commandTxt.equals("3")) {
@@ -130,23 +128,23 @@ public class AccountMenu {
         return 0;
     }
 
-    private static void command_login(String userName, String password) {
+    private static int command_login(String userName, String password) {
         Account account = findAccount(userName);
         if (account == null) {
             MyPrinter.red("Invalid userName!");
-            return;
+            return INVALID_USERNAME;
         }
-        login(account, password);
+        return login(account, password);
     }
 
-    private static boolean login(Account account, String password) {
+    private static int login(Account account, String password) {
         if (account.checkPassword(password)) {
             loginAccount = account;
             MyPrinter.green("You logged in successfully.");
-            return true;
+            return SUCCESSFUL_LOGIN;
         }
         MyPrinter.red("Wrong password,try again...");
-        return false;
+        return WRONG_PASSWORD;
     }
 
     private static void showLeaderBoard() {
