@@ -17,7 +17,6 @@ public class AccountMenu {
     private static Matcher matcher;
     private static ArrayList<Account> accounts;
     private static Account loginAccount;
-    private static String createAccountSTR ="^create account ([^ ]+)$";
     private static String loginSTR ="^login ([^ ]+)$";
     private static String passwordSTR="^[0-9]+$";
     private static String showLeaderBoardSTR ="show leaderBoard";
@@ -42,7 +41,7 @@ public class AccountMenu {
         while (true){
             String commandTxt=scanner.nextLine();
             //create account
-            pattern = Pattern.compile(createAccountSTR);
+            pattern = Pattern.compile("^create account ([^ ]+) ([^ ]+)$");
             matcher = pattern.matcher(commandTxt);
             if (matcher.find()){
                 String name=matcher.group(1);
