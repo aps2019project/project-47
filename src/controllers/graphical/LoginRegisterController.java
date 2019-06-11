@@ -4,14 +4,14 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextField;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import runners.Main;
+import javafx.scene.control.Label;
 
-import java.beans.EventHandler;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import static controllers.console.AccountMenu.doCommand;
+import static controllers.console.constants.*;
 
 public class LoginRegisterController implements Initializable {
 
@@ -22,22 +22,42 @@ public class LoginRegisterController implements Initializable {
     public JFXPasswordField newPasswordField;
     public JFXTextField newUserNameField;
     public JFXButton registerButton;
-    public JFXButton back;
+    public Label messageLabelRegister;
+    public Label messageLabelLogin;
 
     @Override
-    public void initialize(URL location, ResourceBundle resources) { }
-
-
-    @FXML
-    protected void loginButtonAction(){
-
+    public void initialize(URL location, ResourceBundle resources) {
     }
 
-    @FXML
+
+    public void loginButtonAction() {
+        if (newUserNameField.getText().equals("") | newPasswordField.getText().equals(""))
+            return;
+    }
+
     public void registerButtonAction() {
+        if (newUserNameField.getText().equals("") | newPasswordField.getText().equals(""))
+            return;
+        if (doCommand("create account " + newUserNameField.getText() + " " + newPasswordField.getText()) == ACCOUNT_CREATE_SUCCESSFULLY) {
+            messageLabelRegister.setText("The account with name " + newUserNameField.getText() + " created.");
+            messageLabelRegister.getStyleClass().removeIf(style -> !style.equals("goodMessage"));
+            messageLabelRegister.getStyleClass().add("goodMessage");
+            newPasswordField.setText("");
+            newUserNameField.setText("");
+        }
     }
 
-    public void clk_exit(ActionEvent event){
-        Main.setScene();
+    public void validateUserName() {
+        if (doCommand("is" + newUserNameField.getText()) == ACCOUNT_EXISTS) {
+            newUserNameField.getStyleClass().add("wrong");
+            messageLabelRegister.getStyleClass().removeIf(style -> !style.equals("badMessage"));
+            messageLabelRegister.getStyleClass().add("badMessage");
+            messageLabelRegister.setText("The account with name " + newUserNameField.getText() + " existed.");
+        } else {
+            newUserNameField.getStyleClass().removeIf(style -> style.equals("wrong"));
+            messageLabelRegister.setText("");
+            messageLabelRegister.getStyleClass().removeIf(style -> !style.equals("regularMessage"));
+            messageLabelRegister.getStyleClass().add("regularMessage");
+        }
     }
 }

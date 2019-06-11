@@ -8,32 +8,43 @@
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
+<?import javafx.scene.control.Label?>
 <VBox fx:id="mainContainer"
       xmlns="http://javafx.com/javafx/11.0.1" stylesheets="@styles.css" styleClass="mainPage"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.graphical.MainPageController"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.graphical.LoginRegisterController"
       prefWidth="1920" prefHeight="1080"
-      alignment="center" spacing="10">
+      alignment="center" spacing="20">
     <ImageView fitWidth="500" fitHeight="108">
         <Image url="/resources/logo.png"/>
     </ImageView>
     <JFXTabPane fx:id="mainPage" styleClass="tabContainer">
         <Tab text="LOG IN" styleClass="duelystTabName">
-            <VBox fx:id="loginTab" styleClass="duelystTab" spacing="30">
-                <JFXTextField fx:id="userNameField" promptText="User Name" styleClass="regular-textBox" prefWidth="400" prefHeight="80">
+            <VBox fx:id="loginTab" styleClass="duelystTab" spacing="20">
+                <JFXTextField fx:id="userNameField" promptText="User Name" styleClass="regular-textBox" prefWidth="400"
+                              prefHeight="80">
                 </JFXTextField>
-                <JFXPasswordField fx:id="passwordField" promptText="Password" styleClass="regular-textBox" prefWidth="400" prefHeight="80">
+                <JFXPasswordField fx:id="passwordField" promptText="Password" styleClass="regular-textBox"
+                                  prefWidth="400" prefHeight="80">
                 </JFXPasswordField>
-                <JFXButton fx:id="loginButton" text="LOG IN" styleClass="regularButton" prefWidth="440" prefHeight="80" onAction="#loginButtonAction" >
+                <Label fx:id="messageLabelLogin" styleClass="message, regularMessage" prefWidth="400" prefHeight="30">
+                </Label>
+                <JFXButton fx:id="loginButton" text="LOG IN" styleClass="regularButton" prefWidth="440" prefHeight="80"
+                           onAction="#loginButtonAction">
                 </JFXButton>
             </VBox>
         </Tab>
         <Tab text="REGISTER" styleClass="duelystTabName">
-            <VBox fx:id="registerTab" styleClass="duelystTab" spacing="30">
-                <JFXTextField fx:id="newUserNameField" promptText="User Name" styleClass="regular-textBox" prefWidth="400" prefHeight="80">
+            <VBox fx:id="registerTab" styleClass="duelystTab" spacing="20">
+                <JFXTextField fx:id="newUserNameField" promptText="User Name" styleClass="regular-textBox"
+                              prefWidth="400" prefHeight="80" onKeyReleased="#validateUserName">
                 </JFXTextField>
-                <JFXPasswordField fx:id="newPasswordField" promptText="Password" styleClass="regular-textBox" prefWidth="400" prefHeight="80">
+                <JFXPasswordField fx:id="newPasswordField" promptText="Password" styleClass="regular-textBox"
+                                  prefWidth="400" prefHeight="80">
                 </JFXPasswordField>
-                <JFXButton fx:id="registerButton" text="REGISTER" styleClass="regularButton" prefWidth="440" prefHeight="80" onAction="#registerButtonAction" >
+                <Label fx:id="messageLabelRegister" styleClass="message, regularMessage" prefWidth="400" prefHeight="30">
+                </Label>
+                <JFXButton fx:id="registerButton" text="REGISTER" styleClass="regularButton" prefWidth="440"
+                           prefHeight="80" onAction="#registerButtonAction">
                 </JFXButton>
             </VBox>
         </Tab>
