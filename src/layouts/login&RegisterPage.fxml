@@ -8,7 +8,7 @@
 <?import com.jfoenix.controls.JFXPasswordField?>
 <VBox fx:id="mainContainer"
       xmlns="http://javafx.com/javafx/11.0.1" stylesheets="@styles.css" styleClass="mainPage"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.graphical.MainPageController"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.graphical.LoginRegisterController"
       prefWidth="1920" prefHeight="1080"
       alignment="center">
     <JFXTabPane fx:id="mainPage" styleClass="tabContainer">

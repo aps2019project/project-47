@@ -9,7 +9,7 @@ import javafx.fxml.Initializable;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class MainPageController implements Initializable {
+public class LoginRegisterController implements Initializable {
 
     public JFXTabPane mainPage;
     public JFXTextField userNameField;
