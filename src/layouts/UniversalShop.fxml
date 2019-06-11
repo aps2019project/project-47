@@ -51,7 +51,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m201" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m201" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -72,7 +72,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m202" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m202" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -93,7 +93,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m203" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m203" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -114,7 +114,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m204" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m204" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -135,7 +135,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m205" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m205" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -156,7 +156,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m206" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m206" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -177,7 +177,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m207" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m207" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -198,7 +198,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m208" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m208" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -219,7 +219,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m209" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m209" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -240,7 +240,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m210" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m210" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -261,7 +261,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m211" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m211" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -282,7 +282,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m212" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m212" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -303,7 +303,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m213" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m213" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -324,7 +324,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m214" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m214" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -345,7 +345,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m215" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m215" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -366,7 +366,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m216" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m216" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -387,7 +387,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m217" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m217" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -408,7 +408,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m218" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m218" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -429,7 +429,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m219" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m219" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -450,7 +450,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m220" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m220" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -471,7 +471,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m221" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m221" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -492,7 +492,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m222" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m222" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -513,7 +513,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m223" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m223" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -534,7 +534,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m224" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m224" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -555,7 +555,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m225" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m225" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -576,7 +576,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m226" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m226" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -597,7 +597,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m227" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m227" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -618,7 +618,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m228" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m228" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -639,7 +639,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m229" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m229" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -660,7 +660,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m230" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m230" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -681,7 +681,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m231" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m231" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -702,7 +702,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m232" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m232" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -723,7 +723,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m233" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m233" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -744,7 +744,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m234" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m234" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -765,7 +765,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m235" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m235" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -786,7 +786,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m236" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m236" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -807,7 +807,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m237" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m237" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -828,7 +828,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m238" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m238" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -849,7 +849,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m239" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m239" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -870,7 +870,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="m240" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="m240" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -899,7 +899,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="h301" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="h301" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -920,7 +920,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="h302" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="h302" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -941,7 +941,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="h303" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="h303" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -962,7 +962,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="h304" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="h304" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -983,7 +983,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="h305" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="h305" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -1004,7 +1004,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="h306" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="h306" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -1025,7 +1025,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="h307" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="h307" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -1046,7 +1046,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="h308" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="h308" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -1067,7 +1067,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="h309" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="h309" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>
@@ -1088,7 +1088,7 @@
                                     </AnchorPane>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                                        <children>
-                                          <Button fx:id="h310" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#generateString" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                          <Button fx:id="h310" layoutX="126.0" layoutY="11.0" mnemonicParsing="false" onAction="#buyCard" prefHeight="45.0" prefWidth="297.0" text="Buy" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                        </children>
                                     </AnchorPane>
                                  </items>

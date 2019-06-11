@@ -190,10 +190,10 @@ public class UniversalShopController implements Initializable {
     private Button h310;
 
     @FXML
-    String generateString(ActionEvent event) {
-        String string = "";
-        string = ((Button) event.getSource()).getId();
-        return string;
+    void buyCard(ActionEvent event) {
+        String codeStr = ((Button)event.getSource()).getId();
+        Integer code = Integer.parseInt(codeStr.substring(1));
+
     }
 
     @FXML
