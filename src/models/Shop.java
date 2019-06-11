@@ -32,11 +32,11 @@ public class Shop {
             if (account!=null) MyPrinter.green("you have "+account.getMoney()+" $.");
             String commandTxt=scanner.nextLine();
 
-            if (commandTxt.equals("command_show shop collection") ||commandTxt.equals("4")){
-                command_show();
+            if (commandTxt.equals("show shop collection") ||commandTxt.equals("4")){
+                command_show_shop_collection();
                 continue;
             }
-            if (commandTxt.equals("command_show my collection")||commandTxt.equals("5")){
+            if (commandTxt.equals("show my collection")||commandTxt.equals("5")){
                 command_show_my_collection(account);
                 continue;
             }
@@ -60,7 +60,7 @@ public class Shop {
             pattern = Pattern.compile("^sell ([0-9]+)$");
             matcher = pattern.matcher(commandTxt);
             if (matcher.find()){
-                sell(Integer.valueOf(matcher.group(1)));
+                command_sell(Integer.valueOf(matcher.group(1)));
                 continue;
             }
             if (commandTxt.equals("help") ||commandTxt.equals("6")){
@@ -95,14 +95,14 @@ public class Shop {
     private void help(){
         MyPrinter.blue("1. command_buy <code>");
         System.out.println("2. command_buy <code> to <code>");
-        System.out.println("3. sell <code>");
-        System.out.println("4. command_show shop collection");
-        System.out.println("5. command_show my collection");
+        System.out.println("3. command_sell <code>");
+        System.out.println("4. command_show_shop_collection shop collection");
+        System.out.println("5. command_show_shop_collection my collection");
         System.out.println("6. help");
         System.out.println("7. earn <value>");
         System.out.println("8. exit");
     }
-    private void command_show(){
+    private void command_show_shop_collection(){
         for (Card card:cards){
             MyPrinter.cyan("code : "+card.getCode()+" , price : "+card.getPrice());
             card.showInfo();
@@ -162,7 +162,7 @@ public class Shop {
         }
         return null;
     }
-    private void sell(int code){
+    private void command_sell(int code){
         Account account= AccountMenu.getLoginAccount();
         if (account==null){
             MyPrinter.red("no account was logged in!");
