@@ -9,15 +9,20 @@ import models.Account;
         import java.util.Scanner;
         import java.util.regex.Matcher;
         import java.util.regex.Pattern;
-
+//sdf
 public class AccountMenu {
+
+    private static AccountMenu ourInstance = new AccountMenu();
+
+    public static AccountMenu getInstance() {
+        return ourInstance;
+    }
 
     private static Scanner scanner=new Scanner(System.in);
     private static Pattern pattern;
     private static Matcher matcher;
     private static ArrayList<Account> accounts;
     private static Account loginAccount;
-    private static String createAccountSTR ="^create account ([^ ]+)$";
     private static String loginSTR ="^login ([^ ]+)$";
     private static String passwordSTR="^[0-9]+$";
     private static String showLeaderBoardSTR ="show leaderBoard";
@@ -42,7 +47,7 @@ public class AccountMenu {
         while (true){
             String commandTxt=scanner.nextLine();
             //create account
-            pattern = Pattern.compile(createAccountSTR);
+            pattern = Pattern.compile("^create account ([^ ]+) ([^ ]+)$");
             matcher = pattern.matcher(commandTxt);
             if (matcher.find()){
                 String name=matcher.group(1);
