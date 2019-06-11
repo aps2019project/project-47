@@ -19,7 +19,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         stage = primaryStage;
-        Parent root = FXMLLoader.load(getClass().getResource("../layouts/mainPageLayout.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../layouts/login&ResgisterPage.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setFullScreen(true);

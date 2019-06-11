@@ -54,4 +54,8 @@
 .regular-textBox {
     -fx-background-color: #404040;
     -fx-font-size: 25px;
+    -fx-text-fill: white;
 }
+
+
+/*.regular-textBox : hold*/

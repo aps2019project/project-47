@@ -28,7 +28,7 @@
                 </JFXTextField>
                 <JFXPasswordField fx:id="newPasswordField" promptText="Password" styleClass="regular-textBox" prefWidth="400" prefHeight="80">
                 </JFXPasswordField>
-                <JFXButton fx:id="registerButton" text="REGISTER" styleClass="regularButton" prefWidth="440" prefHeight="80" onAction="#loginButtonAction" >
+                <JFXButton fx:id="registerButton" text="REGISTER" styleClass="regularButton" prefWidth="440" prefHeight="80" onAction="#registerButtonAction" >
                 </JFXButton>
             </VBox>
         </Tab>
