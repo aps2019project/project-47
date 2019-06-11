@@ -26,6 +26,9 @@ public class Main extends Application {
         stage.setFullScreen(true);
         stage.setMaximized(true);
         stage.show();
+        Image img = new Image("/resources/cursor.png");
+        ImageCursor cursor = new ImageCursor(img, 0, 0);
+        stage.getScene().setCursor(cursor);
     }
 
     public static void main(String[] args) {

@@ -21,7 +21,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -42,7 +42,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -63,7 +63,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -84,7 +84,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -105,7 +105,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -126,7 +126,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -147,7 +147,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -168,7 +168,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -189,7 +189,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -210,7 +210,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -231,7 +231,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -252,7 +252,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -273,7 +273,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -294,7 +294,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -315,7 +315,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -336,7 +336,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -357,7 +357,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -378,7 +378,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -399,7 +399,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -420,7 +420,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -441,7 +441,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -462,7 +462,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -483,7 +483,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -504,7 +504,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -525,7 +525,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -546,7 +546,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -567,7 +567,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -588,7 +588,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -609,7 +609,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -630,7 +630,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -651,7 +651,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -672,7 +672,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -693,7 +693,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -714,7 +714,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -735,7 +735,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -756,7 +756,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -777,7 +777,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -798,7 +798,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -819,7 +819,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
@@ -840,7 +840,7 @@
                            <children>
                               <ImageView fitHeight="303.0" fitWidth="474.0" layoutX="-2.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="-82.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-175.0" AnchorPane.topAnchor="0.0">
                                  <image>
-                                    <Image url="@../../../resources/generals/general_portrait_image_tutorial1.png" />
+                                    <Image url="@../../resources/generals/general_portrait_image_tutorial1.png" />
                                  </image>
                               </ImageView>
                            </children>
