@@ -7,3 +7,10 @@
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;
 }
+
+.menuName {
+    -fx-padding: 20 0 0 20;
+    -fx-font-size: 45px;
+    -fx-font-family: Bahnschrift;
+    -fx-text-fill: white;
+}

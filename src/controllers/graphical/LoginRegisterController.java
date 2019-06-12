@@ -55,10 +55,7 @@ public class LoginRegisterController {
                 messageLabelLogin.getStyleClass().removeIf(style -> !style.equals("goodMessage"));
                 messageLabelLogin.getStyleClass().add("goodMessage");
                 Parent root =  FXMLLoader.load(getClass().getResource("../../layouts/mainMenu.fxml"));
-                Scene scene = new Scene(root);
-                Main.getStage().setScene(scene);
-                Main.getStage().setMaximized(true);
-                Main.getStage().setFullScreen(true);
+                Main.getStage().getScene().setRoot(root);
         }
     }
 
