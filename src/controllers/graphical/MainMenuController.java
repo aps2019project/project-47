@@ -5,9 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import javafx.scene.effect.Bloom;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import runners.Main;
 
 import java.io.IOException;
@@ -33,8 +31,9 @@ public class MainMenuController implements Initializable {
 
     }
 
-    public void goToShop() {
-
+    public void goToShop() throws IOException {
+        Parent root =  FXMLLoader.load(getClass().getResource("../../layouts/UniversalShop.fxml"));
+        Main.getStage().getScene().setRoot(root);
     }
 
     public void goToHistoryMenu() {
