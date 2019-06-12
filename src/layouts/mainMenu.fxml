@@ -17,27 +17,51 @@
         <Image url="/resources/logo.png"/>
     </ImageView>
     <HBox>
-        <ImageView fitHeight="60" fitWidth="60">
+        <ImageView fx:id="playBullet" fitHeight="60" fitWidth="60" styleClass="menuButton">
             <HBox.margin>
                 <Insets left="100.0" top="20.0"/>
             </HBox.margin>
             <Image url="/resources/bullet.png"/>
         </ImageView>
-        <Label fx:id="playLabel" onMouseClicked="#goToPlayMenu" onMouseEntered="#onMouseEnteredOnPlayLabel"
-               onMouseExited="#onMouseExitedFromPlayLabel"
+        <Label fx:id="playLabel" onMouseClicked="#goToPlayMenu"
                prefHeight="40.0" prefWidth="170.0" styleClass="menuName" text="PLAY">
         </Label>
     </HBox>
     <HBox>
-        <ImageView fitHeight="60" fitWidth="60">
+        <ImageView fx:id="collectionPlay" fitHeight="60" fitWidth="60" styleClass="menuButton">
             <HBox.margin>
                 <Insets left="100.0" top="20.0"/>
             </HBox.margin>
             <Image url="/resources/bullet.png"/>
         </ImageView>
-        <Label fx:id="collectionLabel" onMouseClicked="#goToCollectionMenu" onMouseEntered="#onMouseEnteredOnCollectionLabel"
-               onMouseExited="#onMouseExitedFromCollectionLabel"
+        <Label fx:id="collectionLabel" onMouseClicked="#goToCollectionMenu"
                prefHeight="40.0" prefWidth="300.0" styleClass="menuName" text="COLLECTION">
         </Label>
+    </HBox>
+    <HBox spacing="30">
+        <VBox.margin>
+            <Insets left="1500" top="480"/>
+        </VBox.margin>
+        <VBox spacing="5">
+            <ImageView fitHeight="96" fitWidth="96" styleClass="menuButton" onMouseClicked="#goToShop">
+                <Image url="/resources/shop.png"/>
+            </ImageView>
+            <Label prefWidth="90" prefHeight="10" text=" SHOP" styleClass="buttonName">
+            </Label>
+        </VBox>
+        <VBox spacing="5">
+            <ImageView fitHeight="96" fitWidth="96" styleClass="menuButton" onMouseClicked="#goToHistoryMenu">
+                <Image url="/resources/scoreBoard.png"/>
+            </ImageView>
+            <Label prefWidth="90" prefHeight="10" text=" HISTORY" styleClass="buttonName">
+            </Label>
+        </VBox>
+        <VBox spacing="5">
+            <ImageView fitHeight="96" fitWidth="96" styleClass="menuButton" onMouseClicked="#logOut">
+                <Image url="/resources/logout.png"/>
+            </ImageView>
+            <Label prefWidth="90" prefHeight="10" text=" LOGOUT" styleClass="buttonName">
+            </Label>
+        </VBox>
     </HBox>
 </VBox>
