@@ -1,39 +1,51 @@
 package controllers.graphical;
 
+import com.jfoenix.controls.JFXButton;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Orientation;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import models.Shop;
 
-import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class UniversalShopController implements Initializable {
+    ArrayList<String> minionIds = new ArrayList<>();
+    ArrayList<String> heroIds = new ArrayList<>();
+    ArrayList<String> spellIds = new ArrayList<>();
+    ArrayList<String> itemIds = new ArrayList<>();
+    ArrayList<SplitPane> cards = new ArrayList<>();
     Shop shop = Shop.getInstance();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        topContainer.setPrefHeight(((ScrollPane)topContainer.getParent()).getPrefHeight());
-        bottomContainer.setPrefHeight(((ScrollPane)topContainer.getParent()).getPrefHeight());
+        initializeIds();
+        container.setPrefHeight(allParent.getPrefHeight());
+        container.setPrefWidth(0.75 * allParent.getPrefWidth());
+        heroesAndMinions.setPrefHeight(container.getPrefHeight());
+        heroesAndMinions.setPrefWidth(container.getPrefWidth());
+        topScrollPane.setPrefHeight(heroesAndMinions.getPrefHeight() / 2);
+        bottomScrollPane.setPrefHeight(heroesAndMinions.getPrefHeight() / 2);
+        topContainer.setPrefHeight(topScrollPane.getPrefHeight());
+        topContainer.setPrefWidth(topScrollPane.getPrefWidth());
+        bottomContainer.setPrefHeight(bottomScrollPane.getPrefHeight());
+        bottomContainer.setPrefWidth(bottomScrollPane.getPrefWidth());
+        initializeCards();
+        addCardsToContainer(cards);
     }
 
     @FXML
-    private HBox topContainer;
-
-    @FXML
-    private HBox bottomContainer;
-
-    @FXML
-    private Button universalCollection;
-
-    @FXML
-    private Button myCollection;
+    private SplitPane allParent;
 
     @FXML
     private AnchorPane container;
@@ -42,161 +54,17 @@ public class UniversalShopController implements Initializable {
     private SplitPane heroesAndMinions;
 
     @FXML
-    private Button m201;
+    private ScrollPane topScrollPane;
 
     @FXML
-    private Button m202;
+    private HBox topContainer;
 
     @FXML
-    private Button m203;
+    private ScrollPane bottomScrollPane;
 
     @FXML
-    private Button m204;
+    private HBox bottomContainer;
 
-    @FXML
-    private Button m205;
-
-    @FXML
-    private Button m206;
-
-    @FXML
-    private Button m207;
-
-    @FXML
-    private Button m208;
-
-    @FXML
-    private Button m209;
-
-    @FXML
-    private Button m210;
-
-    @FXML
-    private Button m211;
-
-    @FXML
-    private Button m212;
-
-    @FXML
-    private Button m213;
-
-    @FXML
-    private Button m214;
-
-    @FXML
-    private Button m215;
-
-    @FXML
-    private Button m216;
-
-    @FXML
-    private Button m217;
-
-    @FXML
-    private Button m218;
-
-    @FXML
-    private Button m219;
-
-    @FXML
-    private Button m220;
-
-    @FXML
-    private Button m221;
-
-    @FXML
-    private Button m222;
-
-    @FXML
-    private Button m223;
-
-    @FXML
-    private Button m224;
-
-    @FXML
-    private Button m225;
-
-    @FXML
-    private Button m226;
-
-    @FXML
-    private Button m227;
-
-    @FXML
-    private Button m228;
-
-    @FXML
-    private Button m229;
-
-    @FXML
-    private Button m230;
-
-    @FXML
-    private Button m231;
-
-    @FXML
-    private Button m232;
-
-    @FXML
-    private Button m233;
-
-    @FXML
-    private Button m234;
-
-    @FXML
-    private Button m235;
-
-    @FXML
-    private Button m236;
-
-    @FXML
-    private Button m237;
-
-    @FXML
-    private Button m238;
-
-    @FXML
-    private Button m239;
-
-    @FXML
-    private Button m240;
-
-    @FXML
-    private Button h301;
-
-    @FXML
-    private Button h302;
-
-    @FXML
-    private Button h303;
-
-    @FXML
-    private Button h304;
-
-    @FXML
-    private Button h305;
-
-    @FXML
-    private Button h306;
-
-    @FXML
-    private Button h307;
-
-    @FXML
-    private Button h308;
-
-    @FXML
-    private Button h309;
-
-    @FXML
-    private Button h310;
-
-    @FXML
-    void buyCard(ActionEvent event) {
-        String codeStr = ((Button)event.getSource()).getId();
-        Integer code = Integer.parseInt(codeStr.substring(1));
-        shop.command_buy(code);
-    }
 
     @FXML
     void setMyCollectionMenu(ActionEvent event) {
@@ -204,7 +72,79 @@ public class UniversalShopController implements Initializable {
     }
 
     @FXML
-    void setUniversalCollectionMenu(ActionEvent event) throws IOException {
-        FXMLLoader.load(getClass().getResource("layouts/UniversalShop.fxml"));
+    void setUniversalCollectionMenu(ActionEvent event) {
+
+    }
+
+    public void initializeIds() {
+        for (Integer i = 1; i <= 40; i++) {
+            if (i <= 10) {
+                if (i == 10) {
+                    minionIds.add("m2".concat(i.toString()));
+                    heroIds.add("h3".concat(i.toString()));
+                    itemIds.add("i4".concat(i.toString()));
+                    spellIds.add("s4".concat(i.toString()));
+                } else {
+                    minionIds.add("m20".concat(i.toString()));
+                    heroIds.add("h30".concat(i.toString()));
+                    itemIds.add("i40".concat(i.toString()));
+                    spellIds.add("s40".concat(i.toString()));
+                }
+                continue;
+            }
+            if (i <= 20) {
+                minionIds.add("m2".concat(i.toString()));
+                if (i != 20) //because number of items is 19 surprisingly!!!
+                    itemIds.add("i4".concat(i.toString()));
+                spellIds.add("s4".concat(i.toString()));
+                continue;
+            }
+            minionIds.add("m2".concat(i.toString()));
+        }
+    }
+
+    public void initializeCards() {
+        for (String id : minionIds)
+            addNewCard(id);
+        for (String id : heroIds)
+            addNewCard(id);
+        for (String id : spellIds)
+            addNewCard(id);
+        for (String id : itemIds)
+            addNewCard(id);
+    }
+
+    private void addNewCard(String id) {
+        SplitPane splitPane = new SplitPane();
+        splitPane.setOrientation(Orientation.VERTICAL);
+        splitPane.setDividerPosition(0, 0.82);
+        splitPane.setDividerPosition(1, 0.18);
+        splitPane.setPrefHeight(topContainer.getPrefHeight() - 20);
+        splitPane.setPrefWidth(splitPane.getPrefHeight() * 0.82);
+        JFXButton button = new JFXButton("Buy");
+        button.setId(id);
+        button.setPrefWidth(splitPane.getPrefWidth());
+        button.setPrefHeight(0.18 * splitPane.getPrefHeight());
+        button.setOnAction(event -> shop.command_buy(Integer.parseInt(id.substring(1))));
+        ImageView imageView = new ImageView();
+        imageView.setFitWidth(splitPane.getPrefWidth());
+        Image image = new Image("/resources/general_portrait_image_hex_rook.png");
+        imageView.setImage(image);
+        imageView.setFitHeight(0.82 * splitPane.getPrefHeight());
+        splitPane.getItems().add(0, imageView);
+        splitPane.getItems().add(1, button);
+        cards.add(splitPane);
+    }
+
+    public void addCardsToContainer(ArrayList<SplitPane> source){
+        for (SplitPane s : source){
+            String id = s.getItems().get(1).getId();
+            if (id.contains("m") || id.contains("h")){
+                topContainer.getChildren().add(s);
+            }
+            else if (id.contains("i") || id.contains("s")){
+                bottomContainer.getChildren().add(s);
+            }
+        }
     }
 }
