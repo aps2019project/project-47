@@ -4,15 +4,18 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextField;
-import javafx.fxml.Initializable;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import java.net.URL;
-import java.util.ResourceBundle;
+import runners.Main;
+
+import java.io.IOException;
 
 import static controllers.console.AccountMenu.doCommand;
 import static controllers.console.Constants.*;
 
-public class LoginRegisterController implements Initializable {
+public class LoginRegisterController {
 
     public JFXTabPane mainPage;
     public JFXTextField userNameField;
@@ -24,14 +27,9 @@ public class LoginRegisterController implements Initializable {
     public Label messageLabelRegister;
     public Label messageLabelLogin;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-    }
-
-
-    public void loginButtonAction() {
+    public void loginButtonAction() throws IOException {
         if (checkFreeBoxes(userNameField, passwordField, messageLabelLogin)) return;
-        switch (doCommand("login " + userNameField.getText() + " " + passwordField.getText())){
+        switch (doCommand("login " + userNameField.getText() + " " + passwordField.getText())) {
             case INVALID_USERNAME:
                 userNameField.getStyleClass().add("wrong");
                 userNameField.setText("");
@@ -56,7 +54,11 @@ public class LoginRegisterController implements Initializable {
                 messageLabelLogin.setText("You are logged in successfully!");
                 messageLabelLogin.getStyleClass().removeIf(style -> !style.equals("goodMessage"));
                 messageLabelLogin.getStyleClass().add("goodMessage");
-                //todo mainPage
+                Parent root =  FXMLLoader.load(getClass().getResource("../../layouts/mainMenu.fxml"));
+                Scene scene = new Scene(root);
+                Main.getStage().setScene(scene);
+                Main.getStage().setMaximized(true);
+                Main.getStage().setFullScreen(true);
         }
     }
 
@@ -110,7 +112,7 @@ public class LoginRegisterController implements Initializable {
         }
     }
 
-    public void typeOnUserNameField(){
+    public void typeOnUserNameField() {
         userNameField.getStyleClass().removeIf(style -> style.equals("wrong"));
         messageLabelLogin.setText("");
     }

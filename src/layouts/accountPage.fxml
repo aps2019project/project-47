@@ -10,7 +10,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.control.Label?>
 <VBox fx:id="mainContainer"
-      xmlns="http://javafx.com/javafx/11.0.1" stylesheets="@styles.css" styleClass="mainPage"
+      xmlns="http://javafx.com/javafx/11.0.1" stylesheets="@stylesheets/accounrtPageStyles.css" styleClass="mainPage"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.graphical.LoginRegisterController"
       prefWidth="1920" prefHeight="1080"
       alignment="center" spacing="20">

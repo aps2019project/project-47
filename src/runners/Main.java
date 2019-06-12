@@ -8,6 +8,8 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class Main extends Application {
 
     private static Stage stage;
@@ -17,9 +19,10 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) throws IOException {
         stage = primaryStage;
-        Parent root = FXMLLoader.load(getClass().getResource("../layouts/accountPage.fxml"));
+        //Parent root = FXMLLoader.load(getClass().getResource("../layouts/accountPage.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../layouts/mainMenu.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setFullScreen(true);

@@ -11,7 +11,7 @@ import models.deck.Deck;
 
 import java.util.ArrayList;
 
-public class runConsole {
+public class RunConsole {
 
     public static void main(String[] args) {
         MainMenu mainMenu = new MainMenu();

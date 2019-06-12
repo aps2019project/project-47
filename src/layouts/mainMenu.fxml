@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.geometry.Insets?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="controllers.graphical.MainMenuController"
+      stylesheets="@stylesheets/mainMenuStyles.css" styleClass="mainPage"
+      prefHeight="1080.0" prefWidth="1920.0" spacing="40">
+    <ImageView fitWidth="400" fitHeight="86">
+        <VBox.margin>
+            <Insets left="70" top="100"/>
+        </VBox.margin>
+        <Image url="/resources/logo.png"/>
+    </ImageView>
+    <HBox>
+        <ImageView fitWidth="60" fitHeight="60">
+            <HBox.margin>
+                <Insets left="100" top="40"/>
+            </HBox.margin>
+            <Image url="/resources/bullet.png"/>
+        </ImageView>
+    </HBox>
+    <HBox>
+        <ImageView fitWidth="60" fitHeight="60">
+            <HBox.margin>
+                <Insets left="100" top="0"/>
+            </HBox.margin>
+            <Image url="/resources/bullet.png"/>
+        </ImageView>
+    </HBox>
+</VBox>

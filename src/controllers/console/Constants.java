@@ -1,7 +1,7 @@
 package controllers.console;
 
 public class Constants {
-    public final static int EXIT = 12345;
+    final static int EXIT = 12345;
     public final static int ACCOUNT_EXISTS = 1;
     public final static int ACCOUNT_CREATE_SUCCESSFULLY = 2;
     public final static int INVALID_USERNAME = 3;
