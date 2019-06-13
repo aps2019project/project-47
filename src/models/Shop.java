@@ -126,29 +126,35 @@ public class Shop {
             item.show();
         }
     }
-    public void command_buy(int code){
+
+    //code -1 for null account
+    //code -2 for repetitive buy
+    //code -3 for not enough money
+    //code 1 for successful buy
+    public int command_buy(int code){
         Account account= AccountMenu.getLoginAccount();
         if (account==null){
             MyPrinter.red("no account was logged in!");
-            return;
+            return -1;
         }
         Object object=find_in_shop(code);
         if (object==null){
             MyPrinter.red("there isn't any thing by this code in shop!");
-            return;
+            return -9;
         }
         if (account.search(code)!=null){
             MyPrinter.red("you bought it in past!");
-            return;
+            return -2;
         }
         int price=determine_price(code);
         if (account.getMoney()<price){
             MyPrinter.red("you haven't enough money to command_buy it.");
-            return;
+            return -3;
         }
         account.buy(price);
         MyPrinter.green("selected thing was bought successfully!");
         account.addCardOrItem(object);
+        return 1;
     }
     public int determine_price(int code){
         for (Card card:cards){
