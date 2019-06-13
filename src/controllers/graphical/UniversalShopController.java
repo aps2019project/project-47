@@ -12,6 +12,7 @@ import javafx.geometry.Orientation;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -26,8 +27,7 @@ import models.item.Item;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class UniversalShopController implements Initializable {
     Account loginAccount = AccountMenu.getLoginAccount();
@@ -38,8 +38,12 @@ public class UniversalShopController implements Initializable {
     ArrayList<String> heroIds = new ArrayList<>();
     ArrayList<String> spellIds = new ArrayList<>();
     ArrayList<String> itemIds = new ArrayList<>();
-    ArrayList<SplitPane> cards = new ArrayList<>();
+    HashMap<String, SplitPane> forSearchCards = new HashMap<>();
+    HashMap<String, SplitPane> cards = new HashMap<>();
     Shop shop = Shop.getInstance();
+
+    public UniversalShopController() {
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -54,8 +58,6 @@ public class UniversalShopController implements Initializable {
         topContainer.setPrefWidth(topScrollPane.getPrefWidth());
         bottomContainer.setPrefHeight(bottomScrollPane.getPrefHeight());
         bottomContainer.setPrefWidth(bottomScrollPane.getPrefWidth());
-        initializeCards();
-        addCardsToContainer(cards);
     }
 
     @FXML
@@ -79,6 +81,11 @@ public class UniversalShopController implements Initializable {
     @FXML
     private HBox bottomContainer;
 
+    @FXML
+    private TextField searchField;
+
+    @FXML
+    private Button searchShowButton;
 
     @FXML
     void setMyCollectionMenu(ActionEvent event) {
@@ -87,7 +94,25 @@ public class UniversalShopController implements Initializable {
 
     @FXML
     void setUniversalCollectionMenu(ActionEvent event) throws IOException {
-        FXMLLoader.load(getClass().getResource("/layouts/UniversalShop.fxml"));
+        initializeCards();
+        addCardsToContainer(cards.values());
+        copyCardsInSearchSource();
+    }
+
+    @FXML
+    void showResult(ActionEvent event) {
+        String searched = searchField.getText();
+        cards.clear();
+        topContainer.getChildren().remove(0, topContainer.getChildren().size());
+        bottomContainer.getChildren().remove(0, bottomContainer.getChildren().size());
+        if (searched.equals("")) {
+            return;
+        }
+        for (String string : forSearchCards.keySet()){
+            if (string.toLowerCase().contains(searched.toLowerCase()))
+                cards.put(string, forSearchCards.get(string));
+        }
+        addCardsToContainer(cards.values());
     }
 
     public void initializeIds() {
@@ -139,6 +164,7 @@ public class UniversalShopController implements Initializable {
         button.setId(id);
         button.setPrefWidth(splitPane.getPrefWidth());
         button.setPrefHeight(0.18 * splitPane.getPrefHeight());
+        Object cardOrItem = shop.find_in_shop(Integer.parseInt(id.substring(1)));
         if (buyOrSell) {
             JFXSnackbar snackbar = new JFXSnackbar(container);
 
@@ -169,10 +195,15 @@ public class UniversalShopController implements Initializable {
         imageView.setFitHeight(0.82 * splitPane.getPrefHeight());
         splitPane.getItems().add(0, imageView);
         splitPane.getItems().add(1, button);
-        cards.add(splitPane);
+        if (cardOrItem instanceof Card){
+            cards.put(((Card) cardOrItem).getName(), splitPane);
+        }
+        else if (cardOrItem instanceof Item){
+            cards.put(((Item) cardOrItem).getName(), splitPane);
+        }
     }
 
-    public void addCardsToContainer(ArrayList<SplitPane> source) {
+    public void addCardsToContainer(Collection<SplitPane> source) {
         for (SplitPane s : source) {
             String id = s.getItems().get(1).getId();
             if (id.contains("m") || id.contains("h")) {
@@ -188,8 +219,8 @@ public class UniversalShopController implements Initializable {
             return;
         accountCards = loginAccount.getCards();
         accountItems = loginAccount.getItems();
-        topContainer.getChildren().removeAll();
-        bottomContainer.getChildren().removeAll();
+        topContainer.getChildren().remove(0, topContainer.getChildren().size());
+        bottomContainer.getChildren().remove(0, bottomContainer.getChildren().size());
         cards.clear();
         for (Card card : accountCards) {
             String id = "";
@@ -201,6 +232,13 @@ public class UniversalShopController implements Initializable {
                 id = "m";
             id = id.concat(card.getCardId());
             addNewCard(id, false);
+        }
+        copyCardsInSearchSource();
+    }
+
+    public void copyCardsInSearchSource(){
+        for (String string : cards.keySet()){
+            forSearchCards.put(string, cards.get(string));
         }
     }
 }
