@@ -6,11 +6,11 @@ import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import runners.Main;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import static controllers.console.AccountMenu.doCommand;
 import static controllers.console.Constants.*;
@@ -29,7 +29,7 @@ public class LoginRegisterController {
 
     public void loginButtonAction() throws IOException {
         if (checkFreeBoxes(userNameField, passwordField, messageLabelLogin)) return;
-        switch (doCommand("login " + userNameField.getText() + " " + passwordField.getText())) {
+        switch (Objects.requireNonNull(doCommand("login " + userNameField.getText() + " " + passwordField.getText()))) {
             case INVALID_USERNAME:
                 userNameField.getStyleClass().add("wrong");
                 userNameField.setText("");

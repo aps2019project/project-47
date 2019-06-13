@@ -31,7 +31,7 @@ public class AccountMenu {
     private static String saveSTR = "save";
 
     public AccountMenu() {
-        this.accounts = new ArrayList<Account>();
+        this.accounts = new ArrayList<>();
     }
 
     public static void addAccount(Account account) {
@@ -48,20 +48,20 @@ public class AccountMenu {
 
     public static void openMenu() {
         help();
-        int exit = -1;
+        Constants exit = null;
         while (exit != EXIT) {
             String commandTxt = scanner.nextLine();
             exit = doCommand(commandTxt);
         }
     }
 
-    public static int doCommand(String commandTxt) {
+    public static Constants doCommand(String commandTxt) {
         MyPrinter.blue(commandTxt);
         pattern = Pattern.compile("is([^ ]+)");
         matcher = pattern.matcher(commandTxt);
         if (matcher.find()){
             if (findAccount(matcher.group(1)) == null)
-                return 0;
+                return null;
             else
                 return ACCOUNT_EXISTS;
         }
@@ -89,18 +89,18 @@ public class AccountMenu {
         //show leaderBoard
         if (commandTxt.equals(showLeaderBoardSTR) || commandTxt.equals("3")) {
             showLeaderBoard();
-            return 0;
+            return null;
         }
         //help
         if (commandTxt.equals(helpSTR) || commandTxt.equals("6")) {
             help();
-            return 0;
+            return null;
         }
         //logout
         if (commandTxt.equals(logoutSTR) || commandTxt.equals("5")) {
             loginAccount = null;
             System.out.println("You logged out successfully.");
-            return 0;
+            return null;
         }
         //quit
         if (commandTxt.equals("exit") || commandTxt.equals("9")) {
@@ -109,26 +109,26 @@ public class AccountMenu {
         //save
         if (commandTxt.equals(saveSTR) || commandTxt.equals("4")) {
             save();
-            return 0;
+            return null;
         }
         if (commandTxt.equals("show my collection") || commandTxt.equals("8")) {
             showCollection(AccountMenu.loginAccount);
-            return 0;
+            return null;
         }
         //show logged in account
         if (commandTxt.equals("show logged in account") || commandTxt.equals("7")) {
             if (loginAccount == null) {
                 MyPrinter.red("No account was logged in yet!");
-                return 0;
+                return null;
             }
             System.out.println(loginAccount.getUserName());
-            return 0;
+            return null;
         }
         MyPrinter.red("Invalid command!");
-        return 0;
+        return null;
     }
 
-    private static int command_login(String userName, String password) {
+    private static Constants command_login(String userName, String password) {
         Account account = findAccount(userName);
         if (account == null) {
             MyPrinter.red("Invalid userName!");
@@ -137,7 +137,7 @@ public class AccountMenu {
         return login(account, password);
     }
 
-    private static int login(Account account, String password) {
+    private static Constants login(Account account, String password) {
         if (account.checkPassword(password)) {
             loginAccount = account;
             MyPrinter.green("You logged in successfully.");
