@@ -1,5 +1,7 @@
 package runners;
 
+import controllers.console.AccountMenu;
+import controllers.console.MainMenu;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
@@ -7,6 +9,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import models.Account;
+import models.Shop;
 
 import java.io.IOException;
 
@@ -20,16 +24,21 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+
+        Account account=new Account("Mmd","1234");
+        AccountMenu.addAccount(account);
+
         stage = primaryStage;
-        Parent root = FXMLLoader.load(getClass().getResource("../layouts/accountPage.fxml"));
-//        Parent root = FXMLLoader.load(getClass().getResource("../layouts/mainMenu.fxml"));
-//        Parent root = FXMLLoader.load(getClass().getResource("../layouts/UniversalShop.fxml"));
+        Parent root = AccountMenu.getRoot();
+//        Parent root = MainMenu.getRoot();
+//        Parent root = Shop.getRoot();
+
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setFullScreen(true);
         stage.setMaximized(true);
         stage.show();
-        Image img = new Image("/resources/cursor.png");
+        Image img = new Image("/resources/buttons/cursor.png");
         ImageCursor cursor = new ImageCursor(img, 0, 0);
         stage.getScene().setCursor(cursor);
     }

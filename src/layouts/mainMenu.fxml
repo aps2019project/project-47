@@ -14,14 +14,14 @@
         <VBox.margin>
             <Insets left="70" top="100"/>
         </VBox.margin>
-        <Image url="/resources/logo.png"/>
+        <Image url="/resources/buttons/logo.png"/>
     </ImageView>
     <HBox>
         <ImageView fx:id="playBullet" fitHeight="60" fitWidth="60" styleClass="menuButton">
             <HBox.margin>
                 <Insets left="100.0" top="20.0"/>
             </HBox.margin>
-            <Image url="/resources/bullet.png"/>
+            <Image url="/resources/buttons/bullet.png"/>
         </ImageView>
         <Label fx:id="playLabel" onMouseClicked="#goToPlayMenu"
                prefHeight="40.0" prefWidth="170.0" styleClass="menuName" text="PLAY">
@@ -32,7 +32,7 @@
             <HBox.margin>
                 <Insets left="100.0" top="20.0"/>
             </HBox.margin>
-            <Image url="/resources/bullet.png"/>
+            <Image url="/resources/buttons/bullet.png"/>
         </ImageView>
         <Label fx:id="collectionLabel" onMouseClicked="#goToCollectionMenu"
                prefHeight="40.0" prefWidth="300.0" styleClass="menuName" text="COLLECTION">
@@ -44,14 +44,14 @@
         </VBox.margin>
         <VBox spacing="5">
             <ImageView fitHeight="96" fitWidth="96" styleClass="menuButton" onMouseClicked="#goToShop">
-                <Image url="/resources/shop.png"/>
+                <Image url="/resources/buttons/shop.png"/>
             </ImageView>
             <Label prefWidth="90" prefHeight="10" text=" SHOP" styleClass="buttonName" onMouseClicked="#goToShop">
             </Label>
         </VBox>
         <VBox spacing="5">
             <ImageView fitHeight="96" fitWidth="96" styleClass="menuButton" onMouseClicked="#goToHistoryMenu">
-                <Image url="/resources/scoreBoard.png"/>
+                <Image url="/resources/buttons/scoreBoard.png"/>
             </ImageView>
             <Label prefWidth="90" prefHeight="10" text=" HISTORY" styleClass="buttonName"
                    onMouseClicked="#goToHistoryMenu">
@@ -59,7 +59,7 @@
         </VBox>
         <VBox spacing="5">
             <ImageView fitHeight="96" fitWidth="96" styleClass="menuButton" onMouseClicked="#logOut">
-                <Image url="/resources/logout.png"/>
+                <Image url="/resources/buttons/logout.png"/>
             </ImageView>
             <Label prefWidth="90" prefHeight="10" text=" LOGOUT" styleClass="buttonName" onMouseClicked="#logOut">
             </Label>

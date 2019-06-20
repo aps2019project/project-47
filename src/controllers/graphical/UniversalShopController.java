@@ -3,9 +3,8 @@ package controllers.graphical;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSnackbar;
 import controllers.console.AccountMenu;
-import controllers.console.Constants;
+import controllers.console.MainMenu;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -197,7 +196,7 @@ public class UniversalShopController implements Initializable {
         }
         ImageView imageView = new ImageView();
         imageView.setFitWidth(splitPane.getPrefWidth());
-        Image image = new Image("/resources/general_portrait_image_hex_rook.png");
+        Image image = new Image("/resources/cards/general_portrait_image_hex_rook.png");
         imageView.setImage(image);
         imageView.setFitHeight(0.82 * splitPane.getPrefHeight());
         splitPane.getItems().add(0, imageView);
@@ -236,7 +235,7 @@ public class UniversalShopController implements Initializable {
                 id = "h";
             else if (card instanceof Minion)
                 id = "m";
-            id = id.concat(Integer.toString(card.getCode()));
+            id = id.concat(card.getCardId());
             addNewCard(id, false);
         }
         copyCardsInSearchSource();
@@ -249,7 +248,6 @@ public class UniversalShopController implements Initializable {
     }
 
     public void backButtonAction(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("../../layouts/mainMenu.fxml"));
-        Main.getStage().getScene().setRoot(root);
+        Main.getStage().getScene().setRoot(MainMenu.getRoot());
     }
 }

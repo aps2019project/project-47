@@ -15,7 +15,7 @@
       prefWidth="1920" prefHeight="1080"
       alignment="center" spacing="20">
     <ImageView fitWidth="500" fitHeight="108">
-        <Image url="/resources/logo.png"/>
+        <Image url="/resources/buttons/logo.png"/>
     </ImageView>
     <JFXTabPane fx:id="mainPage" styleClass="tabContainer">
         <Tab text="LOG IN" styleClass="duelystTabName">

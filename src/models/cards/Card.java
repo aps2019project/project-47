@@ -1,6 +1,7 @@
 package models.cards;
 
 public class Card implements Cloneable {
+    private GraphicPack graphicPack;
     public int code; //number of card in the dock of phase1.
     private CardType cardType;
     private String name;
@@ -18,7 +19,12 @@ public class Card implements Cloneable {
         this.mana = mana;
         this.cardType = cardType;
         this.price = price;
+        this.graphicPack = new GraphicPack();
         inserted=false;
+    }
+
+    public GraphicPack getGraphicPack() {
+        return graphicPack;
     }
 
     public String getName() {

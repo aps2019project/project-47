@@ -1,0 +1,6 @@
+.mainPage{
+    -fx-background-image: url("/resources/backgrounds/background.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 1920 1080;
+    -fx-background-position: center center;
+}

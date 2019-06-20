@@ -21,8 +21,8 @@ import static controllers.console.Constants.EXIT;
 public class MainMenu {
     private static Pattern pattern;
     private static Matcher matcher;
-    private Scene scene;
-    private MyController controller;
+    private static Parent root;
+    private static MyController controller;
     private static Scanner scanner = new Scanner(System.in);
 
     public static int victoryPrize = 500;
@@ -106,18 +106,17 @@ public class MainMenu {
     }
 
 
-    public Scene getScene() {
-        if (scene==null){
+    public static Parent getRoot() {
+        if (root==null){
             FXMLLoader fxmlLoader = new FXMLLoader();
             try {
-                Parent root = FXMLLoader.load(getClass().getResource("../layouts/mainMenu.fxml"));
-                scene.setRoot(root);
+                root = fxmlLoader.load(MainMenu.class.getResource("../../layouts/mainMenu.fxml"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
             controller = fxmlLoader.getController();
         }
-        return scene;
+        return root;
     }
     public MyController getController() {
         return controller;

@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import models.Shop;
 import runners.Main;
 
 import java.io.IOException;
@@ -32,8 +33,7 @@ public class MainMenuController implements Initializable {
     }
 
     public void goToShop() throws IOException {
-        Parent root =  FXMLLoader.load(getClass().getResource("../../layouts/UniversalShop.fxml"));
-        Main.getStage().getScene().setRoot(root);
+        Main.getStage().getScene().setRoot(Shop.getRoot());
     }
 
     public void goToHistoryMenu() {
@@ -41,7 +41,6 @@ public class MainMenuController implements Initializable {
 
     public void logOut() throws IOException {
         AccountMenu.setLoginAccount(null);
-        Parent root = FXMLLoader.load(getClass().getResource("../../layouts/accountPage.fxml"));
-        Main.getStage().getScene().setRoot(root);
+        Main.getStage().getScene().setRoot(AccountMenu.getRoot());
     }
 }
