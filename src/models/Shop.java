@@ -24,8 +24,8 @@ public class Shop {
         return ourInstance;
     }
 
-    private Scene scene;
-    private MyController controller;
+    private static Parent root;
+    private static MyController controller;
 
     private static Pattern pattern;
     private static Matcher matcher;
@@ -195,18 +195,18 @@ public class Shop {
         }
     }
 
-    public Scene getScene() {
-        if (scene==null){
+
+    public static Parent getRoot() {
+        if (root==null){
             FXMLLoader fxmlLoader = new FXMLLoader();
             try {
-                Parent root = fxmlLoader.load(getClass().getResource("foo.fxml"));
-                scene.setRoot(root);
-            } catch (IOException e) {
+                root = fxmlLoader.load(Shop.class.getResource("../layouts/UniversalShop.fxml"));
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             controller = fxmlLoader.getController();
         }
-        return scene;
+        return root;
     }
     public MyController getController() {
         return controller;

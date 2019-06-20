@@ -3,6 +3,7 @@ package controllers.graphical;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSnackbar;
 import controllers.console.AccountMenu;
+import controllers.console.MainMenu;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -241,7 +242,6 @@ public class UniversalShopController implements Initializable {
     }
 
     public void backButtonAction(ActionEvent actionEvent) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("../../layouts/mainMenu.fxml"));
-        Main.getStage().getScene().setRoot(root);
+        Main.getStage().getScene().setRoot(MainMenu.getRoot());
     }
 }
