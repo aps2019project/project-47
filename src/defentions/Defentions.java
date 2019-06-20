@@ -385,6 +385,7 @@ public class Defentions {
 
         {
             Hero hero=new Hero(310,"Rostam",0,55,10000,7,MinionTargetsType.hybird,4,null);
+            hero.getGraphicPack().setShopPhotoAddress("/resources/cards/Rostam_logo.png");
             heroes.add(hero);
         }//10
 
@@ -396,6 +397,7 @@ public class Defentions {
         {
             Minion minion=new Minion(201,"FarsArcher",2,6,7,300,CardType.minion,
                     MinionTargetsType.ranged,4,null);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_andromeda_portrait_hex@2x.png");
             minions.add(minion);
         }//1
 
@@ -406,18 +408,21 @@ public class Defentions {
             Effect effect=new Effect(buffs,null,null);
             specialItem.addAttack(effect);
             Minion minion=new Minion(202,"FarsSwordsman",2,6,20,400,CardType.minion, MinionTargetsType.melee,4,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_antiswarm_portrait_hex@2x.png");
             minions.add(minion);
         }//2
 
         {
             Minion minion=new Minion(203,"FarsSpear",1,5,3,500,CardType.minion,
                     MinionTargetsType.hybird,6,null);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_archonis_portrait_hex@2x.png");
             minions.add(minion);
         }//3
 
         {
             Minion minion=new Minion(204,"FarsHorseman",4,10,20,200,CardType.minion,
                     MinionTargetsType.melee,6,null);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_boreal_juggernaut_portrait_image_hex@2x.png");
             minions.add(minion);
         }//4
 
@@ -427,6 +432,7 @@ public class Defentions {
             SpecialItem specialItem=new SpecialItem(option);
             Minion minion=new Minion(205,"FarsGladiator",9,24,20,400,CardType.minion,
                     MinionTargetsType.melee,6,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_calibero_portrait_image_hex@2x.png");
             minions.add(minion);
         }//5
 
@@ -436,24 +442,28 @@ public class Defentions {
             specialItem.setCombo(true);
             Minion minion=new Minion(206,"FarsSepahsalar",7,12,20,800,CardType.minion,
                     MinionTargetsType.melee,4,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_chaos_knight_portrait_hex@2x.png");
             minions.add(minion);
         }//6
 
         {
             Minion minion=new Minion(207,"ToraniArcher",1,3,20,500,CardType.minion,
                     MinionTargetsType.ranged,4,null);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_christmas_portrait_hex@2x.png");
             minions.add(minion);
         }//7
 
         {
             Minion minion=new Minion(208,"ToraniHooked",1,4,7,600,CardType.minion,
                     MinionTargetsType.ranged,2,null);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_cindera_portrait_hex@2x.png");
             minions.add(minion);
         }//8
 
         {
             Minion minion=new Minion(209,"ToraniSpear",1,4,3,600,CardType.minion,
                     MinionTargetsType.hybird,4,null);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_crystal_portrait_hex@2x.png");
             minions.add(minion);
         }//9
 
@@ -466,6 +476,7 @@ public class Defentions {
             specialItem.addAttack(effect);
             Minion minion=new Minion(210,"ToraniSpy",4,6,20,700,CardType.minion,
                     MinionTargetsType.melee,6,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_crystal_portrait_hex@2x.png");
             minions.add(minion);
         }//10
 
@@ -473,6 +484,7 @@ public class Defentions {
             Minion minion=new Minion(211,"ToraniSwampy",2,3,20,450,CardType.minion,
                     MinionTargetsType.melee,10,null);
             minions.add(minion);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_boreal_juggernaut_portrait_image_hex@2x.png");
         }//11
 
         {
@@ -480,18 +492,21 @@ public class Defentions {
             specialItem.setCombo(true);
             Minion minion=new Minion(212,"ToraniPrince",6,6,20,800,CardType.minion,
                     MinionTargetsType.melee,10,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_chaos_knight_portrait_hex@2x.png");
             minions.add(minion);
         }//12
 
         {
             Minion minion=new Minion(213,"blackDamn",9,14,7,300,CardType.minion,
                     MinionTargetsType.hybird,10,null);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_christmas_portrait_hex@2x.png");
             minions.add(minion);
         }//13
 
         {
             Minion minion=new Minion(214,"slumdogGiant",9,12,7,300,CardType.minion,
                     MinionTargetsType.ranged,12,null);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_shinkage_zendo_portrait_image_hex@2x.png");
             minions.add(minion);
         }//14
 
@@ -503,12 +518,14 @@ public class Defentions {
             specialItem.addPassive(effect);
             Minion minion=new Minion(215,"eagle",2,0,3,200,CardType.minion,
                     MinionTargetsType.ranged,2,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_shinkage_zendo_portrait_image_hex@2x.png");
             minions.add(minion);
         }//15
 
         {
             Minion minion=new Minion(216,"boutRiderDamn",6,16,20,300,CardType.minion,
                     MinionTargetsType.melee,8,null);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_umbra_portrait_hex@2x.png");
             minions.add(minion);
         }//16
 
@@ -521,6 +538,7 @@ public class Defentions {
             specialItem.addDeath(effect);
             Minion minion=new Minion(217,"singleEyeGiant",7,12,3,500,CardType.minion,
                     MinionTargetsType.hybird,11,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_umbra_portrait_hex@2x.png");
             minions.add(minion);
         }//17
 
@@ -532,12 +550,14 @@ public class Defentions {
             specialItem.addAttack(effect);
             Minion minion=new Minion(218,"poisonousSnake",4,5,4,300,CardType.minion,
                     MinionTargetsType.ranged,6,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wujin_portrait_hex@2x.png");
             minions.add(minion);
         }//18
 
         {
             Minion minion=new Minion(219,"lighthouseDragon",5,9,4,250,CardType.minion,
                     MinionTargetsType.ranged,5,null);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wujin_portrait_hex@2x.png");
             minions.add(minion);
         }//19
 
@@ -547,6 +567,7 @@ public class Defentions {
             SpecialItem specialItem=new SpecialItem(specialOption);
             Minion minion=new Minion(220,"wildLion",2,1,4,600,CardType.minion,
                     MinionTargetsType.ranged,8,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wraith_portrait_hex@2x.png");
             minions.add(minion);
         }//20
 
@@ -564,6 +585,7 @@ public class Defentions {
             specialItem.addSpawn(new Effect(buffs,null,targetForm4));
             Minion minion=new Minion(221,"hugeSnake",8,14,5,500,CardType.minion
             ,MinionTargetsType.ranged,7,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wraith_portrait_hex@2x.png");
             minions.add(minion);
         }//21
 
@@ -577,6 +599,7 @@ public class Defentions {
             specialItem.addAttack(effect);
             Minion minion=new Minion(222,"whiteWolf",5,8,20,400,CardType.minion,
                     MinionTargetsType.melee,2,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wraith_portrait_hex@2x.png");
             minions.add(minion);
         }//22
 
@@ -589,6 +612,7 @@ public class Defentions {
             specialItem.addAttack(effect);
             Minion minion=new Minion(223,"leopard",4,6,20,400,CardType.minion,
                     MinionTargetsType.melee,2,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_unhallowed_portrait_hex@2x.png");
             minions.add(minion);
         }//23
 
@@ -601,6 +625,7 @@ public class Defentions {
             specialItem.addAttack(effect);
             Minion minion=new Minion(224,"wolf",3,6,20,400,CardType.minion,
                     MinionTargetsType.melee,1,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_umbra_portrait_hex@2x.png");
             minions.add(minion);
         }//24
 
@@ -614,6 +639,7 @@ public class Defentions {
             specialItem.addPassive(effect);
             Minion minion=new Minion(225,"magician",4,5,3,550,CardType.minion,
                     MinionTargetsType.ranged,4,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_umbra_portrait_hex@2x.png");
             minions.add(minion);
         }//25
 
@@ -627,6 +653,7 @@ public class Defentions {
             specialItem.addPassive(effect);
             Minion minion=new Minion(226,"enormousMagician",6,6,5,550,CardType.minion,
                     MinionTargetsType.ranged,6,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/general_portrait_image_hex_rook.png");
             minions.add(minion);
         }//26
 
@@ -639,6 +666,7 @@ public class Defentions {
             specialItem.addSpawn(effect);
             Minion minion=new Minion(227,"elf",5,10,4,500,CardType.minion,
                     MinionTargetsType.ranged,4,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/general_portrait_image_hex_rook.png");
             minions.add(minion);
         }//27
 
@@ -648,6 +676,7 @@ public class Defentions {
             SpecialItem specialItem=new SpecialItem(option);
             Minion minion=new Minion(228,"wildHog",6,10,20,500,CardType.minion,
                     MinionTargetsType.melee,14,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wraith_portrait_hex@2x.png");
             minions.add(minion);
         }//28
 
@@ -657,6 +686,7 @@ public class Defentions {
             SpecialItem specialItem=new SpecialItem(option);
             Minion minion=new Minion(229,"Piran",8,20,20,400,CardType.minion,
                     MinionTargetsType.melee,12,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wraith_portrait_hex@2x.png");
             minions.add(minion);
         }//29
 
@@ -666,6 +696,7 @@ public class Defentions {
             SpecialItem specialItem=new SpecialItem(option);
             Minion minion=new Minion(230,"Giv",4,5,5,450,CardType.minion,
                     MinionTargetsType.ranged,7,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wraith_portrait_hex@2x.png");
             minions.add(minion);
         }//30
 
@@ -678,6 +709,7 @@ public class Defentions {
             specialItem.addSpawn(effect);
             Minion minion=new Minion(231,"Bahman",8,16,20,450,CardType.minion,
                     MinionTargetsType.melee,9,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_vampire_portrait_hex@2x.png");
             minions.add(minion);
         }//31
 
@@ -687,18 +719,21 @@ public class Defentions {
             SpecialItem specialItem=new SpecialItem(option);
             Minion minion=new Minion(232,"Ashkboos",7,14,20,400,CardType.minion,
                     MinionTargetsType.melee,8,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_vampire_portrait_hex@2x.png");
             minions.add(minion);
         }//32
 
         {
             Minion minion=new Minion(233,"Eraj",4,6,3,500,CardType.minion,
                     MinionTargetsType.ranged,20,null);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_vampire_portrait_hex@2x.png");
             minions.add(minion);
         }//33
 
         {
             Minion minion=new Minion(234,"hugeGiant",9,30,20,600,CardType.minion,
                     MinionTargetsType.hybird,8,null);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wraith_portrait_hex@2x.png");
             minions.add(minion);
 
         }//34
@@ -711,6 +746,7 @@ public class Defentions {
             specialItem.addAttack(effect);
             Minion minion=new Minion(235,"DoubleHeadGiant",4,10,20,550,CardType.minion,
                     MinionTargetsType.melee,4,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wraith_portrait_hex@2x.png");
             minions.add(minion);
         }//35
 
@@ -723,6 +759,7 @@ public class Defentions {
             specialItem.addSpawn(effect);
             Minion minion=new Minion(236,"coldMather",3,3,5,550,CardType.minion,
                     MinionTargetsType.ranged,4,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wraith_portrait_hex@2x.png");
             minions.add(minion);
 
         }//36
@@ -735,6 +772,7 @@ public class Defentions {
             specialItem.addPassive(effect);
             Minion minion=new Minion(237,"steelArmor",3,1,20,650,CardType.minion,
                     MinionTargetsType.melee,1,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wujin_portrait_hex@2x.png");
             minions.add(minion);
         }//37
 
@@ -747,6 +785,7 @@ public class Defentions {
             specialItem.addDeath(effect);
             Minion minion=new Minion(238,"Siavash",4,8,20,350,CardType.minion,
                     MinionTargetsType.melee,5,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wujin_portrait_hex@2x.png");
             minions.add(minion);
         }//38
 
@@ -755,6 +794,7 @@ public class Defentions {
             specialItem.setCombo(true);
             Minion minion=new Minion(239,"giant king",5,10,20,600,CardType.minion,
                     MinionTargetsType.melee,4,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wujin_portrait_hex@2x.png");
             minions.add(minion);
         }//39
 
@@ -763,6 +803,7 @@ public class Defentions {
             specialItem.setCombo(true);
             Minion minion=new Minion(240,"ArjangDamn",3,6,20,600,CardType.minion,
                     MinionTargetsType.melee,6,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wujin_portrait_hex@2x.png");
             minions.add(minion);
         }//40
         return minions;
@@ -788,6 +829,7 @@ public class Defentions {
             effects.add(new Effect(buffs,null,null));
             Item item=new Item(402,ItemType.usable,4000,"namoosSepar",effects
                     ,true,false,null,null);
+
             items.add(item);
         }//2
 
@@ -810,7 +852,7 @@ public class Defentions {
             buffs.add(new Buff(0,1,6,BuffType.health_rise,true));
             ArrayList<Effect> effects=new ArrayList<>();
             effects.add(new Effect(buffs,null,targetForm));
-            Item item=new Item(404,ItemType.collectable,0,"nooshdaroo",effects
+            Item item=new Item(412,ItemType.collectable,0,"nooshdaroo",effects
                     ,true,false,null,null);
             items.add(item);
         }//4
@@ -822,7 +864,7 @@ public class Defentions {
             buffs.add(new Buff(0,1000,2,BuffType.attack_power_up,false));
             ArrayList<Effect> effects=new ArrayList<>();
             effects.add(new Effect(buffs,null,targetForm));
-            items.add(new Item(405,ItemType.collectable,0,"TirDoShakh",effects
+            items.add(new Item(413,ItemType.collectable,0,"TirDoShakh",effects
             ,true,false,null,null));
         }//5
 
@@ -833,7 +875,7 @@ public class Defentions {
             buffs.add(new Buff(0,1000,2,BuffType.attack_power_low,false));
             ArrayList<Effect> effects=new ArrayList<>();
             effects.add(new Effect(buffs,null,targetForm));
-            items.add(new Item(406,ItemType.usable,3500,"parSimorgh",effects
+            items.add(new Item(414,ItemType.usable,3500,"parSimorgh",effects
                     ,true,false,null,null));
         }//6
 
@@ -848,7 +890,7 @@ public class Defentions {
             ArrayList<Effect> effects=new ArrayList<>();
             effects.add(new Effect(buffs1,null,targetForm1));
             effects.add(new Effect(buffs2,null,null));
-            items.add(new Item(407,ItemType.collectable,0,"exir",effects
+            items.add(new Item(415,ItemType.collectable,0,"exir",effects
                     ,true,false,null,null));
         }//7
 
@@ -857,7 +899,7 @@ public class Defentions {
             buffs.add(new Buff(0,1,3,BuffType.mana,false));
             ArrayList<Effect> effects=new ArrayList<>();
             effects.add(new Effect(buffs,null,null));
-            items.add(new Item(408,ItemType.collectable,0,"manaPotion",effects
+            items.add(new Item(416,ItemType.collectable,0,"manaPotion",effects
                     ,true,false,null,null));
         }//8
 
@@ -867,7 +909,7 @@ public class Defentions {
             buffs.add(new Buff(0,2,10,BuffType.holy,false));
             ArrayList<Effect> effects=new ArrayList<>();
             effects.add(new Effect(buffs,null,targetForm));
-            items.add(new Item(409,ItemType.collectable,0,"growthPotion",effects
+            items.add(new Item(417,ItemType.collectable,0,"growthPotion",effects
                     ,true,false,null,null));
         }//9
 
@@ -878,7 +920,7 @@ public class Defentions {
             ArrayList<Effect> effects=new ArrayList<>();
             effects.add(new Effect(buffs,null,targetForm));
             TargetForm randomForce=new TargetForm(-9,-5,9,5,SideType.both,ForceType.both,null,false);
-            items.add(new Item(410,ItemType.collectable,0,"nefrinMarg",effects
+            items.add(new Item(418,ItemType.collectable,0,"nefrinMarg",effects
                     ,false,false,ItemActivateTime.onDeath,randomForce));
         }//10
 
@@ -888,7 +930,7 @@ public class Defentions {
             buffs.add(new Buff(0,1000,2,BuffType.attack_power_up,false));
             ArrayList<Effect> effects=new ArrayList<>();
             effects.add(new Effect(buffs,null,targetForm));
-            items.add(new Item(411,ItemType.collectable,0,"RandomDamage",effects
+            items.add(new Item(419,ItemType.collectable,0,"RandomDamage",effects
                     ,true,false,null,null));
         }//11
 
@@ -898,7 +940,7 @@ public class Defentions {
             buffs.add(new Buff(0,1000,2,BuffType.attack_power_low,false));
             ArrayList<Effect> effects=new ArrayList<>();
             effects.add(new Effect(buffs,null,targetForm));
-            items.add(new Item(412,ItemType.usable,5000,"TerrorHood",effects
+            items.add(new Item(405,ItemType.usable,5000,"TerrorHood",effects
                     ,false,false,ItemActivateTime.onAttack,null));
         }//12
 
@@ -908,7 +950,7 @@ public class Defentions {
             buffs.add(new Buff(0,1000,6,BuffType.attack_power_up,false));
             ArrayList<Effect> effects=new ArrayList<>();
             effects.add(new Effect(buffs,null,targetForm));
-            items.add(new Item(413,ItemType.collectable,0,"BladesOFAgility",effects
+            items.add(new Item(420,ItemType.collectable,0,"BladesOFAgility",effects
                     ,true,false,null,null));
         }//13
 
@@ -918,7 +960,7 @@ public class Defentions {
             buffs.add(new Buff(0,1000,1,BuffType.mana,false));
             ArrayList<Effect> effects=new ArrayList<>();
             effects.add(new Effect(buffs,null,null));
-            items.add(new Item(414,ItemType.usable,9000,"kingWisdom",effects
+            items.add(new Item(406,ItemType.usable,9000,"kingWisdom",effects
                     ,true,false,null,null));
         }//14
 
@@ -928,7 +970,7 @@ public class Defentions {
             buffs.add(new Buff(0,0,1,BuffType.hurt,false));
             ArrayList<Effect> effects=new ArrayList<>();
             effects.add(new Effect(buffs,null,targetForm));
-            items.add(new Item(415,ItemType.usable,15000,"AssassinationDagger",effects
+            items.add(new Item(407,ItemType.usable,15000,"AssassinationDagger",effects
                     ,false,true,ItemActivateTime.onSpawn,null));
         }//15
 
@@ -938,7 +980,7 @@ public class Defentions {
             buffs.add(new Buff(0,1,0,BuffType.poison,false));
             ArrayList<Effect> effects=new ArrayList<>();
             effects.add(new Effect(buffs,null,targetForm));
-            items.add(new Item(416,ItemType.usable,7000,"poisonousDagger",effects
+            items.add(new Item(408,ItemType.usable,7000,"poisonousDagger",effects
                     ,false,true,ItemActivateTime.onAttack,null));
         }//16
 
@@ -947,7 +989,7 @@ public class Defentions {
             buffs.add(new Buff(0,1,0,BuffType.disarm,false));
             ArrayList<Effect> effects=new ArrayList<>();
             effects.add(new Effect(buffs,null,null));
-            items.add(new Item(417,ItemType.usable,15000,"shockHammer",effects
+            items.add(new Item(409,ItemType.usable,15000,"shockHammer",effects
                     ,false,false,ItemActivateTime.onAttack,null));
         }//17
 
@@ -957,7 +999,7 @@ public class Defentions {
             buffs.add(new Buff(0,1000,1,BuffType.attack_power_up,false));
             ArrayList<Effect> effects=new ArrayList<>();
             effects.add(new Effect(buffs,null,targetForm));
-            items.add(new Item(418,ItemType.usable,25000,"soulEater",effects
+            items.add(new Item(410,ItemType.usable,25000,"soulEater",effects
                     ,false,true,ItemActivateTime.onDeath,null));
         }//18
 
@@ -966,7 +1008,7 @@ public class Defentions {
             buffs.add(new Buff(0,2,1,BuffType.holy,false));
             ArrayList<Effect> effects=new ArrayList<>();
             effects.add(new Effect(buffs,null,null));
-            items.add(new Item(419,ItemType.usable,20000,"ghoslTamid",effects
+            items.add(new Item(411,ItemType.usable,20000,"ghoslTamid",effects
                     ,false,true,ItemActivateTime.onSpawn,null));
         }//19
 

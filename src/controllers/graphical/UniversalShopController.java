@@ -3,6 +3,7 @@ package controllers.graphical;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSnackbar;
 import controllers.console.AccountMenu;
+import controllers.console.Constants;
 import controllers.console.MainMenu;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -92,6 +93,7 @@ public class UniversalShopController implements Initializable {
     @FXML
     void setMyCollectionMenu(ActionEvent event) {
         gotoMyCollection();
+        addCardsToContainer(cards.values());
     }
 
     @FXML
@@ -124,20 +126,21 @@ public class UniversalShopController implements Initializable {
                     minionIds.add("m2".concat(i.toString()));
                     heroIds.add("h3".concat(i.toString()));
                     itemIds.add("i4".concat(i.toString()));
-                    spellIds.add("s4".concat(i.toString()));
+                    spellIds.add("s1".concat(i.toString()));
                 } else {
                     minionIds.add("m20".concat(i.toString()));
                     heroIds.add("h30".concat(i.toString()));
                     itemIds.add("i40".concat(i.toString()));
-                    spellIds.add("s40".concat(i.toString()));
+                    spellIds.add("s10".concat(i.toString()));
                 }
                 continue;
             }
             if (i <= 20) {
                 minionIds.add("m2".concat(i.toString()));
                 if (i != 20) //because number of items is 19 surprisingly!!!
-                    itemIds.add("i4".concat(i.toString()));
-                spellIds.add("s4".concat(i.toString()));
+                    if (i <= 11)
+                        itemIds.add("i4".concat(i.toString()));
+                spellIds.add("s1".concat(i.toString()));
                 continue;
             }
             minionIds.add("m2".concat(i.toString()));
@@ -168,28 +171,38 @@ public class UniversalShopController implements Initializable {
         button.setPrefHeight(0.18 * splitPane.getPrefHeight());
         Object cardOrItem = shop.find_in_shop(Integer.parseInt(id.substring(1)));
         if (buyOrSell) {
-            JFXSnackbar snackbar = new JFXSnackbar(container);
 
             button.setOnAction(event -> {
-                int resultCode = shop.command_buy(Integer.parseInt(id.substring(1)));
-                if (resultCode == 1) {
+                Constants resultCode = shop.command_buy(Integer.parseInt(id.substring(1)));
+                if (resultCode == Constants.SUCCESSFUL_BUY) {
 
-                } else if (resultCode == -1) {
+                } else if (resultCode == Constants.NOT_ENOUGH_MONEY) {
 
-                } else if (resultCode == -2) {
+                } else if (resultCode == Constants.HAD_BOUGHT_BEFORE) {
 
-                } else if (resultCode == -3) {
+                } else if (resultCode == Constants.NO_ACCOUNT_LOGGED_IN) {
 
                 }
             });
-            button.setText("Buy");
+            if (cardOrItem instanceof Card)
+                button.setText("Buy " + ((Card) cardOrItem).getName());
+            else if (cardOrItem instanceof Item)
+                button.setText("*Buy " + ((Item) cardOrItem).getName());
         } else {
             button.setOnAction(event -> shop.command_sell(Integer.parseInt(id.substring(1))));
-            button.setText("sell");
+            if (cardOrItem instanceof Card)
+                button.setText("Sell " + ((Card) cardOrItem).getName());
+            else if (cardOrItem instanceof Item)
+                button.setText("*Sell " + ((Item) cardOrItem).getName());
         }
         ImageView imageView = new ImageView();
         imageView.setFitWidth(splitPane.getPrefWidth());
-        Image image = new Image("/resources/cards/general_portrait_image_hex_rook.png");
+        Image image = null;
+        if (cardOrItem instanceof Item){
+            image = new Image("/resources/cards/general_portrait_image_hex_rook.png");
+        } else if (cardOrItem instanceof Card){
+            image = new Image(((Card) cardOrItem).getGraphicPack().getShopPhotoAddress());
+        }
         imageView.setImage(image);
         imageView.setFitHeight(0.82 * splitPane.getPrefHeight());
         splitPane.getItems().add(0, imageView);
