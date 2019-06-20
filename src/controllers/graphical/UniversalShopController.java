@@ -197,7 +197,12 @@ public class UniversalShopController implements Initializable {
         }
         ImageView imageView = new ImageView();
         imageView.setFitWidth(splitPane.getPrefWidth());
-        Image image = new Image("/resources/cards/general_portrait_image_hex_rook.png");
+        Image image = null;
+        if (cardOrItem instanceof Item){
+            image = new Image("/resources/cards/general_portrait_image_hex_rook.png");
+        } else if (cardOrItem instanceof Card){
+            image = new Image(((Card) cardOrItem).getGraphicPack().getShopPhotoAddress());
+        }
         imageView.setImage(image);
         imageView.setFitHeight(0.82 * splitPane.getPrefHeight());
         splitPane.getItems().add(0, imageView);
