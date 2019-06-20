@@ -93,6 +93,7 @@ public class UniversalShopController implements Initializable {
     @FXML
     void setMyCollectionMenu(ActionEvent event) {
         gotoMyCollection();
+        addCardsToContainer(cards.values());
     }
 
     @FXML
@@ -125,20 +126,21 @@ public class UniversalShopController implements Initializable {
                     minionIds.add("m2".concat(i.toString()));
                     heroIds.add("h3".concat(i.toString()));
                     itemIds.add("i4".concat(i.toString()));
-                    spellIds.add("s4".concat(i.toString()));
+                    spellIds.add("s1".concat(i.toString()));
                 } else {
                     minionIds.add("m20".concat(i.toString()));
                     heroIds.add("h30".concat(i.toString()));
                     itemIds.add("i40".concat(i.toString()));
-                    spellIds.add("s40".concat(i.toString()));
+                    spellIds.add("s10".concat(i.toString()));
                 }
                 continue;
             }
             if (i <= 20) {
                 minionIds.add("m2".concat(i.toString()));
                 if (i != 20) //because number of items is 19 surprisingly!!!
-                    itemIds.add("i4".concat(i.toString()));
-                spellIds.add("s4".concat(i.toString()));
+                    if (i <= 11)
+                        itemIds.add("i4".concat(i.toString()));
+                spellIds.add("s1".concat(i.toString()));
                 continue;
             }
             minionIds.add("m2".concat(i.toString()));
@@ -172,29 +174,26 @@ public class UniversalShopController implements Initializable {
 
             button.setOnAction(event -> {
                 Constants resultCode = shop.command_buy(Integer.parseInt(id.substring(1)));
-                if (resultCode == Constants.SUCCESSFUL_BUY){
+                if (resultCode == Constants.SUCCESSFUL_BUY) {
 
-                }
-                else if (resultCode == Constants.NOT_ENOUGH_MONEY){
+                } else if (resultCode == Constants.NOT_ENOUGH_MONEY) {
 
-                }
-                else if (resultCode == Constants.HAD_BOUGHT_BEFORE){
+                } else if (resultCode == Constants.HAD_BOUGHT_BEFORE) {
 
-                }
-                else if (resultCode == Constants.NO_ACCOUNT_LOGGED_IN){
+                } else if (resultCode == Constants.NO_ACCOUNT_LOGGED_IN) {
 
                 }
             });
             if (cardOrItem instanceof Card)
-                button.setText("Buy " + ((Card)cardOrItem).getName());
+                button.setText("Buy " + ((Card) cardOrItem).getName());
             else if (cardOrItem instanceof Item)
-                button.setText("*Buy " + ((Item)cardOrItem).getName());
+                button.setText("*Buy " + ((Item) cardOrItem).getName());
         } else {
             button.setOnAction(event -> shop.command_sell(Integer.parseInt(id.substring(1))));
             if (cardOrItem instanceof Card)
-                button.setText("Sell " + ((Card)cardOrItem).getName());
+                button.setText("Sell " + ((Card) cardOrItem).getName());
             else if (cardOrItem instanceof Item)
-                button.setText("*Sell " + ((Item)cardOrItem).getName());
+                button.setText("*Sell " + ((Item) cardOrItem).getName());
         }
         ImageView imageView = new ImageView();
         imageView.setFitWidth(splitPane.getPrefWidth());
