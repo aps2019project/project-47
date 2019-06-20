@@ -1,6 +1,7 @@
 package models;
 
 import controllers.MyController;
+import controllers.console.Constants;
 import defentions.Defentions;
 import controllers.console.AccountMenu;
 import javafx.fxml.FXMLLoader;
@@ -131,30 +132,30 @@ public class Shop {
     //code -2 for repetitive buy
     //code -3 for not enough money
     //code 1 for successful buy
-    public int command_buy(int code){
+    public Constants command_buy(int code){
         Account account= AccountMenu.getLoginAccount();
         if (account==null){
             MyPrinter.red("no account was logged in!");
-            return -1;
+            return Constants.NO_ACCOUNT_LOGGED_IN;
         }
         Object object=find_in_shop(code);
         if (object==null){
             MyPrinter.red("there isn't any thing by this code in shop!");
-            return -9;
+            return null;
         }
         if (account.search(code)!=null){
             MyPrinter.red("you bought it in past!");
-            return -2;
+            return Constants.HAD_BOUGHT_BEFORE;
         }
         int price=determine_price(code);
         if (account.getMoney()<price){
             MyPrinter.red("you haven't enough money to command_buy it.");
-            return -3;
+            return Constants.NOT_ENOUGH_MONEY;
         }
         account.buy(price);
         MyPrinter.green("selected thing was bought successfully!");
         account.addCardOrItem(object);
-        return 1;
+        return Constants.SUCCESSFUL_BUY;
     }
     public int determine_price(int code){
         for (Card card:cards){

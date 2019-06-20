@@ -852,7 +852,7 @@ public class Defentions {
             buffs.add(new Buff(0,1,6,BuffType.health_rise,true));
             ArrayList<Effect> effects=new ArrayList<>();
             effects.add(new Effect(buffs,null,targetForm));
-            Item item=new Item(404,ItemType.collectable,0,"nooshdaroo",effects
+            Item item=new Item(412,ItemType.collectable,0,"nooshdaroo",effects
                     ,true,false,null,null);
             items.add(item);
         }//4
@@ -864,7 +864,7 @@ public class Defentions {
             buffs.add(new Buff(0,1000,2,BuffType.attack_power_up,false));
             ArrayList<Effect> effects=new ArrayList<>();
             effects.add(new Effect(buffs,null,targetForm));
-            items.add(new Item(405,ItemType.collectable,0,"TirDoShakh",effects
+            items.add(new Item(413,ItemType.collectable,0,"TirDoShakh",effects
             ,true,false,null,null));
         }//5
 
@@ -875,7 +875,7 @@ public class Defentions {
             buffs.add(new Buff(0,1000,2,BuffType.attack_power_low,false));
             ArrayList<Effect> effects=new ArrayList<>();
             effects.add(new Effect(buffs,null,targetForm));
-            items.add(new Item(406,ItemType.usable,3500,"parSimorgh",effects
+            items.add(new Item(414,ItemType.usable,3500,"parSimorgh",effects
                     ,true,false,null,null));
         }//6
 
@@ -890,7 +890,7 @@ public class Defentions {
             ArrayList<Effect> effects=new ArrayList<>();
             effects.add(new Effect(buffs1,null,targetForm1));
             effects.add(new Effect(buffs2,null,null));
-            items.add(new Item(407,ItemType.collectable,0,"exir",effects
+            items.add(new Item(415,ItemType.collectable,0,"exir",effects
                     ,true,false,null,null));
         }//7
 
@@ -899,7 +899,7 @@ public class Defentions {
             buffs.add(new Buff(0,1,3,BuffType.mana,false));
             ArrayList<Effect> effects=new ArrayList<>();
             effects.add(new Effect(buffs,null,null));
-            items.add(new Item(408,ItemType.collectable,0,"manaPotion",effects
+            items.add(new Item(416,ItemType.collectable,0,"manaPotion",effects
                     ,true,false,null,null));
         }//8
 
@@ -909,7 +909,7 @@ public class Defentions {
             buffs.add(new Buff(0,2,10,BuffType.holy,false));
             ArrayList<Effect> effects=new ArrayList<>();
             effects.add(new Effect(buffs,null,targetForm));
-            items.add(new Item(409,ItemType.collectable,0,"growthPotion",effects
+            items.add(new Item(417,ItemType.collectable,0,"growthPotion",effects
                     ,true,false,null,null));
         }//9
 
@@ -920,7 +920,7 @@ public class Defentions {
             ArrayList<Effect> effects=new ArrayList<>();
             effects.add(new Effect(buffs,null,targetForm));
             TargetForm randomForce=new TargetForm(-9,-5,9,5,SideType.both,ForceType.both,null,false);
-            items.add(new Item(410,ItemType.collectable,0,"nefrinMarg",effects
+            items.add(new Item(418,ItemType.collectable,0,"nefrinMarg",effects
                     ,false,false,ItemActivateTime.onDeath,randomForce));
         }//10
 
@@ -930,7 +930,7 @@ public class Defentions {
             buffs.add(new Buff(0,1000,2,BuffType.attack_power_up,false));
             ArrayList<Effect> effects=new ArrayList<>();
             effects.add(new Effect(buffs,null,targetForm));
-            items.add(new Item(411,ItemType.collectable,0,"RandomDamage",effects
+            items.add(new Item(419,ItemType.collectable,0,"RandomDamage",effects
                     ,true,false,null,null));
         }//11
 
@@ -940,7 +940,7 @@ public class Defentions {
             buffs.add(new Buff(0,1000,2,BuffType.attack_power_low,false));
             ArrayList<Effect> effects=new ArrayList<>();
             effects.add(new Effect(buffs,null,targetForm));
-            items.add(new Item(412,ItemType.usable,5000,"TerrorHood",effects
+            items.add(new Item(405,ItemType.usable,5000,"TerrorHood",effects
                     ,false,false,ItemActivateTime.onAttack,null));
         }//12
 
@@ -950,7 +950,7 @@ public class Defentions {
             buffs.add(new Buff(0,1000,6,BuffType.attack_power_up,false));
             ArrayList<Effect> effects=new ArrayList<>();
             effects.add(new Effect(buffs,null,targetForm));
-            items.add(new Item(413,ItemType.collectable,0,"BladesOFAgility",effects
+            items.add(new Item(420,ItemType.collectable,0,"BladesOFAgility",effects
                     ,true,false,null,null));
         }//13
 
@@ -960,7 +960,7 @@ public class Defentions {
             buffs.add(new Buff(0,1000,1,BuffType.mana,false));
             ArrayList<Effect> effects=new ArrayList<>();
             effects.add(new Effect(buffs,null,null));
-            items.add(new Item(414,ItemType.usable,9000,"kingWisdom",effects
+            items.add(new Item(406,ItemType.usable,9000,"kingWisdom",effects
                     ,true,false,null,null));
         }//14
 
@@ -970,7 +970,7 @@ public class Defentions {
             buffs.add(new Buff(0,0,1,BuffType.hurt,false));
             ArrayList<Effect> effects=new ArrayList<>();
             effects.add(new Effect(buffs,null,targetForm));
-            items.add(new Item(415,ItemType.usable,15000,"AssassinationDagger",effects
+            items.add(new Item(407,ItemType.usable,15000,"AssassinationDagger",effects
                     ,false,true,ItemActivateTime.onSpawn,null));
         }//15
 
@@ -980,7 +980,7 @@ public class Defentions {
             buffs.add(new Buff(0,1,0,BuffType.poison,false));
             ArrayList<Effect> effects=new ArrayList<>();
             effects.add(new Effect(buffs,null,targetForm));
-            items.add(new Item(416,ItemType.usable,7000,"poisonousDagger",effects
+            items.add(new Item(408,ItemType.usable,7000,"poisonousDagger",effects
                     ,false,true,ItemActivateTime.onAttack,null));
         }//16
 
@@ -989,7 +989,7 @@ public class Defentions {
             buffs.add(new Buff(0,1,0,BuffType.disarm,false));
             ArrayList<Effect> effects=new ArrayList<>();
             effects.add(new Effect(buffs,null,null));
-            items.add(new Item(417,ItemType.usable,15000,"shockHammer",effects
+            items.add(new Item(409,ItemType.usable,15000,"shockHammer",effects
                     ,false,false,ItemActivateTime.onAttack,null));
         }//17
 
@@ -999,7 +999,7 @@ public class Defentions {
             buffs.add(new Buff(0,1000,1,BuffType.attack_power_up,false));
             ArrayList<Effect> effects=new ArrayList<>();
             effects.add(new Effect(buffs,null,targetForm));
-            items.add(new Item(418,ItemType.usable,25000,"soulEater",effects
+            items.add(new Item(410,ItemType.usable,25000,"soulEater",effects
                     ,false,true,ItemActivateTime.onDeath,null));
         }//18
 
@@ -1008,7 +1008,7 @@ public class Defentions {
             buffs.add(new Buff(0,2,1,BuffType.holy,false));
             ArrayList<Effect> effects=new ArrayList<>();
             effects.add(new Effect(buffs,null,null));
-            items.add(new Item(419,ItemType.usable,20000,"ghoslTamid",effects
+            items.add(new Item(411,ItemType.usable,20000,"ghoslTamid",effects
                     ,false,true,ItemActivateTime.onSpawn,null));
         }//19
 
