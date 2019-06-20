@@ -1,6 +1,7 @@
 package runners;
 
 import controllers.console.AccountMenu;
+import controllers.console.BattleMenu;
 import controllers.console.MainMenu;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -27,9 +28,11 @@ public class Main extends Application {
 
         Account account=new Account("Mmd","1234");
         AccountMenu.addAccount(account);
+        AccountMenu.setLoginAccount(account);
 
         stage = primaryStage;
-        Parent root = AccountMenu.getRoot();
+        Parent root = BattleMenu.getRoot();
+//        Parent root = AccountMenu.getRoot();
 //        Parent root = MainMenu.getRoot();
 //        Parent root = Shop.getRoot();
 

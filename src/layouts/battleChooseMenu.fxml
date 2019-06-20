@@ -1,14 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+        <?import com.jfoenix.controls.JFXTabPane?>
+        <?import javafx.scene.control.Tab?>
+        <?import javafx.scene.layout.VBox?>
+        <?import com.jfoenix.controls.JFXButton?>
+        <?import com.jfoenix.controls.JFXTextField?>
+        <?import com.jfoenix.controls.JFXPasswordField?>
+        <?import javafx.scene.image.ImageView?>
+        <?import javafx.scene.image.Image?>
+        <?import javafx.scene.control.Label?>
+<?import com.sun.javafx.scene.control.skin.EmbeddedTextContextMenuContent?>
+<?import javafx.scene.control.ComboBox?>
+<VBox fx:id="mainContainer"
+      stylesheets="@stylesheets/battleChoosePage.css"
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controllers.graphical.BattleChooseMenuController"
-            prefHeight="400.0" prefWidth="600.0">
+      xmlns="http://javafx.com/javafx/11.0.1"
+      fx:controller="controllers.graphical.BattleChooseMenuController"
+      styleClass="mainPage"
+      xmlns:fx="http://javafx.com/fxml/1"
+      prefWidth="1920" prefHeight="1080"
+      alignment="center" spacing="20">
 
-</AnchorPane>
+    <ImageView fitWidth="500" fitHeight="108">
+        <Image url="/resources/buttons/logo.png"/>
+    </ImageView>
+    <JFXTabPane fx:id="mainPage" styleClass="tabContainer">
+        <Tab text="Single player" styleClass="duelystTabName">
+            <VBox fx:id="SingleGameTab" styleClass="duelystTab" spacing="20">
+                <ComboBox fx:id="mode" promptText="mode" styleClass="regular-textBox" prefWidth="400" prefHeight="80">
+
+                </ComboBox>
+                <JFXTextField fx:id="numberOfFlags" promptText="number of flags" styleClass="regular-textBox" prefWidth="400" prefHeight="80">
+                </JFXTextField>
+                <JFXButton fx:id="startSinglePlayer" text="Start" styleClass="regularButton" prefWidth="440" prefHeight="80"
+                           onAction="#startSinglePlayer">
+                </JFXButton>
+            </VBox>
+        </Tab>
+        <Tab text="Story" styleClass="duelystTabName">
+            <VBox fx:id="storyGameTab" styleClass="duelystTab" spacing="20">
+
+                <Label fx:id="levelOfStoryGame" styleClass="message, regularMessage" prefWidth="400"
+                       prefHeight="30">
+                </Label>
+
+                <JFXButton fx:id="startStoryGame" text="Start" styleClass="regularButton" prefWidth="440"
+                           prefHeight="80" onAction="#startStoryGame">
+                </JFXButton>
+            </VBox>
+        </Tab>
+        <Tab text="Multi player" styleClass="duelystTabName">
+            <VBox fx:id="multiPlayerGameTab" styleClass="duelystTab" spacing="20">
+                <JFXTextField fx:id="opponentName" promptText="User Name" styleClass="regular-textBox"
+                              prefWidth="400" prefHeight="80" >
+                </JFXTextField>
+                <JFXButton fx:id="StartMultiPlayerGame" text="Start" styleClass="regularButton" prefWidth="440"
+                           prefHeight="80" onAction="#startMultiPlayerGame">
+                </JFXButton>
+            </VBox>
+        </Tab>
+    </JFXTabPane>
+</VBox>

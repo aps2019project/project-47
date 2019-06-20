@@ -206,9 +206,11 @@ public class Shop {
             }
             controller = fxmlLoader.getController();
         }
+
         return root;
     }
     public MyController getController() {
         return controller;
     }
+
 }
