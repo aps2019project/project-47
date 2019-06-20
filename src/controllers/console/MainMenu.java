@@ -1,12 +1,17 @@
 package controllers.console;
 
 
+import controllers.MyController;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import models.Account;
 import models.Collection;
 import models.battle.MatchResult;
 import models.Shop;
 import views.MyPrinter;
 
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,6 +21,8 @@ import static controllers.console.Constants.EXIT;
 public class MainMenu {
     private static Pattern pattern;
     private static Matcher matcher;
+    private Scene scene;
+    private MyController controller;
     private static Scanner scanner = new Scanner(System.in);
 
     public static int victoryPrize = 500;
@@ -96,5 +103,23 @@ public class MainMenu {
             account2.addMatchResult(matchResult);
             if (winner == 1) account2.moneyRise(victoryPrize);
         }
+    }
+
+
+    public Scene getScene() {
+        if (scene==null){
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            try {
+                Parent root = FXMLLoader.load(getClass().getResource("../layouts/mainMenu.fxml"));
+                scene.setRoot(root);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            controller = fxmlLoader.getController();
+        }
+        return scene;
+    }
+    public MyController getController() {
+        return controller;
     }
 }
