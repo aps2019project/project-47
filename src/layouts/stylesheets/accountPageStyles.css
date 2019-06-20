@@ -1,5 +1,5 @@
 .mainPage {
-    -fx-background-image: url("/resources/background.jpg");
+    -fx-background-image: url("/resources/backgrounds/background.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: 1920 1080;
     -fx-background-position: center center;
@@ -41,7 +41,7 @@
 }
 
 .duelystTabName:selected {
-    -fx-background-image: url(/resources/triangle.png);
+    -fx-background-image: url(/resources/backgrounds/triangle.png);
     -fx-background-size: 20px;
     -fx-background-repeat: no-repeat;
     -fx-background-position: top center;

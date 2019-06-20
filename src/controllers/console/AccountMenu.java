@@ -1,7 +1,11 @@
 package controllers.console;
 
 
+import controllers.MyController;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import models.Account;
+import models.Shop;
 import views.MyPrinter;
 
 import java.util.ArrayList;
@@ -19,6 +23,9 @@ public class AccountMenu {
     public static AccountMenu getInstance() {
         return ourInstance;
     }
+
+    private static Parent root;
+    private static MyController controller;
 
     private static Scanner scanner = new Scanner(System.in);
     private static Pattern pattern;
@@ -209,6 +216,23 @@ public class AccountMenu {
             return;
         }
         account.showAllCollection();
+    }
+
+
+    public static Parent getRoot() {
+        if (root==null){
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            try {
+                root = FXMLLoader.load(AccountMenu.class.getResource("../../layouts/accountPage.fxml"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            controller = fxmlLoader.getController();
+        }
+        return root;
+    }
+    public MyController getController() {
+        return controller;
     }
 
 }

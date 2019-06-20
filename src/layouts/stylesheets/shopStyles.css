@@ -1,5 +1,5 @@
 .left-tab {
-    -fx-background-image: url("../../resources/shopBackground.jpg");
+    -fx-background-image: url("../../resources/backgrounds/shopBackground.jpg");
     -fx-background-repeat: stretch;
     -fx-background-size: 500 1080;
     -fx-background-position: center center;
