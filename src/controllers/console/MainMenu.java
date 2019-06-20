@@ -38,7 +38,7 @@ public class MainMenu {
         Constants exit = null;
         while (exit != EXIT) {
             String commandTxt = scanner.nextLine();
-            exit =  doCommand(commandTxt);
+            exit = doCommand(commandTxt);
         }
     }
 

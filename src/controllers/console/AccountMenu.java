@@ -59,7 +59,7 @@ public class AccountMenu {
         MyPrinter.blue(commandTxt);
         pattern = Pattern.compile("is([^ ]+)");
         matcher = pattern.matcher(commandTxt);
-        if (matcher.find()){
+        if (matcher.find()) {
             if (findAccount(matcher.group(1)) == null)
                 return null;
             else
