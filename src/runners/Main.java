@@ -21,9 +21,9 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         stage = primaryStage;
-        Parent root = FXMLLoader.load(getClass().getResource("../layouts/accountPage.fxml"));
+//        Parent root = FXMLLoader.load(getClass().getResource("../layouts/accountPage.fxml"));
 //        Parent root = FXMLLoader.load(getClass().getResource("../layouts/mainMenu.fxml"));
-//        Parent root = FXMLLoader.load(getClass().getResource("../layouts/UniversalShop.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../layouts/UniversalShop.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setFullScreen(true);

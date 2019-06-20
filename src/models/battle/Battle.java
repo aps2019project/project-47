@@ -28,7 +28,7 @@ public class Battle {
     private static Scanner scanner=new Scanner(System.in);
     private static Pattern pattern;
     private static Matcher matcher;
-
+//test
     private Player[] player;
     private int turn; //it most be zero or one.
     private Board board;
