@@ -3,6 +3,7 @@ package controllers.graphical;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSnackbar;
 import controllers.console.AccountMenu;
+import controllers.console.Constants;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -166,27 +167,32 @@ public class UniversalShopController implements Initializable {
         button.setPrefHeight(0.18 * splitPane.getPrefHeight());
         Object cardOrItem = shop.find_in_shop(Integer.parseInt(id.substring(1)));
         if (buyOrSell) {
-            JFXSnackbar snackbar = new JFXSnackbar(container);
 
             button.setOnAction(event -> {
-                int resultCode = shop.command_buy(Integer.parseInt(id.substring(1)));
-                if (resultCode == 1){
+                Constants resultCode = shop.command_buy(Integer.parseInt(id.substring(1)));
+                if (resultCode == Constants.SUCCESSFUL_BUY){
 
                 }
-                else if (resultCode == -1){
+                else if (resultCode == Constants.NOT_ENOUGH_MONEY){
 
                 }
-                else if (resultCode == -2){
+                else if (resultCode == Constants.HAD_BOUGHT_BEFORE){
 
                 }
-                else if (resultCode == -3){
+                else if (resultCode == Constants.NO_ACCOUNT_LOGGED_IN){
 
                 }
             });
-            button.setText("Buy");
+            if (cardOrItem instanceof Card)
+                button.setText("Buy " + ((Card)cardOrItem).getName());
+            else if (cardOrItem instanceof Item)
+                button.setText("*Buy " + ((Item)cardOrItem).getName());
         } else {
             button.setOnAction(event -> shop.command_sell(Integer.parseInt(id.substring(1))));
-            button.setText("sell");
+            if (cardOrItem instanceof Card)
+                button.setText("Sell " + ((Card)cardOrItem).getName());
+            else if (cardOrItem instanceof Item)
+                button.setText("*Sell " + ((Item)cardOrItem).getName());
         }
         ImageView imageView = new ImageView();
         imageView.setFitWidth(splitPane.getPrefWidth());
@@ -230,7 +236,7 @@ public class UniversalShopController implements Initializable {
                 id = "h";
             else if (card instanceof Minion)
                 id = "m";
-            id = id.concat(card.getCardId());
+            id = id.concat(Integer.toString(card.getCode()));
             addNewCard(id, false);
         }
         copyCardsInSearchSource();
