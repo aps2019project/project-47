@@ -676,6 +676,7 @@ public class Defentions {
             SpecialItem specialItem=new SpecialItem(option);
             Minion minion=new Minion(228,"wildHog",6,10,20,500,CardType.minion,
                     MinionTargetsType.melee,14,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wraith_portrait_hex@2x.png");
             minions.add(minion);
         }//28
 
@@ -685,6 +686,7 @@ public class Defentions {
             SpecialItem specialItem=new SpecialItem(option);
             Minion minion=new Minion(229,"Piran",8,20,20,400,CardType.minion,
                     MinionTargetsType.melee,12,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wraith_portrait_hex@2x.png");
             minions.add(minion);
         }//29
 
@@ -694,6 +696,7 @@ public class Defentions {
             SpecialItem specialItem=new SpecialItem(option);
             Minion minion=new Minion(230,"Giv",4,5,5,450,CardType.minion,
                     MinionTargetsType.ranged,7,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wraith_portrait_hex@2x.png");
             minions.add(minion);
         }//30
 
@@ -706,6 +709,7 @@ public class Defentions {
             specialItem.addSpawn(effect);
             Minion minion=new Minion(231,"Bahman",8,16,20,450,CardType.minion,
                     MinionTargetsType.melee,9,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_vampire_portrait_hex@2x.png");
             minions.add(minion);
         }//31
 
@@ -715,18 +719,21 @@ public class Defentions {
             SpecialItem specialItem=new SpecialItem(option);
             Minion minion=new Minion(232,"Ashkboos",7,14,20,400,CardType.minion,
                     MinionTargetsType.melee,8,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_vampire_portrait_hex@2x.png");
             minions.add(minion);
         }//32
 
         {
             Minion minion=new Minion(233,"Eraj",4,6,3,500,CardType.minion,
                     MinionTargetsType.ranged,20,null);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_vampire_portrait_hex@2x.png");
             minions.add(minion);
         }//33
 
         {
             Minion minion=new Minion(234,"hugeGiant",9,30,20,600,CardType.minion,
                     MinionTargetsType.hybird,8,null);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wraith_portrait_hex@2x.png");
             minions.add(minion);
 
         }//34
@@ -739,6 +746,7 @@ public class Defentions {
             specialItem.addAttack(effect);
             Minion minion=new Minion(235,"DoubleHeadGiant",4,10,20,550,CardType.minion,
                     MinionTargetsType.melee,4,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wraith_portrait_hex@2x.png");
             minions.add(minion);
         }//35
 
@@ -751,6 +759,7 @@ public class Defentions {
             specialItem.addSpawn(effect);
             Minion minion=new Minion(236,"coldMather",3,3,5,550,CardType.minion,
                     MinionTargetsType.ranged,4,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wraith_portrait_hex@2x.png");
             minions.add(minion);
 
         }//36
@@ -763,6 +772,7 @@ public class Defentions {
             specialItem.addPassive(effect);
             Minion minion=new Minion(237,"steelArmor",3,1,20,650,CardType.minion,
                     MinionTargetsType.melee,1,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wujin_portrait_hex@2x.png");
             minions.add(minion);
         }//37
 
@@ -775,6 +785,7 @@ public class Defentions {
             specialItem.addDeath(effect);
             Minion minion=new Minion(238,"Siavash",4,8,20,350,CardType.minion,
                     MinionTargetsType.melee,5,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wujin_portrait_hex@2x.png");
             minions.add(minion);
         }//38
 
@@ -783,6 +794,7 @@ public class Defentions {
             specialItem.setCombo(true);
             Minion minion=new Minion(239,"giant king",5,10,20,600,CardType.minion,
                     MinionTargetsType.melee,4,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wujin_portrait_hex@2x.png");
             minions.add(minion);
         }//39
 
@@ -791,6 +803,7 @@ public class Defentions {
             specialItem.setCombo(true);
             Minion minion=new Minion(240,"ArjangDamn",3,6,20,600,CardType.minion,
                     MinionTargetsType.melee,6,specialItem);
+            minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wujin_portrait_hex@2x.png");
             minions.add(minion);
         }//40
         return minions;
@@ -816,6 +829,7 @@ public class Defentions {
             effects.add(new Effect(buffs,null,null));
             Item item=new Item(402,ItemType.usable,4000,"namoosSepar",effects
                     ,true,false,null,null);
+
             items.add(item);
         }//2
 
