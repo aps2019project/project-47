@@ -3,6 +3,7 @@ package controllers.graphical;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSnackbar;
 import controllers.console.AccountMenu;
+import controllers.console.Constants;
 import controllers.console.MainMenu;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
