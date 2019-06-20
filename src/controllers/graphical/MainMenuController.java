@@ -41,7 +41,7 @@ public class MainMenuController implements Initializable {
 
     public void logOut() throws IOException {
         AccountMenu.setLoginAccount(null);
-        Parent root =  FXMLLoader.load(getClass().getResource("../../layouts/accountPage.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../../layouts/accountPage.fxml"));
         Main.getStage().getScene().setRoot(root);
     }
 }

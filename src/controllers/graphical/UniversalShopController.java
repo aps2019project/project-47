@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Orientation;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.SplitPane;
@@ -25,6 +26,7 @@ import models.cards.hero.Hero;
 import models.cards.minion.Minion;
 import models.cards.spell.Spell;
 import models.item.Item;
+import runners.Main;
 
 import java.io.IOException;
 import java.net.URL;
@@ -109,7 +111,7 @@ public class UniversalShopController implements Initializable {
         if (searched.equals("")) {
             return;
         }
-        for (String string : forSearchCards.keySet()){
+        for (String string : forSearchCards.keySet()) {
             if (string.toLowerCase().contains(searched.toLowerCase()))
                 cards.put(string, forSearchCards.get(string));
         }
@@ -201,10 +203,9 @@ public class UniversalShopController implements Initializable {
         imageView.setFitHeight(0.82 * splitPane.getPrefHeight());
         splitPane.getItems().add(0, imageView);
         splitPane.getItems().add(1, button);
-        if (cardOrItem instanceof Card){
+        if (cardOrItem instanceof Card) {
             cards.put(((Card) cardOrItem).getName(), splitPane);
-        }
-        else if (cardOrItem instanceof Item){
+        } else if (cardOrItem instanceof Item) {
             cards.put(((Item) cardOrItem).getName(), splitPane);
         }
     }
@@ -242,9 +243,14 @@ public class UniversalShopController implements Initializable {
         copyCardsInSearchSource();
     }
 
-    public void copyCardsInSearchSource(){
-        for (String string : cards.keySet()){
+    public void copyCardsInSearchSource() {
+        for (String string : cards.keySet()) {
             forSearchCards.put(string, cards.get(string));
         }
+    }
+
+    public void backButtonAction(ActionEvent actionEvent) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("../../layouts/mainMenu.fxml"));
+        Main.getStage().getScene().setRoot(root);
     }
 }

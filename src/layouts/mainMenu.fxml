@@ -46,21 +46,22 @@
             <ImageView fitHeight="96" fitWidth="96" styleClass="menuButton" onMouseClicked="#goToShop">
                 <Image url="/resources/shop.png"/>
             </ImageView>
-            <Label prefWidth="90" prefHeight="10" text=" SHOP" styleClass="buttonName">
+            <Label prefWidth="90" prefHeight="10" text=" SHOP" styleClass="buttonName" onMouseClicked="#goToShop">
             </Label>
         </VBox>
         <VBox spacing="5">
             <ImageView fitHeight="96" fitWidth="96" styleClass="menuButton" onMouseClicked="#goToHistoryMenu">
                 <Image url="/resources/scoreBoard.png"/>
             </ImageView>
-            <Label prefWidth="90" prefHeight="10" text=" HISTORY" styleClass="buttonName">
+            <Label prefWidth="90" prefHeight="10" text=" HISTORY" styleClass="buttonName"
+                   onMouseClicked="#goToHistoryMenu">
             </Label>
         </VBox>
         <VBox spacing="5">
             <ImageView fitHeight="96" fitWidth="96" styleClass="menuButton" onMouseClicked="#logOut">
                 <Image url="/resources/logout.png"/>
             </ImageView>
-            <Label prefWidth="90" prefHeight="10" text=" LOGOUT" styleClass="buttonName">
+            <Label prefWidth="90" prefHeight="10" text=" LOGOUT" styleClass="buttonName" onMouseClicked="#logOut">
             </Label>
         </VBox>
     </HBox>

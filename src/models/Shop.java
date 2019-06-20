@@ -205,15 +205,15 @@ public class Shop {
         if (scene == null) {
             FXMLLoader fxmlLoader = new FXMLLoader();
             try {
-                Parent p = fxmlLoader.load(getClass().getResource("foo.fxml"));
+                Parent root = fxmlLoader.load(getClass().getResource("foo.fxml"));
+                scene.setRoot(root);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            controller = (MyController) fxmlLoader.getController();
+            controller = fxmlLoader.getController();
         }
         return scene;
     }
-
     public MyController getController() {
         return controller;
     }
