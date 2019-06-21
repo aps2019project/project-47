@@ -125,7 +125,7 @@ public class Account implements Cloneable{
         for (Card card:cards){
             if (card.getCode()==code){
                 cards.remove(card);
-                moneyRise(card.getCode());
+                moneyRise(card.getPrice());
                 return true;
             }
         }
