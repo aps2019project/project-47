@@ -1,0 +1,39 @@
+.mainPage {
+    -fx-background-image: url("/resources/backgrounds/background3.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 1920 1080;
+    -fx-background-position: center center;
+}
+
+.container {
+    -fx-pref-width: 500;
+    -fx-max-width: 500;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-background-color: rgba(255, 171, 86, 0.41);
+    -fx-alignment: center;
+    -fx-padding: 20px;
+}
+
+.regular-textBox {
+    -fx-background-color: #404040;
+    -fx-font-size: 25px;
+    -fx-text-fill: white;
+    -fx-border-radius: 4px;
+    -fx-background-radius: 4px;
+}
+
+.regular-textBox .cell{
+    -fx-background-color: #404040;
+    -fx-text-fill: white;
+}
+
+.wrong {
+    -jfx-focus-color: #FF0000;
+    -jfx-unfocus-color: #FF0000;
+}
+
+.label{
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+}

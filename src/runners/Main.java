@@ -26,16 +26,16 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
 
-        Account account=new Account("Mmd","1234");
+        Account account = new Account("Mmd", "1234");
         AccountMenu.addAccount(account);
         AccountMenu.setLoginAccount(account);
 
         stage = primaryStage;
-        Parent root = BattleMenu.getRoot();
+//        Parent root = BattleMenu.getRoot();
 //        Parent root = AccountMenu.getRoot();
 //        Parent root = MainMenu.getRoot();
 //        Parent root = Shop.getRoot();
-
+        Parent root = FXMLLoader.load(Shop.class.getResource("../layouts/customCardCreatePage.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setFullScreen(true);
