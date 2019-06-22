@@ -175,7 +175,7 @@ public class UniversalShopController implements Initializable {
 
             button.setOnAction(event -> {
                 Constants resultCode = shop.command_buy(Integer.parseInt(id.substring(1)));
-                if (resultCode == Constants.SUCCESSFUL_BUY) {
+                if (resultCode == Constants.SUCCESSFUL_BUY) {//todo complete conditions
                 } else if (resultCode == Constants.NOT_ENOUGH_MONEY) {
                 } else if (resultCode == Constants.HAD_BOUGHT_BEFORE) {
                 } else if (resultCode == Constants.NO_ACCOUNT_LOGGED_IN) {
