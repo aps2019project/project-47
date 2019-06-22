@@ -1,6 +1,10 @@
 package controllers.console;
 
+import controllers.MyController;
+import controllers.graphical.BattleChooseMenuController;
 import defentions.Defentions;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import models.*;
 import models.battle.*;
 import models.deck.Deck;
@@ -8,6 +12,7 @@ import models.deck.DeckMaker;
 import models.item.ItemType;
 import views.MyPrinter;
 
+import java.io.IOException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,6 +21,9 @@ public class BattleMenu {
     private static Pattern pattern;
     private static Matcher matcher;
     private static Scanner scanner = new Scanner(System.in);
+
+    private static Parent root;
+    private static BattleChooseMenuController controller;
 
     private void help() {
         MyPrinter.blue("1. single custom <mode> <number of flags>");
@@ -96,4 +104,24 @@ public class BattleMenu {
             System.out.println("Invalid command!");
         }
     }
+
+    public static Parent getRoot() {
+        if (root==null){
+            FXMLLoader fxmlLoader = new FXMLLoader(MainMenu.class.getResource("../../layouts/battleChooseMenu.fxml"));
+            try {
+                root = fxmlLoader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            controller = fxmlLoader.getController();
+        }
+
+        controller.update();
+        return root;
+    }
+    public MyController getController() {
+        return controller;
+    }
+
+
 }

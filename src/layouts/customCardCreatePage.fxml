@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="center" prefHeight="1080.0" prefWidth="1920.0" spacing="20" styleClass="mainPage"
+      stylesheets="@stylesheets/customCardCreatePage.css" xmlns="http://javafx.com/javafx/8.0.172-ea"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.graphical.CustomCardCreateFormController">
+    <VBox alignment="center" maxHeight="346.0" maxWidth="599.0" spacing="20" styleClass="container">
+        <Label prefHeight="50.0" text="CREATE CUSTOM CARD"/>
+        <JFXTextField prefHeight="51.0" promptText="Name" styleClass="regular-textBox" fx:id="cardName"/>
+        <JFXComboBox prefHeight="51.0" prefWidth="500" promptText="Type" styleClass="regular-textBox" fx:id="typeOfCard"
+                     onAction="#changeActiveHomes"/>
+        <JFXTextField prefHeight="51.0" promptText="AP" fx:id="ap" styleClass="regular-textBox"/>
+        <JFXTextField prefHeight="51.0" promptText="HP" fx:id="hp" styleClass="regular-textBox"/>
+        <JFXComboBox prefHeight="51.0" prefWidth="500" promptText="Type" fx:id="typeOfAttackType" styleClass="regular-textBox"/>
+        <JFXTextField prefHeight="51.0" promptText="Range" fx:id="range" styleClass="regular-textBox"/>
+        <JFXComboBox prefHeight="51.0" prefWidth="500" promptText="Special Power" fx:id="specialPower" styleClass="regular-textBox"/>
+        <JFXComboBox prefHeight="51.0" prefWidth="500" promptText="Special Power Activation" fx:id="specialPowerActivation" styleClass="regular-textBox"/>
+        <JFXComboBox prefHeight="51.0" prefWidth="500" promptText="Special Power CoolDown" fx:id="specialPowerCoolDown" styleClass="regular-textBox"/>
+        <JFXTextField prefHeight="51.0" promptText="Cost" fx:id="cost" styleClass="regular-textBox"/>
+    </VBox>
+</VBox>

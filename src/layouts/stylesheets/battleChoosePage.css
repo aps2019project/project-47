@@ -1,0 +1,105 @@
+.mainPage{
+    -fx-background-image: url("/resources/backgrounds/foreground.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 1920 1080;
+    -fx-background-position: center center;
+}
+
+.tabContainer {
+    -fx-pref-width: 700;
+    -fx-max-width: 700;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-background-color: #654323;
+    -fx-alignment: center;
+}
+
+.tab-header-area {
+    -fx-padding: 0 -150 15 135;
+    -fx-alignment: center;
+    -fx-background-radius: 10px;
+    -fx-border-radius: 10px;
+    -fx-background-color: white;
+}
+
+.tab-header-background {
+    -fx-background-color: #292929;
+    -fx-background-radius: 10px;
+}
+
+.duelystTabName{
+    -fx-padding: 15px;
+}
+
+.duelystTabName .tab-label {
+    -fx-font-size: 20px;
+    -fx-background-color: #292929;
+    -fx-text-fill: #f1e4ab;
+}
+
+.duelystTabName:selected {
+    -fx-background-image: url(/resources/backgrounds/triangle.png);
+    -fx-background-size: 20px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: top center;
+}
+
+.duelystTab {
+    -fx-alignment: center;
+    -fx-background-color: #292929;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-padding: 40px;
+}
+
+.regularButton {
+    -fx-pref-width: 400;
+    -fx-max-width: 400;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-background-color: #d73521;
+    -fx-font-size: 30px;
+}
+
+.regular-textBox {
+    -fx-font-weight: bold;
+    -fx-pref-width: 400;
+    -fx-max-width: 400;
+    -fx-background-radius: 8;
+    -fx-background-color: #404040;
+    -fx-font-size: 30px;
+    -fx-text-fill: white;
+    -fx-alignment: center;
+}
+
+.regular-textBox:focused .regular-textBox:hover {
+    -fx-background-color: #434343;
+}
+
+.wrong {
+    -jfx-focus-color: #FF0000;
+    -jfx-unfocus-color: #FF0000;
+}
+
+.badMessage{
+    -fx-text-fill: #ff311f;
+}
+
+.goodMessage{
+    -fx-text-fill: #28d716;
+}
+
+.regularMessage{
+    -fx-text-fill: #bcb9bf;
+}
+
+* {
+    -fx-font-family: "Bahnschrift";
+}
+
+.message {
+    -fx-font-weight: bold;
+    -fx-text-alignment: center;
+    -fx-text-fill: red;
+    -fx-font-size: 24px;
+}

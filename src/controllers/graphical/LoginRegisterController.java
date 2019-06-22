@@ -51,7 +51,7 @@ public class LoginRegisterController {
                 passwordField.setText("");
                 userNameField.getStyleClass().removeIf(style -> style.equals("wrong"));
                 passwordField.getStyleClass().removeIf(style -> style.equals("wrong"));
-                messageLabelLogin.setText("You are logged in successfully!");
+//                messageLabelLogin.setText("You are logged in successfully!");
                 messageLabelLogin.getStyleClass().removeIf(style -> !style.equals("goodMessage"));
                 messageLabelLogin.getStyleClass().add("goodMessage");
                 Parent root = FXMLLoader.load(getClass().getResource("../../layouts/mainMenu.fxml"));
