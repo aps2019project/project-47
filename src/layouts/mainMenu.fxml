@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane prefHeight="1080.0" prefWidth="1920.0" styleClass="mainPage"
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" styleClass="underBackGround"
             stylesheets="@stylesheets/mainMenuStyles.css" xmlns="http://javafx.com/javafx/8.0.172-ea"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.graphical.MainMenuController">
     <VBox spacing="30">
@@ -49,6 +49,17 @@
             </ImageView>
             <Label fx:id="customCardLabel" onMouseClicked="#goToCustomCardMenu"
                    prefHeight="40.0" prefWidth="500.0" styleClass="menuName" text="CUSTOM CARD">
+            </Label>
+        </HBox>
+        <HBox>
+            <ImageView fx:id="exitImage" fitHeight="60" fitWidth="60" styleClass="menuButton">
+                <HBox.margin>
+                    <Insets left="100.0" top="20.0"/>
+                </HBox.margin>
+                <Image url="/resources/buttons/bullet.png"/>
+            </ImageView>
+            <Label fx:id="lbl_exit" onMouseClicked="#exit"
+                   prefHeight="40.0" prefWidth="170.0" styleClass="menuName" text="EXIT">
             </Label>
         </HBox>
         <HBox spacing="30">

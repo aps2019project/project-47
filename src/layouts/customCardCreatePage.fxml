@@ -5,7 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="center" prefHeight="1080.0" prefWidth="1920.0" spacing="20" styleClass="mainPage"
+<VBox alignment="center" prefHeight="1080.0" prefWidth="1920.0" spacing="20" styleClass="underBackGround"
       stylesheets="@stylesheets/customCardCreatePage.css" xmlns="http://javafx.com/javafx/8.0.172-ea"
       xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.graphical.CustomCardCreateFormController">
     <VBox alignment="center" maxHeight="346.0" maxWidth="599.0" spacing="20" styleClass="container">

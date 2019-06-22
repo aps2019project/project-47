@@ -5,12 +5,18 @@ import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextField;
 import controllers.MyController;
 import controllers.console.AccountMenu;
+import controllers.console.MainMenu;
 import javafx.event.ActionEvent;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import models.Account;
+import runners.Main;
 
 public class BattleChooseMenuController extends MyController {
+    public ComboBox mode;
+    public ComboBox otherPlayers;
+    public JFXButton btn_back;
     private Account loginAccount;
 
     public JFXTabPane mainPage;
@@ -38,9 +44,23 @@ public class BattleChooseMenuController extends MyController {
     @Override
     public void update(){
         loginAccount=AccountMenu.getLoginAccount();
-        storyGame();
+        setStoryGame();
+        setSingleGame();
+        setMultiPlayerGame();
+
     }
-    private void storyGame(){
+
+    public void setSingleGame(){
+        mode.getItems().removeAll(mode.getItems());
+        mode.getItems().addAll("KILL","COLLECTING","KEEPING");
+    }
+    public void setMultiPlayerGame(){
+        otherPlayers.getItems().removeAll(otherPlayers.getItems());
+        for (Account account:AccountMenu.getAccounts()){
+            otherPlayers.getItems().add(account.getUserName());
+        }
+    }
+    private void setStoryGame(){
         int lvl=loginAccount.getStoryLvl();
         if (lvl==4){
             storyGameTab.getChildren().remove(startStoryGame);
@@ -67,5 +87,10 @@ public class BattleChooseMenuController extends MyController {
 
     public void setLoginAccount(Account loginAccount) {
         this.loginAccount = loginAccount;
+    }
+
+    public void back(ActionEvent event) {
+        Main.getStage().getScene().setRoot(MainMenu.getRoot());
+
     }
 }
