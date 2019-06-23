@@ -2,6 +2,11 @@ package models.cards;
 
 public class GraphicPack {
     private String shopPhotoAddress;
+    private String deathPhotoAddress;
+    private String attackPhotoAddress;
+    private String movePhotoAddress;
+    private String breathingPhotoAddress;
+
 
     public String getShopPhotoAddress() {
         return shopPhotoAddress;
@@ -11,4 +16,35 @@ public class GraphicPack {
         this.shopPhotoAddress = shopPhotoAddress;
     }
 
+    public String getDeathPhotoAddress() {
+        return deathPhotoAddress;
+    }
+
+    public void setDeathPhotoAddress(String deathPhotoAddress) {
+        this.deathPhotoAddress = deathPhotoAddress;
+    }
+
+    public String getAttackPhotoAddress() {
+        return attackPhotoAddress;
+    }
+
+    public void setAttackPhotoAddress(String attackPhotoAddress) {
+        this.attackPhotoAddress = attackPhotoAddress;
+    }
+
+    public String getMovePhotoAddress() {
+        return movePhotoAddress;
+    }
+
+    public void setMovePhotoAddress(String movePhotoAddress) {
+        this.movePhotoAddress = movePhotoAddress;
+    }
+
+    public String getBreathingPhotoAddress() {
+        return breathingPhotoAddress;
+    }
+
+    public void setBreathingPhotoAddress(String breathingPhotoAddress) {
+        this.breathingPhotoAddress = breathingPhotoAddress;
+    }
 }

@@ -40,6 +40,7 @@ public class BattleController extends MyController implements Initializable {
         buildGrid();
 
     }
+
     public void buildGrid(){
         int width = Board.width;
         int height = Board.length;
