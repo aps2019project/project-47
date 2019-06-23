@@ -52,6 +52,17 @@
             </Label>
         </HBox>
         <HBox>
+            <ImageView fx:id="saveAccount" fitHeight="60" fitWidth="60" styleClass="menuButton">
+                <HBox.margin>
+                    <Insets left="100.0" top="20.0"/>
+                </HBox.margin>
+                <Image url="/resources/buttons/bullet.png"/>
+            </ImageView>
+            <Label fx:id="saveAccountLabel" onMouseClicked="#saveAccount"
+                   prefHeight="40.0" prefWidth="500.0" styleClass="menuName" text="SAVE ACCOUNT">
+            </Label>
+        </HBox>
+        <HBox>
             <ImageView fx:id="exitImage" fitHeight="60" fitWidth="60" styleClass="menuButton">
                 <HBox.margin>
                     <Insets left="100.0" top="20.0"/>
@@ -64,7 +75,7 @@
         </HBox>
         <HBox spacing="30">
             <VBox.margin>
-                <Insets left="1500" top="350"/>
+                <Insets left="1500" top="140"/>
             </VBox.margin>
             <VBox spacing="5">
                 <ImageView fitHeight="96" fitWidth="96" styleClass="menuButton" onMouseClicked="#goToShop">

@@ -25,6 +25,8 @@ public class MainMenuController implements Initializable {
     public ImageView customCard;
     public ImageView exitImage;
     public Label lbl_exit;
+    public ImageView saveAccount;
+    public Label saveAccountLabel;
 
 
     @Override
@@ -52,10 +54,14 @@ public class MainMenuController implements Initializable {
         Main.getStage().getScene().setRoot(AccountMenu.getRoot());
     }
 
-    public void goToCustomCardMenu(MouseEvent mouseEvent) {
+    public void goToCustomCardMenu(MouseEvent mouseEvent) throws IOException {
+        Main.getStage().getScene().setRoot(FXMLLoader.load(getClass().getResource("../../layouts/customCardCreatePage.fxml")));
     }
 
     public void exit(MouseEvent mouseEvent) {
         System.exit(0);
+    }
+
+    public void saveAccount(MouseEvent mouseEvent) {
     }
 }

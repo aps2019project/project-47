@@ -12,6 +12,7 @@ import models.cards.Card;
 import models.cards.buff.Buff;
 import models.cards.buff.BuffType;
 import models.cards.minion.MinionType;
+import models.cards.minion.SpecialItem;
 import models.cards.spell.effect.Effect;
 
 import java.net.URL;
@@ -59,11 +60,13 @@ public class CustomCardCreateFormController implements Initializable {
     public JFXComboBox<String> forceTypeSpell;
     public JFXCheckBox allOfThemeSpell;
     public JFXCheckBox allOfTheme;
+    public JFXButton createSpecialPower;
     public ArrayList<Effect> effects = new ArrayList<>();
     public ArrayList<Effect> spellEffects = new ArrayList<>();
     public ArrayList<Buff> buffs = new ArrayList<>();
     public ArrayList<Buff> spellBuffs = new ArrayList<>();
     public Card card;
+    public SpecialItem specialItem = new SpecialItem(null);
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -118,8 +121,23 @@ public class CustomCardCreateFormController implements Initializable {
     }
 
     public void addEffect(ActionEvent actionEvent) {
-//        Activation
+        switch (activationTimeOfSpecialPower.getSelectionModel().getSelectedItem()) {
+            case "On Death":
 
+                break;
+            case "On Attack":
+
+                break;
+            case "On Defend":
+
+                break;
+            case "On Spawn":
+
+                break;
+            case "Passive":
+
+                break;
+        }
     }
 
     public void addEffectSpell(ActionEvent actionEvent) {
@@ -168,5 +186,8 @@ public class CustomCardCreateFormController implements Initializable {
             spellBuffs.add(buff);
         } catch (Exception ignored) {
         }
+    }
+
+    public void createSpecialPower(ActionEvent actionEvent) {
     }
 }

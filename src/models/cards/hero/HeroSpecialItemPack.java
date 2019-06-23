@@ -2,7 +2,7 @@ package models.cards.hero;
 
 import models.cards.minion.SelectionCellPack;
 
-public class HeroSpecialItemPack implements Cloneable{
+public class HeroSpecialItemPack implements Cloneable {
     private int mana;
     private int coolDown;
     private int reminded_coolDown;
@@ -16,12 +16,14 @@ public class HeroSpecialItemPack implements Cloneable{
     }
 
 
-    public void oneTurnPassed(){
-        if (reminded_coolDown>0)reminded_coolDown--;
+    public void oneTurnPassed() {
+        if (reminded_coolDown > 0) reminded_coolDown--;
     }
-    public void cooldown_used(){
-        reminded_coolDown=coolDown;
+
+    public void cooldown_used() {
+        reminded_coolDown = coolDown;
     }
+
     public int getReminded_coolDown() {
         return reminded_coolDown;
     }
@@ -48,6 +50,6 @@ public class HeroSpecialItemPack implements Cloneable{
 
     @Override
     public HeroSpecialItemPack clone() throws CloneNotSupportedException {
-        return new HeroSpecialItemPack(mana,coolDown,selectionCellPack);
+        return new HeroSpecialItemPack(mana, coolDown, selectionCellPack);
     }
 }
