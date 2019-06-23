@@ -31,8 +31,9 @@ public class MainMenuController implements Initializable {
 
     }
 
-    public void goToCollectionMenu() {
-
+    public void goToCollectionMenu() throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/layouts/Collection.fxml"));
+        Main.getStage().getScene().setRoot(root);
     }
 
     public void goToShop() {

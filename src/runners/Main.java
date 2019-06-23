@@ -31,7 +31,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-
+        Shop shop = Shop.getInstance();
         Account Mmd = new Account("Mmd","1234");
         Deck deck1 = new Deck("best");
         ArrayList<Minion> minions = Defentions.defineMinion();
@@ -50,6 +50,9 @@ public class Main extends Application {
         Mmd.setMainDeck(deck1);
         AccountMenu.addAccount(Mmd);
         AccountMenu.setLoginAccount(Mmd);
+        for (int i = 101; i < 500; i++) {
+            shop.command_buy(i);
+        }
         stage = primaryStage;
         Parent root = AccountMenu.getRoot();
 //        Parent root = MainMenu.getRoot();

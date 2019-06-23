@@ -1,5 +1,6 @@
 package models;
 
+import controllers.console.Constants;
 import controllers.console.MainMenu;
 import models.battle.MatchResult;
 import models.battle.Player;
@@ -143,7 +144,7 @@ public class Account implements Cloneable{
             System.out.println("main deck there not exist");
             return false;
         }
-        if (!this.getMainDeck().check_deck_correct()){
+        if (this.getMainDeck().check_deck_correct() != Constants.CORRECT_DECK){
             System.out.println("main deck is not correct!");
             return false;
         }
