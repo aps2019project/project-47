@@ -1,5 +1,6 @@
 package models.deck;
 
+import controllers.console.Constants;
 import models.cards.Card;
 import models.cards.CardType;
 import models.cards.hero.Hero;
@@ -92,6 +93,15 @@ public class Deck implements Cloneable {
         return hero;
     }
 
+    public Hero getHero(){
+        for (Card card : cards){
+            if(card instanceof Hero){
+                return (Hero)card;
+            }
+        }
+        return null;
+    }
+
     public void setCardPlayerNum(int playerNum) {
         for (Card card : cards) {
             card.setPlyNum(playerNum);
@@ -106,24 +116,40 @@ public class Deck implements Cloneable {
         return minions;
     }
 
-    public boolean check_deck_correct() {
+    public Constants check_deck_correct() {
         int hero = 0;
         if (cards.size() != 20) {
             MyPrinter.red("num of cards is not 20!");
-            return false;
+            return Constants.NOT_20_CARDS;
         }
         for (Card card : cards) {
             if (card.getCardType() == CardType.hero) hero++;
         }
-        if (hero != 1) {
+        if (hero < 1) {
             MyPrinter.red("there isn't any hero in this deck");
-            return false;
+            return Constants.NO_HERO;
         }
-        return true;
+        if (hero > 1){
+            MyPrinter.red("you have selected more than one hero");
+            return Constants.MULTIPLE_HEROS;
+        }
+        return Constants.CORRECT_DECK;
     }
 
     public String getName() {
         return name;
     }
-
+    public boolean remove(String name){
+        for (int i = 0; i < cards.size(); i++){
+            if (cards.get(i).getName().equals(name)){
+                cards.remove(i);
+                return true;
+            }
+        }
+        if (item.getName().equals(name)){
+            item = null;
+            return true;
+        }
+        return false;
+    }
 }

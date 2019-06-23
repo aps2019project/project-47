@@ -1,5 +1,6 @@
 package models.deck;
 
+import controllers.console.Constants;
 import models.cards.Card;
 import models.item.Item;
 import views.MyPrinter;
@@ -68,7 +69,7 @@ public class DeckMaker {
                 continue;
             }
             if (commandTxt.equals("next") || commandTxt.equals("7")){
-                if (new Deck(name,myCards,null).check_deck_correct()) break;
+                if (new Deck(name,myCards,null).check_deck_correct() != Constants.CORRECT_DECK) break;
                 continue;
             }
             if (commandTxt.equals("exit") || commandTxt.equals("8"))return null;

@@ -220,7 +220,7 @@ public class AccountMenu {
 
 
     public static Parent getRoot() {
-        if (root==null){
+        if (root == null) {
             FXMLLoader fxmlLoader = new FXMLLoader();
             try {
                 root = FXMLLoader.load(AccountMenu.class.getResource("../../layouts/accountPage.fxml"));
@@ -231,6 +231,7 @@ public class AccountMenu {
         }
         return root;
     }
+
     public MyController getController() {
         return controller;
     }
