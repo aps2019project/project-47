@@ -72,6 +72,7 @@
             <JFXTextField prefHeight="51.0" promptText="Range" fx:id="range" styleClass="regular-textBox"/>
             <JFXTextField prefHeight="51.0" promptText="Cost" fx:id="cost" styleClass="regular-textBox"/>
             <JFXButton text="Create Custom Card" styleClass="regularButton" onAction="#createCustomCard"/>
+            <JFXButton text="Back" styleClass="regularButton" onAction="#back"/>
         </VBox>
         <VBox alignment="center" maxHeight="346.0" maxWidth="599.0" spacing="20" styleClass="container"
               fx:id="spellBox">
@@ -81,8 +82,6 @@
                 <JFXButton fx:id="addEffectSpell" text="+" styleClass="regularButton" prefWidth="40" prefHeight="50"
                            onAction="#addEffectSpell"/>
             </HBox>
-            <JFXComboBox prefHeight="51.0" prefWidth="600" promptText="Activation Time" styleClass="regular-textBox"
-                         fx:id="activationTimeOfSpecialPowerSpell"/>
             <VBox alignment="center" maxHeight="346.0" maxWidth="400.0" spacing="20" styleClass="in-innerContainer">
                 <HBox spacing="20">
                     <Label prefHeight="50.0" prefWidth="500" text="Buffs:"/>
