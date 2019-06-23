@@ -8,7 +8,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import models.cards.Card;
 import models.cards.buff.Buff;
+import models.cards.buff.BuffType;
 import models.cards.minion.MinionType;
 import models.cards.spell.effect.Effect;
 
@@ -61,6 +63,7 @@ public class CustomCardCreateFormController implements Initializable {
     public ArrayList<Effect> spellEffects = new ArrayList<>();
     public ArrayList<Buff> buffs = new ArrayList<>();
     public ArrayList<Buff> spellBuffs = new ArrayList<>();
+    public Card card;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -115,18 +118,16 @@ public class CustomCardCreateFormController implements Initializable {
     }
 
     public void addEffect(ActionEvent actionEvent) {
+//        Activation
+
+    }
+
+    public void addEffectSpell(ActionEvent actionEvent) {
 
     }
 
     public void addBuff(ActionEvent actionEvent) {
-        try {
-            int startNum = Integer.parseInt(start.getText());
-            int powerNum = Integer.parseInt(power.getText());
-            int delayNum = Integer.parseInt(delay.getText());
-            System.out.println(buffType.getSelectionModel().getSelectedItem());
-            //Buff buff = new Buff();
-            //buffs.add(buff);}
-        } catch (Exception ignored) { }
+        createBuff(start, power, delay, buffType, buffs);
     }
 
     public void createCustomCard(ActionEvent actionEvent) {
@@ -134,15 +135,38 @@ public class CustomCardCreateFormController implements Initializable {
     }
 
     public void addBuffSpell(ActionEvent actionEvent) {
-        startSpell.getText();
-        powerSpell.getText();
-        delaySpell.getText();
-        //Buff buff = new Buff();
-        //spellBuffs.add(buff);
+        createBuff(startSpell, powerSpell, delaySpell, buffTypeSpell, spellBuffs);
     }
 
-    public void addEffectSpell(ActionEvent actionEvent) {
-
+    public void createBuff(JFXTextField startSpell, JFXTextField powerSpell, JFXTextField delaySpell, JFXComboBox<String> buffTypeSpell, ArrayList<Buff> spellBuffs) {
+        try {
+            int startNum = Integer.parseInt(startSpell.getText());
+            int powerNum = Integer.parseInt(powerSpell.getText());
+            int delayNum = Integer.parseInt(delaySpell.getText());
+            BuffType buffType1 = null;
+            switch (buffTypeSpell.getSelectionModel().getSelectedItem()) {
+                case "Holy":
+                    buffType1 = BuffType.holy;
+                    break;
+                case "Power":
+                    buffType1 = BuffType.attack_power_up;
+                    break;
+                case "Poison":
+                    buffType1 = BuffType.poison;
+                    break;
+                case "Weakness":
+                    buffType1 = BuffType.attack_power_low;
+                    break;
+                case "Stun":
+                    buffType1 = BuffType.stun;
+                    break;
+                case "Disarm":
+                    buffType1 = BuffType.disarm;
+                    break;
+            }
+            Buff buff = new Buff(delayNum, startNum, powerNum, buffType1, false);//??todo?????????????????????????
+            spellBuffs.add(buff);
+        } catch (Exception ignored) {
+        }
     }
-
 }
