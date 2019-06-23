@@ -25,7 +25,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-
         Account account = new Account("Mmd", "1234");
         AccountMenu.addAccount(account);
         AccountMenu.setLoginAccount(account);

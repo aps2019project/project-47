@@ -17,7 +17,7 @@
 
 .regular-textBox {
     -fx-background-color: #404040;
-    -fx-font-size: 25px;
+    -fx-font-size: 17px;
     -fx-text-fill: white;
     -fx-border-radius: 4px;
     -fx-background-radius: 4px;
@@ -34,6 +34,34 @@
 }
 
 .label{
-    -fx-font-size: 30px;
+    -fx-font-size: 17px;
     -fx-font-weight: bold;
+}
+
+.innerContainer {
+    -fx-pref-width: 500;
+    -fx-max-width: 500;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-background-color: rgba(255, 60, 60, 0.15);
+    -fx-alignment: center;
+    -fx-padding: 17px;
+}
+
+
+.regularButton {
+    -fx-pref-width: 400;
+    -fx-max-width: 400;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-background-color: #d73521;
+    -fx-font-size: 17px;
+}
+
+.in-innerContainer {
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-background-color: rgba(255, 77, 30, 0.48);
+    -fx-alignment: center;
+    -fx-padding: 17px;
 }
