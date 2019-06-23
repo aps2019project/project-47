@@ -75,7 +75,7 @@
         </HBox>
         <HBox spacing="30">
             <VBox.margin>
-                <Insets left="1500" top="250"/>
+                <Insets left="1500" top="140"/>
             </VBox.margin>
             <VBox spacing="5">
                 <ImageView fitHeight="96" fitWidth="96" styleClass="menuButton" onMouseClicked="#goToShop">

@@ -54,7 +54,8 @@ public class MainMenuController implements Initializable {
         Main.getStage().getScene().setRoot(AccountMenu.getRoot());
     }
 
-    public void goToCustomCardMenu(MouseEvent mouseEvent) {
+    public void goToCustomCardMenu(MouseEvent mouseEvent) throws IOException {
+        Main.getStage().getScene().setRoot(FXMLLoader.load(getClass().getResource("../../layouts/customCardCreatePage.fxml")));
     }
 
     public void exit(MouseEvent mouseEvent) {
