@@ -8,8 +8,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import models.cards.buff.Buff;
+import models.cards.minion.MinionType;
+import models.cards.spell.effect.Effect;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class CustomCardCreateFormController implements Initializable {
@@ -53,6 +57,10 @@ public class CustomCardCreateFormController implements Initializable {
     public JFXComboBox<String> forceTypeSpell;
     public JFXCheckBox allOfThemeSpell;
     public JFXCheckBox allOfTheme;
+    public ArrayList<Effect> effects = new ArrayList<>();
+    public ArrayList<Effect> spellEffects = new ArrayList<>();
+    public ArrayList<Buff> buffs = new ArrayList<>();
+    public ArrayList<Buff> spellBuffs = new ArrayList<>();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -66,8 +74,8 @@ public class CustomCardCreateFormController implements Initializable {
         sideTypeSpell.getItems().addAll("Insider", "Enemy", "Both");
         forceType.getItems().addAll("Hero", "Minion", "Both", "All Cell");
         forceTypeSpell.getItems().addAll("Hero", "Minion", "Both", "All Cell");
-        minionType.getItems().addAll("Melee","Ranged","Hybrid");
-        minionTypeSpell.getItems().addAll("Melee","Ranged","Hybrid");
+        minionType.getItems().addAll("Melee", "Ranged", "Hybrid");
+        minionTypeSpell.getItems().addAll("Melee", "Ranged", "Hybrid");
         specialPowerBox.setVisible(false);
         spellBox.setVisible(false);
     }
@@ -107,5 +115,34 @@ public class CustomCardCreateFormController implements Initializable {
     }
 
     public void addEffect(ActionEvent actionEvent) {
+
     }
+
+    public void addBuff(ActionEvent actionEvent) {
+        try {
+            int startNum = Integer.parseInt(start.getText());
+            int powerNum = Integer.parseInt(power.getText());
+            int delayNum = Integer.parseInt(delay.getText());
+            System.out.println(buffType.getSelectionModel().getSelectedItem());
+            //Buff buff = new Buff();
+            //buffs.add(buff);}
+        } catch (Exception ignored) { }
+    }
+
+    public void createCustomCard(ActionEvent actionEvent) {
+
+    }
+
+    public void addBuffSpell(ActionEvent actionEvent) {
+        startSpell.getText();
+        powerSpell.getText();
+        delaySpell.getText();
+        //Buff buff = new Buff();
+        //spellBuffs.add(buff);
+    }
+
+    public void addEffectSpell(ActionEvent actionEvent) {
+
+    }
+
 }

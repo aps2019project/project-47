@@ -51,7 +51,7 @@
 
 .regularButton {
     -fx-pref-width: 400;
-    -fx-max-width: 400;
+    -fx-max-width: 600;
     -fx-font-weight: bold;
     -fx-background-radius: 8;
     -fx-background-color: #d73521;

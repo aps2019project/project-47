@@ -29,7 +29,7 @@
                     <HBox spacing="20">
                         <Label prefHeight="50.0" prefWidth="500" text="Buffs:"/>
                         <JFXButton fx:id="addBuff" text="+" styleClass="regularButton" prefWidth="40" prefHeight="50"
-                                   onAction="#addEffect"/>
+                                   onAction="#addBuff"/>
                     </HBox>
                     <JFXTextField prefHeight="51.0" promptText="Power" fx:id="power" styleClass="regular-textBox"/>
                     <JFXTextField prefHeight="51.0" promptText="Delay time" fx:id="delay" styleClass="regular-textBox"/>
@@ -68,6 +68,7 @@
                          styleClass="regular-textBox"/>
             <JFXTextField prefHeight="51.0" promptText="Range" fx:id="range" styleClass="regular-textBox"/>
             <JFXTextField prefHeight="51.0" promptText="Cost" fx:id="cost" styleClass="regular-textBox"/>
+            <JFXButton text="Create Custom Card"  styleClass="regularButton" onAction="#createCustomCard"/>
         </VBox>
         <VBox alignment="center" maxHeight="346.0" maxWidth="599.0" spacing="20" styleClass="container"
               fx:id="spellBox">
@@ -75,7 +76,7 @@
             <HBox spacing="20">
                 <Label prefHeight="50.0" prefWidth="600" text="Effects:"/>
                 <JFXButton fx:id="addEffectSpell" text="+" styleClass="regularButton" prefWidth="40" prefHeight="50"
-                           onAction="#addEffect"/>
+                           onAction="#addEffectSpell"/>
             </HBox>
             <JFXComboBox prefHeight="51.0" prefWidth="600" promptText="Activation Time" styleClass="regular-textBox"
                          fx:id="activationTimeOfSpecialPowerSpell"/>
@@ -83,7 +84,7 @@
                 <HBox spacing="20">
                     <Label prefHeight="50.0" prefWidth="500" text="Buffs:"/>
                     <JFXButton fx:id="addBuffSpell" text="+" styleClass="regularButton" prefWidth="40" prefHeight="50"
-                               onAction="#addEffect"/>
+                               onAction="#addBuffSpell"/>
                 </HBox>
                 <JFXTextField prefHeight="51.0" promptText="Power" fx:id="powerSpell" styleClass="regular-textBox"/>
                 <JFXTextField prefHeight="51.0" promptText="Delay time" fx:id="delaySpell"
