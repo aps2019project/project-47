@@ -27,14 +27,22 @@ public class BattleController extends MyController implements Initializable {
         int width = Board.width;
         int height = Board.length;
 
+        cells.relocate(500,200);
+        cells.setStyle("-fx-background-color: green");
+        cells.setStyle("-fx-min-height: 10;" +
+                "-fx-min-width: 10;" +
+                "-fx-border-color: white;" +
+                "-fx-border-radius: 5;" +
+                "-fx-border-width: 0.5");
+
+
+
         for (int i=0;i<width;i++){
             for (int j = 0; j <height ; j++) {
                 Label label=new Label(i+","+j);
                 label.setStyle("-fx-background-color: red;" +
                         "-fx-font-size: 30;" +
-                        "-fx-fill: white;" +
-                        "-fx-pref-height: 50;" +
-                        "-fx-pref-width: 50");
+                        "-fx-fill: white;" );
                 label.setPrefSize(100,100);
                 cells.add(label,i,j);
             }
@@ -42,10 +50,8 @@ public class BattleController extends MyController implements Initializable {
 
         cells.setHgap(20);
         cells.setVgap(20);
-        cells.relocate(100,100);
-        cells.setStyle("-fx-background-color: green");
-        cells.setStyle("-fx-min-height: 10;" +
-                "-fx-min-width: 10");
+
+
 
     }
 }
