@@ -235,4 +235,7 @@ public class AccountMenu {
         return controller;
     }
 
+    public static ArrayList<Account> getAccounts() {
+        return accounts;
+    }
 }

@@ -82,7 +82,7 @@ public class Shop {
                 help();
                 continue;
             }
-            pattern = Pattern.compile("^earn ([0-9]+)$");
+            pattern = Pattern.compile("Money : " + "^earn ([0-9]+)$");
             matcher = pattern.matcher(commandTxt);
             if (matcher.find()){
                 if (account==null){

@@ -1,5 +1,11 @@
 package models.battle.board;
 
+import controllers.MyController;
+import controllers.console.MainMenu;
+import controllers.graphical.BattleChooseMenuController;
+import controllers.graphical.BattleController;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import models.cards.minion.SideType;
 import models.cards.*;
 import models.cards.hero.Hero;
@@ -12,6 +18,7 @@ import models.item.Flag;
 import models.item.Item;
 import views.MyPrinter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -21,6 +28,10 @@ public class Board {
     private static final Location center = new Location(4, 2);
     public static final int width = 9;
     public static final int length = 5;
+
+    private static Parent root;
+    private static BattleController controller;
+
     public int showBoardSize = 15;
 
     private static Cell[][] cells;
@@ -497,5 +508,23 @@ public class Board {
     public void board_size_down() {
         if (showBoardSize == 3) return;
         showBoardSize--;
+    }
+    public static Parent getRoot() {
+        if (root==null){
+            FXMLLoader fxmlLoader = new FXMLLoader(MainMenu.class.getResource("../../layouts/battlePlane.fxml"));
+            try {
+                root = fxmlLoader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            controller = fxmlLoader.getController();
+            controller.setRoot(root);
+        }
+
+        controller.update();
+        return root;
+    }
+    public MyController getController() {
+        return controller;
     }
 }

@@ -827,4 +827,5 @@ public class Battle {
             Collections.swap(locations,x,y);
         }
     }
+
 }

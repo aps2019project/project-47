@@ -1,20 +1,14 @@
 package controllers.graphical;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.JFXSnackbar;
 import controllers.console.AccountMenu;
 import controllers.console.Constants;
 import controllers.console.MainMenu;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Orientation;
-import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.SplitPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -30,7 +24,10 @@ import runners.Main;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.ResourceBundle;
 
 public class UniversalShopController implements Initializable {
     Account loginAccount = AccountMenu.getLoginAccount();
@@ -53,6 +50,7 @@ public class UniversalShopController implements Initializable {
         initializeIds();
         container.setPrefHeight(allParent.getPrefHeight());
         container.setPrefWidth(0.75 * allParent.getPrefWidth());
+        money.setText("Money : " + Integer.toString(loginAccount.getMoney()));
         heroesAndMinions.setPrefHeight(container.getPrefHeight());
         heroesAndMinions.setPrefWidth(container.getPrefWidth());
         topScrollPane.setPrefHeight(heroesAndMinions.getPrefHeight() / 2);
@@ -89,6 +87,9 @@ public class UniversalShopController implements Initializable {
 
     @FXML
     private Button searchShowButton;
+
+    @FXML
+    private Label money;
 
     @FXML
     void setMyCollectionMenu(ActionEvent event) {
@@ -174,26 +175,35 @@ public class UniversalShopController implements Initializable {
 
             button.setOnAction(event -> {
                 Constants resultCode = shop.command_buy(Integer.parseInt(id.substring(1)));
-                if (resultCode == Constants.SUCCESSFUL_BUY) {
-
+                if (resultCode == Constants.SUCCESSFUL_BUY) {//todo complete conditions
                 } else if (resultCode == Constants.NOT_ENOUGH_MONEY) {
-
                 } else if (resultCode == Constants.HAD_BOUGHT_BEFORE) {
-
                 } else if (resultCode == Constants.NO_ACCOUNT_LOGGED_IN) {
-
                 }
+                money.setText("Money : ".concat(Integer.toString(loginAccount.getMoney())));
             });
             if (cardOrItem instanceof Card)
-                button.setText("Buy " + ((Card) cardOrItem).getName());
+                button.setText("Buy " + ((Card) cardOrItem).getName() + " " + ((Card) cardOrItem).getPrice() + "$");
             else if (cardOrItem instanceof Item)
-                button.setText("*Buy " + ((Item) cardOrItem).getName());
+                button.setText("*Buy " + ((Item) cardOrItem).getName() + " " + ((Item) cardOrItem).getPrice() + "$");
         } else {
-            button.setOnAction(event -> shop.command_sell(Integer.parseInt(id.substring(1))));
+            button.setOnAction(event -> {
+                String name = "";
+                if(id.contains("m") || id.contains("h") || id.contains("s")) {
+                    name = ((Card)shop.find_in_shop(Integer.parseInt(id.substring(1)))).getName();
+                }
+                if(id.contains("i")){
+                    name = ((Item)shop.find_in_shop(Integer.parseInt(id.substring(1)))).getName();
+                }
+                shop.command_sell(Integer.parseInt(id.substring(1)));
+                cards.remove(name);
+                addCardsToContainer(cards.values());
+                money.setText("Money : ".concat(Integer.toString(loginAccount.getMoney())));
+            });
             if (cardOrItem instanceof Card)
-                button.setText("Sell " + ((Card) cardOrItem).getName());
+                button.setText("Sell " + ((Card) cardOrItem).getName() + " " + ((Card) cardOrItem).getPrice() + "$");
             else if (cardOrItem instanceof Item)
-                button.setText("*Sell " + ((Item) cardOrItem).getName());
+                button.setText("*Sell " + ((Item) cardOrItem).getName() + " " + ((Item) cardOrItem).getPrice() + "$");
         }
         ImageView imageView = new ImageView();
         imageView.setFitWidth(splitPane.getPrefWidth());
@@ -215,6 +225,8 @@ public class UniversalShopController implements Initializable {
     }
 
     public void addCardsToContainer(Collection<SplitPane> source) {
+        topContainer.getChildren().remove(0, topContainer.getChildren().size());
+        bottomContainer.getChildren().remove(0, bottomContainer.getChildren().size());
         for (SplitPane s : source) {
             String id = s.getItems().get(1).getId();
             if (id.contains("m") || id.contains("h")) {
@@ -241,7 +253,7 @@ public class UniversalShopController implements Initializable {
                 id = "h";
             else if (card instanceof Minion)
                 id = "m";
-            id = id.concat(card.getCardId());
+            id = id.concat(Integer.toString(card.getCode()));
             addNewCard(id, false);
         }
         copyCardsInSearchSource();
