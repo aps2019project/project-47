@@ -1,6 +1,7 @@
 package controllers.graphical;
 
 import controllers.console.AccountMenu;
+import controllers.console.BattleMenu;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -22,13 +23,16 @@ public class MainMenuController implements Initializable {
     public ImageView playBullet;
     public ImageView collectionPlay;
     public ImageView customCard;
+    public ImageView exitImage;
+    public Label lbl_exit;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
     }
 
     public void goToPlayMenu() {
-
+        Main.getStage().getScene().setRoot(BattleMenu.getRoot());
     }
 
     public void goToCollectionMenu() throws IOException {
@@ -49,5 +53,9 @@ public class MainMenuController implements Initializable {
     }
 
     public void goToCustomCardMenu(MouseEvent mouseEvent) {
+    }
+
+    public void exit(MouseEvent mouseEvent) {
+        System.exit(0);
     }
 }

@@ -5,15 +5,16 @@ import models.cards.hero.HeroSpecialItemPack;
 
 import java.util.ArrayList;
 
-public class SpecialItem implements Cloneable{
+public class SpecialItem implements Cloneable {
     private ArrayList<Effect> onDeath;
     private ArrayList<Effect> onAttack;
     private ArrayList<Effect> onDefend;
     private ArrayList<Effect> onSpawn;
     private ArrayList<Effect> passive;
     private boolean combo;
-    private ArrayList<Effect> coolDown;
     private SpecialOption option;
+    //hero
+    private ArrayList<Effect> coolDown;
     private HeroSpecialItemPack heroPack;
 
     public SpecialItem(ArrayList<Effect> onDeath, ArrayList<Effect> onAttack, ArrayList<Effect> onDefend,
@@ -31,34 +32,39 @@ public class SpecialItem implements Cloneable{
     }
 
     public SpecialItem(SpecialOption option) {
-        onAttack=new ArrayList<>();
-        onDeath=new ArrayList<>();
-        onDefend=new ArrayList<>();
-        onSpawn=new ArrayList<>();
-        passive=new ArrayList<>();
-        coolDown=new ArrayList<>();
-        combo=false;
-        this.option=option;
-        this.heroPack=null;
+        onAttack = new ArrayList<>();
+        onDeath = new ArrayList<>();
+        onDefend = new ArrayList<>();
+        onSpawn = new ArrayList<>();
+        passive = new ArrayList<>();
+        coolDown = new ArrayList<>();
+        combo = false;
+        this.option = option;
+        this.heroPack = null;
     }
 
 
-    public void addCoolDown(Effect effect){
+    public void addCoolDown(Effect effect) {
         coolDown.add(effect);
     }
-    public void addDefend(Effect effect){
+
+    public void addDefend(Effect effect) {
         onDefend.add(effect);
     }
-    public void addDeath(Effect effect){
+
+    public void addDeath(Effect effect) {
         onDeath.add(effect);
     }
-    public void addSpawn(Effect effect){
+
+    public void addSpawn(Effect effect) {
         onSpawn.add(effect);
     }
-    public void addPassive(Effect effect){
+
+    public void addPassive(Effect effect) {
         passive.add(effect);
     }
-    public void addAttack(Effect effect){
+
+    public void addAttack(Effect effect) {
         onAttack.add(effect);
     }
 
@@ -109,12 +115,12 @@ public class SpecialItem implements Cloneable{
     @Override
     public SpecialItem clone() throws CloneNotSupportedException {
         HeroSpecialItemPack clonePack;
-        if (heroPack==null){
-            clonePack=null;
-        }else {
-            clonePack=heroPack.clone();
+        if (heroPack == null) {
+            clonePack = null;
+        } else {
+            clonePack = heroPack.clone();
         }
-        return new SpecialItem(onDeath,onAttack,onDefend,onSpawn,passive,combo,coolDown,option,clonePack);
+        return new SpecialItem(onDeath, onAttack, onDefend, onSpawn, passive, combo, coolDown, option, clonePack);
     }
 }
 

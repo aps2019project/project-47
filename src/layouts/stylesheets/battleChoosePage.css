@@ -1,4 +1,4 @@
-.mainPage{
+.underBackGround{
     -fx-background-image: url("/resources/backgrounds/foreground.png");
     -fx-background-repeat: stretch;
     -fx-background-size: 1920 1080;
@@ -102,4 +102,13 @@
     -fx-text-alignment: center;
     -fx-text-fill: red;
     -fx-font-size: 24px;
+}
+
+.backButton {
+    -fx-pref-width: 200;
+    -fx-max-width: 100;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8;
+    -fx-background-color: #d73521;
+    -fx-font-size: 20px;
 }
