@@ -23,26 +23,27 @@ public class BattleController extends MyController implements Initializable {
         buildGrid();
 
     }
-    public void buildGrid(){
+
+    public void buildGrid() {
         int width = Board.width;
         int height = Board.length;
 
-        for (int i=0;i<width;i++){
-            for (int j = 0; j <height ; j++) {
-                Label label=new Label(i+","+j);
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                Label label = new Label(i + "," + j);
                 label.setStyle("-fx-background-color: red;" +
                         "-fx-font-size: 30;" +
                         "-fx-fill: white;" +
                         "-fx-pref-height: 50;" +
                         "-fx-pref-width: 50");
-                label.setPrefSize(100,100);
-                cells.add(label,i,j);
+                label.setPrefSize(100, 100);
+                cells.add(label, i, j);
             }
         }
 
-        cells.setHgap(20);
-        cells.setVgap(20);
-        cells.relocate(100,100);
+        cells.setHgap(25);
+        cells.setVgap(25);
+        cells.relocate(600, 250);
         cells.setStyle("-fx-background-color: green");
         cells.setStyle("-fx-min-height: 10;" +
                 "-fx-min-width: 10");

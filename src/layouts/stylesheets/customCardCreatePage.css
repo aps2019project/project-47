@@ -23,7 +23,7 @@
     -fx-background-radius: 4px;
 }
 
-.regular-textBox .cell{
+.regular-textBox .cell {
     -fx-background-color: #404040;
     -fx-text-fill: white;
 }
@@ -33,7 +33,7 @@
     -jfx-unfocus-color: #FF0000;
 }
 
-.label{
+.label {
     -fx-font-size: 17px;
     -fx-font-weight: bold;
 }

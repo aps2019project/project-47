@@ -22,8 +22,9 @@
                                onAction="#addEffect"/>
                 </HBox>
                 <HBox spacing="20">
-                <JFXComboBox prefHeight="51.0" prefWidth="600" promptText="Activation Time" styleClass="regular-textBox"
-                             fx:id="activationTimeOfSpecialPower"/>
+                    <JFXComboBox prefHeight="51.0" prefWidth="600" promptText="Activation Time"
+                                 styleClass="regular-textBox"
+                                 fx:id="activationTimeOfSpecialPower"/>
                 </HBox>
                 <VBox alignment="center" maxHeight="346.0" maxWidth="400.0" spacing="20" styleClass="in-innerContainer">
                     <HBox spacing="20">
@@ -54,6 +55,8 @@
                     <JFXCheckBox prefHeight="51.0" prefWidth="500" text="All Of Theme" fx:id="allOfTheme"
                                  styleClass="regular-textBox"/>
                 </VBox>
+                <JFXButton fx:id="createSpecialPower" text="create Special Power" styleClass="regularButton"
+                           prefWidth="40" prefHeight="50" onAction="#createSpecialPower"/>
             </VBox>
         </VBox>
         <VBox alignment="center" maxHeight="346.0" maxWidth="599.0" spacing="20" styleClass="container">
@@ -68,7 +71,7 @@
                          styleClass="regular-textBox"/>
             <JFXTextField prefHeight="51.0" promptText="Range" fx:id="range" styleClass="regular-textBox"/>
             <JFXTextField prefHeight="51.0" promptText="Cost" fx:id="cost" styleClass="regular-textBox"/>
-            <JFXButton text="Create Custom Card"  styleClass="regularButton" onAction="#createCustomCard"/>
+            <JFXButton text="Create Custom Card" styleClass="regularButton" onAction="#createCustomCard"/>
         </VBox>
         <VBox alignment="center" maxHeight="346.0" maxWidth="599.0" spacing="20" styleClass="container"
               fx:id="spellBox">
