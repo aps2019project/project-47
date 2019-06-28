@@ -18,6 +18,7 @@ import models.cards.minion.Minion;
 import models.cards.spell.Spell;
 import models.deck.Deck;
 import models.item.Item;
+import views.MyPrinter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -56,16 +57,18 @@ public class Main extends Application {
         }
         stage = primaryStage;
 //        Parent root = AccountMenu.getRoot();
-//        Parent root = MainMenu.getRoot();
+        Parent root = MainMenu.getRoot();
 //        Parent root = Shop.getRoot();
 //        Parent root = BattleMenu.getRoot();
-        Parent root = Board.getRoot();
+//        Parent root = Board.getRoot();
 //        Parent root = FXMLLoader.load(getClass().getResource("../layouts/customCardCreatePage.fxml"));
+//        Parent root = FXMLLoader.load(getClass().getResource("../layouts/Collection.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setFullScreen(true);
         stage.setMaximized(true);
         stage.show();
+        System.out.println("\u001B[1000m"+""+"\u001B[1000m");//resetting color
         Image img = new Image("/resources/buttons/cursor.png");
         ImageCursor cursor = new ImageCursor(img, 0, 0);
         stage.getScene().setCursor(cursor);
