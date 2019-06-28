@@ -4,16 +4,20 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+import controllers.console.MainMenu;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import layouts.AlertHelper;
 import models.cards.Card;
 import models.cards.buff.Buff;
 import models.cards.buff.BuffType;
-import models.cards.minion.MinionType;
-import models.cards.minion.SpecialItem;
+import models.cards.minion.*;
+import models.cards.spell.TargetForm;
 import models.cards.spell.effect.Effect;
+import runners.Main;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -45,7 +49,6 @@ public class CustomCardCreateFormController implements Initializable {
     public JFXComboBox<String> minionType;
     public JFXComboBox<String> forceType;
     public JFXButton addEffectSpell;
-    public JFXComboBox<String> activationTimeOfSpecialPowerSpell;
     public JFXButton addBuffSpell;
     public JFXTextField powerSpell;
     public JFXTextField delaySpell;
@@ -61,19 +64,18 @@ public class CustomCardCreateFormController implements Initializable {
     public JFXCheckBox allOfThemeSpell;
     public JFXCheckBox allOfTheme;
     public JFXButton createSpecialPower;
-    public ArrayList<Effect> effects = new ArrayList<>();
     public ArrayList<Effect> spellEffects = new ArrayList<>();
     public ArrayList<Buff> buffs = new ArrayList<>();
     public ArrayList<Buff> spellBuffs = new ArrayList<>();
     public Card card;
     public SpecialItem specialItem = new SpecialItem(null);
+    public SelectionCellPack selectionCellPack = null;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         typeOfCard.getItems().addAll("Minion", "Hero", "Spell");
         typeOfAttackType.getItems().addAll("Melee", "Ranged", "Hybrid");
         activationTimeOfSpecialPower.getItems().addAll("On Death", "On Attack", "On Defend", "On Spawn", "Passive");
-        activationTimeOfSpecialPowerSpell.getItems().addAll("On Death", "On Attack", "On Defend", "On Spawn", "Passive");
         buffType.getItems().addAll("Holy", "Power", "Poison", "Weakness", "Stun", "Disarm");
         buffTypeSpell.getItems().addAll("Holy", "Power", "Poison", "Weakness", "Stun", "Disarm");
         sideType.getItems().addAll("Insider", "Enemy", "Both");
@@ -95,7 +97,6 @@ public class CustomCardCreateFormController implements Initializable {
                 specialPowerBox.setVisible(true);
                 spellBox.setVisible(false);
                 titleLabelOfSpecialPowerBox.setText("Create Special Power Of Minion");
-                activationTimeOfSpecialPowerSpell.getItems().removeIf(item -> item.equals("Special Item: Cool down"));
                 activationTimeOfSpecialPower.getItems().removeIf(item -> item.equals("Special Item: Cool down"));
                 break;
             case "Hero":
@@ -105,7 +106,6 @@ public class CustomCardCreateFormController implements Initializable {
                 specialPowerBox.setVisible(true);
                 spellBox.setVisible(false);
                 activationTimeOfSpecialPower.getItems().add("Special Item: Cool down");
-                activationTimeOfSpecialPowerSpell.getItems().add("Special Item: Cool down");
                 titleLabelOfSpecialPowerBox.setText("Create Special Power Of Hero");
                 break;
             case "Spell":
@@ -114,34 +114,109 @@ public class CustomCardCreateFormController implements Initializable {
                 ap.setDisable(true);
                 spellBox.setVisible(true);
                 specialPowerBox.setVisible(false);
-                activationTimeOfSpecialPowerSpell.getItems().removeIf(item -> item.equals("Special Item: Cool down"));
                 activationTimeOfSpecialPower.getItems().removeIf(item -> item.equals("Special Item: Cool down"));
                 break;
         }
     }
 
     public void addEffect(ActionEvent actionEvent) {
-        switch (activationTimeOfSpecialPower.getSelectionModel().getSelectedItem()) {
-            case "On Death":
-
-                break;
-            case "On Attack":
-
-                break;
-            case "On Defend":
-
-                break;
-            case "On Spawn":
-
-                break;
-            case "Passive":
-
-                break;
+        try {
+            SideType sideType1 = getSideType(sideType);
+            ForceType forceType1 = getForceType(forceType);
+            MinionType minionType1 = getMinionType(minionType);
+            boolean allOfTheme1= allOfTheme.isSelected();
+            TargetForm targetForm = new TargetForm(Integer.parseInt(X0.getText()), Integer.parseInt(Y0.getText()),
+                    Integer.parseInt(X1.getText()), Integer.parseInt(Y1.getText()),
+                    sideType1, forceType1, minionType1, allOfTheme1);
+            Effect effect = new Effect(buffs, new ArrayList<>(), targetForm);
+            switch (activationTimeOfSpecialPower.getSelectionModel().getSelectedItem()) {
+                case "On Death":
+                    specialItem.addDeath(effect);
+                    break;
+                case "On Attack":
+                    specialItem.addAttack(effect);
+                    break;
+                case "On Defend":
+                    specialItem.addDefend(effect);
+                    break;
+                case "On Spawn":
+                    specialItem.addSpawn(effect);
+                    break;
+                case "Passive":
+                    specialItem.addPassive(effect);
+                    break;
+            }
+        } catch (Exception e) {
+            AlertHelper.showAlert(Alert.AlertType.ERROR, Main.getStage().getOwner(), "ERROR", e.getMessage());
         }
     }
 
-    public void addEffectSpell(ActionEvent actionEvent) {
+    public MinionType getMinionType(JFXComboBox<String> minionType) {
+        MinionType minionType1 = null;
+        switch (minionType.getSelectionModel().getSelectedItem()) {
+            case "Melee":
+                minionType1 = new MinionType(true, false, false);
+                break;
+            case "Ranged":
+                minionType1 = new MinionType(false, true, false);
+                break;
+            case "Hybrid":
+                minionType1 = new MinionType(false, false, true);
+                break;
+        }
+        return minionType1;
+    }
 
+    public SideType getSideType(JFXComboBox<String> sideType) {
+        SideType sideType1 = null;
+        switch (sideType.getSelectionModel().getSelectedItem()) {
+            case "Insider":
+                sideType1 = SideType.insider;
+                break;
+            case "Enemy":
+                sideType1 = SideType.enemy;
+                break;
+            case "Both":
+                sideType1 = SideType.both;
+                break;
+        }
+        return sideType1;
+    }
+
+    public void addEffectSpell(ActionEvent actionEvent) {
+        try {
+            SideType sideType1 = getSideType(sideTypeSpell);
+            ForceType forceType1 = getForceType(forceTypeSpell);
+            MinionType minionType1 = getMinionType(minionTypeSpell);
+            boolean allOfTheme = allOfThemeSpell.isSelected();
+            System.out.println(allOfTheme);
+            TargetForm targetForm = new TargetForm(Integer.parseInt(X0Spell.getText()), Integer.parseInt(Y0Spell.getText()),
+                    Integer.parseInt(X1Spell.getText()), Integer.parseInt(Y1Spell.getText()),
+                    sideType1, forceType1, minionType1, allOfTheme);
+            Effect effect = new Effect(spellBuffs, new ArrayList<>(), targetForm);
+            spellEffects.add(effect);
+        } catch (Exception e) {
+            AlertHelper.showAlert(Alert.AlertType.ERROR, Main.getStage().getOwner(), "ERROR", e.getMessage());
+        }
+    }
+
+    public ForceType getForceType(JFXComboBox<String> forceTypeSpell) {
+        ForceType forceType1 = null;
+        switch (forceTypeSpell.getSelectionModel().getSelectedItem()) {
+            case "Hero":
+                forceType1 = ForceType.hero;
+                break;
+            case "Minion":
+                forceType1 = ForceType.minion;
+                break;
+            case "Both":
+                forceType1 = ForceType.both;
+                break;
+            case "All Cell":
+                forceType1 = ForceType.allCell;
+                break;
+        }
+        return forceType1;
     }
 
     public void addBuff(ActionEvent actionEvent) {
@@ -184,10 +259,15 @@ public class CustomCardCreateFormController implements Initializable {
             }
             Buff buff = new Buff(delayNum, startNum, powerNum, buffType1, false);//??todo?????????????????????????
             spellBuffs.add(buff);
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            AlertHelper.showAlert(Alert.AlertType.ERROR, Main.getStage().getOwner(), "ERROR", e.getMessage());
         }
     }
 
     public void createSpecialPower(ActionEvent actionEvent) {
+    }
+
+    public void back(ActionEvent actionEvent) {
+        Main.getStage().getScene().setRoot(MainMenu.getRoot());
     }
 }

@@ -13,7 +13,7 @@ import java.util.Iterator;
 public class Minion extends Card implements Cloneable {
     private final int maxMove;
 
-    private CardType cardType;
+
     private int Ap;
     private int Hp;
     private Location location;

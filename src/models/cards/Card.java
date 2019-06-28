@@ -3,7 +3,7 @@ package models.cards;
 public class Card implements Cloneable {
     private GraphicPack graphicPack;
     public int code; //number of card in the dock of phase1.
-    private CardType cardType;
+    public CardType cardType;
     private String name;
     private String cardId;
     private int mana;
