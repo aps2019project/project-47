@@ -91,8 +91,9 @@ public class CollectionController implements Initializable {
     void ShowMyDecks(ActionEvent event) {
         topContainer.getChildren().remove(0, topContainer.getChildren().size());
         for (Deck deck : decks) {
-            SplitPane deckCard = createCard("Show Deck", deck.getName(), new Image(deck.getHero().getGraphicPack().getShopPhotoAddress()),
+            SplitPane deckCard = createCard("Show and select", deck.getName(), new Image(deck.getHero().getGraphicPack().getShopPhotoAddress()),
                     event1 -> {
+                        loginAccount.setMainDeck(deck);
                         bottomContainer.getChildren().remove(0, bottomContainer.getChildren().size());
                         String name = ((Button) event1.getSource()).getId();
                         ArrayList<Card> cards = deck.getCards();

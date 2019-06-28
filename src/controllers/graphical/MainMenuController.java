@@ -1,14 +1,22 @@
 package controllers.graphical;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import controllers.console.AccountMenu;
 import controllers.console.BattleMenu;
+import defentions.Defentions;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import models.Account;
 import models.Shop;
+import models.cards.hero.Hero;
+import models.cards.minion.Minion;
+import models.cards.spell.Spell;
+import models.item.Item;
 import runners.Main;
 
 import java.io.IOException;
@@ -27,10 +35,15 @@ public class MainMenuController implements Initializable {
     public Label lbl_exit;
     public ImageView saveAccount;
     public Label saveAccountLabel;
+    public Account loginAccount = AccountMenu.getLoginAccount();
+
+    public static GsonBuilder gsonBuilder;
+    public static Gson gson;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
     }
 
     public void goToPlayMenu() {
@@ -63,5 +76,11 @@ public class MainMenuController implements Initializable {
     }
 
     public void saveAccount(MouseEvent mouseEvent) {
+        gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        gson = gsonBuilder.create();
+        Hero hero = Defentions.defineHero().get(1);
+        String json = gson.toJson(hero);
+        System.out.println(json);
     }
 }
