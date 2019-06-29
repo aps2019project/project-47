@@ -83,7 +83,7 @@ public class MainMenuController implements Initializable {
         gson = gsonBuilder.create();
         String json = gson.toJson(loginAccount);
         try {
-            Formatter formatter = new Formatter("/JSONs/Accounts" + loginAccount.getUserName() + ".json");
+            Formatter formatter = new Formatter("src/JSONs/Accounts/" + loginAccount.getUserName() + ".json");
             formatter.format(json);
             formatter.flush();
             formatter.close();

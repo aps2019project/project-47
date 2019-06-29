@@ -61,8 +61,8 @@ public class Main extends Application {
 //        Parent root = MainMenu.getRoot();
 //        Parent root = Shop.getRoot();
 //        Parent root = BattleMenu.getRoot();
-        Parent root = Board.getRoot();
-//        Parent root = FXMLLoader.load(getClass().getResource("../layouts/customCardCreatePage.fxml"));
+//        Parent root = Board.getRoot();
+        Parent root = FXMLLoader.load(getClass().getResource("../layouts/customCardCreatePage.fxml"));
 //        Parent root = FXMLLoader.load(getClass().getResource("../layouts/Collection.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
