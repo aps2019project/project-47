@@ -9,13 +9,16 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import models.battle.Battle;
+import models.battle.Hand;
 import models.battle.board.Board;
 import models.cards.minion.Minion;
 
 import java.io.File;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class BattleController extends MyController implements Initializable {
@@ -26,6 +29,8 @@ public class BattleController extends MyController implements Initializable {
     private Board board;
     private Battle battle;
     private Label[][] cells;
+    private HashMap<String,ImageView> imageViewOfCards;
+    private CardScene[] cardScenes;
 
 
     public Parent getRoot() {
@@ -55,7 +60,7 @@ public class BattleController extends MyController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         buildGrid();
-
+        creatHandScene();
 
     }
 
@@ -153,7 +158,106 @@ public class BattleController extends MyController implements Initializable {
             return;
         }
         Minion selectedMinion = battle.getPlayers()[0].getSelectedMinion();
-        
 
+
+    }
+    private void creatHandScene(){
+        int x=500;
+        int y=800;
+        int width=500;
+        int height=200;
+        Double multipleOfResizing_cardScene = 0.1;
+
+
+        Pane parent=new Pane();
+        parent.relocate(x,y);
+        parent.setPrefSize(width,height);
+
+        HBox hBox=new HBox();
+        hBox.setSpacing(30);
+        cardScenes=new CardScene[Hand.number_of_cards];
+
+        for (int i = 0; i < Hand.number_of_cards; i++) {
+            ImageView imageView=new ImageView(new File("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_idle.gif").toURI().toString());
+            cardScenes[i]=new CardScene();
+            cardScenes[i].setCardImageView(imageView);
+            hBox.getChildren().add(cardScenes[i].pane);
+        }
+
+        parent.getChildren().add(hBox);
+
+
+        anchorPane.getChildren().add(parent);
+
+    }
+
+    private class CardScene {
+        Pane pane;
+        public ImageView[] rings;
+        public ImageView cardImageView;
+        public ImageView mana_view;
+        private int ring_width=200;
+        private int ring_height=200;
+
+        public CardScene() {
+
+
+            pane=new Pane();
+            pane.getStylesheets().add("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\layouts\\stylesheets\\battlePlane.css");
+
+            pane.setPrefSize(ring_width,ring_height);
+            pane.setOnMouseEntered(event -> {
+                higher();
+            });
+            pane.setOnMouseExited(event -> {
+                lower();
+            });
+
+            rings=new ImageView[2];
+            Image ring=new Image(new File("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\inBattle\\cardSceneInserting\\glow_ring.png").toURI().toString());
+
+            rings[0]=new ImageView(ring);
+            rings[0].setFitHeight(ring_height);
+            rings[0].setFitWidth(ring_width);
+            rings[0].relocate(0,0);
+
+            rings[1]=new ImageView(ring);
+            rings[1].setFitHeight(ring_height);
+            rings[1].setFitWidth(ring_width);
+            rings[1].relocate(0,0);
+            rings[1].setRotate(180);
+
+            Image mana_icon=new Image(new File("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\inBattle\\cardSceneInserting\\icon_mana.png").toURI().toString());
+            mana_view=new ImageView(mana_icon);
+            mana_view.relocate(ring_width/2.8,ring_height/1.3);
+
+            pane.getChildren().addAll(rings);
+            pane.getChildren().add(mana_view);
+
+        }
+
+        public void setCardImageView(ImageView cardImageView) {
+
+            this.cardImageView = cardImageView;
+            cardImageView.relocate(5,-20);
+            cardImageView.setFitWidth(ring_width);
+            cardImageView.setFitHeight(ring_height);
+            pane.getChildren().add(cardImageView);
+        }
+        public void ring_rotate(int degree){
+            rings[0].setRotate(degree);
+            rings[1].setRotate(degree+180);
+        }
+        private void higher(){
+            ring_rotate(60);
+
+        }
+        private void lower(){
+            ring_rotate(0);
+
+        }
+        private void click(){
+            
+        }
     }
 }

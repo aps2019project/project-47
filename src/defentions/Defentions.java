@@ -1035,6 +1035,7 @@ public class Defentions {
             card.getGraphicPack().setAttackPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_attack.gif");
             card.getGraphicPack().setBreathingPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_breathing.gif");
             card.getGraphicPack().setDeathPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_death.gif");
+            card.getGraphicPack().setIdlePhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_idle.gif");
         }
         return cards;
     }
