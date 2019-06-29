@@ -5,16 +5,21 @@ import controllers.console.AccountMenu;
 import controllers.console.Constants;
 import controllers.console.MainMenu;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Orientation;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseDragEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import models.Account;
 import models.Shop;
+import models.battle.board.Board;
 import models.cards.Card;
 import models.cards.hero.Hero;
 import models.cards.minion.Minion;
@@ -91,6 +96,11 @@ public class UniversalShopController implements Initializable {
     @FXML
     private Label money;
 
+    @FXML
+    private VBox infoBox;
+
+    @FXML
+    private JFXButton backButton;
     @FXML
     void setMyCollectionMenu(ActionEvent event) {
         gotoMyCollection();
@@ -170,10 +180,11 @@ public class UniversalShopController implements Initializable {
         button.setId(id);
         button.setPrefWidth(splitPane.getPrefWidth());
         button.setPrefHeight(0.18 * splitPane.getPrefHeight());
+
         Object cardOrItem = shop.find_in_shop(Integer.parseInt(id.substring(1)));
         if (buyOrSell) {
 
-            button.setOnAction(event -> {
+            button.setOnMouseClicked(event -> {
                 Constants resultCode = shop.command_buy(Integer.parseInt(id.substring(1)));
                 if (resultCode == Constants.SUCCESSFUL_BUY) {//todo complete conditions
                 } else if (resultCode == Constants.NOT_ENOUGH_MONEY) {
@@ -185,15 +196,15 @@ public class UniversalShopController implements Initializable {
             if (cardOrItem instanceof Card)
                 button.setText("Buy " + ((Card) cardOrItem).getName() + " " + ((Card) cardOrItem).getPrice() + "$");
             else if (cardOrItem instanceof Item)
-                button.setText("*Buy " + ((Item) cardOrItem).getName() + " " + ((Item) cardOrItem).getPrice() + "$");
+                button.setText("Buy " + ((Item) cardOrItem).getName() + " " + ((Item) cardOrItem).getPrice() + "$");
         } else {
-            button.setOnAction(event -> {
+            button.setOnMouseClicked(event -> {
                 String name = "";
-                if(id.contains("m") || id.contains("h") || id.contains("s")) {
-                    name = ((Card)shop.find_in_shop(Integer.parseInt(id.substring(1)))).getName();
+                if (id.contains("m") || id.contains("h") || id.contains("s")) {
+                    name = ((Card) shop.find_in_shop(Integer.parseInt(id.substring(1)))).getName();
                 }
-                if(id.contains("i")){
-                    name = ((Item)shop.find_in_shop(Integer.parseInt(id.substring(1)))).getName();
+                if (id.contains("i")) {
+                    name = ((Item) shop.find_in_shop(Integer.parseInt(id.substring(1)))).getName();
                 }
                 shop.command_sell(Integer.parseInt(id.substring(1)));
                 cards.remove(name);
@@ -208,12 +219,21 @@ public class UniversalShopController implements Initializable {
         ImageView imageView = new ImageView();
         imageView.setFitWidth(splitPane.getPrefWidth());
         Image image = null;
-        if (cardOrItem instanceof Item){
+        if (cardOrItem instanceof Item) {
             image = new Image("/resources/cards/general_portrait_image_hex_rook.png");
-        } else if (cardOrItem instanceof Card){
+        } else if (cardOrItem instanceof Card) {
             image = new Image(((Card) cardOrItem).getGraphicPack().getShopPhotoAddress());
         }
         imageView.setImage(image);
+        imageView.setOnMouseClicked(event -> {
+            CollectionController.removeInfos(infoBox);
+            if(cardOrItem instanceof Card){
+                CollectionController.addInfoOfCard((Card)cardOrItem, infoBox);
+            }
+            else if(cardOrItem instanceof Item){
+                CollectionController.addItemInfo((Item)cardOrItem, infoBox);
+            }
+        });
         imageView.setFitHeight(0.82 * splitPane.getPrefHeight());
         splitPane.getItems().add(0, imageView);
         splitPane.getItems().add(1, button);
@@ -256,6 +276,10 @@ public class UniversalShopController implements Initializable {
             id = id.concat(Integer.toString(card.getCode()));
             addNewCard(id, false);
         }
+        for(Item item : accountItems){
+            String id = "i".concat(Integer.toString(item.getCode()));
+            addNewCard(id, false);
+        }
         copyCardsInSearchSource();
     }
 
@@ -264,8 +288,9 @@ public class UniversalShopController implements Initializable {
             forSearchCards.put(string, cards.get(string));
         }
     }
-
+    @FXML
     public void backButtonAction(ActionEvent actionEvent) throws IOException {
+
         Main.getStage().getScene().setRoot(MainMenu.getRoot());
     }
 }

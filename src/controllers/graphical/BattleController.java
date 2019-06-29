@@ -4,7 +4,10 @@ import controllers.MyController;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.effect.PerspectiveTransform;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import models.battle.Battle;
 import models.battle.board.Board;
 
@@ -12,7 +15,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class BattleController extends MyController implements Initializable {
-    public GridPane cellGrid;
+    public AnchorPane anchorPane;
+    private GridPane cellGrid;
+    public Pane cellsPane;
     private Parent root;
     private Board board;
     private Battle battle;
@@ -42,6 +47,9 @@ public class BattleController extends MyController implements Initializable {
     }
 
     public void buildGrid(){
+
+        GridPane cellGrid=new GridPane();
+
         int width = Board.width;
         int height = Board.length;
         int boardWidth=800;
@@ -73,5 +81,30 @@ public class BattleController extends MyController implements Initializable {
         cellGrid.setStyle("-fx-background-color: green");
         cellGrid.setStyle("-fx-min-height: 10;" +
                 "-fx-min-width: 10");
+
+
+
+        Pane perspectivePane = new Pane();
+        perspectivePane.setStyle("-fx-background-color: black");
+        perspectivePane.getChildren().addAll(cellGrid);
+
+        perspectiveGrid(perspectivePane);
+        anchorPane.getChildren().add(perspectivePane);
+
+    }
+    public void perspectiveGrid(Pane perspectivePane){
+        PerspectiveTransform pt = new PerspectiveTransform();
+
+        pt.setUlx(550);
+        pt.setUly(240);
+        pt.setUrx(1350);
+        pt.setUry(240);
+        pt.setLrx(1420);
+        pt.setLry(670);
+        pt.setLlx(480);
+        pt.setLly(700);
+
+        perspectivePane.setEffect(pt);
+
     }
 }
