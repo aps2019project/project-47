@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import controllers.console.AccountMenu;
 import controllers.console.BattleMenu;
-import defentions.Defentions;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
@@ -13,13 +12,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import models.Account;
 import models.Shop;
-import models.cards.hero.Hero;
-import models.cards.minion.Minion;
-import models.cards.spell.Spell;
-import models.item.Item;
 import runners.Main;
 
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Formatter;
@@ -78,12 +74,15 @@ public class MainMenuController implements Initializable {
     }
 
     public void saveAccount(MouseEvent mouseEvent) {
+        if(loginAccount == null)
+            return;
         gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
         gson = gsonBuilder.create();
         String json = gson.toJson(loginAccount);
         try {
-            Formatter formatter = new Formatter("/JSONs/Accounts" + loginAccount.getUserName() + ".json");
+            FileOutputStream out = new FileOutputStream("/JSONs/Accounts/Empty.txt/");
+            Formatter formatter = new Formatter(out);
             formatter.format(json);
             formatter.flush();
             formatter.close();

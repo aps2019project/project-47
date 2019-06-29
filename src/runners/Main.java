@@ -1,5 +1,7 @@
 package runners;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import controllers.console.AccountMenu;
 import controllers.console.MainMenu;
 import defentions.Defentions;
@@ -20,8 +22,12 @@ import models.deck.Deck;
 import models.item.Item;
 import views.MyPrinter;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Formatter;
 
 public class Main extends Application {
 
@@ -74,7 +80,18 @@ public class Main extends Application {
         stage.getScene().setCursor(cursor);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        String string = new String("kasra was here");
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.setPrettyPrinting();
+        Gson gson = gsonBuilder.create();
+        String json = gson.toJson(string);
+        OutputStream outputStream = new FileOutputStream("/kasra.json");
+        Formatter formatter = new Formatter(outputStream);
+        formatter.format(json);
+        formatter.flush();
+        formatter.close();
+        outputStream.close();
         launch(args);
     }
 }

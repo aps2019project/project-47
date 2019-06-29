@@ -186,4 +186,12 @@ public class Account implements Cloneable {
     public ArrayList<Deck> getDecks() {
         return decks;
     }
+
+    public boolean hasDeck(Deck deck){
+        for (Deck deck1 : decks){
+            if (deck.getName().equals(deck1.getName()))
+                return true;
+        }
+        return false;
+    }
 }

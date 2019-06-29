@@ -43,6 +43,16 @@
                   </Label>
                </children>
             </VBox>
+            <Button fx:id="importDeckButton" layoutX="14.0" layoutY="348.0" mnemonicParsing="false" onAction="#showImportableDecks" prefHeight="50.0" prefWidth="269.0" style="-fx-font-weight: 900; -fx-background-radius: 60;" text="Import Deck" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="285.0" AnchorPane.topAnchor="380.0">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Button>
+            <Button fx:id="exportDeckButton" layoutX="288.0" layoutY="348.0" mnemonicParsing="false" onAction="#showDecksForExport" prefHeight="50.0" prefWidth="269.0" style="-fx-font-weight: 900; -fx-background-radius: 60;" text="Export Deck" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="380.0">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Button>
          </children></AnchorPane>
       <SplitPane fx:id="container" dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
         <items>
