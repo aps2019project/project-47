@@ -56,11 +56,12 @@ public class Main extends Application {
             shop.command_buy(i);
         }
         stage = primaryStage;
+
 //        Parent root = AccountMenu.getRoot();
-        Parent root = MainMenu.getRoot();
+//        Parent root = MainMenu.getRoot();
 //        Parent root = Shop.getRoot();
 //        Parent root = BattleMenu.getRoot();
-//        Parent root = Board.getRoot();
+        Parent root = Board.getRoot();
 //        Parent root = FXMLLoader.load(getClass().getResource("../layouts/customCardCreatePage.fxml"));
 //        Parent root = FXMLLoader.load(getClass().getResource("../layouts/Collection.fxml"));
         Scene scene = new Scene(root);
