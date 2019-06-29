@@ -19,8 +19,10 @@ import models.cards.spell.Spell;
 import models.item.Item;
 import runners.Main;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Formatter;
 import java.util.ResourceBundle;
 
 public class MainMenuController implements Initializable {
@@ -79,8 +81,15 @@ public class MainMenuController implements Initializable {
         gsonBuilder = new GsonBuilder();
         gsonBuilder.setPrettyPrinting();
         gson = gsonBuilder.create();
-        Hero hero = Defentions.defineHero().get(1);
-        String json = gson.toJson(hero);
-        System.out.println(json);
+        String json = gson.toJson(loginAccount);
+        try {
+            Formatter formatter = new Formatter("/JSONs/Accounts" + loginAccount.getUserName() + ".json");
+            formatter.format(json);
+            formatter.flush();
+            formatter.close();
+        }
+        catch (FileNotFoundException e){
+            e.printStackTrace();
+        }
     }
 }

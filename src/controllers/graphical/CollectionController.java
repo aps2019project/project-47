@@ -8,18 +8,24 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.SplitPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import models.Account;
 import models.cards.Card;
+import models.cards.buff.Buff;
+import models.cards.hero.Hero;
+import models.cards.minion.Minion;
+import models.cards.spell.Spell;
+import models.cards.spell.effect.Effect;
 import models.deck.Deck;
 import models.item.Item;
 import runners.Main;
@@ -27,6 +33,7 @@ import runners.Main;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -81,8 +88,11 @@ public class CollectionController implements Initializable {
     private Button backButton;
 
     @FXML
+    private VBox infoBox;
+
+    @FXML
     void back(ActionEvent event) throws IOException {
-        Parent root  = FXMLLoader.load(getClass().getResource("/layouts/mainMenu.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/layouts/mainMenu.fxml"));
         Main.getStage().getScene().setRoot(root);
         //Main.getStage().getScene().setRoot(AccountMenu.getRoot());
     }
@@ -93,13 +103,15 @@ public class CollectionController implements Initializable {
         for (Deck deck : decks) {
             SplitPane deckCard = createCard("Show and select", deck.getName(), new Image(deck.getHero().getGraphicPack().getShopPhotoAddress()),
                     event1 -> {
+                        removeInfos(infoBox);
                         loginAccount.setMainDeck(deck);
                         bottomContainer.getChildren().remove(0, bottomContainer.getChildren().size());
                         String name = ((Button) event1.getSource()).getId();
                         ArrayList<Card> cards = deck.getCards();
                         for (Card card : cards) {
                             SplitPane splitPane = createCard("Show info of ", card.getName(), new Image(card.getGraphicPack().getShopPhotoAddress()), event2 -> {
-                                //todo write on click for this
+                                removeInfos(infoBox);
+                                addInfoOfCard(card, infoBox);
                             });
                             bottomContainer.getChildren().add(splitPane);
                         }
@@ -107,13 +119,26 @@ public class CollectionController implements Initializable {
                         SplitPane splitPane = null;
                         if (item != null)
                             splitPane = createCard("Show info of", item.getName(), new Image("/resources/cards/general_portrait_image_hex_rook.png"), event22 -> {
-                                //todo write on click for this
+                                removeInfos(infoBox);
+                                addItemInfo(item, infoBox);
                             });
                         if (splitPane != null)
                             bottomContainer.getChildren().add(splitPane);
                     });
             topContainer.getChildren().add(deckCard);
         }
+    }
+
+    public static void addItemInfo(Item item, VBox infoBox) {
+        addInfo(infoBox, "name", item.getName());
+        addInfo(infoBox, "price", Integer.toString(item.getPrice()));
+        String effect = "";
+        for (Effect effect1 : item.getEffects()) {
+            for (Buff buff : effect1.getBuffs()) {
+                effect.concat(String.valueOf(buff.getType()).replaceAll("_", " ")).concat("  ");
+            }
+        }
+        addInfo(infoBox, "effects", effect);
     }
 
     @FXML
@@ -130,6 +155,16 @@ public class CollectionController implements Initializable {
             }
         }
         Deck deck = new Deck(nameOfDeck);
+        final Integer[] numberOfHeroes = {0};
+        final Integer[] numberOfMinions = {0};
+        final Integer[] numberOfSpells = {0};
+        String stateOfItem = "none";
+        String Heroes = addInfo(infoBox, "Heroes", Integer.toString(0));
+        String Minions = addInfo(infoBox, "Minions", Integer.toString(0));
+        String Spells = addInfo(infoBox, "Spells", Integer.toString(0));
+        String itemSelected = addInfo(infoBox, "Item", "none");
+        topContainer.getChildren().remove(0, topContainer.getChildren().size());
+        bottomContainer.getChildren().remove(0, bottomContainer.getChildren().size());
         for (Card card : loginAccount.getCards()) {
             SplitPane splitPane = createCard("select ", card.getName(), new Image(card.getGraphicPack().getShopPhotoAddress()), event12 -> {
                 for (Card card1 : deck.getCards()) {
@@ -139,9 +174,27 @@ public class CollectionController implements Initializable {
                     }
                 }
                 deck.addCard(card);
+                if (card instanceof Hero)
+                    changeValueOfInfo(infoBox, Heroes, (++numberOfHeroes[0]).toString());
+
+                else if (card instanceof Minion)
+                    changeValueOfInfo(infoBox, Minions, (++numberOfMinions[0]).toString());
+
+                else if (card instanceof Spell)
+                    changeValueOfInfo(infoBox, Spells, (++numberOfSpells[0]).toString());
+
                 SplitPane addedCard = new SplitPane();
                 addedCard = createCard("delete ", card.getName(), new Image(card.getGraphicPack().getShopPhotoAddress()), event121 -> {
                     deck.remove(card.getName());
+                    if (card instanceof Spell)
+                        changeValueOfInfo(infoBox, Spells, (--numberOfSpells[0]).toString());
+
+                    else if (card instanceof Hero)
+                        changeValueOfInfo(infoBox, Heroes, (--numberOfHeroes[0]).toString());
+
+                    else if (card instanceof Minion)
+                        changeValueOfInfo(infoBox, Minions, (--numberOfMinions[0]).toString());
+
                     for (int i = 0; i < bottomContainer.getChildren().size(); i++) {
                         if (bottomContainer.getChildren().get(i).getId().equals(card.getName())) {
                             bottomContainer.getChildren().remove(i);
@@ -161,8 +214,10 @@ public class CollectionController implements Initializable {
                     return;
                 }
                 deck.setItem(item);
+                changeValueOfInfo(infoBox, itemSelected, item.getName());
                 SplitPane addedCard = createCard("delete ", item.getName(), new Image("/resources/cards/general_portrait_image_hex_rook.png"), event131 -> {
                     deck.setItem(null);
+                    changeValueOfInfo(infoBox, itemSelected, "none");
                     for (int i = 0; i < bottomContainer.getChildren().size(); i++) {
                         if (bottomContainer.getChildren().get(i).getId().equals(item.getName())) {
                             bottomContainer.getChildren().remove(i);
@@ -175,6 +230,7 @@ public class CollectionController implements Initializable {
             topContainer.getChildren().add(splitPane);
         }
         Button button = new Button("finish");
+        button.setId("finishButton");
         button.setPrefHeight(60);
         button.setStyle("-fx-background-radius: 60px");
         leftBar.getChildren().add(button);
@@ -202,6 +258,7 @@ public class CollectionController implements Initializable {
                 loginAccount.addDeck(deck);
                 bottomContainer.getChildren().remove(0, bottomContainer.getChildren().size());
                 topContainer.getChildren().remove(0, topContainer.getChildren().size());
+                leftBar.getChildren().removeIf(node -> node.getId().equals("finishButtons"));
             }
         });
     }
@@ -228,5 +285,55 @@ public class CollectionController implements Initializable {
         splitPane.getItems().add(1, showDeckButton);
 
         return splitPane;
+    }
+
+    public static void removeInfos(VBox infoBox) {
+        infoBox.getChildren().remove(1, infoBox.getChildren().size());
+    }
+
+    public static String addInfo(VBox infoBox, String title, String value) {
+        Label label = new Label(title + ": " + value);
+        infoBox.getChildren().add(label);
+        label.setId(title);
+        label.setAlignment(Pos.CENTER_LEFT);
+        label.setStyle(
+                "-fx-font-weight: bold;" +
+                "-fx-font-size: 17;" +
+                "-fx-background-radius: 60px; " +
+                "-fx-background-color: #ce4534;"
+        );
+        label.setPadding(new Insets(10, 10, 10, 10));
+
+        return title;
+    }
+
+    public static void changeValueOfInfo(VBox infoBox, String id, String newValue) {
+        for (Node node : infoBox.getChildren()) {
+            if (node.getId() != null && node.getId().equals(id)) {
+                ((Label) node).setText(id + ": " + newValue);
+            }
+        }
+    }
+
+    public static void addInfoOfCard(Card card, VBox infoBox) {
+        addInfo(infoBox, "name", card.getName());
+        addInfo(infoBox, "manas required", Integer.toString(card.getMana()));
+        addInfo(infoBox, "price", Integer.toString(card.getPrice()));
+        if (card instanceof Minion) {
+            addInfo(infoBox, "Health point", Integer.toString(((Minion) card).getRealHp()));
+            addInfo(infoBox, "Attack point", Integer.toString(((Minion) card).getAp()));
+            StringBuilder range = new StringBuilder();
+            range.append(((Minion) card).getMinionTargetsType());
+            addInfo(infoBox, "type", range.toString());
+        }
+        if (card instanceof Spell) {
+            StringBuilder buffs = new StringBuilder();
+            for (Effect effect : ((Spell) card).getEffects()) {
+                for (Buff buff : effect.getBuffs()) {
+                    buffs.append(buff.getType()).append("  ");
+                }
+            }
+            addInfo(infoBox, "effects", buffs.toString().replaceAll("_", " "));
+        }
     }
 }
