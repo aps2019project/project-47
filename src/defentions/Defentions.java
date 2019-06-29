@@ -1030,6 +1030,13 @@ public class Defentions {
         cards.addAll(defineHero());
         cards.addAll(defineMinion());
         cards.addAll(defineSpell());
+        for(Card card:cards){
+            card.getGraphicPack().setMovePhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_run.gif");
+            card.getGraphicPack().setAttackPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_attack.gif");
+            card.getGraphicPack().setBreathingPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_breathing.gif");
+            card.getGraphicPack().setDeathPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_death.gif");
+            card.getGraphicPack().setIdlePhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_idle.gif");
+        }
         return cards;
     }
     public static ArrayList<Item> all_item_by_type(ItemType type){

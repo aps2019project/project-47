@@ -9,6 +9,7 @@ public class Hand {
     private ArrayList<Card> cards;
     private Card nextOne;
     private int numOfCards;
+    public static int number_of_cards=5;
 
     public Hand(ArrayList<Card> cards, Card nextOne) {
         this.cards = cards;

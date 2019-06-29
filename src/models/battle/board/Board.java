@@ -509,8 +509,36 @@ public class Board {
         if (showBoardSize == 3) return;
         showBoardSize--;
     }
+
+    public static Location getHero0() {
+        return hero0;
+    }
+
+    public static Location getHero1() {
+        return hero1;
+    }
+
+    public static Location getCenter() {
+        return center;
+    }
+
+    public static int getWidth() {
+        return width;
+    }
+
+    public static int getLength() {
+        return length;
+    }
+
+    public int getShowBoardSize() {
+        return showBoardSize;
+    }
+
+    public static Cell[][] getCells() {
+        return cells;
+    }
+
     public static Parent getRoot() {
-        if (root==null){
             FXMLLoader fxmlLoader = new FXMLLoader(MainMenu.class.getResource("../../layouts/battlePlane.fxml"));
             try {
                 root = fxmlLoader.load();
@@ -519,7 +547,6 @@ public class Board {
             }
             controller = fxmlLoader.getController();
             controller.setRoot(root);
-        }
 
         controller.update();
         return root;

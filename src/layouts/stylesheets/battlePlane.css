@@ -10,3 +10,13 @@
     -fx-font-size: 20px;
     -fx-fill:white;
 }
+.cardImageViewerHigher{
+    -fx-border-color: white;
+    -fx-border-width: 10;
+}
+.cardImageViewerLower{
+
+
+}
+
+

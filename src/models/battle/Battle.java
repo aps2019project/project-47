@@ -29,7 +29,7 @@ public class Battle {
     private static Pattern pattern;
     private static Matcher matcher;
 //test
-    private Player[] player;
+    private Player[] players;
     private int turn; //it most be zero or one.
     private Board board;
     private MatchType matchType;
@@ -38,9 +38,9 @@ public class Battle {
     private int numOfFlags;
 
     public Battle(Player player0,Player player1, MatchType matchType, int numOfFlags) {
-        this.player = new Player[2];
-        player[0]=player0;
-        player[1]=player1;
+        this.players = new Player[2];
+        players[0]=player0;
+        players[1]=player1;
         this.turn = 0;
         this.board = new Board();
         this.matchType = matchType;
@@ -78,7 +78,7 @@ public class Battle {
         }
     }
     public ArrayList<Minion> find_item_minions_target(int playerNum, Item item, Location originLocation){
-        Player player=this.player[playerNum];
+        Player player=this.players[playerNum];
         if (originLocation==null){
             ArrayList<Minion> minions=new ArrayList<>();
             if (item==null)return minions;
@@ -130,15 +130,15 @@ public class Battle {
         int winner=999;
         switch (matchType){
             case kill:{
-                checkDeath(player[0].getHero());
-                checkDeath(player[1].getHero());
-                if (player[0].getHero().isDeath())winner=1;
-                if (player[1].getHero().isDeath())winner=0;
+                checkDeath(players[0].getHero());
+                checkDeath(players[1].getHero());
+                if (players[0].getHero().isDeath())winner=1;
+                if (players[1].getHero().isDeath())winner=0;
                 break;
             }
             case keepFlag:{
-                if (player[0].getNum_of_turns_with_flags()>=keepFlagToVictory)winner=0;
-                if (player[1].getNum_of_turns_with_flags()>=keepFlagToVictory)winner=1;
+                if (players[0].getNum_of_turns_with_flags()>=keepFlagToVictory)winner=0;
+                if (players[1].getNum_of_turns_with_flags()>=keepFlagToVictory)winner=1;
                 break;
             }
             case collectFlag:{
@@ -147,17 +147,17 @@ public class Battle {
             }
         }
         if (winner==999)return false;
-        matchResult=new MatchResult(player[0].getUserName(),player[1].getUserName(),winner,age);
+        matchResult=new MatchResult(players[0].getUserName(), players[1].getUserName(),winner,age);
         return true;
     }
     private void changeTurn(){
         check_death_of_all();
-        player[turn].add_num_of_turns_with_flags(board.numOfFlagsOfPlayer(turn,false));
+        players[turn].add_num_of_turns_with_flags(board.numOfFlagsOfPlayer(turn,false));
         turn=1-turn;
         age++;
         do_passive_effects(turn);
         board.do_house_effects();
-        player[turn].all_works_of_aNewTurn();
+        players[turn].all_works_of_aNewTurn();
         board.all_works_of_aNewTurn(turn);
     }
     private boolean canMove(Minion minion, Location target,boolean printError){
@@ -234,7 +234,7 @@ public class Battle {
                     break;
                 }
                 case mana:{
-                    player[minion.getPlyNum()].addManaBuff(buff);
+                    players[minion.getPlyNum()].addManaBuff(buff);
                     break;
                 }
                 case fail_positive_buff:{
@@ -243,7 +243,7 @@ public class Battle {
                 }
                 case give_health_to_hero:{
                     int value=minion.getRealHp();
-                    player[minion.getPlyNum()].getHero().health_rise(value);
+                    players[minion.getPlyNum()].getHero().health_rise(value);
                     death(minion);
                     break;
                 }
@@ -270,9 +270,9 @@ public class Battle {
         give_effects_by_one_location(effects,minion.getPlyNum(),minion.getLocation());
         board.selectCell(minion.getLocation()).minionWent();
         minion.setLocation(null);
-        player[minion.getPlyNum()].addGraveyard(minion);
-        if (player[minion.getPlyNum()].getSelectedMinion()==minion){
-            player[minion.getPlyNum()].setSelectedMinion(null);
+        players[minion.getPlyNum()].addGraveyard(minion);
+        if (players[minion.getPlyNum()].getSelectedMinion()==minion){
+            players[minion.getPlyNum()].setSelectedMinion(null);
         }
         board.add_flags_to_aCell(minion.getFlags(),location);
     }
@@ -337,7 +337,7 @@ public class Battle {
         while (true){
             changeTurn();
             if (checkVictory())return matchResult;
-            Player player=this.player[turn];
+            Player player=this.players[turn];
 
             boolean flag=false;
 
@@ -360,7 +360,7 @@ public class Battle {
         int playerNum=player.getPlayerNum();
 
         while (true){
-            MyPrinter.green("Its turn of "+player.getUserName()+" - player number "+ (turn+1));
+            MyPrinter.green("Its turn of "+player.getUserName()+" - players number "+ (turn+1));
             String commandTxt=scanner.nextLine();
             if (commandTxt.equals("show hand") || commandTxt.equals("0")){
                 player.getHand().show();
@@ -583,7 +583,7 @@ public class Battle {
             Spell spell=(Spell)card;
             ArrayList<Effect> effects=spell.getEffects();
             give_effects_by_one_location(effects,spell.getPlyNum(),location);
-            player[spell.getPlyNum()].addGraveyard(spell);
+            players[spell.getPlyNum()].addGraveyard(spell);
         }else { //minion
             Minion minion=(Minion)card;
             board.insert(minion,location);
@@ -594,8 +594,8 @@ public class Battle {
             }
             collecting_flags_and_items_from_earth(minion,location);
         }
-        player[card.getPlyNum()].mana_use(card.getMana());
-        player[card.getPlyNum()].getHand().removeCard(card);
+        players[card.getPlyNum()].mana_use(card.getMana());
+        players[card.getPlyNum()].getHand().removeCard(card);
         card.setInserted(true);
         MyPrinter.green(card.getCardId()+" inserted in cell "+location.getX()+","+location.getY()+" successfully!");
     }
@@ -604,7 +604,7 @@ public class Battle {
             if (printError)MyPrinter.red("this card inserted in past!");
             return false;
         }
-        if (player[card.getPlyNum()].getMana()<card.getMana()){
+        if (players[card.getPlyNum()].getMana()<card.getMana()){
             if (printError)MyPrinter.red("you haven't enough mana to insert it!");
             return false;
         }
@@ -642,7 +642,7 @@ public class Battle {
             if (printError)MyPrinter.red("you must wait for "+heroPack.getReminded_coolDown()+" turns!");
             return false;
         }
-        if (heroPack.getMana()>player[hero.getPlyNum()].getMana()){
+        if (heroPack.getMana()> players[hero.getPlyNum()].getMana()){
             if (printError)MyPrinter.red("you have not enough mana to use special power!");
         }
         if (heroPack.getSelectionCellPack()!=null){
@@ -662,7 +662,7 @@ public class Battle {
        give_effects_by_one_location(effects,hero.getPlyNum(),location);
        hero.getSpecialItem().getHeroPack().cooldown_used();
         int mana=hero.getSpecialItem().getHeroPack().getMana();
-       player[hero.getPlyNum()].mana_use(mana);
+       players[hero.getPlyNum()].mana_use(mana);
        hero.setUsedSpecialItem(true);
        MyPrinter.green("specialPower of "+hero.getCardId()+ " was used successfully!");
    }
@@ -678,24 +678,24 @@ public class Battle {
         System.out.println(age+" turns was passed!");
         switch (matchType){
             case kill:{
-                MyPrinter.yellow("player 1: "+player[0].getUserName()+" ,mana : "+player[0].getMana()
-                        +" ,health : "+player[0].getHero().getRealHp());
-                MyPrinter.yellow("player 2: "+player[1].getUserName()+" ,mana : "+player[1].getMana()
-                        +" ,health : "+player[1].getHero().getRealHp());
+                MyPrinter.yellow("players 1: "+ players[0].getUserName()+" ,mana : "+ players[0].getMana()
+                        +" ,health : "+ players[0].getHero().getRealHp());
+                MyPrinter.yellow("players 2: "+ players[1].getUserName()+" ,mana : "+ players[1].getMana()
+                        +" ,health : "+ players[1].getHero().getRealHp());
                 return;
             }
             case collectFlag:{
-                MyPrinter.yellow("player 1: "+player[0].getUserName()+" ,mana :"+player[0].getMana()
+                MyPrinter.yellow("players 1: "+ players[0].getUserName()+" ,mana :"+ players[0].getMana()
                         +" ,number of flags: "+board.numOfFlagsOfPlayer(0,false));
-                MyPrinter.yellow("player 2: "+player[1].getUserName()+" ,mana :"+player[1].getMana()
+                MyPrinter.yellow("players 2: "+ players[1].getUserName()+" ,mana :"+ players[1].getMana()
                         +" ,number of flags: "+board.numOfFlagsOfPlayer(1,false));
                 break;
             }
             case keepFlag:{
-                MyPrinter.yellow("player 1: "+player[0].getUserName()+" ,mana :"+player[0].getMana()
-                        +" ,flag keeping : "+player[0].getNum_of_turns_with_flags());
-                MyPrinter.yellow("player 2: "+player[1].getUserName()+" ,mana :"+player[1].getMana()
-                        +" ,flag keeping : "+player[1].getNum_of_turns_with_flags());
+                MyPrinter.yellow("players 1: "+ players[0].getUserName()+" ,mana :"+ players[0].getMana()
+                        +" ,flag keeping : "+ players[0].getNum_of_turns_with_flags());
+                MyPrinter.yellow("players 2: "+ players[1].getUserName()+" ,mana :"+ players[1].getMana()
+                        +" ,flag keeping : "+ players[1].getNum_of_turns_with_flags());
                 break;
             }
         }
@@ -778,10 +778,10 @@ public class Battle {
         //checking special power
         if (do_works)randomSort(allLocations);
         for (Location location:allLocations){
-            if (canUseSpecialPower(player[playerNum].getHero(),location,false)){
+            if (canUseSpecialPower(players[playerNum].getHero(),location,false)){
                 if (print)MyPrinter.purple("hero can use special power in cell by location : "+location.getX()+","+location.getY());
                 if (do_works){
-                    Hero hero=player[playerNum].getHero();
+                    Hero hero= players[playerNum].getHero();
                     if (hero.isDeath())break;
                     use_special_power(hero,location);
                     if (checkVictory())return true;
@@ -792,7 +792,7 @@ public class Battle {
         //checking inserting
         if (do_works)randomSort(allLocations);
         ArrayList<Card> handCards=new ArrayList<>();
-        handCards.addAll(player[playerNum].getHand().getCards());
+        handCards.addAll(players[playerNum].getHand().getCards());
         for (Location location : allLocations) {
             for (Card card:handCards) {
                 if (canInsert(card, location, false)) {
@@ -828,4 +828,59 @@ public class Battle {
         }
     }
 
+    public int getBoundOfItems() {
+        return boundOfItems;
+    }
+
+    public static int getMaxMana() {
+        return maxMana;
+    }
+
+    public static int getManaEachTurn() {
+        return manaEachTurn;
+    }
+
+    public static int getKeepFlagToVictory() {
+        return keepFlagToVictory;
+    }
+
+    public static Scanner getScanner() {
+        return scanner;
+    }
+
+    public static Pattern getPattern() {
+        return pattern;
+    }
+
+    public static Matcher getMatcher() {
+        return matcher;
+    }
+
+    public Player[] getPlayers() {
+        return players;
+    }
+
+    public int getTurn() {
+        return turn;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public MatchType getMatchType() {
+        return matchType;
+    }
+
+    public MatchResult getMatchResult() {
+        return matchResult;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public int getNumOfFlags() {
+        return numOfFlags;
+    }
 }
