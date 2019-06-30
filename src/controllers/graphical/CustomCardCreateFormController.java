@@ -14,6 +14,7 @@ import layouts.AlertHelper;
 import models.cards.Card;
 import models.cards.buff.Buff;
 import models.cards.buff.BuffType;
+import models.cards.hero.Hero;
 import models.cards.minion.*;
 import models.cards.spell.TargetForm;
 import models.cards.spell.effect.Effect;
@@ -29,6 +30,7 @@ public class CustomCardCreateFormController implements Initializable {
     public JFXComboBox<String> typeOfCard;
     public JFXTextField hp;
     public JFXTextField ap;
+    public JFXTextField mp;
     public JFXComboBox<String> typeOfAttackType;
     public JFXTextField range;
     public JFXTextField cost;
@@ -245,7 +247,26 @@ public class CustomCardCreateFormController implements Initializable {
     }
 
     public void createCustomCard(ActionEvent actionEvent) {
+        try {
+            String cardName1 = cardName.getText();
+            int mp1 = Integer.parseInt(mp.getText());
+            int ap1 = Integer.parseInt(ap.getText());
+            int hp1 = Integer.parseInt(hp.getText());
+            MinionTargetsType minionTargetsType = null;
+            switch (typeOfCard.getSelectionModel().getSelectedItem()) {
+                case "Hero":
+                    //Hero hero = new Hero()
+                    break;
+                case "Minion":
 
+                    break;
+                case "Spell":
+
+                    break;
+            }
+        } catch (Exception e){
+            AlertHelper.showAlert(Alert.AlertType.ERROR, Main.getStage().getOwner(), "ERROR", e.getMessage());
+        }
     }
 
     public void addBuffSpell(ActionEvent actionEvent) {

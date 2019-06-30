@@ -3,6 +3,7 @@ package controllers.graphical;
 import com.jfoenix.controls.JFXButton;
 import controllers.console.AccountMenu;
 import controllers.console.Constants;
+import controllers.console.MainMenu;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -92,9 +93,7 @@ public class CollectionController implements Initializable {
 
     @FXML
     void back(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/layouts/mainMenu.fxml"));
-        Main.getStage().getScene().setRoot(root);
-        //Main.getStage().getScene().setRoot(AccountMenu.getRoot());
+        Main.getStage().getScene().setRoot(MainMenu.getRoot());
     }
 
     @FXML
@@ -298,9 +297,9 @@ public class CollectionController implements Initializable {
         label.setAlignment(Pos.CENTER_LEFT);
         label.setStyle(
                 "-fx-font-weight: bold;" +
-                "-fx-font-size: 17;" +
-                "-fx-background-radius: 60px; " +
-                "-fx-background-color: #ce4534;"
+                        "-fx-font-size: 17;" +
+                        "-fx-background-radius: 60px; " +
+                        "-fx-background-color: #ce4534;"
         );
         label.setPadding(new Insets(10, 10, 10, 10));
 
