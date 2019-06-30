@@ -7,10 +7,15 @@ import controllers.MyController;
 import controllers.console.AccountMenu;
 import controllers.console.MainMenu;
 import javafx.event.ActionEvent;
+import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import models.Account;
+import models.battle.Battle;
+import models.battle.Player;
+import models.battle.StoryGame;
+import models.battle.board.Board;
 import runners.Main;
 
 public class BattleChooseMenuController extends MyController {
@@ -35,6 +40,17 @@ public class BattleChooseMenuController extends MyController {
     }
 
     public void startStoryGame(ActionEvent event) {
+
+        System.out.println("story");
+        Account account = AccountMenu.getLoginAccount();
+        Player player0 = account.makePlayer(0);
+        StoryGame storyGame = new StoryGame();
+        Battle battle = storyGame.story(player0, account.getStoryLvl());
+        Parent root=Board.getRoot();
+        BattleController controller = (BattleController) Board.getController();
+        controller.initializeBattle(battle);
+        Main.getStage().getScene().setRoot(root);
+
 
     }
 

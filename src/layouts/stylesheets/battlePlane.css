@@ -18,5 +18,15 @@
 
 
 }
-
+.cardSceneHigher{
+    -fx-background-color: red;
+}
+.lbl_manaNumber{
+    -fx-font-size: 30;
+    -fx-font-weight: bold;
+    -fx-fill: green;
+}
+.lbl_greenCell{
+    -fx-background-color: green;
+}
 

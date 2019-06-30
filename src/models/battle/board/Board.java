@@ -34,7 +34,7 @@ public class Board {
 
     public int showBoardSize = 15;
 
-    private static Cell[][] cells;
+    private Cell[][] cells;
 
     public Board() {
         cells = new Cell[width][length];
@@ -534,9 +534,11 @@ public class Board {
         return showBoardSize;
     }
 
-    public static Cell[][] getCells() {
+    public Cell[][] getCells() {
         return cells;
     }
+
+
 
     public static Parent getRoot() {
             FXMLLoader fxmlLoader = new FXMLLoader(MainMenu.class.getResource("../../layouts/battlePlane.fxml"));
@@ -551,7 +553,7 @@ public class Board {
         controller.update();
         return root;
     }
-    public MyController getController() {
+    public static MyController getController() {
         return controller;
     }
 }
