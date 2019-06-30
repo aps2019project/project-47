@@ -1,21 +1,31 @@
 package controllers.graphical;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextField;
+import controllers.console.AccountMenu;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import models.Account;
 import runners.Main;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Objects;
+import java.util.ResourceBundle;
+import java.util.Scanner;
 
 import static controllers.console.AccountMenu.doCommand;
 import static controllers.console.Constants.*;
 
-public class LoginRegisterController {
+public class LoginRegisterController implements Initializable {
 
     public JFXTabPane mainPage;
     public JFXTextField userNameField;
@@ -26,6 +36,9 @@ public class LoginRegisterController {
     public JFXButton registerButton;
     public Label messageLabelRegister;
     public Label messageLabelLogin;
+
+    public static GsonBuilder gsonBuilder;
+    public static Gson gson;
 
     public void loginButtonAction() throws IOException {
         if (checkFreeBoxes(userNameField, passwordField, messageLabelLogin)) return;
@@ -122,5 +135,25 @@ public class LoginRegisterController {
     public void typeOnNewPasswordField() {
         newPasswordField.getStyleClass().removeIf(style -> style.equals("wrong"));
         messageLabelRegister.setText("");
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        gsonBuilder = new GsonBuilder();
+        gson = gsonBuilder.create();
+        File file = new File("src/JSONs/Accounts/");
+        for (File file1 : file.listFiles()){
+            if (file1.getName().contains(".json")){
+                String json = "";
+                try {
+                    Scanner scanner = new Scanner(file1);
+                    json = scanner.nextLine();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                Account account = gson.fromJson(json, Account.class);
+                AccountMenu.addAccount(account);
+            }
+        }
     }
 }

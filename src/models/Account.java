@@ -24,7 +24,7 @@ public class Account implements Cloneable {
 
     public Account(String userName, String password) {
         this.userName = new String(userName);
-        this.money = 1500000;
+        this.money = 300_000;
         storyLvl=1;
         this.matchHistory = new ArrayList<MatchResult>();
         cards = new ArrayList<>();

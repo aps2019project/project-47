@@ -31,8 +31,7 @@ import java.util.Formatter;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
-public class MainMenuController implements Initializable {
-
+public class MainMenuController {
     public Label customCardLabel;
     public Label playLabel;
     public Label collectionLabel;
@@ -48,27 +47,6 @@ public class MainMenuController implements Initializable {
     public static GsonBuilder gsonBuilder;
     public static Gson gson;
 
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        gsonBuilder = new GsonBuilder();
-        gson = gsonBuilder.create();
-        File file = new File("src/JSONs/Accounts/");
-        for (File file1 : file.listFiles()){
-            if (file1.getName().contains(".json")){
-                String json = "";
-                try {
-                    Scanner scanner = new Scanner(file1);
-                    json = scanner.nextLine();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                Account account = gson.fromJson(json, Account.class);
-                AccountMenu.addAccount(account);
-            }
-        }
-
-    }
 
     public void goToPlayMenu() {
         Main.getStage().getScene().setRoot(BattleMenu.getRoot());
