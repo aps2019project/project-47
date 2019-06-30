@@ -29,4 +29,31 @@
 .lbl_greenCell{
     -fx-background-color: green;
 }
+.lbl_yellowCell{
+    -fx-background-color: yellow;
+}
+.lbl_redCell{
+    -fx-background-color: red;
+}
+.lbl_normalCell{
+    -fx-background-color: white;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-border-color: yellow;
+    -fx-opacity: 0.4;
+}
+.lbl_higherCell{
+    -fx-border-width: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: yellow;
+}
+.lbl_lowerCell {
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-border-color: yellow;
+}
+.lbl_upperLabel{
+    -fx-opacity: 0;
+}
+
 

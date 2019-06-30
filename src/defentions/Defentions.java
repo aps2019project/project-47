@@ -269,6 +269,14 @@ public class Defentions {
             spellCards.add(spell);
         }//20
         spellCards.addAll(customSpells);
+
+        for (Card card : spellCards) {
+            card.getGraphicPack().setMovePhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_run.gif");
+            card.getGraphicPack().setAttackPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_attack.gif");
+            card.getGraphicPack().setBreathingPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_breathing.gif");
+            card.getGraphicPack().setDeathPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_death.gif");
+            card.getGraphicPack().setIdlePhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_idle.gif");
+        }
         return spellCards;
     }
 
@@ -393,6 +401,14 @@ public class Defentions {
             heroes.add(hero);
         }//10
         heroes.addAll(customHeros);
+
+        for (Card card : heroes) {
+            card.getGraphicPack().setMovePhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_run.gif");
+            card.getGraphicPack().setAttackPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_attack.gif");
+            card.getGraphicPack().setBreathingPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_breathing.gif");
+            card.getGraphicPack().setDeathPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_death.gif");
+            card.getGraphicPack().setIdlePhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_idle.gif");
+        }
         return heroes;
     }
 
@@ -812,6 +828,14 @@ public class Defentions {
             minions.add(minion);
         }//40
         minions.addAll(customMinions);
+
+        for (Card card : minions) {
+            card.getGraphicPack().setMovePhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_run.gif");
+            card.getGraphicPack().setAttackPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_attack.gif");
+            card.getGraphicPack().setBreathingPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_breathing.gif");
+            card.getGraphicPack().setDeathPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_death.gif");
+            card.getGraphicPack().setIdlePhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_idle.gif");
+        }
         return minions;
     }
 
@@ -1038,6 +1062,7 @@ public class Defentions {
         cards.addAll(defineHero());
         cards.addAll(defineMinion());
         cards.addAll(defineSpell());
+
         for (Card card : cards) {
             card.getGraphicPack().setMovePhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_run.gif");
             card.getGraphicPack().setAttackPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_attack.gif");
@@ -1045,6 +1070,7 @@ public class Defentions {
             card.getGraphicPack().setDeathPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_death.gif");
             card.getGraphicPack().setIdlePhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_idle.gif");
         }
+
         return cards;
     }
 
