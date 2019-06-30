@@ -14,12 +14,16 @@ import models.Account;
 import models.Shop;
 import runners.Main;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Formatter;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 public class MainMenuController implements Initializable {
 
@@ -41,6 +45,22 @@ public class MainMenuController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        gsonBuilder = new GsonBuilder();
+        gson = gsonBuilder.create();
+        File file = new File("src/JSONs/Accounts/");
+        for (File file1 : file.listFiles()){
+            if (file1.getName().contains(".json")){
+                String json = "";
+                try {
+                    Scanner scanner = new Scanner(file1);
+                    json = scanner.nextLine();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                Account account = gson.fromJson(json, Account.class);
+                AccountMenu.addAccount(account);
+            }
+        }
 
     }
 
@@ -77,11 +97,11 @@ public class MainMenuController implements Initializable {
         if(loginAccount == null)
             return;
         gsonBuilder = new GsonBuilder();
-        gsonBuilder.setPrettyPrinting();
         gson = gsonBuilder.create();
         String json = gson.toJson(loginAccount);
         try {
-            FileOutputStream out = new FileOutputStream("/JSONs/Accounts/Empty.txt/");
+            Path path = Paths.get("src/JSONs/Accounts/" + loginAccount.getUserName() + ".json");
+            FileOutputStream out = new FileOutputStream(path.toString());
             Formatter formatter = new Formatter(out);
             formatter.format(json);
             formatter.flush();

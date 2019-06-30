@@ -81,17 +81,6 @@ public class Main extends Application {
     }
 
     public static void main(String[] args) throws IOException {
-        String string = new String("kasra was here");
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.setPrettyPrinting();
-        Gson gson = gsonBuilder.create();
-        String json = gson.toJson(string);
-        OutputStream outputStream = new FileOutputStream("/kasra.json");
-        Formatter formatter = new Formatter(outputStream);
-        formatter.format(json);
-        formatter.flush();
-        formatter.close();
-        outputStream.close();
         launch(args);
     }
 }

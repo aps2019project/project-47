@@ -93,10 +93,10 @@ public class Deck implements Cloneable {
         return hero;
     }
 
-    public Hero getHero(){
+    public Card getHero(){
         for (Card card : cards){
-            if(card instanceof Hero){
-                return (Hero)card;
+            if(card instanceof Hero || card.getCardType() == CardType.hero){
+                return card;
             }
         }
         return null;
