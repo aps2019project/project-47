@@ -1,6 +1,6 @@
 package models;
 
-import controllers.console.Constants;
+import controllers.Constants;
 import controllers.console.MainMenu;
 import models.battle.MatchResult;
 import models.battle.Player;

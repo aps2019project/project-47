@@ -1,10 +1,10 @@
 package controllers.console;
 
 
+import controllers.Constants;
 import controllers.MyController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import models.Account;
 import models.Collection;
 import models.battle.MatchResult;
@@ -16,7 +16,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static controllers.console.Constants.EXIT;
+import static controllers.Constants.EXIT;
 
 public class MainMenu {
     private static Pattern pattern;

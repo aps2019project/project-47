@@ -1,4 +1,4 @@
-package runners;
+package network;
 
 import controllers.console.AccountMenu;
 import controllers.console.MainMenu;
@@ -23,7 +23,7 @@ import views.MyPrinter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class Main extends Application {
+public class Client extends Application {
 
     private static Stage stage;
 
