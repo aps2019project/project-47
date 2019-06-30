@@ -21,6 +21,7 @@ import runners.Main;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class CustomCardCreateFormController implements Initializable {
@@ -63,7 +64,6 @@ public class CustomCardCreateFormController implements Initializable {
     public JFXComboBox<String> forceTypeSpell;
     public JFXCheckBox allOfThemeSpell;
     public JFXCheckBox allOfTheme;
-    public JFXButton createSpecialPower;
     public ArrayList<Effect> spellEffects = new ArrayList<>();
     public ArrayList<Buff> buffs = new ArrayList<>();
     public ArrayList<Buff> spellBuffs = new ArrayList<>();
@@ -119,38 +119,6 @@ public class CustomCardCreateFormController implements Initializable {
         }
     }
 
-    public void addEffect(ActionEvent actionEvent) {
-        try {
-            SideType sideType1 = getSideType(sideType);
-            ForceType forceType1 = getForceType(forceType);
-            MinionType minionType1 = getMinionType(minionType);
-            boolean allOfTheme1= allOfTheme.isSelected();
-            TargetForm targetForm = new TargetForm(Integer.parseInt(X0.getText()), Integer.parseInt(Y0.getText()),
-                    Integer.parseInt(X1.getText()), Integer.parseInt(Y1.getText()),
-                    sideType1, forceType1, minionType1, allOfTheme1);
-            Effect effect = new Effect(buffs, new ArrayList<>(), targetForm);
-            switch (activationTimeOfSpecialPower.getSelectionModel().getSelectedItem()) {
-                case "On Death":
-                    specialItem.addDeath(effect);
-                    break;
-                case "On Attack":
-                    specialItem.addAttack(effect);
-                    break;
-                case "On Defend":
-                    specialItem.addDefend(effect);
-                    break;
-                case "On Spawn":
-                    specialItem.addSpawn(effect);
-                    break;
-                case "Passive":
-                    specialItem.addPassive(effect);
-                    break;
-            }
-        } catch (Exception e) {
-            AlertHelper.showAlert(Alert.AlertType.ERROR, Main.getStage().getOwner(), "ERROR", e.getMessage());
-        }
-    }
-
     public MinionType getMinionType(JFXComboBox<String> minionType) {
         MinionType minionType1 = null;
         switch (minionType.getSelectionModel().getSelectedItem()) {
@@ -194,9 +162,61 @@ public class CustomCardCreateFormController implements Initializable {
                     Integer.parseInt(X1Spell.getText()), Integer.parseInt(Y1Spell.getText()),
                     sideType1, forceType1, minionType1, allOfTheme);
             Effect effect = new Effect(spellBuffs, new ArrayList<>(), targetForm);
+            spellBuffs = new ArrayList<>();
+            sideTypeSpell.getSelectionModel().clearSelection();
+            forceTypeSpell.getSelectionModel().clearSelection();
+            minionTypeSpell.getSelectionModel().clearSelection();
+            X0Spell.setText("");
+            X1Spell.setText("");
+            Y0Spell.setText("");
+            Y1Spell.setText("");
+            AlertHelper.showAlert(Alert.AlertType.INFORMATION , Main.getStage().getOwner() , "Effect Created!" , "Effect Created!");
             spellEffects.add(effect);
+
         } catch (Exception e) {
             AlertHelper.showAlert(Alert.AlertType.ERROR, Main.getStage().getOwner(), "ERROR", e.getMessage());
+        }
+    }
+
+    public void addEffect(ActionEvent actionEvent) {
+        try {
+            SideType sideType1 = getSideType(sideType);
+            ForceType forceType1 = getForceType(forceType);
+            MinionType minionType1 = getMinionType(minionType);
+            boolean allOfTheme1 = allOfTheme.isSelected();
+            TargetForm targetForm = new TargetForm(Integer.parseInt(X0.getText()), Integer.parseInt(Y0.getText()),
+                    Integer.parseInt(X1.getText()), Integer.parseInt(Y1.getText()),
+                    sideType1, forceType1, minionType1, allOfTheme1);
+            Effect effect = new Effect(buffs, new ArrayList<>(), targetForm);
+            buffs = new ArrayList<>();
+            sideType.getSelectionModel().clearSelection();
+            forceType.getSelectionModel().clearSelection();
+            minionType.getSelectionModel().clearSelection();
+            X0.setText("");
+            X1.setText("");
+            Y0.setText("");
+            Y1.setText("");
+            AlertHelper.showAlert(Alert.AlertType.INFORMATION , Main.getStage().getOwner() , "Effect Of Special Power Created and Added!" , "Effect Of Special Power Created and Added!");
+            switch (activationTimeOfSpecialPower.getSelectionModel().getSelectedItem()) {
+                case "On Death":
+                    specialItem.addDeath(effect);
+                    break;
+                case "On Attack":
+                    specialItem.addAttack(effect);
+                    break;
+                case "On Defend":
+                    specialItem.addDefend(effect);
+                    break;
+                case "On Spawn":
+                    specialItem.addSpawn(effect);
+                    break;
+                case "Passive":
+                    specialItem.addPassive(effect);
+                    break;
+            }
+            activationTimeOfSpecialPower.getSelectionModel().clearSelection();
+        } catch (Exception e) {
+            AlertHelper.showAlert(Alert.AlertType.ERROR, Main.getStage().getOwner(), "ERROR", Arrays.toString(e.getStackTrace()));
         }
     }
 
@@ -220,7 +240,8 @@ public class CustomCardCreateFormController implements Initializable {
     }
 
     public void addBuff(ActionEvent actionEvent) {
-        createBuff(start, power, delay, buffType, buffs);
+        Buff buff = createBuff(start, power, delay, buffType);
+        buffs.add(buff);
     }
 
     public void createCustomCard(ActionEvent actionEvent) {
@@ -228,16 +249,17 @@ public class CustomCardCreateFormController implements Initializable {
     }
 
     public void addBuffSpell(ActionEvent actionEvent) {
-        createBuff(startSpell, powerSpell, delaySpell, buffTypeSpell, spellBuffs);
+        Buff buff = createBuff(startSpell, powerSpell, delaySpell, buffTypeSpell);
+        spellBuffs.add(buff);
     }
 
-    public void createBuff(JFXTextField startSpell, JFXTextField powerSpell, JFXTextField delaySpell, JFXComboBox<String> buffTypeSpell, ArrayList<Buff> spellBuffs) {
+    public Buff createBuff(JFXTextField start, JFXTextField power, JFXTextField delay, JFXComboBox<String> buffType) {
         try {
-            int startNum = Integer.parseInt(startSpell.getText());
-            int powerNum = Integer.parseInt(powerSpell.getText());
-            int delayNum = Integer.parseInt(delaySpell.getText());
+            int startNum = Integer.parseInt(start.getText());
+            int powerNum = Integer.parseInt(power.getText());
+            int delayNum = Integer.parseInt(delay.getText());
             BuffType buffType1 = null;
-            switch (buffTypeSpell.getSelectionModel().getSelectedItem()) {
+            switch (buffType.getSelectionModel().getSelectedItem()) {
                 case "Holy":
                     buffType1 = BuffType.holy;
                     break;
@@ -258,13 +280,16 @@ public class CustomCardCreateFormController implements Initializable {
                     break;
             }
             Buff buff = new Buff(delayNum, startNum, powerNum, buffType1, false);//??todo?????????????????????????
-            spellBuffs.add(buff);
+            start.setText("");
+            power.setText("");
+            delay.setText("");
+            buffType.getSelectionModel().clearSelection();
+            AlertHelper.showAlert(Alert.AlertType.INFORMATION , Main.getStage().getOwner() , "Buff Added!" , "Buff Added!");
+            return buff;
         } catch (Exception e) {
             AlertHelper.showAlert(Alert.AlertType.ERROR, Main.getStage().getOwner(), "ERROR", e.getMessage());
         }
-    }
-
-    public void createSpecialPower(ActionEvent actionEvent) {
+        return null;
     }
 
     public void back(ActionEvent actionEvent) {

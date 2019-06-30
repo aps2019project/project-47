@@ -7,11 +7,17 @@ import controllers.console.BattleMenu;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import layouts.AlertHelper;
 import models.Account;
 import models.Shop;
+import models.cards.hero.Hero;
+import models.cards.minion.Minion;
+import models.cards.spell.Spell;
+import models.item.Item;
 import runners.Main;
 
 import java.io.File;
@@ -106,9 +112,9 @@ public class MainMenuController implements Initializable {
             formatter.format(json);
             formatter.flush();
             formatter.close();
-        }
-        catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        AlertHelper.showAlert(Alert.AlertType.INFORMATION, Main.getStage().getOwner(), "Account Saved!", "Account " + loginAccount.getUserName() + " Saved!");
     }
 }

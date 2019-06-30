@@ -6,6 +6,7 @@ public class GraphicPack {
     private String attackPhotoAddress;
     private String movePhotoAddress;
     private String breathingPhotoAddress;
+    private String idlePhotoAddress;
 
 
     public String getShopPhotoAddress() {
@@ -46,5 +47,13 @@ public class GraphicPack {
 
     public void setBreathingPhotoAddress(String breathingPhotoAddress) {
         this.breathingPhotoAddress = breathingPhotoAddress;
+    }
+
+    public String getIdlePhotoAddress() {
+        return idlePhotoAddress;
+    }
+
+    public void setIdlePhotoAddress(String idlePhotoAddress) {
+        this.idlePhotoAddress = idlePhotoAddress;
     }
 }

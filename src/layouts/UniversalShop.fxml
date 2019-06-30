@@ -42,18 +42,16 @@
                   <Font size="22.0" />
                </font>
             </Label>
-            <VBox fx:id="infoBox" prefHeight="540.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-               <children>
-                  <Label fx:id="info" alignment="CENTER" prefHeight="60.0" prefWidth="456.0" style="-fx-background-color: #CE4534; -fx-font-weight: 900; -fx-background-radius: 60;" text="Infos" textFill="#323f46">
-                     <font>
-                        <Font size="22.0" />
-                     </font>
-                  </Label>
-               </children>
+            <VBox fx:id="infoBox" layoutY="429.0" prefHeight="73.0" prefWidth="476.0" AnchorPane.bottomAnchor="576.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <padding>
                   <Insets left="10.0" right="10.0" />
                </padding>
             </VBox>
+            <Label fx:id="info" alignment="CENTER" layoutX="11.0" layoutY="475.0" prefHeight="60.0" prefWidth="456.0" style="-fx-background-color: #CE4534; -fx-font-weight: 900; -fx-background-radius: 60;" text="Infos" textFill="#323f46">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Label>
             </children>
         </AnchorPane>
         <AnchorPane fx:id="container" minHeight="0.0" minWidth="0.0">

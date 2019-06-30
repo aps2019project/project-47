@@ -290,6 +290,7 @@ public class UniversalShopController implements Initializable {
     }
     @FXML
     public void backButtonAction(ActionEvent actionEvent) throws IOException {
+
         Main.getStage().getScene().setRoot(MainMenu.getRoot());
     }
 }

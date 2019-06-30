@@ -55,8 +55,6 @@
                     <JFXCheckBox prefHeight="51.0" prefWidth="500" text="All Of Theme" fx:id="allOfTheme"
                                  styleClass="regular-textBox"/>
                 </VBox>
-                <JFXButton fx:id="createSpecialPower" text="Create Special Power" styleClass="regularButton"
-                           prefWidth="40" prefHeight="50" onAction="#createSpecialPower"/>
             </VBox>
         </VBox>
         <VBox alignment="center" maxHeight="346.0" maxWidth="599.0" spacing="20" styleClass="container">
