@@ -1,8 +1,11 @@
 package controllers.graphical;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.jfoenix.controls.JFXButton;
 import controllers.console.AccountMenu;
 import controllers.console.Constants;
+import controllers.console.MainMenu;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -19,6 +22,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import layouts.AlertHelper;
 import models.Account;
 import models.cards.Card;
 import models.cards.buff.Buff;
@@ -30,20 +34,24 @@ import models.deck.Deck;
 import models.item.Item;
 import runners.Main;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
 public class CollectionController implements Initializable {
     Account loginAccount = AccountMenu.getLoginAccount();
     ArrayList<Deck> decks = loginAccount.getDecks();
     Deck currentDeck;
 
+    public static GsonBuilder gsonBuilder;
+    public static Gson gson;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Gson gson = gsonBuilder.create();
         container.setPrefHeight(allParent.getPrefHeight());
         container.setPrefWidth(0.75 * allParent.getPrefWidth());
         topScrollPane.setPrefHeight(container.getPrefHeight() / 2);
@@ -91,10 +99,14 @@ public class CollectionController implements Initializable {
     private VBox infoBox;
 
     @FXML
+    private Button importDeckButton;
+
+    @FXML
+    private Button exportDeckButton;
+
+    @FXML
     void back(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/layouts/mainMenu.fxml"));
-        Main.getStage().getScene().setRoot(root);
-        //Main.getStage().getScene().setRoot(AccountMenu.getRoot());
+        Main.getStage().getScene().setRoot(MainMenu.getRoot());
     }
 
     @FXML
@@ -145,12 +157,12 @@ public class CollectionController implements Initializable {
     void createNewDeck(ActionEvent event) {
         String nameOfDeck = nameField.getText();
         if (nameOfDeck == null || nameOfDeck.equals("")) {
-            //todo show an error of empty field
+            AlertHelper.showAlert(Alert.AlertType.ERROR , Main.getStage().getOwner() , "Error" , "Fill all Fields!");
             return;
         }
         for (Deck deck : loginAccount.getDecks()) {
             if (deck.getName().equals(nameOfDeck)) {
-                //todo choose an other name for your deck error
+                AlertHelper.showAlert(Alert.AlertType.ERROR , Main.getStage().getOwner() , "Error" , "Choose an other name for your deck error!");
                 return;
             }
         }
@@ -169,7 +181,7 @@ public class CollectionController implements Initializable {
             SplitPane splitPane = createCard("select ", card.getName(), new Image(card.getGraphicPack().getShopPhotoAddress()), event12 -> {
                 for (Card card1 : deck.getCards()) {
                     if (card1.getName().equals(card.getName())) {
-                        //todo show you have chose this before error
+                        AlertHelper.showAlert(Alert.AlertType.ERROR , Main.getStage().getOwner() ,"Error!" , "You have chose this before!");
                         return;
                     }
                 }
@@ -210,7 +222,7 @@ public class CollectionController implements Initializable {
         for (Item item : loginAccount.getItems()) {
             SplitPane splitPane = createCard("select ", item.getName(), new Image("/resources/cards/general_portrait_image_hex_rook.png"), event13 -> {
                 if (deck.getItem() != null) {
-                    //todo show you have selected an item before error
+                    AlertHelper.showAlert(Alert.AlertType.ERROR , Main.getStage().getOwner() , "Error!" , "You have selected an item before!");
                     return;
                 }
                 deck.setItem(item);
@@ -236,24 +248,24 @@ public class CollectionController implements Initializable {
         leftBar.getChildren().add(button);
         button.setPrefHeight(60);
         button.setLayoutX(10);
-        button.setLayoutY(350);
+        button.setLayoutY(450);
         button.setPrefWidth(leftBar.getPrefWidth() - 20);
         button.setOnAction(event1 -> {
             Constants constant = deck.check_deck_correct();
             if (constant == Constants.NO_HERO) {
                 System.out.println("no hero");
-                //todo show no hero error
+                AlertHelper.showAlert(Alert.AlertType.ERROR , Main.getStage().getOwner() , "Error!" , "You don't have hero!");
             }
             if (constant == Constants.NOT_20_CARDS) {
                 System.out.println("not 20 cards");
-                //todo show not 20 cards error
+                AlertHelper.showAlert(Alert.AlertType.ERROR , Main.getStage().getOwner() , "Error!" , "You don't have 20 Cards!");
             }
             if (constant == Constants.MULTIPLE_HEROS) {
                 System.out.println("multiple heros");
-                //todo show multiple heros error
+                AlertHelper.showAlert(Alert.AlertType.ERROR , Main.getStage().getOwner() , "Error!" , "You have multiple heros!");
             }
             if (constant == Constants.CORRECT_DECK) {
-                //todo show successful deck creation message
+                AlertHelper.showAlert(Alert.AlertType.INFORMATION , Main.getStage().getOwner() , "Deck created!" , "successful deck creation!");
                 System.out.println("successful deck");
                 loginAccount.addDeck(deck);
                 bottomContainer.getChildren().remove(0, bottomContainer.getChildren().size());
@@ -298,9 +310,9 @@ public class CollectionController implements Initializable {
         label.setAlignment(Pos.CENTER_LEFT);
         label.setStyle(
                 "-fx-font-weight: bold;" +
-                "-fx-font-size: 17;" +
-                "-fx-background-radius: 60px; " +
-                "-fx-background-color: #ce4534;"
+                        "-fx-font-size: 17;" +
+                        "-fx-background-radius: 60px; " +
+                        "-fx-background-color: #ce4534;"
         );
         label.setPadding(new Insets(10, 10, 10, 10));
 
@@ -335,5 +347,75 @@ public class CollectionController implements Initializable {
             }
             addInfo(infoBox, "effects", buffs.toString().replaceAll("_", " "));
         }
+    }
+
+    @FXML
+    void showDecksForExport(ActionEvent event) {
+        topContainer.getChildren().remove(0, topContainer.getChildren().size());
+        bottomContainer.getChildren().remove(0, bottomContainer.getChildren().size());
+        ArrayList<Deck> decks = loginAccount.getDecks();
+        for (Deck deck : decks) {
+            SplitPane deckCard = createCard("Export ", deck.getName(), new Image(deck.getHero().getGraphicPack().getShopPhotoAddress()),
+                    event1 -> {
+                        GsonBuilder gsonBuilder = new GsonBuilder();
+                        Gson gson = gsonBuilder.create();
+                        String json = gson.toJson(deck);
+                        OutputStream outputStream = null;
+                        try {
+                            outputStream = new FileOutputStream("src/JSONs/ExportedDecks/" + deck.getName() + ".json/");
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Formatter formatter = new Formatter(outputStream);
+                        formatter.format(json);
+                        System.out.println(json);
+                        formatter.flush();
+                        formatter.close();
+
+                    });
+            topContainer.getChildren().add(deckCard);
+        }
+    }
+
+    @FXML
+    void showImportableDecks(ActionEvent event) {
+        topContainer.getChildren().remove(0, topContainer.getChildren().size());
+        bottomContainer.getChildren().remove(0, bottomContainer.getChildren().size());
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Gson gson = gsonBuilder.create();
+        ArrayList<Deck> decks = new ArrayList<>();
+        Path path = Paths.get("src/JSONs/ImportableDecks");
+        File importableDecksFile = new File(path.toString());
+        for (File file : importableDecksFile.listFiles()) {
+            if (file.getName().contains(".json")) {
+                String json = "";
+                try {
+                    Scanner scanner = new Scanner(file);
+                    json = json.concat(scanner.nextLine());
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                Deck deck = gson.fromJson(json, Deck.class);
+                decks.add(deck);
+            }
+        }
+        for (Deck deck : decks) {
+            SplitPane deckCard = createCard("Import ",
+                    deck.getName(),
+                    new Image(
+                            deck.getHero()
+                                    .getGraphicPack().getShopPhotoAddress()),
+                    event1 -> {
+                        if (!loginAccount.hasDeck(deck)) {
+                            loginAccount.addDeck(deck);
+                        } else {
+                            AlertHelper.showAlert(Alert.AlertType.ERROR , Main.getStage().getOwner() , "Error!" , "you have a deck with this name error!");
+                        }
+                    });
+            topContainer.getChildren().add(deckCard);
+        }
+
     }
 }

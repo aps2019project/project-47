@@ -4,13 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import controllers.console.AccountMenu;
 import controllers.console.BattleMenu;
-import defentions.Defentions;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import layouts.AlertHelper;
 import models.Account;
 import models.Shop;
 import models.cards.hero.Hero;
@@ -19,14 +20,18 @@ import models.cards.spell.Spell;
 import models.item.Item;
 import runners.Main;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Formatter;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
-public class MainMenuController implements Initializable {
-
+public class MainMenuController {
     public Label customCardLabel;
     public Label playLabel;
     public Label collectionLabel;
@@ -42,11 +47,6 @@ public class MainMenuController implements Initializable {
     public static GsonBuilder gsonBuilder;
     public static Gson gson;
 
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-    }
 
     public void goToPlayMenu() {
         Main.getStage().getScene().setRoot(BattleMenu.getRoot());
@@ -78,18 +78,21 @@ public class MainMenuController implements Initializable {
     }
 
     public void saveAccount(MouseEvent mouseEvent) {
+        if(loginAccount == null)
+            return;
         gsonBuilder = new GsonBuilder();
-        gsonBuilder.setPrettyPrinting();
         gson = gsonBuilder.create();
         String json = gson.toJson(loginAccount);
         try {
-            Formatter formatter = new Formatter("/JSONs/Accounts" + loginAccount.getUserName() + ".json");
+            Path path = Paths.get("src/JSONs/Accounts/" + loginAccount.getUserName() + ".json");
+            FileOutputStream out = new FileOutputStream(path.toString());
+            Formatter formatter = new Formatter(out);
             formatter.format(json);
             formatter.flush();
             formatter.close();
-        }
-        catch (FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        AlertHelper.showAlert(Alert.AlertType.INFORMATION, Main.getStage().getOwner(), "Account Saved!", "Account " + loginAccount.getUserName() + " Saved!");
     }
 }

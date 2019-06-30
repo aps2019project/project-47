@@ -17,6 +17,7 @@ import javafx.scene.input.MouseDragEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import layouts.AlertHelper;
 import models.Account;
 import models.Shop;
 import models.battle.board.Board;
@@ -186,10 +187,13 @@ public class UniversalShopController implements Initializable {
 
             button.setOnMouseClicked(event -> {
                 Constants resultCode = shop.command_buy(Integer.parseInt(id.substring(1)));
-                if (resultCode == Constants.SUCCESSFUL_BUY) {//todo complete conditions
+                if (resultCode == Constants.SUCCESSFUL_BUY) {
                 } else if (resultCode == Constants.NOT_ENOUGH_MONEY) {
+                    AlertHelper.showAlert(Alert.AlertType.ERROR , Main.getStage().getOwner() , "Error!" , "You don't have enough money!");
                 } else if (resultCode == Constants.HAD_BOUGHT_BEFORE) {
+                    AlertHelper.showAlert(Alert.AlertType.ERROR , Main.getStage().getOwner() , "Error!" , "You have bought this thing!");
                 } else if (resultCode == Constants.NO_ACCOUNT_LOGGED_IN) {
+                    AlertHelper.showAlert(Alert.AlertType.ERROR , Main.getStage().getOwner() , "!WTF!" , "No account logged in! WTF!!!!");
                 }
                 money.setText("Money : ".concat(Integer.toString(loginAccount.getMoney())));
             });
