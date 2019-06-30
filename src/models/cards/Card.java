@@ -85,7 +85,9 @@ public class Card implements Cloneable {
 
     @Override
     public Object clone() throws CloneNotSupportedException {
-        return new Card(code,name,mana,price,cardType);
+        Card newCard=new  Card(code,name,mana,price,cardType);
+        newCard.setGraphicPack(this.graphicPack);
+        return newCard;
     }
 
     public void setCode(int code) {
@@ -106,5 +108,9 @@ public class Card implements Cloneable {
 
     public void setSpawn(boolean spawn) {
         this.spawn = spawn;
+    }
+
+    public void setGraphicPack(GraphicPack graphicPack) {
+        this.graphicPack = graphicPack;
     }
 }

@@ -56,7 +56,9 @@ public class Minion extends Card implements Cloneable {
 
     @Override
     public Object clone() throws CloneNotSupportedException {
-        return new Minion(code, getName(), getMana(), Hp, attackRange, getPrice(), CardType.minion, minionTargetsType, Ap, (SpecialItem) specialItem.clone());
+        Minion newMinion= new Minion(code, getName(), getMana(), Hp, attackRange, getPrice(), CardType.minion, minionTargetsType, Ap, (SpecialItem) specialItem.clone());
+        newMinion.setGraphicPack(this.getGraphicPack());
+        return newMinion;
     }
 
     public void setLocation(Location location) {
