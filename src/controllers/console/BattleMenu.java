@@ -1,5 +1,6 @@
 package controllers.console;
 
+import controllers.Constants;
 import controllers.MyController;
 import controllers.graphical.BattleChooseMenuController;
 import defentions.Defentions;

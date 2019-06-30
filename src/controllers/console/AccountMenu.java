@@ -1,11 +1,11 @@
 package controllers.console;
 
 
+import controllers.Constants;
 import controllers.MyController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import models.Account;
-import models.Shop;
 import views.MyPrinter;
 
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static controllers.console.Constants.*;
+import static controllers.Constants.*;
 
 public class AccountMenu {
 

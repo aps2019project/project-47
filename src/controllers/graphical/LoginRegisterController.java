@@ -23,7 +23,7 @@ import java.util.ResourceBundle;
 import java.util.Scanner;
 
 import static controllers.console.AccountMenu.doCommand;
-import static controllers.console.Constants.*;
+import static controllers.Constants.*;
 
 public class LoginRegisterController implements Initializable {
 
