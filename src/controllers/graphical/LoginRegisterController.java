@@ -12,7 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import models.Account;
-import runners.Main;
+import network.Client;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -68,7 +68,7 @@ public class LoginRegisterController implements Initializable {
                 messageLabelLogin.getStyleClass().removeIf(style -> !style.equals("goodMessage"));
                 messageLabelLogin.getStyleClass().add("goodMessage");
                 Parent root = FXMLLoader.load(getClass().getResource("../../layouts/mainMenu.fxml"));
-                Main.getStage().getScene().setRoot(root);
+                Client.getStage().getScene().setRoot(root);
         }
     }
 

@@ -22,7 +22,7 @@ import models.cards.hero.Hero;
 import models.cards.minion.Minion;
 import models.cards.spell.Spell;
 import models.item.Item;
-import runners.Main;
+import network.Client;
 
 import java.io.IOException;
 import java.net.URL;
@@ -185,11 +185,11 @@ public class UniversalShopController implements Initializable {
                 Constants resultCode = shop.command_buy(Integer.parseInt(id.substring(1)));
                 if (resultCode == Constants.SUCCESSFUL_BUY) {
                 } else if (resultCode == Constants.NOT_ENOUGH_MONEY) {
-                    AlertHelper.showAlert(Alert.AlertType.ERROR , Main.getStage().getOwner() , "Error!" , "You don't have enough money!");
+                    AlertHelper.showAlert(Alert.AlertType.ERROR , Client.getStage().getOwner() , "Error!" , "You don't have enough money!");
                 } else if (resultCode == Constants.HAD_BOUGHT_BEFORE) {
-                    AlertHelper.showAlert(Alert.AlertType.ERROR , Main.getStage().getOwner() , "Error!" , "You have bought this thing!");
+                    AlertHelper.showAlert(Alert.AlertType.ERROR , Client.getStage().getOwner() , "Error!" , "You have bought this thing!");
                 } else if (resultCode == Constants.NO_ACCOUNT_LOGGED_IN) {
-                    AlertHelper.showAlert(Alert.AlertType.ERROR , Main.getStage().getOwner() , "!WTF!" , "No account logged in! WTF!!!!");
+                    AlertHelper.showAlert(Alert.AlertType.ERROR , Client.getStage().getOwner() , "!WTF!" , "No account logged in! WTF!!!!");
                 }
                 money.setText("Money : ".concat(Integer.toString(loginAccount.getMoney())));
             });
@@ -291,6 +291,6 @@ public class UniversalShopController implements Initializable {
     @FXML
     public void backButtonAction(ActionEvent actionEvent) throws IOException {
 
-        Main.getStage().getScene().setRoot(MainMenu.getRoot());
+        Client.getStage().getScene().setRoot(MainMenu.getRoot());
     }
 }

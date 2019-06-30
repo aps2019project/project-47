@@ -3,7 +3,7 @@ package network;
 import java.net.Socket;
 
 public class ClientHandler extends Thread {
-    public static Server server;
+    private static Server server;
     private Socket socket;
 
     public static void setServer(Server server) {

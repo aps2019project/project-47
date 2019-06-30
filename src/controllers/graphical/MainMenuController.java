@@ -18,9 +18,8 @@ import models.cards.hero.Hero;
 import models.cards.minion.Minion;
 import models.cards.spell.Spell;
 import models.item.Item;
-import runners.Main;
+import network.Client;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -49,16 +48,16 @@ public class MainMenuController {
 
 
     public void goToPlayMenu() {
-        Main.getStage().getScene().setRoot(BattleMenu.getRoot());
+        Client.getStage().getScene().setRoot(BattleMenu.getRoot());
     }
 
     public void goToCollectionMenu() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/layouts/Collection.fxml"));
-        Main.getStage().getScene().setRoot(root);
+        Client.getStage().getScene().setRoot(root);
     }
 
     public void goToShop() {
-        Main.getStage().getScene().setRoot(Shop.getRoot());
+        Client.getStage().getScene().setRoot(Shop.getRoot());
     }
 
     public void goToHistoryMenu() {
@@ -66,11 +65,11 @@ public class MainMenuController {
 
     public void logOut() {
         AccountMenu.setLoginAccount(null);
-        Main.getStage().getScene().setRoot(AccountMenu.getRoot());
+        Client.getStage().getScene().setRoot(AccountMenu.getRoot());
     }
 
     public void goToCustomCardMenu(MouseEvent mouseEvent) throws IOException {
-        Main.getStage().getScene().setRoot(FXMLLoader.load(getClass().getResource("../../layouts/customCardCreatePage.fxml")));
+        Client.getStage().getScene().setRoot(FXMLLoader.load(getClass().getResource("../../layouts/customCardCreatePage.fxml")));
     }
 
     public void exit(MouseEvent mouseEvent) {
@@ -93,6 +92,6 @@ public class MainMenuController {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        AlertHelper.showAlert(Alert.AlertType.INFORMATION, Main.getStage().getOwner(), "Account Saved!", "Account " + loginAccount.getUserName() + " Saved!");
+        AlertHelper.showAlert(Alert.AlertType.INFORMATION, Client.getStage().getOwner(), "Account Saved!", "Account " + loginAccount.getUserName() + " Saved!");
     }
 }

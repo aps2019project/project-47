@@ -30,7 +30,7 @@ import models.cards.spell.Spell;
 import models.cards.spell.effect.Effect;
 import models.deck.Deck;
 import models.item.Item;
-import runners.Main;
+import network.Client;
 
 import java.io.*;
 import java.net.URL;
@@ -104,7 +104,7 @@ public class CollectionController implements Initializable {
 
     @FXML
     void back(ActionEvent event) throws IOException {
-        Main.getStage().getScene().setRoot(MainMenu.getRoot());
+        Client.getStage().getScene().setRoot(MainMenu.getRoot());
     }
 
     @FXML
@@ -155,12 +155,12 @@ public class CollectionController implements Initializable {
     void createNewDeck(ActionEvent event) {
         String nameOfDeck = nameField.getText();
         if (nameOfDeck == null || nameOfDeck.equals("")) {
-            AlertHelper.showAlert(Alert.AlertType.ERROR , Main.getStage().getOwner() , "Error" , "Fill all Fields!");
+            AlertHelper.showAlert(Alert.AlertType.ERROR , Client.getStage().getOwner() , "Error" , "Fill all Fields!");
             return;
         }
         for (Deck deck : loginAccount.getDecks()) {
             if (deck.getName().equals(nameOfDeck)) {
-                AlertHelper.showAlert(Alert.AlertType.ERROR , Main.getStage().getOwner() , "Error" , "Choose an other name for your deck error!");
+                AlertHelper.showAlert(Alert.AlertType.ERROR , Client.getStage().getOwner() , "Error" , "Choose an other name for your deck error!");
                 return;
             }
         }
@@ -179,7 +179,7 @@ public class CollectionController implements Initializable {
             SplitPane splitPane = createCard("select ", card.getName(), new Image(card.getGraphicPack().getShopPhotoAddress()), event12 -> {
                 for (Card card1 : deck.getCards()) {
                     if (card1.getName().equals(card.getName())) {
-                        AlertHelper.showAlert(Alert.AlertType.ERROR , Main.getStage().getOwner() ,"Error!" , "You have chose this before!");
+                        AlertHelper.showAlert(Alert.AlertType.ERROR , Client.getStage().getOwner() ,"Error!" , "You have chose this before!");
                         return;
                     }
                 }
@@ -220,7 +220,7 @@ public class CollectionController implements Initializable {
         for (Item item : loginAccount.getItems()) {
             SplitPane splitPane = createCard("select ", item.getName(), new Image("/resources/cards/general_portrait_image_hex_rook.png"), event13 -> {
                 if (deck.getItem() != null) {
-                    AlertHelper.showAlert(Alert.AlertType.ERROR , Main.getStage().getOwner() , "Error!" , "You have selected an item before!");
+                    AlertHelper.showAlert(Alert.AlertType.ERROR , Client.getStage().getOwner() , "Error!" , "You have selected an item before!");
                     return;
                 }
                 deck.setItem(item);
@@ -252,18 +252,18 @@ public class CollectionController implements Initializable {
             Constants constant = deck.check_deck_correct();
             if (constant == Constants.NO_HERO) {
                 System.out.println("no hero");
-                AlertHelper.showAlert(Alert.AlertType.ERROR , Main.getStage().getOwner() , "Error!" , "You don't have hero!");
+                AlertHelper.showAlert(Alert.AlertType.ERROR , Client.getStage().getOwner() , "Error!" , "You don't have hero!");
             }
             if (constant == Constants.NOT_20_CARDS) {
                 System.out.println("not 20 cards");
-                AlertHelper.showAlert(Alert.AlertType.ERROR , Main.getStage().getOwner() , "Error!" , "You don't have 20 Cards!");
+                AlertHelper.showAlert(Alert.AlertType.ERROR , Client.getStage().getOwner() , "Error!" , "You don't have 20 Cards!");
             }
             if (constant == Constants.MULTIPLE_HEROS) {
                 System.out.println("multiple heros");
-                AlertHelper.showAlert(Alert.AlertType.ERROR , Main.getStage().getOwner() , "Error!" , "You have multiple heros!");
+                AlertHelper.showAlert(Alert.AlertType.ERROR , Client.getStage().getOwner() , "Error!" , "You have multiple heros!");
             }
             if (constant == Constants.CORRECT_DECK) {
-                AlertHelper.showAlert(Alert.AlertType.INFORMATION , Main.getStage().getOwner() , "Deck created!" , "successful deck creation!");
+                AlertHelper.showAlert(Alert.AlertType.INFORMATION , Client.getStage().getOwner() , "Deck created!" , "successful deck creation!");
                 System.out.println("successful deck");
                 loginAccount.addDeck(deck);
                 bottomContainer.getChildren().remove(0, bottomContainer.getChildren().size());
@@ -409,7 +409,7 @@ public class CollectionController implements Initializable {
                         if (!loginAccount.hasDeck(deck)) {
                             loginAccount.addDeck(deck);
                         } else {
-                            AlertHelper.showAlert(Alert.AlertType.ERROR , Main.getStage().getOwner() , "Error!" , "you have a deck with this name error!");
+                            AlertHelper.showAlert(Alert.AlertType.ERROR , Client.getStage().getOwner() , "Error!" , "you have a deck with this name error!");
                         }
                     });
             topContainer.getChildren().add(deckCard);

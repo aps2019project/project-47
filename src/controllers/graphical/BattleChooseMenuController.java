@@ -16,7 +16,7 @@ import models.battle.Battle;
 import models.battle.Player;
 import models.battle.StoryGame;
 import models.battle.board.Board;
-import runners.Main;
+import network.Client;
 
 public class BattleChooseMenuController extends MyController {
     public ComboBox mode;
@@ -49,7 +49,7 @@ public class BattleChooseMenuController extends MyController {
         Parent root=Board.getRoot();
         BattleController controller = (BattleController) Board.getController();
         controller.initializeBattle(battle);
-        Main.getStage().getScene().setRoot(root);
+        Client.getStage().getScene().setRoot(root);
 
 
     }
@@ -106,7 +106,7 @@ public class BattleChooseMenuController extends MyController {
     }
 
     public void back(ActionEvent event) {
-        Main.getStage().getScene().setRoot(MainMenu.getRoot());
+        Client.getStage().getScene().setRoot(MainMenu.getRoot());
 
     }
 }

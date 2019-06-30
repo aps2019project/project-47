@@ -20,7 +20,7 @@ import models.cards.minion.*;
 import models.cards.spell.Spell;
 import models.cards.spell.TargetForm;
 import models.cards.spell.effect.Effect;
-import runners.Main;
+import network.Client;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -173,11 +173,11 @@ public class CustomCardCreateFormController implements Initializable {
             X1Spell.setText("");
             Y0Spell.setText("");
             Y1Spell.setText("");
-            AlertHelper.showAlert(Alert.AlertType.INFORMATION, Main.getStage().getOwner(), "Effect Created!", "Effect Created!");
+            AlertHelper.showAlert(Alert.AlertType.INFORMATION, Client.getStage().getOwner(), "Effect Created!", "Effect Created!");
             spellEffects.add(effect);
 
         } catch (Exception e) {
-            AlertHelper.showAlert(Alert.AlertType.ERROR, Main.getStage().getOwner(), "ERROR", e.getMessage());
+            AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "ERROR", e.getMessage());
         }
     }
 
@@ -199,7 +199,7 @@ public class CustomCardCreateFormController implements Initializable {
             X1.setText("");
             Y0.setText("");
             Y1.setText("");
-            AlertHelper.showAlert(Alert.AlertType.INFORMATION, Main.getStage().getOwner(), "Effect Of Special Power Created and Added!", "Effect Of Special Power Created and Added!");
+            AlertHelper.showAlert(Alert.AlertType.INFORMATION, Client.getStage().getOwner(), "Effect Of Special Power Created and Added!", "Effect Of Special Power Created and Added!");
             switch (activationTimeOfSpecialPower.getSelectionModel().getSelectedItem()) {
                 case "On Death":
                     specialItem.addDeath(effect);
@@ -219,7 +219,7 @@ public class CustomCardCreateFormController implements Initializable {
             }
             activationTimeOfSpecialPower.getSelectionModel().clearSelection();
         } catch (Exception e) {
-            AlertHelper.showAlert(Alert.AlertType.ERROR, Main.getStage().getOwner(), "ERROR", Arrays.toString(e.getStackTrace()));
+            AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "ERROR", Arrays.toString(e.getStackTrace()));
         }
     }
 
@@ -285,7 +285,7 @@ public class CustomCardCreateFormController implements Initializable {
             }
             //todo add alert helper
         } catch (Exception e) {
-            AlertHelper.showAlert(Alert.AlertType.ERROR, Main.getStage().getOwner(), "ERROR", e.getMessage());
+            AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "ERROR", e.getMessage());
         }
     }
 
@@ -325,15 +325,15 @@ public class CustomCardCreateFormController implements Initializable {
             power.setText("");
             time.setText("");
             buffType.getSelectionModel().clearSelection();
-            AlertHelper.showAlert(Alert.AlertType.INFORMATION, Main.getStage().getOwner(), "Buff Added!", "Buff Added!");
+            AlertHelper.showAlert(Alert.AlertType.INFORMATION, Client.getStage().getOwner(), "Buff Added!", "Buff Added!");
             return buff;
         } catch (Exception e) {
-            AlertHelper.showAlert(Alert.AlertType.ERROR, Main.getStage().getOwner(), "ERROR", e.getMessage());
+            AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "ERROR", e.getMessage());
         }
         return null;
     }
 
     public void back(ActionEvent actionEvent) {
-        Main.getStage().getScene().setRoot(MainMenu.getRoot());
+        Client.getStage().getScene().setRoot(MainMenu.getRoot());
     }
 }

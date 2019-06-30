@@ -1,7 +1,6 @@
 package network;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -24,9 +23,11 @@ public class Server {
         }
     }
 
-    public static void main(String[] args) {
-        //File configFile = new File(())
-//        new
+    public static void main(String[] args) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader("network/config"));
+        int port = Integer.parseInt(reader.readLine());
+        reader.close();
+        new Server(port);
     }
 
 }
