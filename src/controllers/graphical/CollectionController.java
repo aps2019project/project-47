@@ -1,5 +1,7 @@
 package controllers.graphical;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.jfoenix.controls.JFXButton;
 import controllers.console.AccountMenu;
 import controllers.console.Constants;
@@ -31,20 +33,24 @@ import models.deck.Deck;
 import models.item.Item;
 import runners.Main;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
 public class CollectionController implements Initializable {
     Account loginAccount = AccountMenu.getLoginAccount();
     ArrayList<Deck> decks = loginAccount.getDecks();
     Deck currentDeck;
 
+    public static GsonBuilder gsonBuilder;
+    public static Gson gson;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Gson gson = gsonBuilder.create();
         container.setPrefHeight(allParent.getPrefHeight());
         container.setPrefWidth(0.75 * allParent.getPrefWidth());
         topScrollPane.setPrefHeight(container.getPrefHeight() / 2);
@@ -90,6 +96,12 @@ public class CollectionController implements Initializable {
 
     @FXML
     private VBox infoBox;
+
+    @FXML
+    private Button importDeckButton;
+
+    @FXML
+    private Button exportDeckButton;
 
     @FXML
     void back(ActionEvent event) throws IOException {
@@ -235,7 +247,7 @@ public class CollectionController implements Initializable {
         leftBar.getChildren().add(button);
         button.setPrefHeight(60);
         button.setLayoutX(10);
-        button.setLayoutY(350);
+        button.setLayoutY(450);
         button.setPrefWidth(leftBar.getPrefWidth() - 20);
         button.setOnAction(event1 -> {
             Constants constant = deck.check_deck_correct();
@@ -334,5 +346,75 @@ public class CollectionController implements Initializable {
             }
             addInfo(infoBox, "effects", buffs.toString().replaceAll("_", " "));
         }
+    }
+
+    @FXML
+    void showDecksForExport(ActionEvent event) {
+        topContainer.getChildren().remove(0, topContainer.getChildren().size());
+        bottomContainer.getChildren().remove(0, bottomContainer.getChildren().size());
+        ArrayList<Deck> decks = loginAccount.getDecks();
+        for (Deck deck : decks) {
+            SplitPane deckCard = createCard("Export ", deck.getName(), new Image(deck.getHero().getGraphicPack().getShopPhotoAddress()),
+                    event1 -> {
+                        GsonBuilder gsonBuilder = new GsonBuilder();
+                        Gson gson = gsonBuilder.create();
+                        String json = gson.toJson(deck);
+                        OutputStream outputStream = null;
+                        try {
+                            outputStream = new FileOutputStream("src/JSONs/ExportedDecks/" + deck.getName() + ".json/");
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Formatter formatter = new Formatter(outputStream);
+                        formatter.format(json);
+                        System.out.println(json);
+                        formatter.flush();
+                        formatter.close();
+
+                    });
+            topContainer.getChildren().add(deckCard);
+        }
+    }
+
+    @FXML
+    void showImportableDecks(ActionEvent event) {
+        topContainer.getChildren().remove(0, topContainer.getChildren().size());
+        bottomContainer.getChildren().remove(0, bottomContainer.getChildren().size());
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Gson gson = gsonBuilder.create();
+        ArrayList<Deck> decks = new ArrayList<>();
+        Path path = Paths.get("src/JSONs/ImportableDecks");
+        File importableDecksFile = new File(path.toString());
+        for (File file : importableDecksFile.listFiles()) {
+            if (file.getName().contains(".json")) {
+                String json = "";
+                try {
+                    Scanner scanner = new Scanner(file);
+                    json = json.concat(scanner.nextLine());
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+                Deck deck = gson.fromJson(json, Deck.class);
+                decks.add(deck);
+            }
+        }
+        for (Deck deck : decks) {
+            SplitPane deckCard = createCard("Import ",
+                    deck.getName(),
+                    new Image(
+                            deck.getHero()
+                                    .getGraphicPack().getShopPhotoAddress()),
+                    event1 -> {
+                        if (!loginAccount.hasDeck(deck)) {
+                            loginAccount.addDeck(deck);
+                        } else {
+                            //todo show you have a deck with this name error
+                        }
+                    });
+            topContainer.getChildren().add(deckCard);
+        }
+
     }
 }
