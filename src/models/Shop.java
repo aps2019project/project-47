@@ -1,18 +1,16 @@
 package models;
 
 import controllers.MyController;
-import controllers.console.Constants;
+import controllers.Constants;
 import defentions.Defentions;
 import controllers.console.AccountMenu;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import models.cards.Card;
 import models.item.Item;
 import models.item.ItemType;
 import views.MyPrinter;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;

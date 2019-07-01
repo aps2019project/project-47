@@ -160,12 +160,13 @@ public class Battle {
         players[turn].all_works_of_aNewTurn();
         board.all_works_of_aNewTurn(turn);
     }
-    private boolean canMove(Minion minion, Location target,boolean printError){
+    public boolean canMove(Minion minion, Location target,boolean printError){
         if (!minion.canMove(printError))return false;
         if (!board.canMove(minion,target,printError))return false;
         return true;
     }
-    private boolean canAttack(Minion attacker,Minion defender,boolean printError){
+    public boolean canAttack(Minion attacker,Minion defender,boolean printError){
+        if (defender==null)return false;
         if (attacker.getPlyNum()==defender.getPlyNum()){
             if (printError) MyPrinter.red("it's an insider force!");
             return false;
@@ -594,12 +595,13 @@ public class Battle {
             }
             collecting_flags_and_items_from_earth(minion,location);
         }
+        card.setSpawn(true);
         players[card.getPlyNum()].mana_use(card.getMana());
         players[card.getPlyNum()].getHand().removeCard(card);
         card.setInserted(true);
         MyPrinter.green(card.getCardId()+" inserted in cell "+location.getX()+","+location.getY()+" successfully!");
     }
-    private boolean canInsert(Card card,Location location,boolean printError){
+    public boolean canInsert(Card card,Location location,boolean printError){
         if (card.isInserted()){
             if (printError)MyPrinter.red("this card inserted in past!");
             return false;

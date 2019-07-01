@@ -1,6 +1,6 @@
 package models;
 
-import controllers.console.Constants;
+import controllers.Constants;
 import controllers.console.MainMenu;
 import models.battle.MatchResult;
 import models.battle.Player;
@@ -25,7 +25,7 @@ public class Account implements Cloneable {
     private Deck mainDeck;
     public Account(String userName, String password) {
         this.userName = new String(userName);
-        this.money = 1500000;
+        this.money = 300_000;
         storyLvl=1;
         this.matchHistory = new ArrayList<MatchResult>();
         cards = new ArrayList<>();

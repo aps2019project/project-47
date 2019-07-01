@@ -13,15 +13,26 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import models.battle.Battle;
 import models.battle.Hand;
+import models.battle.Player;
 import models.battle.board.Board;
+import models.battle.board.Location;
+import models.cards.Card;
+import models.cards.hero.Hero;
 import models.cards.minion.Minion;
+import models.cards.spell.Spell;
 
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class BattleController extends MyController implements Initializable {
+    private int boardWidth = 800;
+    private int boardHeight = 450;
+    private int cellGap = 5;
+
+
     public AnchorPane anchorPane;
     private GridPane cellGrid;
     public Pane cellsPane;
@@ -29,8 +40,10 @@ public class BattleController extends MyController implements Initializable {
     private Board board;
     private Battle battle;
     private Label[][] cells;
-    private HashMap<String,ImageView> imageViewOfCards;
+    private CellPane[][] cellPanes;
+    private HashMap<String, ImageView> imageViewOfCards;
     private CardScene[] cardScenes;
+    private Card[] playerSelectedCard;
 
 
     public Parent getRoot() {
@@ -59,12 +72,12 @@ public class BattleController extends MyController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        imageViewOfCards = new HashMap<>();
         buildGrid();
         creatHandScene();
-
     }
 
-    private ImageView creatGif(){
+    private ImageView creatGif() {
         Image image = new Image(new File("resources/java.gif").toURI().toString());
         ImageView imageView = new ImageView(image);
         imageView.setStyle("-fx-background-color: white;" +
@@ -85,60 +98,37 @@ public class BattleController extends MyController implements Initializable {
 
 
     }
-    private void buildGrid(){
 
-        GridPane cellGrid=new GridPane();
+    private void buildGrid() {
+
+        GridPane cellGrid = new GridPane();
 
         int width = Board.width;
         int height = Board.length;
-        int boardWidth=800;
-        int boardHeight=450;
-        int cellGap=5;
-        int cellWidth=(boardWidth-(cellGap*(width+1)))/width;
-        int cellHeight=(boardHeight-(cellGap*(height+1)))/height;
+        int cellWidth = (boardWidth - (cellGap * (width + 1))) / width;
+        int cellHeight = (boardHeight - (cellGap * (height + 1))) / height;
 
-        cells=new Label[width][height];
-
-        String normal_label_style="-fx-background-color: white;" +
-                "-fx-font-size: 30;" +
-                "-fx-opacity: 0.2;" +
-                "-fx-fill: white;" +
-                "-fx-pref-height: " +cellHeight+";"+
-                "-fx-pref-width: "+cellWidth;
-        String hower_label_style="-fx-background-color: red;" +
-                "-fx-font-size: 30;" +
-                "-fx-opacity: 0.2;" +
-                "-fx-fill: white;" +
-                "-fx-pref-height: " +cellHeight+";"+
-                "-fx-pref-width: "+cellWidth;
-        for (int i=0;i<width;i++){
-            for (int j = 0; j <height ; j++) {
-                Label label=new Label("");
-                label.setStyle(normal_label_style);
-                label.setPrefSize(10,10);
-                cells[i][j]=label;
-                label.setOnMouseEntered(event -> {
-                    label.setStyle(hower_label_style);
-                });
-                label.setOnMouseExited(event -> {
-                    label.setStyle(normal_label_style);
-                });
-                cellGrid.add(label,i,j);
+        cellPanes = new CellPane[Board.width][Board.length];
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                cellPanes[i][j] = new CellPane(cellHeight, cellWidth,i,j);
+                cellGrid.add(cellPanes[i][j].pane, i, j);
             }
         }
 
         cellGrid.setHgap(cellGap);
         cellGrid.setVgap(cellGap);
-        cellGrid.relocate(0,0);
+        cellGrid.relocate(0, 0);
 
-        Pane perspectivePane = new Pane();
-        perspectivePane.getChildren().addAll(cellGrid);
+        Pane parentOfCellPanes = new Pane();
+        parentOfCellPanes.getChildren().add(cellGrid);
 
-        perspectiveGrid(perspectivePane);
-        anchorPane.getChildren().add(perspectivePane);
+        perspectiveGrid(parentOfCellPanes);
+        anchorPane.getChildren().add(parentOfCellPanes);
 
     }
-    private void perspectiveGrid(Pane perspectivePane){
+
+    private void perspectiveGrid(Pane perspectivePane) {
         PerspectiveTransform pt = new PerspectiveTransform();
 
         pt.setUlx(550);
@@ -149,38 +139,57 @@ public class BattleController extends MyController implements Initializable {
         pt.setLry(680);
         pt.setLlx(480);
         pt.setLly(680);
-        perspectivePane.relocate(550,240);
+        perspectivePane.relocate(550, 240);
         //perspectivePane.setEffect(pt);
 
     }
-    private void lbl_click(int i,int j){
-        if (battle.getTurn()!=0) {
+
+    private void cellPaneClick(int i, int j) {
+        Location location = new Location(i,j);
+        int turn = battle.getTurn();
+        Card selectedCard = playerSelectedCard[turn];
+
+        if (!battle.getPlayers()[turn].isHuman()) {
             return;
         }
-        Minion selectedMinion = battle.getPlayers()[0].getSelectedMinion();
+        if (playerSelectedCard[turn]==null){
+            return;
+        }
+        if (!playerSelectedCard[turn].isSpawn()){
+            if (battle.canInsert(selectedCard,location,false)){
+                insert(selectedCard,location);
+            }
+        }else {
+            Minion selectedMinion = (Minion) selectedCard;
+            if (battle.canMove(selectedMinion,location,false)){
+                move(selectedMinion,location);
+            }
+        }
+
 
 
     }
-    private void creatHandScene(){
-        int x=500;
-        int y=800;
-        int width=500;
-        int height=200;
+
+    private void creatHandScene() {
+        int x = 500;
+        int y = 800;
+        int width = 500;
+        int height = 200;
         Double multipleOfResizing_cardScene = 0.1;
 
 
-        Pane parent=new Pane();
-        parent.relocate(x,y);
-        parent.setPrefSize(width,height);
+        Pane parent = new Pane();
+        parent.relocate(x, y);
+        parent.setPrefSize(width, height);
 
-        HBox hBox=new HBox();
+        HBox hBox = new HBox();
         hBox.setSpacing(30);
-        cardScenes=new CardScene[Hand.number_of_cards];
+        cardScenes = new CardScene[Hand.number_of_cards];
 
         for (int i = 0; i < Hand.number_of_cards; i++) {
-            ImageView imageView=new ImageView(new File("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_idle.gif").toURI().toString());
-            cardScenes[i]=new CardScene();
-            cardScenes[i].setCardImageView(imageView);
+//            ImageView imageView=new ImageView(new File("src/resources/cards/Mmd_test/Avalanche_idle.gif").toURI().toString());
+            cardScenes[i] = new CardScene();
+//            cardScenes[i].setCardImageView(imageView);
             hBox.getChildren().add(cardScenes[i].pane);
         }
 
@@ -191,21 +200,133 @@ public class BattleController extends MyController implements Initializable {
 
     }
 
+    public void initializeBattle(Battle battle) {
+        this.battle = battle;
+        playerSelectedCard = new Card[2];
+        battle.getPlayers()[0].mana_rise(10);
+        setHeroOnPlane();
+        setHandCards(battle.getPlayers()[0].getHand());
+    }
+
+    public void setHeroOnPlane() {
+        Hero hero0 = battle.getPlayers()[0].getHero();
+        ImageView hero0_imageView = new ImageView(new File(hero0.getGraphicPack().getIdlePhotoAddress()).toURI().toString());
+        creatImageViewMouseActions(hero0, hero0_imageView);
+        cellPanes[0][Board.length / 2].addImageView(hero0_imageView);
+
+        Hero hero1 = battle.getPlayers()[1].getHero();
+        ImageView hero1_imageView = new ImageView(new File(hero1.getGraphicPack().getIdlePhotoAddress()).toURI().toString());
+        creatImageViewMouseActions(hero1, hero1_imageView);
+        cellPanes[Board.width - 1][Board.length / 2].addImageView(hero1_imageView);
+    }
+
+    public void creatImageViewMouseActions(Card card, ImageView imageView) {
+        imageViewOfCards.put(card.getCardId(), imageView);
+        imageView.setOnMouseClicked(event -> {
+            int turn = battle.getTurn();
+            if (!battle.getPlayers()[turn].isHuman()) {
+                return;
+            }
+            Player player = battle.getPlayers()[turn];
+            allCellsNormal();
+            if (!card.isSpawn()) {
+                show_available_cells_for_insert(card);
+                playerSelectedCard[turn] = card;
+            } else {//notSpawn
+
+                if (playerSelectedCard[turn] == null) {
+                    if (card.getPlyNum() == turn) {
+                        playerSelectedCard[turn] = card;
+                        show_available_works(card);
+                    }
+                } else {
+                    //playerSelected card is not spawn and now , selected card
+                    if (!playerSelectedCard[turn].isSpawn()) {
+                        if (playerSelectedCard[turn] instanceof Spell) {
+                            Minion selectedMinion = (Minion) card;
+                            Spell spell = (Spell) playerSelectedCard[turn];
+                            if (battle.canInsert(spell, selectedMinion.getLocation(), false)) {
+                                insert(spell, selectedMinion.getLocation());
+                            }
+                        }
+                    } else {
+                        Minion attacker = (Minion) playerSelectedCard[turn];
+                        Minion defender = (Minion) card;
+                        if (battle.canAttack(attacker, defender, false)) {
+                            attack(attacker, defender);
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    private void insert(Card card, Location location) {
+
+    }
+
+    private void attack(Minion attacker, Minion defender) {
+
+    }
+
+    public void move(Minion minion,Location location){
+
+    }
+
+    private void show_available_cells_for_insert(Card card) {
+        for (int i = 0; i < Board.width; i++) {
+            for (int j = 0; j < Board.length; j++) {
+                if (battle.canInsert(card, new Location(i, j), false)) {
+                    cellPanes[i][j].canInsertCell();
+                }
+            }
+        }
+    }
+
+    private void allCellsNormal() {
+        for (int i = 0; i < Board.width; i++) {
+            for (int j = 0; j < Board.length; j++) {
+                cellPanes[i][j].normalCell();
+            }
+        }
+    }
+
+    public void show_available_works(Card card) {
+        for (int i = 0; i < Board.width; i++) {
+            for (int j = 0; j < Board.length; j++) {
+                if (battle.canMove((Minion) card, new Location(i, j), false)) {
+                    cellPanes[i][j].canMoveCell();
+                }
+                if (battle.canAttack((Minion) card, board.getCells()[i][j].getMinion(), false)) {
+                    cellPanes[i][j].canAttack();
+                }
+            }
+        }
+    }
+
+    public void setHandCards(Hand hand) {
+        ArrayList<Card> cards = hand.getCards();
+        for (int i = 0; i < Hand.number_of_cards; i++) {
+            cardScenes[i].setCardImageView(cards.get(i));
+        }
+    }
+
     private class CardScene {
         Pane pane;
         public ImageView[] rings;
         public ImageView cardImageView;
         public ImageView mana_view;
-        private int ring_width=200;
-        private int ring_height=200;
+        Label lbl_manaNumbers;
+        public int ring_width = 200;
+        public int ring_height = 200;
 
         public CardScene() {
 
 
-            pane=new Pane();
-            pane.getStylesheets().add("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\layouts\\stylesheets\\battlePlane.css");
+            pane = new Pane();
+            pane.getStylesheets().add("src/layouts/stylesheets/battlePlane.css");
 
-            pane.setPrefSize(ring_width,ring_height);
+            pane.setPrefSize(ring_width, ring_height);
             pane.setOnMouseEntered(event -> {
                 higher();
             });
@@ -213,51 +334,130 @@ public class BattleController extends MyController implements Initializable {
                 lower();
             });
 
-            rings=new ImageView[2];
-            Image ring=new Image(new File("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\inBattle\\cardSceneInserting\\glow_ring.png").toURI().toString());
+            rings = new ImageView[2];
+            Image ring = new Image(new File("src/resources/inBattle/cardSceneInserting/glow_ring.png").toURI().toString());
 
-            rings[0]=new ImageView(ring);
+            rings[0] = new ImageView(ring);
             rings[0].setFitHeight(ring_height);
             rings[0].setFitWidth(ring_width);
-            rings[0].relocate(0,0);
+            rings[0].relocate(0, 0);
 
-            rings[1]=new ImageView(ring);
+            rings[1] = new ImageView(ring);
             rings[1].setFitHeight(ring_height);
             rings[1].setFitWidth(ring_width);
-            rings[1].relocate(0,0);
+            rings[1].relocate(0, 0);
             rings[1].setRotate(180);
 
-            Image mana_icon=new Image(new File("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\inBattle\\cardSceneInserting\\icon_mana.png").toURI().toString());
-            mana_view=new ImageView(mana_icon);
-            mana_view.relocate(ring_width/2.8,ring_height/1.3);
+            Image mana_icon = new Image(new File("src/resources/inBattle/cardSceneInserting/icon_mana.png").toURI().toString());
+            mana_view = new ImageView(mana_icon);
+            mana_view.relocate(ring_width / 2.8, ring_height / 1.3);
+
+            lbl_manaNumbers = new Label("");
+            lbl_manaNumbers.getStyleClass().add("lbl_manaNumber");
+            lbl_manaNumbers.relocate(ring_width / 2.8 + 21, ring_height / 1.3 + 10);
 
             pane.getChildren().addAll(rings);
             pane.getChildren().add(mana_view);
+            pane.getChildren().add(lbl_manaNumbers);
 
         }
 
-        public void setCardImageView(ImageView cardImageView) {
+        public void set_mana_numbers(int manaNumbers) {
+            lbl_manaNumbers.setText(String.valueOf(manaNumbers));
+        }
 
+        public void setCardImageView(Card card) {
+            cardImageView = new ImageView(new File("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_idle.gif").toURI().toString());
+            creatImageViewMouseActions(card, cardImageView);
             this.cardImageView = cardImageView;
-            cardImageView.relocate(5,-20);
+            cardImageView.relocate(5, -20);
             cardImageView.setFitWidth(ring_width);
             cardImageView.setFitHeight(ring_height);
+            set_mana_numbers(card.getMana());
             pane.getChildren().add(cardImageView);
         }
-        public void ring_rotate(int degree){
+
+        public void ring_rotate(int degree) {
             rings[0].setRotate(degree);
-            rings[1].setRotate(degree+180);
+            rings[1].setRotate(degree + 180);
         }
-        private void higher(){
+
+        private void higher() {
             ring_rotate(60);
+            pane.getStyleClass().add("cardSceneHigher");
 
         }
-        private void lower(){
+
+        private void lower() {
             ring_rotate(0);
 
         }
-        private void click(){
-            
+
+        private void click() {
+
+        }
+    }
+
+    private class CellPane {
+        int imageViewWidth = 150;
+        int imageViewHeight = 150;
+        public Pane pane;
+        public Label label;
+        Label upperLabel;
+
+        public CellPane(int cellHeight, int cellWidth,int i,int j) {
+            pane = new Pane();
+            pane.getStylesheets().add("layouts/stylesheets/battlePlane.css");
+
+            pane.setPrefSize(cellWidth, cellHeight);
+            pane.setStyle("-fx-alignment: center;");
+
+            label = new Label();
+            label.getStyleClass().add("lbl_normalCell");
+            label.setPrefSize(cellWidth - 2, cellHeight - 2);
+            pane.getChildren().add(label);
+
+            upperLabel = new Label();
+            upperLabel.getStyleClass().add("lbl_upperLabel");
+            upperLabel.setPrefSize(cellWidth - 2, cellHeight - 2);
+            pane.getChildren().add(upperLabel);
+
+            upperLabel.setOnMouseEntered(event -> {
+                label.getStyleClass().add("lbl_higherCell");
+            });
+            upperLabel.setOnMouseExited(event -> {
+                label.getStyleClass().add("lbl_lowerCell");
+            });
+            upperLabel.setOnMouseClicked(event -> {
+                cellPaneClick(i,j);
+            });
+        }
+
+        public void addImageView(ImageView imageView) {
+            imageView.setFitWidth(imageViewWidth);
+            imageView.setFitHeight(imageViewHeight);
+            imageView.relocate(-imageViewWidth / 5, -imageViewHeight / 3);
+            pane.getChildren().add(imageView);
+            pane.getChildren().remove(upperLabel);
+            pane.getChildren().add(upperLabel);
+
+        }
+
+        public void canInsertCell() {
+            label.getStyleClass().add("lbl_greenCell");
+        }
+
+        public void canMoveCell() {
+
+            label.getStyleClass().add("lbl_yellowCell");
+        }
+
+        public void canAttack() {
+            label.getStyleClass().add("lbl_redCell");
+        }
+
+        public void normalCell() {
+            label.getStyleClass().add("lbl_normalCell");
         }
     }
 }

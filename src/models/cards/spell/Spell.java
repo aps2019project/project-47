@@ -36,7 +36,9 @@ public class Spell extends Card {
     public Spell clone() throws CloneNotSupportedException {
         ArrayList<Effect> cloneEffects=new ArrayList<>();
         cloneEffects.addAll(effects);
-        return new Spell(code,getName(),getMana(),getPrice(),cloneEffects,selectionCellPack);
+        Spell newSpell= new Spell(code,getName(),getMana(),getPrice(),cloneEffects,selectionCellPack);
+        newSpell.setGraphicPack(this.getGraphicPack());
+        return newSpell;
     }
 
     @Override

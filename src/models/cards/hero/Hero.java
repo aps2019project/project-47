@@ -49,7 +49,9 @@ public class Hero extends Minion {
 
     @Override
     public Hero clone() throws CloneNotSupportedException {
-        return new Hero(code,getName(),getMana(),getHp(),getPrice(),getAp()
+        Hero newHero = new Hero(code,getName(),getMana(),getHp(),getPrice(),getAp()
                 ,getMinionTargetsType(),getAttackRange(),getSpecialItem().clone());
+        newHero.setGraphicPack(this.getGraphicPack());
+        return newHero;
     }
 }

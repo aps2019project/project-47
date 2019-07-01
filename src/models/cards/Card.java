@@ -11,7 +11,7 @@ public class Card implements Cloneable {
     private int price;
     private int plyNum; //one or two
     private boolean inserted;
-
+    private boolean spawn;
 
     public Card(int code, String name, int mana, int price, CardType cardType) {
         this.code = code;
@@ -21,6 +21,7 @@ public class Card implements Cloneable {
         this.price = price;
         this.graphicPack = new GraphicPack();
         inserted=false;
+        spawn=false;
     }
 
     public GraphicPack getGraphicPack() {
@@ -84,7 +85,9 @@ public class Card implements Cloneable {
 
     @Override
     public Object clone() throws CloneNotSupportedException {
-        return new Card(code,name,mana,price,cardType);
+        Card newCard=new  Card(code,name,mana,price,cardType);
+        newCard.setGraphicPack(this.graphicPack);
+        return newCard;
     }
 
     public void setCode(int code) {
@@ -97,5 +100,17 @@ public class Card implements Cloneable {
 
     public void setInserted(boolean inserted) {
         this.inserted = inserted;
+    }
+
+    public boolean isSpawn() {
+        return spawn;
+    }
+
+    public void setSpawn(boolean spawn) {
+        this.spawn = spawn;
+    }
+
+    public void setGraphicPack(GraphicPack graphicPack) {
+        this.graphicPack = graphicPack;
     }
 }

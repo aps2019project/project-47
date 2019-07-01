@@ -63,8 +63,9 @@
             <JFXComboBox prefHeight="51.0" prefWidth="500" promptText="Type" styleClass="regular-textBox"
                          fx:id="typeOfCard"
                          onAction="#changeActiveHomes"/>
-            <JFXTextField prefHeight="51.0" promptText="AP" fx:id="ap" styleClass="regular-textBox"/>
-            <JFXTextField prefHeight="51.0" promptText="HP" fx:id="hp" styleClass="regular-textBox"/>
+            <JFXTextField prefHeight="51.0" promptText="Attack Point" fx:id="ap" styleClass="regular-textBox"/>
+            <JFXTextField prefHeight="51.0" promptText="Health Point" fx:id="hp" styleClass="regular-textBox"/>
+            <JFXTextField prefHeight="51.0" promptText="Manas Point" fx:id="mp" styleClass="regular-textBox"/>
             <JFXComboBox prefHeight="51.0" prefWidth="500" promptText="Type" fx:id="typeOfAttackType"
                          styleClass="regular-textBox"/>
             <JFXTextField prefHeight="51.0" promptText="Range" fx:id="range" styleClass="regular-textBox"/>

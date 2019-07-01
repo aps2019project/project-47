@@ -18,9 +18,8 @@ import models.cards.hero.Hero;
 import models.cards.minion.Minion;
 import models.cards.spell.Spell;
 import models.item.Item;
-import runners.Main;
+import network.Client;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -31,8 +30,7 @@ import java.util.Formatter;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
-public class MainMenuController implements Initializable {
-
+public class MainMenuController {
     public Label customCardLabel;
     public Label playLabel;
     public Label collectionLabel;
@@ -49,38 +47,17 @@ public class MainMenuController implements Initializable {
     public static Gson gson;
 
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        gsonBuilder = new GsonBuilder();
-        gson = gsonBuilder.create();
-        File file = new File("src/JSONs/Accounts/");
-        for (File file1 : file.listFiles()){
-            if (file1.getName().contains(".json")){
-                String json = "";
-                try {
-                    Scanner scanner = new Scanner(file1);
-                    json = scanner.nextLine();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-                Account account = gson.fromJson(json, Account.class);
-                AccountMenu.addAccount(account);
-            }
-        }
-
-    }
-
     public void goToPlayMenu() {
-        Main.getStage().getScene().setRoot(BattleMenu.getRoot());
+        Client.getStage().getScene().setRoot(BattleMenu.getRoot());
     }
 
     public void goToCollectionMenu() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/layouts/Collection.fxml"));
-        Main.getStage().getScene().setRoot(root);
+        Client.getStage().getScene().setRoot(root);
     }
 
     public void goToShop() {
-        Main.getStage().getScene().setRoot(Shop.getRoot());
+        Client.getStage().getScene().setRoot(Shop.getRoot());
     }
 
     public void goToHistoryMenu() {
@@ -93,11 +70,11 @@ public class MainMenuController implements Initializable {
 
     public void logOut() {
         AccountMenu.setLoginAccount(null);
-        Main.getStage().getScene().setRoot(AccountMenu.getRoot());
+        Client.getStage().getScene().setRoot(AccountMenu.getRoot());
     }
 
     public void goToCustomCardMenu(MouseEvent mouseEvent) throws IOException {
-        Main.getStage().getScene().setRoot(FXMLLoader.load(getClass().getResource("../../layouts/customCardCreatePage.fxml")));
+        Client.getStage().getScene().setRoot(FXMLLoader.load(getClass().getResource("../../layouts/customCardCreatePage.fxml")));
     }
 
     public void exit(MouseEvent mouseEvent) {
@@ -120,6 +97,6 @@ public class MainMenuController implements Initializable {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        AlertHelper.showAlert(Alert.AlertType.INFORMATION, Main.getStage().getOwner(), "Account Saved!", "Account " + loginAccount.getUserName() + " Saved!");
+        AlertHelper.showAlert(Alert.AlertType.INFORMATION, Client.getStage().getOwner(), "Account Saved!", "Account " + loginAccount.getUserName() + " Saved!");
     }
 }

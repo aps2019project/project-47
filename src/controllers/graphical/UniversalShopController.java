@@ -2,30 +2,27 @@ package controllers.graphical;
 
 import com.jfoenix.controls.JFXButton;
 import controllers.console.AccountMenu;
-import controllers.console.Constants;
+import controllers.Constants;
 import controllers.console.MainMenu;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Orientation;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseDragEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import layouts.AlertHelper;
 import models.Account;
 import models.Shop;
-import models.battle.board.Board;
 import models.cards.Card;
 import models.cards.hero.Hero;
 import models.cards.minion.Minion;
 import models.cards.spell.Spell;
 import models.item.Item;
-import runners.Main;
+import network.Client;
 
 import java.io.IOException;
 import java.net.URL;
@@ -186,10 +183,13 @@ public class UniversalShopController implements Initializable {
 
             button.setOnMouseClicked(event -> {
                 Constants resultCode = shop.command_buy(Integer.parseInt(id.substring(1)));
-                if (resultCode == Constants.SUCCESSFUL_BUY) {//todo complete conditions
+                if (resultCode == Constants.SUCCESSFUL_BUY) {
                 } else if (resultCode == Constants.NOT_ENOUGH_MONEY) {
+                    AlertHelper.showAlert(Alert.AlertType.ERROR , Client.getStage().getOwner() , "Error!" , "You don't have enough money!");
                 } else if (resultCode == Constants.HAD_BOUGHT_BEFORE) {
+                    AlertHelper.showAlert(Alert.AlertType.ERROR , Client.getStage().getOwner() , "Error!" , "You have bought this thing!");
                 } else if (resultCode == Constants.NO_ACCOUNT_LOGGED_IN) {
+                    AlertHelper.showAlert(Alert.AlertType.ERROR , Client.getStage().getOwner() , "!WTF!" , "No account logged in! WTF!!!!");
                 }
                 money.setText("Money : ".concat(Integer.toString(loginAccount.getMoney())));
             });
@@ -291,6 +291,6 @@ public class UniversalShopController implements Initializable {
     @FXML
     public void backButtonAction(ActionEvent actionEvent) throws IOException {
 
-        Main.getStage().getScene().setRoot(MainMenu.getRoot());
+        Client.getStage().getScene().setRoot(MainMenu.getRoot());
     }
 }

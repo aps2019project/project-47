@@ -1,6 +1,6 @@
 package models.deck;
 
-import controllers.console.Constants;
+import controllers.Constants;
 import models.cards.Card;
 import models.item.Item;
 import views.MyPrinter;
