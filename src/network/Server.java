@@ -24,7 +24,7 @@ public class Server {
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader("network/config"));
+        BufferedReader reader = new BufferedReader(new FileReader("src/network/config"));
         int port = Integer.parseInt(reader.readLine());
         reader.close();
         new Server(port);
