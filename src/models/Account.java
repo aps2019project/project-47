@@ -15,13 +15,14 @@ public class Account implements Cloneable {
     private String userName;
     private int money;
     private String password;
+
     private ArrayList<MatchResult> matchHistory;
+
     private ArrayList<Card> cards;
     private ArrayList<Item> items;
     private ArrayList<Deck> decks;
     private int storyLvl;
     private Deck mainDeck;
-
     public Account(String userName, String password) {
         this.userName = new String(userName);
         this.money = 300_000;
@@ -35,6 +36,10 @@ public class Account implements Cloneable {
 
     public int getStoryLvl() {
         return storyLvl;
+    }
+
+    public ArrayList<MatchResult> getMatchHistory() {
+        return matchHistory;
     }
 
     public Deck getMainDeck() {
@@ -72,10 +77,10 @@ public class Account implements Cloneable {
     public int numOfWin() {
         int count = 0;
         for (MatchResult matchResult : this.matchHistory) {
-            if (matchResult.getUser1().equals(userName)) {
+            if (matchResult.getUser0().equals(userName)) {
                 if (matchResult.getWinner() == 0) count++;
             }
-            if (matchResult.getUser2().equals(userName)) {
+            if (matchResult.getUser1().equals(userName)) {
                 if (matchResult.getWinner() == 1) count++;
             }
         }

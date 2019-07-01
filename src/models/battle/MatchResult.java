@@ -1,24 +1,24 @@
 package models.battle;
 
 public class MatchResult {
+    private String user0;
     private String user1;
-    private String user2;
     private int winner; // true mean's victory and false mean's loose.
     private int gameTime;
 
-    public MatchResult(String user1, String user2, int winner, int gameTime) {
+    public MatchResult(String user0, String user1, int winner, int gameTime) {
+        this.user0 = user0;
         this.user1 = user1;
-        this.user2 = user2;
-        this.winner = winner;
+        this.winner=winner;
         this.gameTime = gameTime;
+    }
+
+    public String getUser0() {
+        return user0;
     }
 
     public String getUser1() {
         return user1;
-    }
-
-    public String getUser2() {
-        return user2;
     }
 
     public int getWinner() {

@@ -61,6 +61,11 @@ public class MainMenuController {
     }
 
     public void goToHistoryMenu() {
+        try {
+            FXMLLoader.load(getClass().getResource("/layouts/MatchHistory.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void logOut() {
