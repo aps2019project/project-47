@@ -235,8 +235,6 @@ public class BattleController extends MyController implements Initializable {
     }
 
     private class CellPane {
-        int imageViewWidth = 150;
-        int imageViewHeight = 150;
         public Pane pane;
         public Label downerLabel;
         Label upperLabel;
@@ -357,6 +355,8 @@ public class BattleController extends MyController implements Initializable {
         }
 
         public void addImageView(ImageView imageView) {
+            Double imageViewWidth = graphicalBoard.cellWidth* 1.8;
+            Double imageViewHeight = graphicalBoard.cellHeight* 1.8;
             imageView.setFitWidth(imageViewWidth);
             imageView.setFitHeight(imageViewHeight);
             imageView.relocate(-imageViewWidth / 5, -imageViewHeight / 3);
@@ -447,6 +447,8 @@ public class BattleController extends MyController implements Initializable {
         private int boardWidth = 800;
         private int boardHeight = 450;
         private int cellGap = 5;
+        int cellWidth;
+        int cellHeight;
 
         public Pane parentPane;
         private GridPane gridPane;
@@ -458,8 +460,8 @@ public class BattleController extends MyController implements Initializable {
 
             int width = Board.width;
             int height = Board.length;
-            int cellWidth = (boardWidth - (cellGap * (width + 1))) / width;
-            int cellHeight = (boardHeight - (cellGap * (height + 1))) / height;
+            cellWidth = (boardWidth - (cellGap * (width + 1))) / width;
+            cellHeight = (boardHeight - (cellGap * (height + 1))) / height;
             cellPanes = new CellPane[width][height];
 
             gridPane = new GridPane();
