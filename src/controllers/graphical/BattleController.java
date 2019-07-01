@@ -7,10 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.effect.PerspectiveTransform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import models.battle.Battle;
 import models.battle.Hand;
 import models.battle.Player;
@@ -25,6 +22,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 public class BattleController extends MyController implements Initializable {
@@ -111,7 +109,7 @@ public class BattleController extends MyController implements Initializable {
         cellPanes = new CellPane[Board.width][Board.length];
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                cellPanes[i][j] = new CellPane(cellHeight, cellWidth,i,j);
+                cellPanes[i][j] = new CellPane(cellHeight, cellWidth, i, j);
                 cellGrid.add(cellPanes[i][j].pane, i, j);
             }
         }
@@ -145,27 +143,26 @@ public class BattleController extends MyController implements Initializable {
     }
 
     private void cellPaneClick(int i, int j) {
-        Location location = new Location(i,j);
+        Location location = new Location(i, j);
         int turn = battle.getTurn();
         Card selectedCard = playerSelectedCard[turn];
 
         if (!battle.getPlayers()[turn].isHuman()) {
             return;
         }
-        if (playerSelectedCard[turn]==null){
+        if (playerSelectedCard[turn] == null) {
             return;
         }
-        if (!playerSelectedCard[turn].isSpawn()){
-            if (battle.canInsert(selectedCard,location,false)){
-                insert(selectedCard,location);
+        if (!playerSelectedCard[turn].isSpawn()) {
+            if (battle.canInsert(selectedCard, location, false)) {
+                insert(selectedCard, location);
             }
-        }else {
+        } else {
             Minion selectedMinion = (Minion) selectedCard;
-            if (battle.canMove(selectedMinion,location,false)){
-                move(selectedMinion,location);
+            if (battle.canMove(selectedMinion, location, false)) {
+                move(selectedMinion, location);
             }
         }
-
 
 
     }
@@ -269,7 +266,7 @@ public class BattleController extends MyController implements Initializable {
 
     }
 
-    public void move(Minion minion,Location location){
+    public void move(Minion minion, Location location) {
 
     }
 
@@ -367,7 +364,7 @@ public class BattleController extends MyController implements Initializable {
         }
 
         public void setCardImageView(Card card) {
-            cardImageView = new ImageView(new File("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_idle.gif").toURI().toString());
+            cardImageView = new ImageView(new File("/resources/cards/Mmd_test/Avalanche_idle.gif").toURI().toString());
             creatImageViewMouseActions(card, cardImageView);
             this.cardImageView = cardImageView;
             cardImageView.relocate(5, -20);
@@ -405,7 +402,7 @@ public class BattleController extends MyController implements Initializable {
         public Label label;
         Label upperLabel;
 
-        public CellPane(int cellHeight, int cellWidth,int i,int j) {
+        public CellPane(int cellHeight, int cellWidth, int i, int j) {
             pane = new Pane();
             pane.getStylesheets().add("layouts/stylesheets/battlePlane.css");
 
@@ -429,7 +426,7 @@ public class BattleController extends MyController implements Initializable {
                 label.getStyleClass().add("lbl_lowerCell");
             });
             upperLabel.setOnMouseClicked(event -> {
-                cellPaneClick(i,j);
+                cellPaneClick(i, j);
             });
         }
 
@@ -460,4 +457,66 @@ public class BattleController extends MyController implements Initializable {
             label.getStyleClass().add("lbl_normalCell");
         }
     }
+
+    class manaViewer {
+        private boolean rightToLeft;
+        private LinkedList<ImageView> imageViews = new LinkedList<>();
+        private VBox container;
+        private Image activeManaImage;
+        private Image inactiveManaImage;
+
+        public manaViewer(boolean rightToLeft, int panePositionX, int panePositionY, int width, int height, String activeManaAddress, String inActiveManaAddress) {
+            this.rightToLeft = rightToLeft;
+            container = new VBox();
+            container.setPrefWidth(width);
+            container.setPrefHeight(height);
+            container.setLayoutX(panePositionX);
+            container.setLayoutY(panePositionY);
+            this.activeManaImage = new Image(activeManaAddress);
+            this.inactiveManaImage = new Image(inActiveManaAddress);
+            for (int i = 0; i < 10; i++) {
+                if ((i == 0 && rightToLeft) || (i == 9 && !rightToLeft)) {
+                    imageViews.add(new ImageView(activeManaImage));
+                } else {
+                    imageViews.add(new ImageView(inactiveManaImage));
+                }
+            }
+        }
+
+        public void addMana() {
+            ImageView imageView = new ImageView(activeManaImage);
+            if (rightToLeft) {
+                imageViews.addFirst(imageView);
+                imageViews.removeLast();
+            } else {
+                imageViews.addLast(imageView);
+                imageViews.removeFirst();
+            }
+        }
+
+        public void removeMana() {
+            ImageView imageView = new ImageView(inactiveManaImage);
+            if (rightToLeft) {
+                imageViews.addLast(imageView);
+                imageViews.removeFirst();
+            } else {
+                imageViews.addFirst(imageView);
+                imageViews.removeLast();
+            }
+        }
+
+        public void update() {
+            clearContainer();
+            for (ImageView imageView : imageViews) {
+                container.getChildren().add(imageView);
+            }
+        }
+
+        public void clearContainer() {
+            container.getChildren().remove(0, container.getChildren().size());
+        }
+
+    }
 }
+
+

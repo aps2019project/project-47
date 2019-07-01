@@ -10,7 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import models.Account;
 import models.battle.MatchResult;
-import runners.Main;
+import network.Client;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class MatchHistoryController implements Initializable {
 
     @FXML
     void back(ActionEvent event) {
-        Main.getStage().getScene().setRoot(MainMenu.getRoot());
+        Client.getStage().getScene().setRoot(MainMenu.getRoot());
     }
 
     public Label monoMatchResultLabel(String player0, String player1, int winner, Integer turns) {
