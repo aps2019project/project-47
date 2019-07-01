@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.jfoenix.controls.JFXButton;
 import controllers.console.AccountMenu;
 import controllers.console.Constants;
+import controllers.console.MainMenu;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -103,10 +104,8 @@ public class CollectionController implements Initializable {
     private Button exportDeckButton;
 
     @FXML
-    void back(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/layouts/mainMenu.fxml"));
-        Main.getStage().getScene().setRoot(root);
-        //Main.getStage().getScene().setRoot(AccountMenu.getRoot());
+    void back(ActionEvent event){
+        Main.getStage().getScene().setRoot(MainMenu.getRoot());
     }
 
     @FXML

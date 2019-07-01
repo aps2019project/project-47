@@ -84,6 +84,11 @@ public class MainMenuController implements Initializable {
     }
 
     public void goToHistoryMenu() {
+        try {
+            FXMLLoader.load(getClass().getResource("/layouts/MatchHistory.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void logOut() {

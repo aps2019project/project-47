@@ -4,7 +4,6 @@ package controllers.console;
 import controllers.MyController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import models.Account;
 import models.Collection;
 import models.battle.MatchResult;
@@ -79,8 +78,8 @@ public class MainMenu {
     }
 
     public void computingMatchResult(MatchResult matchResult) {
-        String user1 = matchResult.getUser1();
-        String user2 = matchResult.getUser2();
+        String user1 = matchResult.getUser0();
+        String user2 = matchResult.getUser1();
         int winner = matchResult.getWinner();
         if (winner == 0) {
             System.out.println(MyPrinter.ANSI_GREEN_BACKGROUND);
