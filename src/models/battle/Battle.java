@@ -626,7 +626,7 @@ public class Battle {
         if (!board.can_insert_this_minion_at_thisCell(minion,location,printError))return false;
         return true;
     }
-    private boolean canUseSpecialPower(Hero hero, Location target, boolean printError){
+    public boolean canUseSpecialPower(Hero hero, Location target, boolean printError){
         HeroSpecialItemPack heroPack=hero.getSpecialItem().getHeroPack();
         if (hero.isUsedSpecialItem()){
             if (printError)MyPrinter.red("you used specialItem in this turn!");

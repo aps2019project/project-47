@@ -1,0 +1,18 @@
+
+.lbl_manaNumber{
+    -fx-font-size: 30;
+    -fx-font-weight: bold;
+    -fx-fill: green;
+}
+.downerCircle_firstStyle{
+    -fx-fill: gold;
+}
+.upperCircle_firstStyle{
+    -fx-opacity: 0;
+}
+.downerCircle_higher{
+    -fx-opacity: 0.3;
+}
+.downerCircle_lower{
+    -fx-opacity: 0.1;
+}

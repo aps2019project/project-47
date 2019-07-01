@@ -41,7 +41,6 @@ public class BattleChooseMenuController extends MyController {
 
     public void startStoryGame(ActionEvent event) {
 
-        System.out.println("story");
         Account account = AccountMenu.getLoginAccount();
         Player player0 = account.makePlayer(0);
         StoryGame storyGame = new StoryGame();

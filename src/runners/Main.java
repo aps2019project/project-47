@@ -1,4 +1,4 @@
-package network;
+package runners;
 
 import controllers.console.AccountMenu;
 import controllers.console.BattleMenu;
@@ -25,7 +25,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Client extends Application {
+public class Main extends Application {
 
     private static Stage stage;
     private Socket socket;
@@ -40,10 +40,7 @@ public class Client extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-//        socket = new Socket("127.0.0.1", 8000);
-//        PrintWriter out = new PrintWriter(socket.getOutputStream());
-//        DataInputStream serverResponse = new DataInputStream(socket.getInputStream());
-//        Scanner serverScanner = new Scanner(serverResponse);
+
         {
             Shop shop = Shop.getInstance();
             Account Mmd = new Account("Mmd", "1234");
@@ -72,7 +69,7 @@ public class Client extends Application {
 //        Parent root = AccountMenu.getRoot();
 //            Parent root = MainMenu.getRoot();
 //        Parent root = Shop.getRoot();
-            Parent root = BattleMenu.getRoot();
+        Parent root = BattleMenu.getRoot();
 //        Parent root = Board.getRoot();
 //        Parent root = FXMLLoader.load(getClass().getResource("../layouts/customCardCreatePage.fxml"));
 //        Parent root = FXMLLoader.load(getClass().getResource("../layouts/Collection.fxml"));
