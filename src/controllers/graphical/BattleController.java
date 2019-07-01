@@ -461,13 +461,13 @@ public class BattleController extends MyController implements Initializable {
     class manaViewer {
         private boolean rightToLeft;
         private LinkedList<ImageView> imageViews = new LinkedList<>();
-        private VBox container;
+        private HBox container;
         private Image activeManaImage;
         private Image inactiveManaImage;
-
+        private int numberOfActiveManas;
         public manaViewer(boolean rightToLeft, int panePositionX, int panePositionY, int width, int height, String activeManaAddress, String inActiveManaAddress) {
             this.rightToLeft = rightToLeft;
-            container = new VBox();
+            container = new HBox();
             container.setPrefWidth(width);
             container.setPrefHeight(height);
             container.setLayoutX(panePositionX);
@@ -481,6 +481,7 @@ public class BattleController extends MyController implements Initializable {
                     imageViews.add(new ImageView(inactiveManaImage));
                 }
             }
+            this.numberOfActiveManas = 1;
         }
 
         public void addMana() {
@@ -492,6 +493,7 @@ public class BattleController extends MyController implements Initializable {
                 imageViews.addLast(imageView);
                 imageViews.removeFirst();
             }
+            numberOfActiveManas++;
         }
 
         public void removeMana() {
@@ -503,6 +505,7 @@ public class BattleController extends MyController implements Initializable {
                 imageViews.addFirst(imageView);
                 imageViews.removeLast();
             }
+            numberOfActiveManas --;
         }
 
         public void update() {
@@ -510,6 +513,19 @@ public class BattleController extends MyController implements Initializable {
             for (ImageView imageView : imageViews) {
                 container.getChildren().add(imageView);
             }
+        }
+
+        //use matchManaAndUpdate after each action related to mana
+        public void matchManasAndUpdate(Player player){
+            if (player.getMana() > numberOfActiveManas){
+                while (player.getMana() > numberOfActiveManas)
+                    addMana();
+            }
+            if (player.getMana() < numberOfActiveManas){
+                while (player.getMana() < numberOfActiveManas)
+                    removeMana();
+            }
+            update();
         }
 
         public void clearContainer() {
