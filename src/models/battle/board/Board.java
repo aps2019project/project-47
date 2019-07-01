@@ -136,6 +136,10 @@ public class Board {
 
     public boolean canMove(Minion minion, Location target, boolean printError) {
         Location from = minion.getLocation();
+        if (minion.getLocation().equals(target)){
+            if (printError) MyPrinter.red("it's his cell!");
+            return false;
+        }
         if (from.distance(target) > 2) {
             if (printError) MyPrinter.red("distance is bigger than 2! you can't move.");
             return false;
@@ -148,6 +152,7 @@ public class Board {
             if (printError) MyPrinter.red("there isn't any possible path to move!");
             return false;
         }
+
         return true;
     }
 
@@ -555,5 +560,8 @@ public class Board {
     }
     public static MyController getController() {
         return controller;
+    }
+    public Minion getMinionByLocation(Location location){
+        return cells[location.getX()][location.getY()].getMinion();
     }
 }
