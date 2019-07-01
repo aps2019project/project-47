@@ -64,6 +64,11 @@ public class Player {
     public void addFlagTurns(int value){
         num_of_turns_with_flags=+value;
     }
+
+    public GraveYard getGraveYard() {
+        return graveYard;
+    }
+
     public Hero getHero() {
         return hero;
     }

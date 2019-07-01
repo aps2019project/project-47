@@ -15,6 +15,10 @@ public class GraveYard {
         this.cards = new ArrayList<>();
     }
 
+    public ArrayList<Card> getCards() {
+        return cards;
+    }
+
     public void openMenu(){
         Scanner scanner=new Scanner(System.in);
         help();
@@ -40,7 +44,7 @@ public class GraveYard {
                 help();
                 continue;
             }
-            MyPrinter.red("Invalid commandTxr!");
+            MyPrinter.red("Invalid commandTxt!");
         }
     }
     public void show(){
