@@ -1,13 +1,18 @@
 package controllers.graphical;
 
 import controllers.MyController;
+import javafx.animation.TranslateTransition;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.effect.PerspectiveTransform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
 import models.battle.Battle;
 import models.battle.Hand;
 import models.battle.Player;
@@ -16,7 +21,6 @@ import models.battle.board.Location;
 import models.cards.Card;
 import models.cards.hero.Hero;
 import models.cards.minion.Minion;
-import models.cards.spell.Spell;
 
 import java.io.File;
 import java.net.URL;
@@ -26,10 +30,6 @@ import java.util.LinkedList;
 import java.util.ResourceBundle;
 
 public class BattleController extends MyController implements Initializable {
-    private int boardWidth = 800;
-    private int boardHeight = 450;
-    private int cellGap = 5;
-
 
     public AnchorPane anchorPane;
     private GridPane cellGrid;
@@ -37,32 +37,13 @@ public class BattleController extends MyController implements Initializable {
     private Parent root;
     private Board board;
     private Battle battle;
-    private Label[][] cells;
-    private CellPane[][] cellPanes;
     private HashMap<String, ImageView> imageViewOfCards;
-    private CardScene[] cardScenes;
     private Card[] playerSelectedCard;
-
-
-    public Parent getRoot() {
-        return root;
-    }
-
-    public void setBoard(Board board) {
-        this.board = board;
-    }
-
-    public Board getBoard() {
-        return board;
-    }
-
-    public void setBattle(Battle battle) {
-        this.battle = battle;
-    }
-
-    public Battle getBattle() {
-        return battle;
-    }
+    private GraphicalHand graphicalHand;
+    private GraphicalBoard graphicalBoard;
+    private StateOfMouseClicked[] stateOfMouseClickeds;
+    private int turn;
+    private Player[] players;
 
     public void setRoot(Parent root) {
         this.root = root;
@@ -71,194 +52,56 @@ public class BattleController extends MyController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         imageViewOfCards = new HashMap<>();
-        buildGrid();
+        creatBoardCells();
         creatHandScene();
-    }
-
-    private ImageView creatGif() {
-        Image image = new Image(new File("resources/java.gif").toURI().toString());
-        ImageView imageView = new ImageView(image);
-        imageView.setStyle("-fx-background-color: white;" +
-                "-fx-opacity: 1");
-
-        //Setting the position of the image
-        imageView.setX(0);
-        imageView.setY(0);
-
-        //setting the fit height and width of the image view
-        imageView.setFitHeight(1000);
-        imageView.setFitWidth(1000);
-
-        //Setting the preserve ratio of the image view
-        imageView.setPreserveRatio(false);
-
-        return imageView;
-
 
     }
 
-    private void buildGrid() {
-
-        GridPane cellGrid = new GridPane();
-
-        int width = Board.width;
-        int height = Board.length;
-        int cellWidth = (boardWidth - (cellGap * (width + 1))) / width;
-        int cellHeight = (boardHeight - (cellGap * (height + 1))) / height;
-
-        cellPanes = new CellPane[Board.width][Board.length];
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                cellPanes[i][j] = new CellPane(cellHeight, cellWidth, i, j);
-                cellGrid.add(cellPanes[i][j].pane, i, j);
-            }
-        }
-
-        cellGrid.setHgap(cellGap);
-        cellGrid.setVgap(cellGap);
-        cellGrid.relocate(0, 0);
-
-        Pane parentOfCellPanes = new Pane();
-        parentOfCellPanes.getChildren().add(cellGrid);
-
-        perspectiveGrid(parentOfCellPanes);
-        anchorPane.getChildren().add(parentOfCellPanes);
-
+    public void freeClick(){
+        System.out.println("free click");
+        stateOfMouseClickeds[turn] = StateOfMouseClicked.free;
+        playerSelectedCard[turn] = null;
+        graphicalBoard.allCellsNormal();
     }
 
-    private void perspectiveGrid(Pane perspectivePane) {
-        PerspectiveTransform pt = new PerspectiveTransform();
-
-        pt.setUlx(550);
-        pt.setUly(240);
-        pt.setUrx(1350);
-        pt.setUry(240);
-        pt.setLrx(1420);
-        pt.setLry(680);
-        pt.setLlx(480);
-        pt.setLly(680);
-        perspectivePane.relocate(550, 240);
-        //perspectivePane.setEffect(pt);
-
-    }
-
-    private void cellPaneClick(int i, int j) {
-        Location location = new Location(i, j);
-        int turn = battle.getTurn();
-        Card selectedCard = playerSelectedCard[turn];
-
-        if (!battle.getPlayers()[turn].isHuman()) {
-            return;
-        }
-        if (playerSelectedCard[turn] == null) {
-            return;
-        }
-        if (!playerSelectedCard[turn].isSpawn()) {
-            if (battle.canInsert(selectedCard, location, false)) {
-                insert(selectedCard, location);
-            }
-        } else {
-            Minion selectedMinion = (Minion) selectedCard;
-            if (battle.canMove(selectedMinion, location, false)) {
-                move(selectedMinion, location);
-            }
-        }
-
-
+    private void creatBoardCells() {
+        graphicalBoard = new GraphicalBoard();
+        anchorPane.getChildren().add(graphicalBoard.parentPane);
     }
 
     private void creatHandScene() {
-        int x = 500;
-        int y = 800;
-        int width = 500;
-        int height = 200;
-        Double multipleOfResizing_cardScene = 0.1;
-
-
-        Pane parent = new Pane();
-        parent.relocate(x, y);
-        parent.setPrefSize(width, height);
-
-        HBox hBox = new HBox();
-        hBox.setSpacing(30);
-        cardScenes = new CardScene[Hand.number_of_cards];
-
-        for (int i = 0; i < Hand.number_of_cards; i++) {
-//            ImageView imageView=new ImageView(new File("src/resources/cards/Mmd_test/Avalanche_idle.gif").toURI().toString());
-            cardScenes[i] = new CardScene();
-//            cardScenes[i].setCardImageView(imageView);
-            hBox.getChildren().add(cardScenes[i].pane);
-        }
-
-        parent.getChildren().add(hBox);
-
-
-        anchorPane.getChildren().add(parent);
-
+        graphicalHand = new GraphicalHand();
+        anchorPane.getChildren().add(graphicalHand.parentPane);
     }
 
     public void initializeBattle(Battle battle) {
         this.battle = battle;
+        this.board = battle.getBoard();
         playerSelectedCard = new Card[2];
         battle.getPlayers()[0].mana_rise(10);
-        setHeroOnPlane();
-        setHandCards(battle.getPlayers()[0].getHand());
+        setHeroOnPlane_atStatingBattle();
+        graphicalHand.setHand(battle.getPlayers()[0].getHand());
+        graphicalBoard.setBoard(board);
+        graphicalHand.updateHand();
+        stateOfMouseClickeds = new StateOfMouseClicked[2];
+        stateOfMouseClickeds[0]=StateOfMouseClicked.free;
+        stateOfMouseClickeds[1]=StateOfMouseClicked.free;
+        turn=battle.getTurn();
+        players = battle.getPlayers();
     }
 
-    public void setHeroOnPlane() {
+    public void setHeroOnPlane_atStatingBattle() {
+
         Hero hero0 = battle.getPlayers()[0].getHero();
-        ImageView hero0_imageView = new ImageView(new File(hero0.getGraphicPack().getIdlePhotoAddress()).toURI().toString());
-        creatImageViewMouseActions(hero0, hero0_imageView);
-        cellPanes[0][Board.length / 2].addImageView(hero0_imageView);
+        graphicalBoard.setCardInCell(hero0, new Location(0, Board.length / 2));
 
         Hero hero1 = battle.getPlayers()[1].getHero();
-        ImageView hero1_imageView = new ImageView(new File(hero1.getGraphicPack().getIdlePhotoAddress()).toURI().toString());
-        creatImageViewMouseActions(hero1, hero1_imageView);
-        cellPanes[Board.width - 1][Board.length / 2].addImageView(hero1_imageView);
-    }
+        graphicalBoard.setCardInCell(hero1, new Location(Board.width - 1, Board.length / 2));
 
-    public void creatImageViewMouseActions(Card card, ImageView imageView) {
-        imageViewOfCards.put(card.getCardId(), imageView);
-        imageView.setOnMouseClicked(event -> {
-            int turn = battle.getTurn();
-            if (!battle.getPlayers()[turn].isHuman()) {
-                return;
-            }
-            Player player = battle.getPlayers()[turn];
-            allCellsNormal();
-            if (!card.isSpawn()) {
-                show_available_cells_for_insert(card);
-                playerSelectedCard[turn] = card;
-            } else {//notSpawn
-
-                if (playerSelectedCard[turn] == null) {
-                    if (card.getPlyNum() == turn) {
-                        playerSelectedCard[turn] = card;
-                        show_available_works(card);
-                    }
-                } else {
-                    //playerSelected card is not spawn and now , selected card
-                    if (!playerSelectedCard[turn].isSpawn()) {
-                        if (playerSelectedCard[turn] instanceof Spell) {
-                            Minion selectedMinion = (Minion) card;
-                            Spell spell = (Spell) playerSelectedCard[turn];
-                            if (battle.canInsert(spell, selectedMinion.getLocation(), false)) {
-                                insert(spell, selectedMinion.getLocation());
-                            }
-                        }
-                    } else {
-                        Minion attacker = (Minion) playerSelectedCard[turn];
-                        Minion defender = (Minion) card;
-                        if (battle.canAttack(attacker, defender, false)) {
-                            attack(attacker, defender);
-                        }
-                    }
-                }
-            }
-        });
     }
 
     private void insert(Card card, Location location) {
+        graphicalHand.insertCard(card);
 
     }
 
@@ -266,96 +109,73 @@ public class BattleController extends MyController implements Initializable {
 
     }
 
-    public void move(Minion minion, Location location) {
+    public void move(Minion minion, Location target) {
+        Location firstLocation = minion.getLocation();
+        TranslateTransition translateTransition = new TranslateTransition();
 
-    }
-
-    private void show_available_cells_for_insert(Card card) {
-        for (int i = 0; i < Board.width; i++) {
-            for (int j = 0; j < Board.length; j++) {
-                if (battle.canInsert(card, new Location(i, j), false)) {
-                    cellPanes[i][j].canInsertCell();
-                }
-            }
-        }
-    }
-
-    private void allCellsNormal() {
-        for (int i = 0; i < Board.width; i++) {
-            for (int j = 0; j < Board.length; j++) {
-                cellPanes[i][j].normalCell();
-            }
-        }
-    }
-
-    public void show_available_works(Card card) {
-        for (int i = 0; i < Board.width; i++) {
-            for (int j = 0; j < Board.length; j++) {
-                if (battle.canMove((Minion) card, new Location(i, j), false)) {
-                    cellPanes[i][j].canMoveCell();
-                }
-                if (battle.canAttack((Minion) card, board.getCells()[i][j].getMinion(), false)) {
-                    cellPanes[i][j].canAttack();
-                }
-            }
-        }
-    }
-
-    public void setHandCards(Hand hand) {
-        ArrayList<Card> cards = hand.getCards();
-        for (int i = 0; i < Hand.number_of_cards; i++) {
-            cardScenes[i].setCardImageView(cards.get(i));
-        }
     }
 
     private class CardScene {
-        Pane pane;
-        public ImageView[] rings;
+        Pane parentPane;
+        public ImageView ring;
         public ImageView cardImageView;
         public ImageView mana_view;
         Label lbl_manaNumbers;
-        public int ring_width = 200;
-        public int ring_height = 200;
+        public int paneWidth = 200;
+        public int paneHeight = 200;
+        Circle downerCircle;
+        Circle upperCircle;
+        Card card;
+        int numberOfCardScene;
 
-        public CardScene() {
+        public CardScene(int numberOfCardScene) {
 
+            this.numberOfCardScene=numberOfCardScene;
 
-            pane = new Pane();
-            pane.getStylesheets().add("src/layouts/stylesheets/battlePlane.css");
+            parentPane = new Pane();
+            parentPane.getStylesheets().add("layouts/stylesheets/battle/cardScene.css");
+            parentPane.setPrefSize(paneWidth, paneHeight);
 
-            pane.setPrefSize(ring_width, ring_height);
-            pane.setOnMouseEntered(event -> {
+            downerCircle = new Circle();
+            downerCircle.setRadius(Math.min(paneWidth, paneHeight) / 3.5);
+            downerCircle.relocate(paneHeight / 5, paneWidth / 5);
+            downerCircle.getStyleClass().add("downerCircle_firstStyle");
+            downerCircle.getStyleClass().add("downerCircle_lower");
+            parentPane.getChildren().add(downerCircle);
+
+            ring = new ImageView();
+            Image ring_image = new Image(new File("src/resources/inBattle/cardSceneInserting/ring_glow_for_cardScene.png").toURI().toString());
+            ring = new ImageView(ring_image);
+            ring.setFitHeight(paneHeight);
+            ring.setFitWidth(paneWidth);
+            ring.relocate(0, 0);
+
+            upperCircle = new Circle();
+            upperCircle.setRadius(Math.min(paneWidth, paneHeight) / 3.5);
+            upperCircle.relocate(paneHeight / 5, paneWidth / 5);
+            upperCircle.getStyleClass().add("upperCircle_firstStyle");
+            upperCircle.setOnMouseEntered(event -> {
                 higher();
             });
-            pane.setOnMouseExited(event -> {
+            upperCircle.setOnMouseExited(event -> {
                 lower();
             });
-
-            rings = new ImageView[2];
-            Image ring = new Image(new File("src/resources/inBattle/cardSceneInserting/glow_ring.png").toURI().toString());
-
-            rings[0] = new ImageView(ring);
-            rings[0].setFitHeight(ring_height);
-            rings[0].setFitWidth(ring_width);
-            rings[0].relocate(0, 0);
-
-            rings[1] = new ImageView(ring);
-            rings[1].setFitHeight(ring_height);
-            rings[1].setFitWidth(ring_width);
-            rings[1].relocate(0, 0);
-            rings[1].setRotate(180);
+            upperCircle.setOnMouseClicked(event -> {
+                click();
+            });
+            parentPane.getChildren().add(upperCircle);
 
             Image mana_icon = new Image(new File("src/resources/inBattle/cardSceneInserting/icon_mana.png").toURI().toString());
             mana_view = new ImageView(mana_icon);
-            mana_view.relocate(ring_width / 2.8, ring_height / 1.3);
+            mana_view.relocate(paneWidth / 2.8, paneHeight / 1.3);
 
-            lbl_manaNumbers = new Label("");
+            lbl_manaNumbers = new Label();
             lbl_manaNumbers.getStyleClass().add("lbl_manaNumber");
-            lbl_manaNumbers.relocate(ring_width / 2.8 + 21, ring_height / 1.3 + 10);
+            lbl_manaNumbers.relocate(paneWidth / 2.8 + 21, paneHeight / 1.3 + 10);
 
-            pane.getChildren().addAll(rings);
-            pane.getChildren().add(mana_view);
-            pane.getChildren().add(lbl_manaNumbers);
+            parentPane.getChildren().add(ring);
+            parentPane.getChildren().add(mana_view);
+            parentPane.getChildren().add(lbl_manaNumbers);
 
         }
 
@@ -364,34 +184,54 @@ public class BattleController extends MyController implements Initializable {
         }
 
         public void setCardImageView(Card card) {
-            cardImageView = new ImageView(new File("/resources/cards/Mmd_test/Avalanche_idle.gif").toURI().toString());
-            creatImageViewMouseActions(card, cardImageView);
+            this.card = card;
+            ImageView cardImageView = new ImageView(new File(card.getGraphicPack().getIdlePhotoAddress()).toURI().toString());
             this.cardImageView = cardImageView;
-            cardImageView.relocate(5, -20);
-            cardImageView.setFitWidth(ring_width);
-            cardImageView.setFitHeight(ring_height);
+            cardImageView.relocate(0, -paneHeight / 10);
+            cardImageView.setFitWidth(paneWidth);
+            cardImageView.setFitHeight(paneHeight);
             set_mana_numbers(card.getMana());
-            pane.getChildren().add(cardImageView);
+            parentPane.getChildren().remove(upperCircle);
+            parentPane.getChildren().add(cardImageView);
+            parentPane.getChildren().add(upperCircle);
         }
 
         public void ring_rotate(int degree) {
-            rings[0].setRotate(degree);
-            rings[1].setRotate(degree + 180);
+            ring.setRotate(degree);
         }
 
         private void higher() {
             ring_rotate(60);
-            pane.getStyleClass().add("cardSceneHigher");
+            downerCircle.getStyleClass().remove("downerCircle_lower");
+            downerCircle.getStyleClass().add("downerCircle_higher");
 
         }
 
         private void lower() {
             ring_rotate(0);
-
+            downerCircle.getStyleClass().remove("downerCircle_higher");
+            downerCircle.getStyleClass().add("downerCircle_lower");
         }
 
         private void click() {
+            if (card==null){
+                freeClick();
+            }
+            if (!players[turn].isHuman() ){
+                stateOfMouseClickeds[1-turn] = null;
+            }
+            playerSelectedCard[turn] = card;
+            stateOfMouseClickeds[turn] = StateOfMouseClicked.insertingCardClicked;
+            graphicalBoard.show_available_cells_for_insert(card);
+        }
 
+        public void removeCard() {
+            parentPane.getChildren().remove(cardImageView);
+            cardImageView=null;
+        }
+
+        public Card getCard() {
+            return card;
         }
     }
 
@@ -399,35 +239,122 @@ public class BattleController extends MyController implements Initializable {
         int imageViewWidth = 150;
         int imageViewHeight = 150;
         public Pane pane;
-        public Label label;
+        public Label downerLabel;
         Label upperLabel;
 
         public CellPane(int cellHeight, int cellWidth, int i, int j) {
+
+
             pane = new Pane();
-            pane.getStylesheets().add("layouts/stylesheets/battlePlane.css");
-
+            pane.getStylesheets().add("layouts/stylesheets/battle/cellPane.css");
             pane.setPrefSize(cellWidth, cellHeight);
-            pane.setStyle("-fx-alignment: center;");
 
-            label = new Label();
-            label.getStyleClass().add("lbl_normalCell");
-            label.setPrefSize(cellWidth - 2, cellHeight - 2);
-            pane.getChildren().add(label);
+            downerLabel = new Label();
+            downerLabel.setPrefSize(cellWidth - 2, cellHeight - 2);
+            downerLabel.getStyleClass().add("downerLabel_atFirst");
+            downerLabel.getStyleClass().add("downerLabel_white");
+            downerLabel.getStyleClass().add("downerLabel_lower");
+            pane.getChildren().add(downerLabel);
 
             upperLabel = new Label();
-            upperLabel.getStyleClass().add("lbl_upperLabel");
+            upperLabel.getStyleClass().add("upperLabel_atFirst");
             upperLabel.setPrefSize(cellWidth - 2, cellHeight - 2);
             pane.getChildren().add(upperLabel);
 
             upperLabel.setOnMouseEntered(event -> {
-                label.getStyleClass().add("lbl_higherCell");
+                higher();
             });
             upperLabel.setOnMouseExited(event -> {
-                label.getStyleClass().add("lbl_lowerCell");
+                lower();
             });
             upperLabel.setOnMouseClicked(event -> {
-                cellPaneClick(i, j);
+                Click(i, j);
             });
+        }
+
+        private void Click(int i, int j) {
+            Location location = new Location(i, j);
+            if (!players[turn].isHuman()){
+                freeClick();
+                return;
+            }
+
+            switch (stateOfMouseClickeds[turn]){
+                case free:{
+                    inFreeStateClickACell(location);
+                    break;
+                }
+                case insiderMinionCardClicked:{
+                    inStateOf_insiderMinionClicked_clicked(location);
+                }
+                case insertingCardClicked:{
+                    inStateOf_insertingCard_clicked(location);
+                }
+                case specialPowerClicked:{
+                    inStateOf_specialPower_clicked(location);
+                }
+
+            }
+
+        }
+
+        private void inStateOf_specialPower_clicked(Location location) {
+            if (battle.canUseSpecialPower(players[turn].getHero(),location,false)){
+                useSpecialPower(players[turn].getHero(),location);
+            }else {
+                freeClick();
+            }
+
+        }
+
+        private void inStateOf_insertingCard_clicked(Location location) {
+            if (battle.canInsert(playerSelectedCard[turn],location,false)){
+                insert(playerSelectedCard[turn],location);
+            }else {
+                freeClick();
+            }
+        }
+
+        private void inStateOf_insiderMinionClicked_clicked(Location location) {
+            Minion selectedMinion = board.getMinionByLocation(location);
+            if (selectedMinion==null){
+                if (battle.canMove((Minion)playerSelectedCard[turn],location,false)){
+                    move((Minion)playerSelectedCard[turn],location);
+                }else {
+                    freeClick();
+                }
+            }else {
+                if (battle.canAttack((Minion) playerSelectedCard[turn],selectedMinion,false)){
+                    attack((Minion) playerSelectedCard[turn],selectedMinion);
+                }else {
+                    freeClick();
+                }
+            }
+        }
+
+        private void inFreeStateClickACell(Location location){
+            Minion selectedMinion = board.getMinionByLocation(location);
+            if (selectedMinion==null){
+                freeClick();
+            }else {
+                if (selectedMinion.getPlyNum()==turn){
+                    playerSelectedCard[turn] = selectedMinion;
+                    stateOfMouseClickeds[turn] = StateOfMouseClicked.insiderMinionCardClicked;
+                    graphicalBoard.show_available_works(selectedMinion);
+                }else {
+                    freeClick();
+                }
+            }
+        }
+
+        private void lower() {
+            downerLabel.getStyleClass().remove("downerLabel_higher");
+            downerLabel.getStyleClass().add("downerLabel_lower");
+        }
+
+        private void higher() {
+            downerLabel.getStyleClass().remove("downerLabel_lower");
+            downerLabel.getStyleClass().add("downerLabel_higher");
         }
 
         public void addImageView(ImageView imageView) {
@@ -441,98 +368,255 @@ public class BattleController extends MyController implements Initializable {
         }
 
         public void canInsertCell() {
-            label.getStyleClass().add("lbl_greenCell");
+            uncolored();
+            downerLabel.getStyleClass().add("downerLabel_green");
         }
 
         public void canMoveCell() {
-
-            label.getStyleClass().add("lbl_yellowCell");
+            uncolored();
+            downerLabel.getStyleClass().add("downerLabel_yellow");
         }
 
         public void canAttack() {
-            label.getStyleClass().add("lbl_redCell");
+            uncolored();
+            downerLabel.getStyleClass().add("downerLabel_red");
         }
 
         public void normalCell() {
-            label.getStyleClass().add("lbl_normalCell");
+            uncolored();
+            downerLabel.getStyleClass().add("downerLabel_white");
+        }
+
+        public void uncolored(){
+            downerLabel.getStyleClass().remove("downerLabel_yellow");
+            downerLabel.getStyleClass().remove("downerLabel_red");
+            downerLabel.getStyleClass().remove("downerLabel_blue");
+            downerLabel.getStyleClass().remove("downerLabel_white");
+            downerLabel.getStyleClass().remove("downerLabel_green");
         }
     }
 
-    class manaViewer {
-        private boolean rightToLeft;
-        private LinkedList<ImageView> imageViews = new LinkedList<>();
-        private HBox container;
-        private Image activeManaImage;
-        private Image inactiveManaImage;
-        private int numberOfActiveManas;
-        public manaViewer(boolean rightToLeft, int panePositionX, int panePositionY, int width, int height, String activeManaAddress, String inActiveManaAddress) {
-            this.rightToLeft = rightToLeft;
-            container = new HBox();
-            container.setPrefWidth(width);
-            container.setPrefHeight(height);
-            container.setLayoutX(panePositionX);
-            container.setLayoutY(panePositionY);
-            this.activeManaImage = new Image(activeManaAddress);
-            this.inactiveManaImage = new Image(inActiveManaAddress);
-            for (int i = 0; i < 10; i++) {
-                if ((i == 0 && rightToLeft) || (i == 9 && !rightToLeft)) {
-                    imageViews.add(new ImageView(activeManaImage));
-                } else {
-                    imageViews.add(new ImageView(inactiveManaImage));
+    private void useSpecialPower(Hero hero, Location location) {
+
+    }
+
+    private class GraphicalHand {
+        private int x = 500, y = 800;
+        private Pane parentPane;
+        private HBox hbox;
+        private CardScene[] cardScenes;
+        private int spacing = -20;
+        private Hand hand;
+
+        public GraphicalHand() {
+            parentPane = new Pane();
+            parentPane.relocate(x, y);
+
+            hbox = new HBox();
+            hbox.setSpacing(spacing);
+
+            cardScenes = new CardScene[Hand.number_of_cards];
+            for (int i = 0; i < Hand.number_of_cards; i++) {
+                cardScenes[i] = new CardScene(i);
+                hbox.getChildren().add(cardScenes[i].parentPane);
+            }
+
+            parentPane.getChildren().add(hbox);
+        }
+
+        public void setHand(Hand hand) {
+            this.hand = hand;
+        }
+
+        public void updateHand() {
+            ArrayList<Card> cards = hand.getCards();
+            for (int i = 0; i < Hand.number_of_cards; i++) {
+                cardScenes[i].setCardImageView(cards.get(i));
+            }
+        }
+
+        public void insertCard(Card card){
+            for (CardScene cardScene:cardScenes){
+                if (cardScene.getCard()==card){
+                    cardScene.removeCard();
                 }
             }
-            this.numberOfActiveManas = 1;
         }
-
-        public void addMana() {
-            ImageView imageView = new ImageView(activeManaImage);
-            if (rightToLeft) {
-                imageViews.addFirst(imageView);
-                imageViews.removeLast();
-            } else {
-                imageViews.addLast(imageView);
-                imageViews.removeFirst();
-            }
-            numberOfActiveManas++;
-        }
-
-        public void removeMana() {
-            ImageView imageView = new ImageView(inactiveManaImage);
-            if (rightToLeft) {
-                imageViews.addLast(imageView);
-                imageViews.removeFirst();
-            } else {
-                imageViews.addFirst(imageView);
-                imageViews.removeLast();
-            }
-            numberOfActiveManas --;
-        }
-
-        public void update() {
-            clearContainer();
-            for (ImageView imageView : imageViews) {
-                container.getChildren().add(imageView);
-            }
-        }
-
-        //use matchManaAndUpdate after each action related to mana
-        public void matchManasAndUpdate(Player player){
-            if (player.getMana() > numberOfActiveManas){
-                while (player.getMana() > numberOfActiveManas)
-                    addMana();
-            }
-            if (player.getMana() < numberOfActiveManas){
-                while (player.getMana() < numberOfActiveManas)
-                    removeMana();
-            }
-            update();
-        }
-
-        public void clearContainer() {
-            container.getChildren().remove(0, container.getChildren().size());
-        }
-
     }
+
+    private class GraphicalBoard {
+        private int boardWidth = 800;
+        private int boardHeight = 450;
+        private int cellGap = 5;
+
+        public Pane parentPane;
+        private GridPane gridPane;
+        private CellPane[][] cellPanes;
+        private Board board;
+
+        public GraphicalBoard() {
+            parentPane = new Pane();
+
+            int width = Board.width;
+            int height = Board.length;
+            int cellWidth = (boardWidth - (cellGap * (width + 1))) / width;
+            int cellHeight = (boardHeight - (cellGap * (height + 1))) / height;
+            cellPanes = new CellPane[width][height];
+
+            gridPane = new GridPane();
+            for (int i = 0; i < width; i++) {
+                for (int j = 0; j < height; j++) {
+                    cellPanes[i][j] = new CellPane(cellHeight, cellWidth, i, j);
+                    gridPane.add(cellPanes[i][j].pane, i, j);
+                }
+            }
+            gridPane.setHgap(cellGap);
+            gridPane.setVgap(cellGap);
+            gridPane.relocate(0, 0);
+
+            parentPane.getChildren().add(gridPane);
+            perspectiveGrid(parentPane);
+        }
+
+        private void perspectiveGrid(Pane perspectivePane) {
+            PerspectiveTransform pt = new PerspectiveTransform();
+
+            pt.setUlx(550);
+            pt.setUly(240);
+            pt.setUrx(1350);
+            pt.setUry(240);
+            pt.setLrx(1420);
+            pt.setLry(680);
+            pt.setLlx(480);
+            pt.setLly(680);
+            perspectivePane.relocate(550, 240);
+            //perspectivePane.setEffect(pt);
+
+        }
+
+        public void show_available_works(Minion minion) {
+            for (int i = 0; i < Board.width; i++) {
+                for (int j = 0; j < Board.length; j++) {
+                    if (battle.canMove( minion, new Location(i, j), false)) {
+                        cellPanes[i][j].canMoveCell();
+                    }
+                    if (battle.canAttack(minion, board.getCells()[i][j].getMinion(), false)) {
+                        cellPanes[i][j].canAttack();
+                    }
+                }
+            }
+        }
+
+        public void setCardInCell(Card card, Location location) {
+            ImageView card_imageView = new ImageView(new File(card.getGraphicPack().getIdlePhotoAddress()).toURI().toString());
+            cellPanes[location.getX()][location.getY()].addImageView(card_imageView);
+        }
+
+        private void show_available_cells_for_insert(Card card) {
+            allCellsNormal();
+            for (int i = 0; i < Board.width; i++) {
+                for (int j = 0; j < Board.length; j++) {
+                    if (battle.canInsert(card, new Location(i, j), false)) {
+                        cellPanes[i][j].canInsertCell();
+                    }
+                }
+            }
+        }
+
+        private void allCellsNormal() {
+            for (int i = 0; i < Board.width; i++) {
+                for (int j = 0; j < Board.length; j++) {
+                    cellPanes[i][j].normalCell();
+                }
+            }
+        }
+
+        public void setBoard(Board board) {
+            this.board = board;
+        }
+    }
+
+    private enum StateOfMouseClicked {
+        insertingCardClicked,
+        insiderMinionCardClicked,
+        specialPowerClicked,
+        free;
+    }
+}
+class manaViewer {
+    private boolean rightToLeft;
+    private LinkedList<ImageView> imageViews = new LinkedList<>();
+    private HBox container;
+    private Image activeManaImage;
+    private Image inactiveManaImage;
+    private int numberOfActiveManas;
+    public manaViewer(boolean rightToLeft, int panePositionX, int panePositionY, int width, int height, String activeManaAddress, String inActiveManaAddress) {
+        this.rightToLeft = rightToLeft;
+        container = new HBox();
+        container.setPrefWidth(width);
+        container.setPrefHeight(height);
+        container.setLayoutX(panePositionX);
+        container.setLayoutY(panePositionY);
+        this.activeManaImage = new Image(activeManaAddress);
+        this.inactiveManaImage = new Image(inActiveManaAddress);
+        for (int i = 0; i < 10; i++) {
+            if ((i == 0 && rightToLeft) || (i == 9 && !rightToLeft)) {
+                imageViews.add(new ImageView(activeManaImage));
+            } else {
+                imageViews.add(new ImageView(inactiveManaImage));
+            }
+        }
+        this.numberOfActiveManas = 1;
+    }
+
+    public void addMana() {
+        ImageView imageView = new ImageView(activeManaImage);
+        if (rightToLeft) {
+            imageViews.addFirst(imageView);
+            imageViews.removeLast();
+        } else {
+            imageViews.addLast(imageView);
+            imageViews.removeFirst();
+        }
+        numberOfActiveManas++;
+    }
+
+    public void removeMana() {
+        ImageView imageView = new ImageView(inactiveManaImage);
+        if (rightToLeft) {
+            imageViews.addLast(imageView);
+            imageViews.removeFirst();
+        } else {
+            imageViews.addFirst(imageView);
+            imageViews.removeLast();
+        }
+        numberOfActiveManas --;
+    }
+
+    public void update() {
+        clearContainer();
+        for (ImageView imageView : imageViews) {
+            container.getChildren().add(imageView);
+        }
+    }
+
+    //use matchManaAndUpdate after each action related to mana
+    public void matchManasAndUpdate(Player player){
+        if (player.getMana() > numberOfActiveManas){
+            while (player.getMana() > numberOfActiveManas)
+                addMana();
+        }
+        if (player.getMana() < numberOfActiveManas){
+            while (player.getMana() < numberOfActiveManas)
+                removeMana();
+        }
+        update();
+    }
+
+    public void clearContainer() {
+        container.getChildren().remove(0, container.getChildren().size());
+    }
+
 }
 
 
