@@ -1,6 +1,9 @@
 package network.Requests;
 
+import network.ReqResType;
+
 public abstract class Request {
-    protected RequestType requestType;
+    protected ReqResType reqResType;
     protected String authToken;
+    public abstract ReqResType getReqResType();
 }

@@ -1,12 +1,20 @@
 package network.Requests;
 
+import network.ReqResType;
+
 public class CreateAccountRequest extends Request {
     private String userName;
     private String password;
     public CreateAccountRequest(String userName, String password){
-        this.requestType = RequestType.CREATE;
+        this.reqResType = ReqResType.CREATE;
         this.userName = userName;
         this.password = password;
+        this.authToken = null;
+    }
+
+    @Override
+    public ReqResType getReqResType() {
+        return ReqResType.CREATE;
     }
 
     public String getUserName() {
@@ -16,6 +24,4 @@ public class CreateAccountRequest extends Request {
     public String getPassword() {
         return password;
     }
-
-
 }
