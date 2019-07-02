@@ -823,11 +823,7 @@ public class Defentions {
         minions.putAll(customMinions);
 
         for (Card card : minions.keySet()) {
-            card.getGraphicPack().setMovePhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_run.gif");
-            card.getGraphicPack().setAttackPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_attack.gif");
-            card.getGraphicPack().setBreathingPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_breathing.gif");
-            card.getGraphicPack().setDeathPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_death.gif");
-            card.getGraphicPack().setIdlePhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_idle.gif");
+            defineDefultFileAdresses(card);
         }
         return minions;
     }
@@ -1132,4 +1128,5 @@ public class Defentions {
         card.getGraphicPack().setHitSoundAddress("src/resources/cards/Mmd_test/hitSound.m4a");
 
     }
+
 }

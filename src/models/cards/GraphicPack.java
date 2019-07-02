@@ -124,41 +124,4 @@ public class GraphicPack {
         this.impactSoundAddress = impactSoundAddress;
     }
 
-    public void playDeathSound(){
-        String address = deathSoundAddress;
-        Media sound = new Media(address);
-        MediaPlayer mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.play();
-    }
-    public void playMoveSound(){
-        String address = moveSoundAddress;
-        Media sound = new Media(address);
-        MediaPlayer mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.play();
-    }
-    public void playAttackSound(){
-        String address = attackSoundAddress;
-        Media sound = new Media(address);
-        MediaPlayer mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.play();
-    }
-    public void playSpawnSound(){
-        String address = spawnSoundAddress;
-        Media sound = new Media(address);
-        MediaPlayer mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.play();
-    }
-    public void playHitSound(){
-        String address = hitSoundAddress;
-        Media sound = new Media(address);
-        MediaPlayer mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.play();
-    }
-    public void playImpactSound(){
-        String address = impactSoundAddress;
-        Media sound = new Media(address);
-        MediaPlayer mediaPlayer = new MediaPlayer(sound);
-        mediaPlayer.play();
-    }
-
 }
