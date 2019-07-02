@@ -9,7 +9,7 @@
 
 
 .downerLabel_higher{
-    -fx-border-width: 10;
+    -fx-border-width: 4;
 }
 .downerLabel_lower{
     -fx-border-width: 0;
@@ -17,7 +17,7 @@
 
 .downerLabel_atFirst {
     -fx-border-radius: 5;
-    -fx-border-color: yellow;
+    -fx-border-color: blue;
     -fx-background-radius: 5;
 }
 .downerLabel_white{
