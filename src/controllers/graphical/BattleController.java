@@ -12,10 +12,10 @@ import javafx.scene.control.Label;
 import javafx.scene.effect.PerspectiveTransform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 import models.battle.Battle;
@@ -24,13 +24,16 @@ import models.battle.Player;
 import models.battle.board.Board;
 import models.battle.board.Location;
 import models.cards.Card;
+import models.cards.GraphicPack;
 import models.cards.hero.Hero;
 import models.cards.minion.Minion;
+import models.cards.spell.Spell;
 
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.ResourceBundle;
 
 public class BattleController extends MyController implements Initializable {
@@ -38,7 +41,6 @@ public class BattleController extends MyController implements Initializable {
     public AnchorPane anchorPane;
     private Board board;
     private Battle battle;
-    private HashMap<String, ImageView> imageViewOfCards;
     private Card[] playerSelectedCard;
     private GraphicalHand graphicalHand;
     private GraphicalBoard graphicalBoard;
@@ -48,10 +50,32 @@ public class BattleController extends MyController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        imageViewOfCards = new HashMap<>();
+        setBackground();
+        playBackGroundMusic();
         creatBoardCells();
         creatHandScene();
 
+    }
+
+    private void setBackground() {
+        Random random = new Random();
+        String address = "src/resources/backgrounds/battleBackground/"+random.nextInt(11)+".jpg";
+        ImageView background = new ImageView(new File(address).toURI().toString());
+
+        background.relocate(0,0);
+        background.setFitWidth(1920);
+        background.setFitHeight(1080);
+        background.setOnMouseClicked(event -> {
+            freeClick();
+        });
+        anchorPane.getChildren().add(background);
+    }
+
+    private void playBackGroundMusic(){
+        String address = "src/resources/music/battleBackground/1.m4a";
+        Media media = new Media(new File(address).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.play();
     }
 
     public ImageView creatImageViewerOfMinion(Minion minion,GifType gifType){
@@ -76,7 +100,7 @@ public class BattleController extends MyController implements Initializable {
     }
 
     public void freeClick(){
-        System.out.println("free click");
+//        System.out.println("free click");
         stateOfMouseClickeds[turn] = StateOfMouseClicked.free;
         playerSelectedCard[turn] = null;
         graphicalBoard.allCellsNormal();
@@ -119,15 +143,18 @@ public class BattleController extends MyController implements Initializable {
 
     private void insert(Card card, Location location) {
         graphicalHand.insertCard(card);
-        graphicalBoard.insertMinion((Minion)card,location);
+        graphicalBoard.insertCard(card,location);
+        MyMediaPlayer.playEffectSoundOfACard(card,soundType.spawn);
         battle.insert(card,location);
 
         freeClick();
     }
 
     private void attack(Minion attacker, Minion defender) {
-        int attackTime = 100;
+        int attackTime = 60;
         graphicalBoard.setAttackingMod(attacker.getLocation());
+        MyMediaPlayer.playEffectSoundOfACard(attacker,soundType.attack);
+        MyMediaPlayer.playEffectSoundOfACard(defender,soundType.hit);
         AnimationTimer attackerAnimation = new AnimationTimer() {
             int lastTime = 0;
             @Override
@@ -141,26 +168,31 @@ public class BattleController extends MyController implements Initializable {
             }
         };
         attackerAnimation.start();
-        AnimationTimer defenderAnimation = new AnimationTimer() {
-            int lastTime = 0;
-            boolean isChanged = false;
-            @Override
-            public void handle(long now) {
-                if (lastTime>2*attackTime)end();
-                if (lastTime>attackTime && (!isChanged)){
-                    isChanged = true;
-                    graphicalBoard.setAttackingMod(defender.getLocation());
-                }
+        if (battle.canCounterAttack(attacker,defender,false)){
+            AnimationTimer defenderAnimation = new AnimationTimer() {
+                int lastTime = 0;
+                boolean isChanged = false;
+                @Override
+                public void handle(long now) {
+                    if (lastTime>2*attackTime)end();
+                    if (lastTime>attackTime && (!isChanged)){
+                        isChanged = true;
+                        graphicalBoard.setAttackingMod(defender.getLocation());
+                        MyMediaPlayer.playEffectSoundOfACard(defender,soundType.attack);
+                        MyMediaPlayer.playEffectSoundOfACard(attacker,soundType.hit);
+                    }
 
-                lastTime++;
-            }
-            public void end(){
-                graphicalBoard.setBrethingMod(defender.getLocation());
-                battle.attack(attacker,defender);
-                stop();
-            }
-        };
-        defenderAnimation.start();
+                    lastTime++;
+                }
+                public void end(){
+                    graphicalBoard.setBrethingMod(defender.getLocation());
+                    battle.attack(attacker,defender);
+                    stop();
+                }
+            };
+            defenderAnimation.start();
+        }
+        battle.attack(attacker,defender);
         freeClick();
 
     }
@@ -199,6 +231,7 @@ public class BattleController extends MyController implements Initializable {
         });
         graphicalBoard.removeImageViewFromCell(minion.getLocation());
         transition.play();
+        MyMediaPlayer.playEffectSoundOfACard(minion,soundType.run);
         battle.move(minion,target);
 
         freeClick();
@@ -206,9 +239,14 @@ public class BattleController extends MyController implements Initializable {
 
     private class CardScene {
         Pane parentPane;
-        public ImageView ring;
-        public ImageView cardImageView;
-        public ImageView mana_view;
+        private ImageView ring;
+        private ImageView cardImageView;
+        private ImageView mana_view;
+        private ImageView blackRing;
+        private ImageView healthImageView;
+        private ImageView attackPowerImageView;
+        private Label lbl_health;
+        private Label lbl_attackPower;
         Label lbl_manaNumbers;
         public int paneWidth = 200;
         public int paneHeight = 200;
@@ -225,19 +263,66 @@ public class BattleController extends MyController implements Initializable {
             parentPane.getStylesheets().add("layouts/stylesheets/battle/cardScene.css");
             parentPane.setPrefSize(paneWidth, paneHeight);
 
+            Image blackRingImage = new Image(new File("src/resources/inBattle/cardSceneInserting/blackRing.png").toURI().toString());
+            blackRing = new ImageView(blackRingImage);
+            blackRing.setFitHeight(paneHeight);
+            blackRing.setFitWidth(paneWidth);
+            blackRing.relocate(0,0);
+            parentPane.getChildren().add(blackRing);
+
             downerCircle = new Circle();
-            downerCircle.setRadius(Math.min(paneWidth, paneHeight) / 3.5);
-            downerCircle.relocate(paneHeight / 5, paneWidth / 5);
+            downerCircle.setRadius(Math.min(paneWidth, paneHeight) / 2.7);
+            downerCircle.relocate(paneHeight / 7.5, paneWidth / 7.5);
             downerCircle.getStyleClass().add("downerCircle_firstStyle");
             downerCircle.getStyleClass().add("downerCircle_lower");
             parentPane.getChildren().add(downerCircle);
 
-            ring = new ImageView();
             Image ring_image = new Image(new File("src/resources/inBattle/cardSceneInserting/ring_glow_for_cardScene.png").toURI().toString());
             ring = new ImageView(ring_image);
             ring.setFitHeight(paneHeight);
             ring.setFitWidth(paneWidth);
             ring.relocate(0, 0);
+            parentPane.getChildren().add(ring);
+
+            Image mana_icon = new Image(new File("src/resources/inBattle/cardSceneInserting/icon_mana.png").toURI().toString());
+            mana_view = new ImageView(mana_icon);
+            mana_view.relocate(paneWidth / 2.8, paneHeight / 1.3);
+            mana_view.setVisible(false);
+            parentPane.getChildren().add(mana_view);
+
+            lbl_manaNumbers = new Label();
+            lbl_manaNumbers.getStyleClass().add("lbl_manaNumber");
+            lbl_manaNumbers.relocate(paneWidth / 2.8 + 21, paneHeight / 1.3 + 10);
+            parentPane.getChildren().add(lbl_manaNumbers);
+
+            Image healthImage = new Image(new File("src/resources/inBattle/cardSceneInserting/healthImage.png").toURI().toString());
+            healthImageView = new ImageView(healthImage);
+            healthImageView.relocate(paneWidth/6,paneHeight/1.5);
+            healthImageView.setFitWidth(paneWidth/4);
+            healthImageView.setFitHeight(paneHeight/3);
+            parentPane.getChildren().add(healthImageView);
+            healthImageView.setVisible(false);
+
+            lbl_health = new Label();
+            lbl_health.relocate(paneWidth/4.7,paneHeight/1.3);
+            lbl_health.getStyleClass().add("lbl_health");
+            lbl_health.setTextFill(Color.GREEN);
+            parentPane.getChildren().add(lbl_health);
+
+
+            Image attackPowerImage = new Image(new File("src/resources/inBattle/cardSceneInserting/attackPowerImage.png").toURI().toString());
+            attackPowerImageView = new ImageView(attackPowerImage);
+            attackPowerImageView.relocate(paneWidth/1.7,paneHeight/1.5);
+            attackPowerImageView.setFitWidth(paneWidth/4);
+            attackPowerImageView.setFitHeight(paneHeight/3);
+            parentPane.getChildren().add(attackPowerImageView);
+            attackPowerImageView.setVisible(false);
+
+            lbl_attackPower = new Label();
+            lbl_attackPower.relocate(paneWidth/1.6,paneHeight/1.3);
+            lbl_attackPower.getStyleClass().add("lbl_attackPower");
+            lbl_attackPower.setTextFill(Color.RED);
+            parentPane.getChildren().add(lbl_attackPower);
 
             upperCircle = new Circle();
             upperCircle.setRadius(Math.min(paneWidth, paneHeight) / 3.5);
@@ -254,18 +339,6 @@ public class BattleController extends MyController implements Initializable {
             });
             parentPane.getChildren().add(upperCircle);
 
-            Image mana_icon = new Image(new File("src/resources/inBattle/cardSceneInserting/icon_mana.png").toURI().toString());
-            mana_view = new ImageView(mana_icon);
-            mana_view.relocate(paneWidth / 2.8, paneHeight / 1.3);
-
-            lbl_manaNumbers = new Label();
-            lbl_manaNumbers.getStyleClass().add("lbl_manaNumber");
-            lbl_manaNumbers.relocate(paneWidth / 2.8 + 21, paneHeight / 1.3 + 10);
-
-            parentPane.getChildren().add(ring);
-            parentPane.getChildren().add(mana_view);
-            parentPane.getChildren().add(lbl_manaNumbers);
-
         }
 
         public void set_mana_numbers(int manaNumbers) {
@@ -279,10 +352,19 @@ public class BattleController extends MyController implements Initializable {
             cardImageView.relocate(0, -paneHeight / 10);
             cardImageView.setFitWidth(paneWidth);
             cardImageView.setFitHeight(paneHeight);
+            mana_view.setVisible(true);
             set_mana_numbers(card.getMana());
             parentPane.getChildren().remove(upperCircle);
             parentPane.getChildren().add(cardImageView);
             parentPane.getChildren().add(upperCircle);
+            if (!(card instanceof Spell)){
+                int attackPower = ((Minion)card).get_Real_AttackPower();
+                int health = ((Minion)card).getHp();
+                attackPowerImageView.setVisible(true);
+                lbl_attackPower.setText(String.valueOf(attackPower));
+                healthImageView.setVisible(true);
+                lbl_health.setText(String.valueOf(health));
+            }
         }
 
         public void ring_rotate(int degree) {
@@ -315,8 +397,15 @@ public class BattleController extends MyController implements Initializable {
         }
 
         public void removeCard() {
+            card = null;
             parentPane.getChildren().remove(cardImageView);
             cardImageView=null;
+            lbl_manaNumbers.setText("");
+            lbl_health.setText("");
+            lbl_attackPower.setText("");
+            attackPowerImageView.setVisible(false);
+            healthImageView.setVisible(false);
+            mana_view.setVisible(false);
         }
 
         public Card getCard() {
@@ -545,8 +634,8 @@ public class BattleController extends MyController implements Initializable {
     }
 
     private class GraphicalBoard {
-        private int boardWidth = 800;
-        private int boardHeight = 450;
+        private int boardWidth = 720;
+        private int boardHeight = 410;
         private int cellGap = 5;
         int cellWidth;
         int cellHeight;
@@ -591,7 +680,7 @@ public class BattleController extends MyController implements Initializable {
             pt.setLry(680);
             pt.setLlx(480);
             pt.setLly(680);
-            perspectivePane.relocate(550, 240);
+            perspectivePane.relocate(600, 350);
             //perspectivePane.setEffect(pt);
 
         }
@@ -613,9 +702,21 @@ public class BattleController extends MyController implements Initializable {
             cellPanes[location.getX()][location.getY()].addMinion(minion);
         }
 
-        public void insertMinion(Minion minion, Location location){
+        public void insertCard(Card card,Location location){
+            if (card instanceof Spell){
+                insertSpell((Spell) card,location);
+            }else {
+                insertMinion((Minion) card,location);
+            }
+        }
+
+        private void insertMinion(Minion minion, Location location){
             putMinionAtCell(minion,location);
             explosion(getLocateOfAnImage_inParentPane(location));
+        }
+
+        private void insertSpell(Spell spell,Location location){
+            spawn(getLocateOfAnImage_inParentPane(location));
         }
 
         private void show_available_cells_for_insert(Card card) {
@@ -693,6 +794,31 @@ public class BattleController extends MyController implements Initializable {
             animation.play();
         }
 
+        public void spawn(Location location){
+            ImageView imageView = new ImageView(new File("src/resources/sprites/spawn_sprite.png").toURI().toString());
+            imageView.setFitHeight(150);
+            imageView.setFitWidth(150);
+            imageView.relocate(location.getX(),location.getY());
+
+            parentPane.getChildren().add(imageView);
+
+            imageView.setViewport(new Rectangle2D(0, 0, 2048, 1024));
+
+            final Animation animation = new SpriteAnimation(
+                    imageView,
+                    Duration.millis(1000),
+                    32, 8,
+                    0, 0,
+                    258, 256
+            );
+            animation.setCycleCount(Animation.INDEFINITE);
+            animation.setCycleCount(1);
+            animation.setOnFinished(event -> {
+                parentPane.getChildren().remove(imageView);
+            });
+            animation.play();
+        }
+
         public void lighting(Location location){
             ImageView imageView = new ImageView(new File("src/resources/sprites/lighting_sprite.png").toURI().toString());
             imageView.setFitHeight(200);
@@ -745,5 +871,49 @@ public class BattleController extends MyController implements Initializable {
     private enum GifType{
         idle,attacking,death,breathing,running;
     }
+
+    private static class MyMediaPlayer{
+        static Double effectTime = 2.0;
+        public static void playEffectSoundOfACard(Card card,soundType type){
+            String address = null;
+            GraphicPack gp = card.getGraphicPack();
+            switch (type){
+                case death:{
+                    address = gp.getDeathSoundAddress();
+                    break;
+                }
+                case spawn:{
+                    address = gp.getSpawnSoundAddress();
+                    break;
+                }
+                case run:{
+                    address = gp.getMoveSoundAddress();
+                    break;
+                }
+                case attack:{
+                    address = gp.getAttackSoundAddress();
+                    break;
+                }
+                case hit:{
+                    address = gp.getHitSoundAddress();
+                    break;
+                }
+                case impact:{
+                    address = gp.getImpactSoundAddress();
+                    break;
+                }
+            }
+            Media media = new Media(new File(address).toURI().toString());
+            MediaPlayer mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.setStopTime(Duration.seconds(effectTime));
+            mediaPlayer.play();
+        }
+    }
+
+    private enum soundType{
+        death,attack,hit,impact,
+        spawn,run
+    }
+
 }
 

@@ -23,7 +23,7 @@ public class CreateAccountResponse extends Response {
         String userName = ((CreateAccountRequest) request).getUserName();
         String password = ((CreateAccountRequest) request).getPassword();
         for (File accountFile : accounts.listFiles()){
-            if (accountFile.getName().equals(userName)){
+            if (accountFile.getName().startsWith(userName)){
                 requestResult = Constants.ACCOUNT_EXISTS;
                 break;
             }
@@ -34,7 +34,7 @@ public class CreateAccountResponse extends Response {
         YaGsonBuilder gsonBuilder = new YaGsonBuilder();
         YaGson gson = gsonBuilder.create();
         try {
-            Formatter formatter = new Formatter("src/JSONs/Accounts");
+            Formatter formatter = new Formatter("src/JSONs/Accounts/" + userName + ".json");
             formatter.format(gson.toJson(account));
             requestResult = Constants.ACCOUNT_CREATE_SUCCESSFULLY;
             formatter.flush();

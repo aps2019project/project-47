@@ -43,13 +43,17 @@ public class Client extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader("src/network/config"));
-        int port = Integer.parseInt(reader.readLine());
-        reader.close();
-        Socket socket = new Socket("127.0.0.1", port);
-        out = new PrintWriter(socket.getOutputStream());
-        DataInputStream serverResponse = new DataInputStream(socket.getInputStream());
-        serverScanner = new Scanner(serverResponse);
+
+//        {
+//            BufferedReader reader = new BufferedReader(new FileReader("src/network/config"));
+//            int port = Integer.parseInt(reader.readLine());
+//            reader.close();
+//            Socket socket = new Socket("127.0.0.1", port);
+//            out = new PrintWriter(socket.getOutputStream());
+//            DataInputStream serverResponse = new DataInputStream(socket.getInputStream());
+//            serverScanner = new Scanner(serverResponse);
+//        }//phase2//
+
         {
             Shop shop = Shop.getInstance();
             Account Mmd = new Account("Mmd", "1234");
@@ -76,10 +80,10 @@ public class Client extends Application {
         }
         stage = primaryStage;
 
-        Parent root = AccountMenu.getRoot();
+//        Parent root = AccountMenu.getRoot();
 //        Parent root = MainMenu.getRoot();
 //        Parent root = Shop.getRoot();
-//        Parent root = BattleMenu.getRoot();
+        Parent root = BattleMenu.getRoot();
 //        Parent root = Board.getRoot();
 //        Parent root = FXMLLoader.load(getClass().getResource("../layouts/customCardCreatePage.fxml"));
 //        Parent root = FXMLLoader.load(getClass().getResource("../layouts/Collection.fxml"));
@@ -89,6 +93,10 @@ public class Client extends Application {
         stage.setMaximized(true);
         stage.show();
         System.out.println("\u001B[1000m" + "" + "\u001B[1000m");//resetting color
+        setCursor();
+    }
+
+    public void setCursor(){
         Image img = new Image("/resources/buttons/cursor.png");
         ImageCursor cursor = new ImageCursor(img, 0, 0);
         stage.getScene().setCursor(cursor);

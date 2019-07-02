@@ -196,7 +196,7 @@ public class Battle {
         return true;
     }
 
-    private boolean canCounterAttack(Minion attacker, Minion defender, boolean printError) {
+    public boolean canCounterAttack(Minion attacker, Minion defender, boolean printError) {
         if (!defender.canCounterattack(printError)) {
             return false;
         }
