@@ -134,10 +134,10 @@ public class BattleController extends MyController implements Initializable {
     public void setHeroOnPlane_atStatingBattle() {
 
         Hero hero0 = battle.getPlayers()[0].getHero();
-        graphicalBoard.setMinionAtCell(hero0, new Location(0, Board.length / 2), MinionImageViewType.breathing);
+        graphicalBoard.setMinionAtCell(hero0, new Location(0, Board.length / 2), MinionImageViewType.breathing,true);
 
         Hero hero1 = battle.getPlayers()[1].getHero();
-        graphicalBoard.setMinionAtCell(hero1, new Location(Board.width - 1, Board.length / 2), MinionImageViewType.breathing);
+        graphicalBoard.setMinionAtCell(hero1, new Location(Board.width - 1, Board.length / 2), MinionImageViewType.breathing,true);
     }
 
     private void insert(Card card, Location location) {
@@ -151,7 +151,7 @@ public class BattleController extends MyController implements Initializable {
 
     private void attack(Minion attacker, Minion defender) {
         int attackTime = 60;
-        graphicalBoard.setMinionAtCell(attacker, attacker.getLocation(), MinionImageViewType.attacking);
+        graphicalBoard.setMinionAtCell(attacker, attacker.getLocation(), MinionImageViewType.attacking,false);
         MyMediaPlayer.playEffectSoundOfACard(attacker, soundType.attack);
         MyMediaPlayer.playEffectSoundOfACard(defender, soundType.hit);
         AnimationTimer attackerAnimation = new AnimationTimer() {
@@ -164,7 +164,7 @@ public class BattleController extends MyController implements Initializable {
             }
 
             public void end() {
-                graphicalBoard.setMinionAtCell(attacker, attacker.getLocation(), MinionImageViewType.breathing);
+                graphicalBoard.setMinionAtCell(attacker, attacker.getLocation(), MinionImageViewType.breathing,false);
                 stop();
             }
         };
@@ -179,7 +179,7 @@ public class BattleController extends MyController implements Initializable {
                     if (lastTime > 2 * attackTime) end();
                     if (lastTime > attackTime && (!isChanged)) {
                         isChanged = true;
-                        graphicalBoard.setMinionAtCell(defender, defender.getLocation(), MinionImageViewType.attacking);
+                        graphicalBoard.setMinionAtCell(defender, defender.getLocation(), MinionImageViewType.attacking,false);
                         MyMediaPlayer.playEffectSoundOfACard(defender, soundType.attack);
                         MyMediaPlayer.playEffectSoundOfACard(attacker, soundType.hit);
                     }
@@ -188,7 +188,7 @@ public class BattleController extends MyController implements Initializable {
                 }
 
                 public void end() {
-                    graphicalBoard.setMinionAtCell(defender, defender.getLocation(), MinionImageViewType.breathing);
+                    graphicalBoard.setMinionAtCell(defender, defender.getLocation(), MinionImageViewType.breathing,false);
                     battle.attack(attacker, defender);
                     stop();
                 }
@@ -229,7 +229,7 @@ public class BattleController extends MyController implements Initializable {
             @Override
             public void handle(ActionEvent event) {
                 graphicalBoard.parentPane.getChildren().remove(runningImageView);
-                graphicalBoard.setMinionAtCell(minion, target, MinionImageViewType.breathing);
+                graphicalBoard.setMinionAtCell(minion, target, MinionImageViewType.breathing,false);
             }
         });
         graphicalBoard.removeImageViewFromCell(minion.getLocation());
@@ -327,11 +327,14 @@ public class BattleController extends MyController implements Initializable {
             lbl_attackPower.setTextFill(Color.RED);
             parentPane.getChildren().add(lbl_attackPower);
 
+            creatRing();
+
             upperCircle = new Circle();
             upperCircle.setRadius(Math.min(paneWidth, paneHeight) / 3.5);
             upperCircle.relocate(paneHeight / 5, paneWidth / 5);
             upperCircle.getStyleClass().add("upperCircle_firstStyle");
             upperCircle.setOnMouseEntered(event -> {
+                if (card!=null)
                 higher();
             });
             upperCircle.setOnMouseExited(event -> {
@@ -400,19 +403,68 @@ public class BattleController extends MyController implements Initializable {
         }
 
         public void removeCard() {
+            Double removeTime = 50.0;
             card = null;
-            parentPane.getChildren().remove(cardImageView);
-            cardImageView = null;
-            lbl_manaNumbers.setText("");
-            lbl_health.setText("");
-            lbl_attackPower.setText("");
-            attackPowerImageView.setVisible(false);
-            healthImageView.setVisible(false);
-            mana_view.setVisible(false);
+
+            AnimationTimer hidenAnimation = new AnimationTimer() {
+                int lastTime = 0;
+
+                @Override
+                public void handle(long now) {
+                    if (lastTime > removeTime) end();
+                    if (cardImageView!=null){
+                        Double opacity = cardImageView.getOpacity();
+                        opacity = Math.max(0,opacity-(1/removeTime));
+                        cardImageView.setOpacity(opacity);
+                        lastTime++;
+                    }
+
+                }
+
+                public void end() {
+                    stop();
+                    parentPane.getChildren().remove(cardImageView);
+                    cardImageView = null;
+                    lbl_manaNumbers.setText("");
+                    lbl_health.setText("");
+                    lbl_attackPower.setText("");
+                    attackPowerImageView.setVisible(false);
+                    healthImageView.setVisible(false);
+                    mana_view.setVisible(false);
+
+                }
+            };
+            hidenAnimation.start();
         }
 
         public Card getCard() {
             return card;
+        }
+
+        public void creatRing(){
+            ImageView imageView = new ImageView(new File("src/resources/sprites/MmdRing.png").toURI().toString());
+            imageView.setFitHeight(paneHeight);
+            imageView.setFitWidth(paneWidth);
+            imageView.setOpacity(0.5);
+            imageView.relocate(0,0);
+
+            parentPane.getChildren().add(imageView);
+
+            imageView.setViewport(new Rectangle2D(0, 0, 150, 1200));
+
+            final Animation animation = new SpriteAnimation(
+                    imageView,
+                    Duration.millis(2000),
+                    8, 1,
+                    0, 0,
+                    150, 150
+            );
+            animation.setCycleCount(Animation.INDEFINITE);
+            animation.setCycleCount(1000000);
+            animation.setOnFinished(event -> {
+                parentPane.getChildren().remove(imageView);
+            });
+            animation.play();
         }
     }
 
@@ -422,9 +474,12 @@ public class BattleController extends MyController implements Initializable {
         Label upperLabel;
         ImageView imageView;
         Minion minion;
+        private int cellWith;
+        private int cellHeight;
 
         public CellPane(int cellHeight, int cellWidth, int i, int j) {
-
+            this.cellWith = cellHeight;
+            this.cellHeight = cellHeight;
 
             parentPane = new Pane();
             parentPane.getStylesheets().add("layouts/stylesheets/battle/cellPane.css");
@@ -451,6 +506,7 @@ public class BattleController extends MyController implements Initializable {
             upperLabel.setOnMouseClicked(event -> {
                 Click(i, j);
             });
+
         }
 
         private void Click(int i, int j) {
@@ -538,20 +594,40 @@ public class BattleController extends MyController implements Initializable {
             downerLabel.getStyleClass().add("downerLabel_higher");
         }
 
-        public void addMinion(Minion minion) {
-            ImageView minion_imageView = creatImageViewerOfMinion(minion, MinionImageViewType.idle);
-            addImageView(minion_imageView);
-            this.minion = minion;
-        }
+        private void addImageView(ImageView imageView,boolean delay) {
+            final Double risingTime ;
+            if (delay){
+                risingTime = 200.0;
+            }else {
+                risingTime = 0.0;
+            }
 
-        private void addImageView(ImageView imageView) {
             graphicalBoard.reSizeImageViewer(imageView);
             graphicalBoard.relocateImageViewer(imageView);
             parentPane.getChildren().remove(this.imageView);
+            imageView.setOpacity(0);
             parentPane.getChildren().add(imageView);
             parentPane.getChildren().remove(upperLabel);
             parentPane.getChildren().add(upperLabel);
             this.imageView = imageView;
+            AnimationTimer hidenAnimation = new AnimationTimer() {
+                int lastTime = 0;
+
+                @Override
+                public void handle(long now) {
+                    if (lastTime > risingTime) end();
+                    Double opacity = imageView.getOpacity();
+                    opacity = Math.min(1,opacity+(1/risingTime));
+                    imageView.setOpacity(opacity);
+                    lastTime++;
+                }
+
+                public void end() {
+                    imageView.setOpacity(1);
+                    stop();
+                }
+            };
+            hidenAnimation.start();
         }
 
         public void canInsertCell() {
@@ -586,6 +662,7 @@ public class BattleController extends MyController implements Initializable {
             parentPane.getChildren().remove(imageView);
             imageView = null;
         }
+
     }
 
     private void useSpecialPower(Hero hero, Location location) {
@@ -703,18 +780,18 @@ public class BattleController extends MyController implements Initializable {
 
         public void insertCard(Card card, Location location) {
             if (card instanceof Spell) {
-                insertSpell((Spell) card, location);
+                insertSpell(location);
             } else {
                 insertMinion((Minion) card, location);
             }
         }
 
         private void insertMinion(Minion minion, Location location) {
-            setMinionAtCell(minion, location, MinionImageViewType.breathing);
+            setMinionAtCell(minion, location, MinionImageViewType.breathing,true);
             explosion(getLocateOfAnImage_inParentPane(location));
         }
 
-        private void insertSpell(Spell spell, Location location) {
+        private void insertSpell(Location location) {
             spawn(getLocateOfAnImage_inParentPane(location));
         }
 
@@ -843,7 +920,7 @@ public class BattleController extends MyController implements Initializable {
             animation.play();
         }
 
-        public void setMinionAtCell(Minion minion, Location location, MinionImageViewType type) {
+        public void setMinionAtCell(Minion minion, Location location, MinionImageViewType type,boolean delay) {
             String address = null;
 
             GraphicPack gp = minion.getGraphicPack();
@@ -873,9 +950,8 @@ public class BattleController extends MyController implements Initializable {
 
             File file = new File(address);
             ImageView imageView = new ImageView(file.toURI().toString());
-            System.out.println(location.getX()+","+location.getY());
             CellPane cellPane = cellPanes[location.getX()][location.getY()];
-            cellPane.addImageView(imageView);
+            cellPane.addImageView(imageView,delay);
         }
     }
 
