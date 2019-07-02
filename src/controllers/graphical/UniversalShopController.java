@@ -1,5 +1,7 @@
 package controllers.graphical;
 
+import com.gilecode.yagson.YaGson;
+import com.gilecode.yagson.YaGsonBuilder;
 import com.jfoenix.controls.JFXButton;
 import controllers.console.AccountMenu;
 import controllers.Constants;
@@ -23,6 +25,8 @@ import models.cards.minion.Minion;
 import models.cards.spell.Spell;
 import models.item.Item;
 import network.Client;
+import network.Requests.BuyRequest;
+import network.Responses.BuyResponse;
 
 import java.io.IOException;
 import java.net.URL;
@@ -185,16 +189,27 @@ public class UniversalShopController implements Initializable {
         Object cardOrItem = shop.find_in_shop(Integer.parseInt(id.substring(1)));
         if (buyOrSell) {
             button.setOnMouseClicked(event -> {
-                Constants resultCode = shop.command_buy(Integer.parseInt(id.substring(1)));
-                if (resultCode == Constants.SUCCESSFUL_BUY) {
-                } else if (resultCode == Constants.NOT_ENOUGH_MONEY) {
-                    AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Error!", "You don't have enough money!");
-                } else if (resultCode == Constants.HAD_BOUGHT_BEFORE) {
-                    AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Error!", "You have bought this thing!");
-                } else if (resultCode == Constants.NO_ACCOUNT_LOGGED_IN) {
-                    AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "!WTF!", "No account logged in! WTF!!!!");
-                } else if (resultCode == Constants.NOT_EXISTS) {
-                    AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Warning!", "The card Not exist in shop :(!");
+                BuyRequest buyRequest = new BuyRequest(AccountMenu.getLoginAccount().getAuthToken() , Integer.parseInt(id.substring(1)));
+                YaGsonBuilder yaGsonBuilder = new YaGsonBuilder();
+                YaGson yaGson = yaGsonBuilder.create();
+                String yaJson = yaGson.toJson(buyRequest);
+                Client.getOut().println(yaJson);
+                Client.getOut().flush();
+                String str = Client.getServerScanner().nextLine();
+                BuyResponse buyResponse = yaGson.fromJson(str , BuyResponse.class);
+                switch (buyResponse.getRequestResult()){
+                    case NOT_ENOUGH_MONEY:
+                        AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Error!", "You don't have enough money!");
+                        break;
+                    case HAD_BOUGHT_BEFORE:
+                        AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Error!", "You have bought this thing!");
+                        break;
+                    case NO_ACCOUNT_LOGGED_IN:
+                        AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "!WTF!", "No account logged in! WTF!!!!");
+                        break;
+                    case NOT_EXISTS:
+                        AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Warning!", "The card Not exist in shop :(!");
+                        break;
                 }
                 money.setText("Money : ".concat(Integer.toString(loginAccount.getMoney())));
             });

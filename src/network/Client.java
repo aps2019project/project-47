@@ -26,14 +26,14 @@ import java.util.Scanner;
 public class Client extends Application {
 
     private static Stage stage;
-    private PrintWriter out;
-    private Scanner serverScanner;
+    private static PrintWriter out;
+    private static Scanner serverScanner;
 
-    public PrintWriter getOut() {
+    public static PrintWriter getOut() {
         return out;
     }
 
-    public Scanner getServerScanner() {
+    public static Scanner getServerScanner() {
         return serverScanner;
     }
 

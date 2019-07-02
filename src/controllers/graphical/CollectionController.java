@@ -363,9 +363,8 @@ public class CollectionController implements Initializable {
                             outputStream = new FileOutputStream("src/JSONs/ExportedDecks/" + deck.getName() + ".json/");
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
-                        } catch (IOException e) {
-                            e.printStackTrace();
                         }
+                        assert outputStream != null;
                         Formatter formatter = new Formatter(outputStream);
                         formatter.format(json);
                         System.out.println(json);
@@ -388,7 +387,7 @@ public class CollectionController implements Initializable {
         File importableDecksFile = new File(path.toString());
         for (File file : importableDecksFile.listFiles()) {
             if (file.getName().contains(".json")) {
-                String json = "";
+                String json =   "";
                 try {
                     Scanner scanner = new Scanner(file);
                     json = json.concat(scanner.nextLine());

@@ -1,10 +1,13 @@
 package network.Responses;
 
+import com.gilecode.yagson.YaGson;
+import com.gilecode.yagson.YaGsonBuilder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import controllers.Constants;
 import models.Account;
 import network.Requests.CreateAccountRequest;
+import network.Requests.Request;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,7 +18,7 @@ public class CreateAccountResponse extends Response {
         this.request = createAccountRequest;
     }
     @Override
-    public void handleRequest(){
+    public void handleRequest(Request request){
         File accounts = new File("src/JSONs/Accounts");
         String userName = ((CreateAccountRequest) request).getUserName();
         String password = ((CreateAccountRequest) request).getPassword();
@@ -28,8 +31,8 @@ public class CreateAccountResponse extends Response {
 
 
         Account account = new Account(userName, password);
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        Gson gson = gsonBuilder.create();
+        YaGsonBuilder gsonBuilder = new YaGsonBuilder();
+        YaGson gson = gsonBuilder.create();
         try {
             Formatter formatter = new Formatter("src/JSONs/Accounts");
             formatter.format(gson.toJson(account));
@@ -44,5 +47,10 @@ public class CreateAccountResponse extends Response {
     @Override
     public Constants getRequestResult() {
         return this.requestResult;
+    }
+
+    @Override
+    public void setRequestResult(Constants result) {
+
     }
 }

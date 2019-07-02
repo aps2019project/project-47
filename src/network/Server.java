@@ -1,6 +1,7 @@
 package network;
 
 import models.Account;
+import models.Shop;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -9,7 +10,12 @@ import java.util.HashMap;
 
 public class Server {
 
-    public static HashMap<String , Account> tokens = new HashMap<>();
+    private static HashMap<String , Account> tokens = new HashMap<>();
+    private static Shop shop = Shop.getInstance();
+
+    public static Shop getShop() {
+        return shop;
+    }
 
     public static HashMap<String, Account> getTokens() {
         return tokens;

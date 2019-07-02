@@ -17,6 +17,7 @@ public class Account implements Cloneable {
     private String userName;
     private int money;
     private String password;
+    private String authToken;
 
     private ArrayList<MatchResult> matchHistory;
 
@@ -35,6 +36,10 @@ public class Account implements Cloneable {
         items = new ArrayList<>();
         this.decks = new ArrayList<Deck>();
         this.password = password;
+    }
+
+    public String getAuthToken() {
+        return authToken;
     }
 
     public int getStoryLvl() {
