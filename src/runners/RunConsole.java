@@ -18,9 +18,9 @@ public class RunConsole {
         {
             Account Mmd = new Account("Mmd","1234");
             Deck deck1 = new Deck("best");
-            ArrayList<Minion> minions = Defentions.defineMinion();
-            ArrayList<Hero> heroes = Defentions.defineHero();
-            ArrayList<Spell> spells = Defentions.defineSpell();
+            ArrayList<Minion> minions = new ArrayList<>(Defentions.defineMinion().keySet());
+            ArrayList<Hero> heroes = new ArrayList<>(Defentions.defineHero().keySet());
+            ArrayList<Spell> spells = new ArrayList<>(Defentions.defineSpell().keySet());
             for (int i = 0; i < 15; i++) {
                 deck1.addCard(minions.get(i));
             }
