@@ -15,6 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 import models.battle.Battle;
@@ -50,7 +51,7 @@ public class BattleController extends MyController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setBackground();
-        //playBackGroundMusic();
+        playBackGroundMusic();
         creatBoardCells();
         creatHandScene();
 
@@ -74,7 +75,6 @@ public class BattleController extends MyController implements Initializable {
         String address = "src/resources/music/battleBackground/1.m4a";
         Media media = new Media(new File(address).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setStopTime(Duration.seconds(600));
         mediaPlayer.play();
     }
 
@@ -239,10 +239,14 @@ public class BattleController extends MyController implements Initializable {
 
     private class CardScene {
         Pane parentPane;
-        public ImageView ring;
-        public ImageView cardImageView;
-        public ImageView mana_view;
-        public ImageView blackRing;
+        private ImageView ring;
+        private ImageView cardImageView;
+        private ImageView mana_view;
+        private ImageView blackRing;
+        private ImageView healthImageView;
+        private ImageView attackPowerImageView;
+        private Label lbl_health;
+        private Label lbl_attackPower;
         Label lbl_manaNumbers;
         public int paneWidth = 200;
         public int paneHeight = 200;
@@ -259,7 +263,7 @@ public class BattleController extends MyController implements Initializable {
             parentPane.getStylesheets().add("layouts/stylesheets/battle/cardScene.css");
             parentPane.setPrefSize(paneWidth, paneHeight);
 
-            Image blackRingImage = new Image(new File("src/resources/inBattle/cardSceneInserting/ring_glow_for_cardScene.png").toURI().toString());
+            Image blackRingImage = new Image(new File("src/resources/inBattle/cardSceneInserting/blackRing.png").toURI().toString());
             blackRing = new ImageView(blackRingImage);
             blackRing.setFitHeight(paneHeight);
             blackRing.setFitWidth(paneWidth);
@@ -267,8 +271,8 @@ public class BattleController extends MyController implements Initializable {
             parentPane.getChildren().add(blackRing);
 
             downerCircle = new Circle();
-            downerCircle.setRadius(Math.min(paneWidth, paneHeight) / 3.5);
-            downerCircle.relocate(paneHeight / 5, paneWidth / 5);
+            downerCircle.setRadius(Math.min(paneWidth, paneHeight) / 2.7);
+            downerCircle.relocate(paneHeight / 7.5, paneWidth / 7.5);
             downerCircle.getStyleClass().add("downerCircle_firstStyle");
             downerCircle.getStyleClass().add("downerCircle_lower");
             parentPane.getChildren().add(downerCircle);
@@ -279,6 +283,46 @@ public class BattleController extends MyController implements Initializable {
             ring.setFitWidth(paneWidth);
             ring.relocate(0, 0);
             parentPane.getChildren().add(ring);
+
+            Image mana_icon = new Image(new File("src/resources/inBattle/cardSceneInserting/icon_mana.png").toURI().toString());
+            mana_view = new ImageView(mana_icon);
+            mana_view.relocate(paneWidth / 2.8, paneHeight / 1.3);
+            mana_view.setVisible(false);
+            parentPane.getChildren().add(mana_view);
+
+            lbl_manaNumbers = new Label();
+            lbl_manaNumbers.getStyleClass().add("lbl_manaNumber");
+            lbl_manaNumbers.relocate(paneWidth / 2.8 + 21, paneHeight / 1.3 + 10);
+            parentPane.getChildren().add(lbl_manaNumbers);
+
+            Image healthImage = new Image(new File("src/resources/inBattle/cardSceneInserting/healthImage.png").toURI().toString());
+            healthImageView = new ImageView(healthImage);
+            healthImageView.relocate(paneWidth/6,paneHeight/1.5);
+            healthImageView.setFitWidth(paneWidth/4);
+            healthImageView.setFitHeight(paneHeight/3);
+            parentPane.getChildren().add(healthImageView);
+            healthImageView.setVisible(false);
+
+            lbl_health = new Label();
+            lbl_health.relocate(paneWidth/4.7,paneHeight/1.3);
+            lbl_health.getStyleClass().add("lbl_health");
+            lbl_health.setTextFill(Color.GREEN);
+            parentPane.getChildren().add(lbl_health);
+
+
+            Image attackPowerImage = new Image(new File("src/resources/inBattle/cardSceneInserting/attackPowerImage.png").toURI().toString());
+            attackPowerImageView = new ImageView(attackPowerImage);
+            attackPowerImageView.relocate(paneWidth/1.7,paneHeight/1.5);
+            attackPowerImageView.setFitWidth(paneWidth/4);
+            attackPowerImageView.setFitHeight(paneHeight/3);
+            parentPane.getChildren().add(attackPowerImageView);
+            attackPowerImageView.setVisible(false);
+
+            lbl_attackPower = new Label();
+            lbl_attackPower.relocate(paneWidth/1.6,paneHeight/1.3);
+            lbl_attackPower.getStyleClass().add("lbl_attackPower");
+            lbl_attackPower.setTextFill(Color.RED);
+            parentPane.getChildren().add(lbl_attackPower);
 
             upperCircle = new Circle();
             upperCircle.setRadius(Math.min(paneWidth, paneHeight) / 3.5);
@@ -295,15 +339,6 @@ public class BattleController extends MyController implements Initializable {
             });
             parentPane.getChildren().add(upperCircle);
 
-            Image mana_icon = new Image(new File("src/resources/inBattle/cardSceneInserting/icon_mana.png").toURI().toString());
-            mana_view = new ImageView(mana_icon);
-            mana_view.relocate(paneWidth / 2.8, paneHeight / 1.3);
-            parentPane.getChildren().add(mana_view);
-
-            lbl_manaNumbers = new Label();
-            lbl_manaNumbers.getStyleClass().add("lbl_manaNumber");
-            lbl_manaNumbers.relocate(paneWidth / 2.8 + 21, paneHeight / 1.3 + 10);
-            parentPane.getChildren().add(lbl_manaNumbers);
         }
 
         public void set_mana_numbers(int manaNumbers) {
@@ -317,10 +352,19 @@ public class BattleController extends MyController implements Initializable {
             cardImageView.relocate(0, -paneHeight / 10);
             cardImageView.setFitWidth(paneWidth);
             cardImageView.setFitHeight(paneHeight);
+            mana_view.setVisible(true);
             set_mana_numbers(card.getMana());
             parentPane.getChildren().remove(upperCircle);
             parentPane.getChildren().add(cardImageView);
             parentPane.getChildren().add(upperCircle);
+            if (!(card instanceof Spell)){
+                int attackPower = ((Minion)card).get_Real_AttackPower();
+                int health = ((Minion)card).getHp();
+                attackPowerImageView.setVisible(true);
+                lbl_attackPower.setText(String.valueOf(attackPower));
+                healthImageView.setVisible(true);
+                lbl_health.setText(String.valueOf(health));
+            }
         }
 
         public void ring_rotate(int degree) {
@@ -357,6 +401,11 @@ public class BattleController extends MyController implements Initializable {
             parentPane.getChildren().remove(cardImageView);
             cardImageView=null;
             lbl_manaNumbers.setText("");
+            lbl_health.setText("");
+            lbl_attackPower.setText("");
+            attackPowerImageView.setVisible(false);
+            healthImageView.setVisible(false);
+            mana_view.setVisible(false);
         }
 
         public Card getCard() {
