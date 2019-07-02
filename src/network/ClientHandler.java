@@ -2,9 +2,13 @@ package network;
 
 import com.gilecode.yagson.YaGson;
 import com.gilecode.yagson.YaGsonBuilder;
+import models.Shop;
 import network.Requests.BuyRequest;
+import network.Requests.FindRequest;
 import network.Requests.Request;
+import network.Requests.SellRequest;
 import network.Responses.BuyResponse;
+import network.Responses.FindResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -44,14 +48,25 @@ public class ClientHandler extends Thread {
         while (true) {
             String str = this.getScanner().nextLine();
             Request request = gson.fromJson(str, Request.class);
+            String responseStr = "";
             if (request instanceof BuyRequest) {
                 BuyResponse buyResponse = new BuyResponse();
                 buyResponse.handleRequest(request);
-                String responseStr = gson.toJson(buyResponse);
+                responseStr = gson.toJson(buyResponse);
                 out.println(responseStr);
                 out.flush();
             }
-
+            if (request instanceof FindRequest) {
+                FindResponse findResponse = new FindResponse();
+                findResponse.handleRequest(request);
+                responseStr = gson.toJson(findResponse);
+                out.println(responseStr);
+                out.flush();
+            }
+            if (request instanceof SellRequest) {
+                if (Server.getTokens().get(request.getAuthToken()) != null)
+                    Shop.getInstance().command_sell(((SellRequest) request).getCode());
+            }
         }
     }
 }

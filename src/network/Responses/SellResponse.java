@@ -8,7 +8,6 @@ public class SellResponse extends Response {
     public void handleRequest(Request request) {
 
     }
-
     @Override
     public Constants getRequestResult() {
         return null;
