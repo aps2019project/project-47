@@ -1,11 +1,19 @@
 package network;
 
+import models.Account;
+
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 
 public class Server {
 
+    public static HashMap<String , Account> tokens = new HashMap<>();
+
+    public static HashMap<String, Account> getTokens() {
+        return tokens;
+    }
 
     public Server(int port) throws IOException {
         ServerSocket server = new ServerSocket(port);

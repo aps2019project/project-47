@@ -1,5 +1,5 @@
 package network;
 
 public enum ReqResType {
-    CREATE, LOGIN
+    CREATE, LOGIN , BUY;
 }

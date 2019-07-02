@@ -18,9 +18,7 @@ import models.cards.spell.Spell;
 import models.deck.Deck;
 import models.item.Item;
 
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -28,10 +26,15 @@ import java.util.Scanner;
 public class Client extends Application {
 
     private static Stage stage;
-    private Socket socket;
+    private PrintWriter out;
+    private Scanner serverScanner;
 
-    public Socket getSocket() {
-        return socket;
+    public PrintWriter getOut() {
+        return out;
+    }
+
+    public Scanner getServerScanner() {
+        return serverScanner;
     }
 
     public static Stage getStage() {
@@ -40,10 +43,13 @@ public class Client extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        socket = new Socket("127.0.0.1", 8000);
-        PrintWriter out = new PrintWriter(socket.getOutputStream());
+        BufferedReader reader = new BufferedReader(new FileReader("src/network/config"));
+        int port = Integer.parseInt(reader.readLine());
+        reader.close();
+        Socket socket = new Socket("127.0.0.1", port);
+        out = new PrintWriter(socket.getOutputStream());
         DataInputStream serverResponse = new DataInputStream(socket.getInputStream());
-        Scanner serverScanner = new Scanner(serverResponse);
+        serverScanner = new Scanner(serverResponse);
         {
             Shop shop = Shop.getInstance();
             Account Mmd = new Account("Mmd", "1234");
