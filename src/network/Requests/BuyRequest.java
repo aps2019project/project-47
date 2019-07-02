@@ -19,5 +19,5 @@ public class BuyRequest extends Request {
     public ReqResType getReqResType() {
         return ReqResType.BUY;
     }
-    
+
 }

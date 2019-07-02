@@ -1,6 +1,8 @@
 package network.Responses;
 
+import controllers.Constants;
 import network.Requests.LoginRequest;
+import network.Requests.Request;
 
 import java.io.File;
 
@@ -9,7 +11,7 @@ public class LoginResponse extends Response{
         this.request = loginRequest;
     }
 
-    @Override
+
     public void handleRequest() {
         String userName = ((LoginRequest)request).getUserName();
         String password = ((LoginRequest)request).getPassword();
@@ -19,5 +21,20 @@ public class LoginResponse extends Response{
 
             }
         }
+    }
+
+    @Override
+    public void handleRequest(Request request) {
+
+    }
+
+    @Override
+    public Constants getRequestResult() {
+        return null;
+    }
+
+    @Override
+    public void setRequestResult(Constants result) {
+
     }
 }
