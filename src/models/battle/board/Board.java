@@ -553,7 +553,6 @@ public class Board {
                 e.printStackTrace();
             }
             controller = fxmlLoader.getController();
-            controller.setRoot(root);
 
         controller.update();
         return root;
