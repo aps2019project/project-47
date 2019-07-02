@@ -14,6 +14,7 @@ import models.item.ItemType;
 import views.MyPrinter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -56,7 +57,8 @@ public class BattleMenu {
             if (matcher.find()) {
                 int mode = Integer.valueOf(matcher.group(1));
                 int numberOfFlags = Integer.valueOf(matcher.group(2));
-                DeckMaker deckMaker = new DeckMaker(Defentions.defineCard(), Defentions.all_item_by_type(ItemType.usable));
+                DeckMaker deckMaker = new DeckMaker(new ArrayList<>(Defentions.defineCard().keySet()),
+                        new ArrayList<>(Defentions.all_item_by_type(ItemType.usable).keySet()));
                 Deck deck = deckMaker.constructor("pcDeck");
                 if (deck == null) continue;
                 Player player1 = new Player(1, "PC", deck, false);
@@ -107,7 +109,7 @@ public class BattleMenu {
     }
 
     public static Parent getRoot() {
-        if (root==null){
+        if (root == null) {
             FXMLLoader fxmlLoader = new FXMLLoader(MainMenu.class.getResource("../../layouts/battleChooseMenu.fxml"));
             try {
                 root = fxmlLoader.load();
@@ -120,6 +122,7 @@ public class BattleMenu {
         controller.update();
         return root;
     }
+
     public MyController getController() {
         return controller;
     }

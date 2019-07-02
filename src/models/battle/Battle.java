@@ -74,7 +74,7 @@ public class Battle {
                 i--;
                 continue;
             }
-            Item item = Defentions.defineItem().get(random.nextInt(Defentions.defineItem().size()));
+            Item item = new ArrayList<>(Defentions.defineItem().keySet()).get(random.nextInt(Defentions.defineItem().size()));
             board.selectCell(location).setItem(item);
         }
     }
