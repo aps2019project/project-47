@@ -1,5 +1,7 @@
 package controllers.graphical;
 
+import com.gilecode.yagson.YaGson;
+import com.gilecode.yagson.YaGsonBuilder;
 import com.jfoenix.controls.JFXButton;
 import controllers.console.AccountMenu;
 import controllers.Constants;
@@ -23,6 +25,8 @@ import models.cards.minion.Minion;
 import models.cards.spell.Spell;
 import models.item.Item;
 import network.Client;
+import network.Requests.BuyRequest;
+import network.Responses.BuyResponse;
 
 import java.io.IOException;
 import java.net.URL;
@@ -32,6 +36,12 @@ import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class UniversalShopController implements Initializable {
+    public static UniversalShopController instance;
+
+    {
+        instance = this;
+    }
+
     Account loginAccount = AccountMenu.getLoginAccount();
     ArrayList<Card> accountCards;
     ArrayList<Item> accountItems;
@@ -97,15 +107,13 @@ public class UniversalShopController implements Initializable {
     private VBox infoBox;
 
     @FXML
-    private JFXButton backButton;
-    @FXML
     void setMyCollectionMenu(ActionEvent event) {
         gotoMyCollection();
         addCardsToContainer(cards.values());
     }
 
     @FXML
-    void setUniversalCollectionMenu(ActionEvent event) throws IOException {
+    public void setUniversalCollectionMenu() {
         initializeCards();
         addCardsToContainer(cards.values());
         copyCardsInSearchSource();
@@ -180,23 +188,37 @@ public class UniversalShopController implements Initializable {
 
         Object cardOrItem = shop.find_in_shop(Integer.parseInt(id.substring(1)));
         if (buyOrSell) {
-
             button.setOnMouseClicked(event -> {
-                Constants resultCode = shop.command_buy(Integer.parseInt(id.substring(1)));
-                if (resultCode == Constants.SUCCESSFUL_BUY) {
-                } else if (resultCode == Constants.NOT_ENOUGH_MONEY) {
-                    AlertHelper.showAlert(Alert.AlertType.ERROR , Client.getStage().getOwner() , "Error!" , "You don't have enough money!");
-                } else if (resultCode == Constants.HAD_BOUGHT_BEFORE) {
-                    AlertHelper.showAlert(Alert.AlertType.ERROR , Client.getStage().getOwner() , "Error!" , "You have bought this thing!");
-                } else if (resultCode == Constants.NO_ACCOUNT_LOGGED_IN) {
-                    AlertHelper.showAlert(Alert.AlertType.ERROR , Client.getStage().getOwner() , "!WTF!" , "No account logged in! WTF!!!!");
+                BuyRequest buyRequest = new BuyRequest(AccountMenu.getLoginAccount().getAuthToken() , Integer.parseInt(id.substring(1)));
+                YaGsonBuilder yaGsonBuilder = new YaGsonBuilder();
+                YaGson yaGson = yaGsonBuilder.create();
+                String yaJson = yaGson.toJson(buyRequest);
+                Client.getOut().println(yaJson);
+                Client.getOut().flush();
+                String str = Client.getServerScanner().nextLine();
+                BuyResponse buyResponse = yaGson.fromJson(str , BuyResponse.class);
+                switch (buyResponse.getRequestResult()){
+                    case NOT_ENOUGH_MONEY:
+                        AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Error!", "You don't have enough money!");
+                        break;
+                    case HAD_BOUGHT_BEFORE:
+                        AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Error!", "You have bought this thing!");
+                        break;
+                    case NO_ACCOUNT_LOGGED_IN:
+                        AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "!WTF!", "No account logged in! WTF!!!!");
+                        break;
+                    case NOT_EXISTS:
+                        AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Warning!", "The card Not exist in shop :(!");
+                        break;
                 }
                 money.setText("Money : ".concat(Integer.toString(loginAccount.getMoney())));
             });
             if (cardOrItem instanceof Card)
-                button.setText("Buy " + ((Card) cardOrItem).getName() + " " + ((Card) cardOrItem).getPrice() + "$");
+                button.setText("Buy " + ((Card) cardOrItem).getName() + " " + ((Card) cardOrItem).getPrice() + "$\n"
+                        + Shop.getInstance().getCards().get(cardOrItem) + " of it existed!");
             else if (cardOrItem instanceof Item)
-                button.setText("Buy " + ((Item) cardOrItem).getName() + " " + ((Item) cardOrItem).getPrice() + "$");
+                button.setText("Buy " + ((Item) cardOrItem).getName() + " " + ((Item) cardOrItem).getPrice() + "$\n " +
+                        +Shop.getInstance().getItems().get(cardOrItem) + " of this item existed!");
         } else {
             button.setOnMouseClicked(event -> {
                 String name = "";
@@ -214,7 +236,7 @@ public class UniversalShopController implements Initializable {
             if (cardOrItem instanceof Card)
                 button.setText("Sell " + ((Card) cardOrItem).getName() + " " + ((Card) cardOrItem).getPrice() + "$");
             else if (cardOrItem instanceof Item)
-                button.setText("*Sell " + ((Item) cardOrItem).getName() + " " + ((Item) cardOrItem).getPrice() + "$");
+                button.setText("Sell Item " + ((Item) cardOrItem).getName() + " " + ((Item) cardOrItem).getPrice() + "$");
         }
         ImageView imageView = new ImageView();
         imageView.setFitWidth(splitPane.getPrefWidth());
@@ -227,11 +249,10 @@ public class UniversalShopController implements Initializable {
         imageView.setImage(image);
         imageView.setOnMouseClicked(event -> {
             CollectionController.removeInfos(infoBox);
-            if(cardOrItem instanceof Card){
-                CollectionController.addInfoOfCard((Card)cardOrItem, infoBox);
-            }
-            else if(cardOrItem instanceof Item){
-                CollectionController.addItemInfo((Item)cardOrItem, infoBox);
+            if (cardOrItem instanceof Card) {
+                CollectionController.addInfoOfCard((Card) cardOrItem, infoBox);
+            } else if (cardOrItem instanceof Item) {
+                CollectionController.addItemInfo((Item) cardOrItem, infoBox);
             }
         });
         imageView.setFitHeight(0.82 * splitPane.getPrefHeight());
@@ -276,7 +297,7 @@ public class UniversalShopController implements Initializable {
             id = id.concat(Integer.toString(card.getCode()));
             addNewCard(id, false);
         }
-        for(Item item : accountItems){
+        for (Item item : accountItems) {
             String id = "i".concat(Integer.toString(item.getCode()));
             addNewCard(id, false);
         }
@@ -288,6 +309,7 @@ public class UniversalShopController implements Initializable {
             forSearchCards.put(string, cards.get(string));
         }
     }
+
     @FXML
     public void backButtonAction(ActionEvent actionEvent) throws IOException {
 

@@ -19,14 +19,15 @@ import models.item.ItemActivateTime;
 import models.item.ItemType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Defentions {
-    public static ArrayList<Spell> customSpells = new ArrayList<>();
-    public static ArrayList<Minion> customMinions = new ArrayList<>();
-    public static ArrayList<Hero> customHeros = new ArrayList<>();
+    public static HashMap<Spell, Integer> customSpells = new HashMap<>();
+    public static HashMap<Minion, Integer> customMinions = new HashMap<>();
+    public static HashMap<Hero, Integer> customHeros = new HashMap<>();
 
-    public static ArrayList<Spell> defineSpell() {
-        ArrayList<Spell> spellCards = new ArrayList<>();
+    public static HashMap<Spell , Integer> defineSpell() {
+        HashMap<Spell, Integer> spellCards = new HashMap<>();
 
         {
             TargetForm targetForm = new TargetForm(0, 0, 1, 1, SideType.enemy, ForceType.both, null, true);
@@ -37,7 +38,7 @@ public class Defentions {
             effects.add(new Effect(buffs, null, targetForm));
             Spell spell = new Spell(101, "TotalDisarm", 0, 1000, effects, selectionCellPack);
             spell.getGraphicPack().setShopPhotoAddress("/resources/cards/FreezeCard.png");
-            spellCards.add(spell);
+            spellCards.put(spell, 3);
         }//1
 
         {
@@ -54,7 +55,7 @@ public class Defentions {
             effects.add(effect2);
             Spell spell = new Spell(102, "AreaDispel", 2, 1500, effects, null);
             spell.getGraphicPack().setShopPhotoAddress("/resources/cards/FreezeCard.png");
-            spellCards.add(spell);
+            spellCards.put(spell, 3);
         }//2
 
         {//3
@@ -65,7 +66,7 @@ public class Defentions {
             effects.add(new Effect(buffs, null, null));
             Spell spell = new Spell(103, "Empower", 1, 250, effects, selectionCellPack);
             spell.getGraphicPack().setShopPhotoAddress("/resources/cards/LightningCard.png");
-            spellCards.add(spell);
+            spellCards.put(spell, 3);
         }//3
 
         {//4
@@ -76,7 +77,7 @@ public class Defentions {
             effects.add(new Effect(buffs, null, null));
             Spell spell = new Spell(104, "FireBall", 1, 400, effects, selectionCellPack);
             spell.getGraphicPack().setShopPhotoAddress("/resources/cards/LightningCard.png");
-            spellCards.add(spell);
+            spellCards.put(spell, 3);
         }//4
 
         {
@@ -87,7 +88,7 @@ public class Defentions {
             effects.add(new Effect(buffs, null, null));
             Spell spell = new Spell(105, "GodStrength", 2, 450, effects, selectionCellPack);
             spell.getGraphicPack().setShopPhotoAddress("/resources/cards/LightningCard.png");
-            spellCards.add(spell);
+            spellCards.put(spell, 3);
         }//5
 
         {
@@ -99,7 +100,7 @@ public class Defentions {
             effects.add(new Effect(null, houseEffects, targetForm));
             Spell spell = new Spell(106, "HellFire", 3, 600, effects, selectionCellPack);
             spell.getGraphicPack().setShopPhotoAddress("/resources/cards/Rocket.png");
-            spellCards.add(spell);
+            spellCards.put(spell, 3);
         }//6
 
         {
@@ -110,7 +111,7 @@ public class Defentions {
             effects.add(new Effect(buffs, null, null));
             Spell spell = new Spell(107, "LightingBolt", 2, 1250, effects, selectionCellPack);
             spell.getGraphicPack().setShopPhotoAddress("/resources/cards/LightningCard.png");
-            spellCards.add(spell);
+            spellCards.put(spell, 3);
         }//7
 
         {
@@ -122,7 +123,7 @@ public class Defentions {
             effects.add(new Effect(null, houseEffects, targetForm));
             Spell spell = new Spell(108, "PoisonLake", 5, 900, effects, selectionCellPack);
             spell.getGraphicPack().setShopPhotoAddress("/resources/cards/Poison_Spell_info.png");
-            spellCards.add(spell);
+            spellCards.put(spell, 3);
         }//8
 
         {
@@ -134,7 +135,7 @@ public class Defentions {
             effects.add(new Effect(buffs, null, null));
             Spell spell = new Spell(109, "Madness", 0, 650, effects, selectionCellPack);
             spell.getGraphicPack().setShopPhotoAddress("/resources/cards/image.png");
-            spellCards.add(spell);
+            spellCards.put(spell, 3);
         }//9
 
         {
@@ -145,7 +146,7 @@ public class Defentions {
             effects.add(new Effect(buffs, null, targetForm));
             Spell spell = new Spell(110, "AllDisarm", 9, 2000, effects, null);
             spell.getGraphicPack().setShopPhotoAddress("/resources/cards/FreezeCard.png");
-            spellCards.add(spell);
+            spellCards.put(spell, 3);
         }//10
 
         {
@@ -156,7 +157,7 @@ public class Defentions {
             effects.add(new Effect(buffs, null, targetForm));
             Spell spell = new Spell(111, "AllPoison", 8, 1500, effects, null);
             spell.getGraphicPack().setShopPhotoAddress("/resources/cards/Poison_Spell_info.png");
-            spellCards.add(spell);
+            spellCards.put(spell, 3);
         }//11
 
         {
@@ -175,7 +176,7 @@ public class Defentions {
 
             Spell spell = new Spell(112, "Dispel", 0, 2100, effects, selectionCellPack);
             spell.getGraphicPack().setShopPhotoAddress("/resources/cards/Rocket.png");
-            spellCards.add(spell);
+            spellCards.put(spell, 3);
         }//12
 
         {
@@ -187,7 +188,7 @@ public class Defentions {
             effects.add(new Effect(buffs, null, null));
             Spell spell = new Spell(113, "HealthWithProfit", 0, 2250, effects, selectionCellPack);
             spell.getGraphicPack().setShopPhotoAddress("/resources/cards/Card_icon_Heal.png");
-            spellCards.add(spell);
+            spellCards.put(spell, 3);
         }//13
 
         {
@@ -198,7 +199,7 @@ public class Defentions {
             effects.add(new Effect(buffs, null, null));
             Spell spell = new Spell(114, "powerUp", 2, 2500, effects, selectionCellPack);
             spell.getGraphicPack().setShopPhotoAddress("/resources/cards/Card_icon_Heal.png");
-            spellCards.add(spell);
+            spellCards.put(spell, 3);
         }//14
 
         {
@@ -209,7 +210,7 @@ public class Defentions {
             effects.add(new Effect(buffs, null, targetForm));
             Spell spell = new Spell(115, "allPower", 4, 2000, effects, null);
             spell.getGraphicPack().setShopPhotoAddress("/resources/cards/RageCard.png");
-            spellCards.add(spell);
+            spellCards.put(spell, 3);
         }//15
 
         {
@@ -220,7 +221,7 @@ public class Defentions {
             effects.add(new Effect(buffs, null, targetForm));
             Spell spell = new Spell(116, "allAttack", 4, 1500, effects, null);
             spell.getGraphicPack().setShopPhotoAddress("/resources/cards/Rocket.png");
-            spellCards.add(spell);
+            spellCards.put(spell, 3);
         }//16
 
         {
@@ -231,7 +232,7 @@ public class Defentions {
             effects.add(new Effect(buffs, null, null));
             Spell spell = new Spell(117, "weakening", 1, 1000, effects, selectionCellPack);
             spell.getGraphicPack().setShopPhotoAddress("/resources/cards/Poison_Spell_info.png");
-            spellCards.add(spell);
+            spellCards.put(spell, 3);
         }//17
 
         {
@@ -243,7 +244,7 @@ public class Defentions {
             effects.add(new Effect(buffs, null, null));
             Spell spell = new Spell(118, "sacrifice", 2, 1600, effects, selectionCellPack);
             spell.getGraphicPack().setShopPhotoAddress("/resources/cards/Card_icon_Heal.png");
-            spellCards.add(spell);
+            spellCards.put(spell, 3);
         }//18
 
         {
@@ -255,7 +256,7 @@ public class Defentions {
             effects.add(new Effect(buffs, null, targetForm));
             Spell spell = new Spell(119, "kingsGuard", 9, 1750, effects, selectionCellPack);
             spell.getGraphicPack().setShopPhotoAddress("/resources/cards/Rocket.png");
-            spellCards.add(spell);
+            spellCards.put(spell, 3);
         }//19
 
         {
@@ -266,18 +267,22 @@ public class Defentions {
             effects.add(new Effect(buffs, null, null));
             Spell spell = new Spell(120, "shock", 1, 1200, effects, selectionCellPack);
             spell.getGraphicPack().setShopPhotoAddress("/resources/cards/LightningCard.png");
-            spellCards.add(spell);
+            spellCards.put(spell, 3);
         }//20
+        spellCards.putAll(customSpells);
 
-        for (Spell spell:spellCards){
-            defineDefultFileAdresses(spell);
+        for (Card card : spellCards.keySet()) {
+            card.getGraphicPack().setMovePhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_run.gif");
+            card.getGraphicPack().setAttackPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_attack.gif");
+            card.getGraphicPack().setBreathingPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_breathing.gif");
+            card.getGraphicPack().setDeathPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_death.gif");
+            card.getGraphicPack().setIdlePhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_idle.gif");
         }
-        spellCards.addAll(customSpells);
         return spellCards;
     }
 
-    public static ArrayList<Hero> defineHero() {
-        ArrayList<Hero> heroes = new ArrayList<>();
+    public static HashMap<Hero, Integer> defineHero() {
+        HashMap<Hero, Integer> heroes = new HashMap<>();
 
         {
             ArrayList<Buff> buffs = new ArrayList<>();
@@ -288,7 +293,7 @@ public class Defentions {
             specialItem.addCoolDown(new Effect(buffs, null, null));
             Hero hero = new Hero(301, "whiteDamn", 0, 50, 8000, 4, MinionTargetsType.melee, 20, specialItem);
             hero.getGraphicPack().setShopPhotoAddress("/resources/cards/White Daemon_logo.png");
-            heroes.add(hero);
+            heroes.put(hero, 3);
         }//1
 
         {
@@ -301,7 +306,7 @@ public class Defentions {
             specialItem.setHeroPack(heroPack);
             Hero hero = new Hero(302, "Simorgh", 0, 50, 9000, 4, MinionTargetsType.melee, 20, specialItem);
             hero.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_solfist_portrait_hex@2x.png");
-            heroes.add(hero);
+            heroes.put(hero, 3);
         }//2
 
         {
@@ -314,7 +319,7 @@ public class Defentions {
             specialItem.setHeroPack(heroPack);
             Hero hero = new Hero(303, "sevenHeadDragon", 0, 50, 8000, 4, MinionTargetsType.melee, 20, specialItem);
             hero.getGraphicPack().setShopPhotoAddress("/resources/cards/SevenHead Dragon_logo.png");
-            heroes.add(hero);
+            heroes.put(hero, 3);
         }//3
 
         {
@@ -327,7 +332,7 @@ public class Defentions {
             specialItem.setHeroPack(heroPack);
             Hero hero = new Hero(304, "Rakhsh", 0, 50, 8000, 4, MinionTargetsType.melee, 20, specialItem);
             hero.getGraphicPack().setShopPhotoAddress("/resources/cards/Rakhsh_logo.png");
-            heroes.add(hero);
+            heroes.put(hero, 3);
         }//4
 
         {
@@ -337,7 +342,7 @@ public class Defentions {
             specialItem.addAttack(new Effect(buffs, null, null));
             Hero hero = new Hero(305, "Zahak", 0, 50, 10000, 2, MinionTargetsType.melee, 20, specialItem);
             hero.getGraphicPack().setShopPhotoAddress("/resources/cards/Zahak_logo.png");
-            heroes.add(hero);
+            heroes.put(hero, 3);
         }//5
 
         {
@@ -349,7 +354,7 @@ public class Defentions {
             specialItem.setHeroPack(heroPack);
             Hero hero = new Hero(306, "Kave", 0, 50, 8000, 4, MinionTargetsType.melee, 20, specialItem);
             hero.getGraphicPack().setShopPhotoAddress("/resources/cards/Kaveh_logo.png");
-            heroes.add(hero);
+            heroes.put(hero, 3);
         }//6
 
         {
@@ -363,7 +368,7 @@ public class Defentions {
             specialItem.setHeroPack(heroPack);
             Hero hero = new Hero(307, "Arash", 0, 30, 10000, 2, MinionTargetsType.ranged, 6, specialItem);
             hero.getGraphicPack().setShopPhotoAddress("/resources/cards/Arash_logo.png");
-            heroes.add(hero);
+            heroes.put(hero, 3);
         }//7
 
         {
@@ -376,7 +381,7 @@ public class Defentions {
             specialItem.setHeroPack(heroPack);
             Hero hero = new Hero(308, "Afsane", 0, 40, 11000, 3, MinionTargetsType.ranged, 3, specialItem);
             hero.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_andromeda_portrait_hex@2x.png");
-            heroes.add(hero);
+            heroes.put(hero, 3);
         }//8
 
         {
@@ -388,30 +393,34 @@ public class Defentions {
             specialItem.setHeroPack(heroPack);
             Hero hero = new Hero(309, "Esfandiar", 0, 35, 12000, 3, MinionTargetsType.hybird, 3, specialItem);
             hero.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_malyk_portrait_hex@2x.png");
-            heroes.add(hero);
+            heroes.put(hero, 3);
         }//9
 
         {
             Hero hero = new Hero(310, "Rostam", 0, 55, 10000, 7, MinionTargetsType.hybird, 4, null);
             hero.getGraphicPack().setShopPhotoAddress("/resources/cards/Rostam_logo.png");
-            heroes.add(hero);
+            heroes.put(hero, 3);
         }//10
+        heroes.putAll(customHeros);
 
-        for (Hero hero:heroes){
-            defineDefultFileAdresses(hero);
+        for (Card card : heroes.keySet()) {
+            card.getGraphicPack().setMovePhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_run.gif");
+            card.getGraphicPack().setAttackPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_attack.gif");
+            card.getGraphicPack().setBreathingPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_breathing.gif");
+            card.getGraphicPack().setDeathPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_death.gif");
+            card.getGraphicPack().setIdlePhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_idle.gif");
         }
-        heroes.addAll(customHeros);
         return heroes;
     }
 
-    public static ArrayList<Minion> defineMinion() {
-        ArrayList<Minion> minions = new ArrayList<>();
+    public static HashMap<Minion, Integer> defineMinion() {
+        HashMap<Minion, Integer> minions = new HashMap<>();
 
         {
             Minion minion = new Minion(201, "FarsArcher", 2, 6, 7, 300, CardType.minion,
                     MinionTargetsType.ranged, 4, null);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_andromeda_portrait_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//1
 
         {
@@ -422,21 +431,21 @@ public class Defentions {
             specialItem.addAttack(effect);
             Minion minion = new Minion(202, "FarsSwordsman", 2, 6, 20, 400, CardType.minion, MinionTargetsType.melee, 4, specialItem);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_antiswarm_portrait_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//2
 
         {
             Minion minion = new Minion(203, "FarsSpear", 1, 5, 3, 500, CardType.minion,
                     MinionTargetsType.hybird, 6, null);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_archonis_portrait_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//3
 
         {
             Minion minion = new Minion(204, "FarsHorseman", 4, 10, 20, 200, CardType.minion,
                     MinionTargetsType.melee, 6, null);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_boreal_juggernaut_portrait_image_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//4
 
         {
@@ -446,7 +455,7 @@ public class Defentions {
             Minion minion = new Minion(205, "FarsGladiator", 9, 24, 20, 400, CardType.minion,
                     MinionTargetsType.melee, 6, specialItem);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_calibero_portrait_image_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//5
 
         {
@@ -456,28 +465,28 @@ public class Defentions {
             Minion minion = new Minion(206, "FarsSepahsalar", 7, 12, 20, 800, CardType.minion,
                     MinionTargetsType.melee, 4, specialItem);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_chaos_knight_portrait_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//6
 
         {
             Minion minion = new Minion(207, "ToraniArcher", 1, 3, 20, 500, CardType.minion,
                     MinionTargetsType.ranged, 4, null);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_christmas_portrait_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//7
 
         {
             Minion minion = new Minion(208, "ToraniHooked", 1, 4, 7, 600, CardType.minion,
                     MinionTargetsType.ranged, 2, null);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_cindera_portrait_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//8
 
         {
             Minion minion = new Minion(209, "ToraniSpear", 1, 4, 3, 600, CardType.minion,
                     MinionTargetsType.hybird, 4, null);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_crystal_portrait_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//9
 
         {
@@ -490,14 +499,14 @@ public class Defentions {
             Minion minion = new Minion(210, "ToraniSpy", 4, 6, 20, 700, CardType.minion,
                     MinionTargetsType.melee, 6, specialItem);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_crystal_portrait_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//10
 
         {
             Minion minion = new Minion(211, "ToraniSwampy", 2, 3, 20, 450, CardType.minion,
                     MinionTargetsType.melee, 10, null);
-            minions.add(minion);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_boreal_juggernaut_portrait_image_hex@2x.png");
+            minions.put(minion, 3);
         }//11
 
         {
@@ -506,21 +515,21 @@ public class Defentions {
             Minion minion = new Minion(212, "ToraniPrince", 6, 6, 20, 800, CardType.minion,
                     MinionTargetsType.melee, 10, specialItem);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_chaos_knight_portrait_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//12
 
         {
             Minion minion = new Minion(213, "blackDamn", 9, 14, 7, 300, CardType.minion,
                     MinionTargetsType.hybird, 10, null);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_christmas_portrait_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//13
 
         {
             Minion minion = new Minion(214, "slumdogGiant", 9, 12, 7, 300, CardType.minion,
                     MinionTargetsType.ranged, 12, null);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_shinkage_zendo_portrait_image_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//14
 
         {
@@ -532,14 +541,14 @@ public class Defentions {
             Minion minion = new Minion(215, "eagle", 2, 0, 3, 200, CardType.minion,
                     MinionTargetsType.ranged, 2, specialItem);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_shinkage_zendo_portrait_image_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//15
 
         {
             Minion minion = new Minion(216, "boutRiderDamn", 6, 16, 20, 300, CardType.minion,
                     MinionTargetsType.melee, 8, null);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_umbra_portrait_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//16
 
         {
@@ -552,7 +561,7 @@ public class Defentions {
             Minion minion = new Minion(217, "singleEyeGiant", 7, 12, 3, 500, CardType.minion,
                     MinionTargetsType.hybird, 11, specialItem);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_umbra_portrait_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//17
 
         {
@@ -564,14 +573,14 @@ public class Defentions {
             Minion minion = new Minion(218, "poisonousSnake", 4, 5, 4, 300, CardType.minion,
                     MinionTargetsType.ranged, 6, specialItem);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wujin_portrait_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//18
 
         {
             Minion minion = new Minion(219, "lighthouseDragon", 5, 9, 4, 250, CardType.minion,
                     MinionTargetsType.ranged, 5, null);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wujin_portrait_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//19
 
         {
@@ -581,7 +590,7 @@ public class Defentions {
             Minion minion = new Minion(220, "wildLion", 2, 1, 4, 600, CardType.minion,
                     MinionTargetsType.ranged, 8, specialItem);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wraith_portrait_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//20
 
         {
@@ -599,7 +608,7 @@ public class Defentions {
             Minion minion = new Minion(221, "hugeSnake", 8, 14, 5, 500, CardType.minion
                     , MinionTargetsType.ranged, 7, specialItem);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wraith_portrait_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//21
 
         {
@@ -613,7 +622,7 @@ public class Defentions {
             Minion minion = new Minion(222, "whiteWolf", 5, 8, 20, 400, CardType.minion,
                     MinionTargetsType.melee, 2, specialItem);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wraith_portrait_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//22
 
         {
@@ -626,7 +635,7 @@ public class Defentions {
             Minion minion = new Minion(223, "leopard", 4, 6, 20, 400, CardType.minion,
                     MinionTargetsType.melee, 2, specialItem);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_unhallowed_portrait_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//23
 
         {
@@ -639,7 +648,7 @@ public class Defentions {
             Minion minion = new Minion(224, "wolf", 3, 6, 20, 400, CardType.minion,
                     MinionTargetsType.melee, 1, specialItem);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_umbra_portrait_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//24
 
         {
@@ -653,7 +662,7 @@ public class Defentions {
             Minion minion = new Minion(225, "magician", 4, 5, 3, 550, CardType.minion,
                     MinionTargetsType.ranged, 4, specialItem);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_umbra_portrait_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//25
 
         {
@@ -667,7 +676,7 @@ public class Defentions {
             Minion minion = new Minion(226, "enormousMagician", 6, 6, 5, 550, CardType.minion,
                     MinionTargetsType.ranged, 6, specialItem);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/general_portrait_image_hex_rook.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//26
 
         {
@@ -680,7 +689,7 @@ public class Defentions {
             Minion minion = new Minion(227, "elf", 5, 10, 4, 500, CardType.minion,
                     MinionTargetsType.ranged, 4, specialItem);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/general_portrait_image_hex_rook.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//27
 
         {
@@ -690,7 +699,7 @@ public class Defentions {
             Minion minion = new Minion(228, "wildHog", 6, 10, 20, 500, CardType.minion,
                     MinionTargetsType.melee, 14, specialItem);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wraith_portrait_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//28
 
         {
@@ -700,7 +709,7 @@ public class Defentions {
             Minion minion = new Minion(229, "Piran", 8, 20, 20, 400, CardType.minion,
                     MinionTargetsType.melee, 12, specialItem);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wraith_portrait_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//29
 
         {
@@ -710,7 +719,7 @@ public class Defentions {
             Minion minion = new Minion(230, "Giv", 4, 5, 5, 450, CardType.minion,
                     MinionTargetsType.ranged, 7, specialItem);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wraith_portrait_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//30
 
         {
@@ -723,7 +732,7 @@ public class Defentions {
             Minion minion = new Minion(231, "Bahman", 8, 16, 20, 450, CardType.minion,
                     MinionTargetsType.melee, 9, specialItem);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_vampire_portrait_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//31
 
         {
@@ -733,21 +742,21 @@ public class Defentions {
             Minion minion = new Minion(232, "Ashkboos", 7, 14, 20, 400, CardType.minion,
                     MinionTargetsType.melee, 8, specialItem);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_vampire_portrait_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//32
 
         {
             Minion minion = new Minion(233, "Eraj", 4, 6, 3, 500, CardType.minion,
                     MinionTargetsType.ranged, 20, null);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_vampire_portrait_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//33
 
         {
             Minion minion = new Minion(234, "hugeGiant", 9, 30, 20, 600, CardType.minion,
                     MinionTargetsType.hybird, 8, null);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wraith_portrait_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
 
         }//34
 
@@ -760,7 +769,7 @@ public class Defentions {
             Minion minion = new Minion(235, "DoubleHeadGiant", 4, 10, 20, 550, CardType.minion,
                     MinionTargetsType.melee, 4, specialItem);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wraith_portrait_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//35
 
         {
@@ -773,7 +782,7 @@ public class Defentions {
             Minion minion = new Minion(236, "coldMather", 3, 3, 5, 550, CardType.minion,
                     MinionTargetsType.ranged, 4, specialItem);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wraith_portrait_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
 
         }//36
 
@@ -786,7 +795,7 @@ public class Defentions {
             Minion minion = new Minion(237, "steelArmor", 3, 1, 20, 650, CardType.minion,
                     MinionTargetsType.melee, 1, specialItem);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wujin_portrait_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//37
 
         {
@@ -799,7 +808,7 @@ public class Defentions {
             Minion minion = new Minion(238, "Siavash", 4, 8, 20, 350, CardType.minion,
                     MinionTargetsType.melee, 5, specialItem);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wujin_portrait_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//38
 
         {
@@ -808,7 +817,7 @@ public class Defentions {
             Minion minion = new Minion(239, "giant king", 5, 10, 20, 600, CardType.minion,
                     MinionTargetsType.melee, 4, specialItem);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wujin_portrait_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//39
 
         {
@@ -817,18 +826,22 @@ public class Defentions {
             Minion minion = new Minion(240, "ArjangDamn", 3, 6, 20, 600, CardType.minion,
                     MinionTargetsType.melee, 6, specialItem);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wujin_portrait_hex@2x.png");
-            minions.add(minion);
+            minions.put(minion, 3);
         }//40
+        minions.putAll(customMinions);
 
-        for (Minion minion:minions){
-            defineDefultFileAdresses(minion);
+        for (Card card : minions.keySet()) {
+            card.getGraphicPack().setMovePhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_run.gif");
+            card.getGraphicPack().setAttackPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_attack.gif");
+            card.getGraphicPack().setBreathingPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_breathing.gif");
+            card.getGraphicPack().setDeathPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_death.gif");
+            card.getGraphicPack().setIdlePhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_idle.gif");
         }
-        minions.addAll(customMinions);
         return minions;
     }
 
-    public static ArrayList<Item> defineItem() {
-        ArrayList<Item> items = new ArrayList<>();
+    public static HashMap<Item , Integer> defineItem() {
+        HashMap<Item , Integer> items = new HashMap<>();
 
         {
             ArrayList<Buff> buffs = new ArrayList<>();
@@ -837,7 +850,7 @@ public class Defentions {
             effects.add(new Effect(buffs, null, null));
             Item item = new Item(401, ItemType.usable, 300, "CrownOfWisdom", effects
                     , true, false, null, null);
-            items.add(item);
+            items.put(item , 3);
 
         }//1
 
@@ -849,7 +862,7 @@ public class Defentions {
             Item item = new Item(402, ItemType.usable, 4000, "namoosSepar", effects
                     , true, false, null, null);
 
-            items.add(item);
+            items.put(item , 3);
         }//2
 
         {
@@ -862,7 +875,7 @@ public class Defentions {
             effects.add(new Effect(buffs, null, targetForm));
             Item item = new Item(403, ItemType.usable, 30000, "kamanDamol", effects
                     , false, false, ItemActivateTime.onAttack, null);
-            items.add(item);
+            items.put(item , 3);
         }//3
 
         {
@@ -873,7 +886,7 @@ public class Defentions {
             effects.add(new Effect(buffs, null, targetForm));
             Item item = new Item(412, ItemType.collectable, 0, "nooshdaroo", effects
                     , true, false, null, null);
-            items.add(item);
+            items.put(item , 3);
         }//4
 
         {
@@ -883,8 +896,9 @@ public class Defentions {
             buffs.add(new Buff(0, 1000, 2, BuffType.attack_power_up, false));
             ArrayList<Effect> effects = new ArrayList<>();
             effects.add(new Effect(buffs, null, targetForm));
-            items.add(new Item(413, ItemType.collectable, 0, "TirDoShakh", effects
-                    , true, false, null, null));
+            Item item = new Item(413, ItemType.collectable, 0, "TirDoShakh", effects
+                    , true, false, null, null);
+            items.put(item , 3);
         }//5
 
         {
@@ -894,8 +908,9 @@ public class Defentions {
             buffs.add(new Buff(0, 1000, 2, BuffType.attack_power_low, false));
             ArrayList<Effect> effects = new ArrayList<>();
             effects.add(new Effect(buffs, null, targetForm));
-            items.add(new Item(414, ItemType.usable, 3500, "parSimorgh", effects
-                    , true, false, null, null));
+            Item item = new Item(414, ItemType.usable, 3500, "parSimorgh", effects
+                    , true, false, null, null);
+            items.put(item , 3);
         }//6
 
         {
@@ -909,8 +924,9 @@ public class Defentions {
             ArrayList<Effect> effects = new ArrayList<>();
             effects.add(new Effect(buffs1, null, targetForm1));
             effects.add(new Effect(buffs2, null, null));
-            items.add(new Item(415, ItemType.collectable, 0, "exir", effects
-                    , true, false, null, null));
+            Item item = new Item(415, ItemType.collectable, 0, "exir", effects
+                    , true, false, null, null);
+            items.put(item , 3);
         }//7
 
         {
@@ -918,8 +934,9 @@ public class Defentions {
             buffs.add(new Buff(0, 1, 3, BuffType.mana, false));
             ArrayList<Effect> effects = new ArrayList<>();
             effects.add(new Effect(buffs, null, null));
-            items.add(new Item(416, ItemType.collectable, 0, "manaPotion", effects
-                    , true, false, null, null));
+            Item item = new Item(416, ItemType.collectable, 0, "manaPotion", effects
+                    , true, false, null, null);
+            items.put(item , 3);
         }//8
 
         {
@@ -928,8 +945,9 @@ public class Defentions {
             buffs.add(new Buff(0, 2, 10, BuffType.holy, false));
             ArrayList<Effect> effects = new ArrayList<>();
             effects.add(new Effect(buffs, null, targetForm));
-            items.add(new Item(417, ItemType.collectable, 0, "growthPotion", effects
-                    , true, false, null, null));
+            Item item = new Item(417, ItemType.collectable, 0, "growthPotion", effects
+                    , true, false, null, null);
+            items.put(item , 3);
         }//9
 
         {
@@ -939,8 +957,9 @@ public class Defentions {
             ArrayList<Effect> effects = new ArrayList<>();
             effects.add(new Effect(buffs, null, targetForm));
             TargetForm randomForce = new TargetForm(-9, -5, 9, 5, SideType.both, ForceType.both, null, false);
-            items.add(new Item(418, ItemType.collectable, 0, "nefrinMarg", effects
-                    , false, false, ItemActivateTime.onDeath, randomForce));
+            Item item = new Item(418, ItemType.collectable, 0, "nefrinMarg", effects
+                    , false, false, ItemActivateTime.onDeath, randomForce);
+            items.put(item , 3);
         }//10
 
         {
@@ -949,8 +968,9 @@ public class Defentions {
             buffs.add(new Buff(0, 1000, 2, BuffType.attack_power_up, false));
             ArrayList<Effect> effects = new ArrayList<>();
             effects.add(new Effect(buffs, null, targetForm));
-            items.add(new Item(419, ItemType.collectable, 0, "RandomDamage", effects
-                    , true, false, null, null));
+            Item item = new Item(419, ItemType.collectable, 0, "RandomDamage", effects
+                    , true, false, null, null);
+            items.put(item , 3);
         }//11
 
         {
@@ -959,8 +979,9 @@ public class Defentions {
             buffs.add(new Buff(0, 1000, 2, BuffType.attack_power_low, false));
             ArrayList<Effect> effects = new ArrayList<>();
             effects.add(new Effect(buffs, null, targetForm));
-            items.add(new Item(405, ItemType.usable, 5000, "TerrorHood", effects
-                    , false, false, ItemActivateTime.onAttack, null));
+            Item item = new Item(405, ItemType.usable, 5000, "TerrorHood", effects
+                    , false, false, ItemActivateTime.onAttack, null);
+            items.put(item , 3);
         }//12
 
         {
@@ -969,8 +990,9 @@ public class Defentions {
             buffs.add(new Buff(0, 1000, 6, BuffType.attack_power_up, false));
             ArrayList<Effect> effects = new ArrayList<>();
             effects.add(new Effect(buffs, null, targetForm));
-            items.add(new Item(420, ItemType.collectable, 0, "BladesOFAgility", effects
-                    , true, false, null, null));
+            Item item = new Item(420, ItemType.collectable, 0, "BladesOFAgility", effects
+                    , true, false, null, null);
+            items.put(item , 3);
         }//13
 
         {
@@ -979,8 +1001,9 @@ public class Defentions {
             buffs.add(new Buff(0, 1000, 1, BuffType.mana, false));
             ArrayList<Effect> effects = new ArrayList<>();
             effects.add(new Effect(buffs, null, null));
-            items.add(new Item(406, ItemType.usable, 9000, "kingWisdom", effects
-                    , true, false, null, null));
+            Item item = new Item(406, ItemType.usable, 9000, "kingWisdom", effects
+                    , true, false, null, null);
+            items.put(item , 3);
         }//14
 
         {
@@ -989,8 +1012,9 @@ public class Defentions {
             buffs.add(new Buff(0, 0, 1, BuffType.hurt, false));
             ArrayList<Effect> effects = new ArrayList<>();
             effects.add(new Effect(buffs, null, targetForm));
-            items.add(new Item(407, ItemType.usable, 15000, "AssassinationDagger", effects
-                    , false, true, ItemActivateTime.onSpawn, null));
+            Item item = new Item(407, ItemType.usable, 15000, "AssassinationDagger", effects
+                    , false, true, ItemActivateTime.onSpawn, null);
+            items.put(item , 3);
         }//15
 
         {
@@ -999,8 +1023,9 @@ public class Defentions {
             buffs.add(new Buff(0, 1, 0, BuffType.poison, false));
             ArrayList<Effect> effects = new ArrayList<>();
             effects.add(new Effect(buffs, null, targetForm));
-            items.add(new Item(408, ItemType.usable, 7000, "poisonousDagger", effects
-                    , false, true, ItemActivateTime.onAttack, null));
+            Item item = new Item(408, ItemType.usable, 7000, "poisonousDagger", effects
+                    , false, true, ItemActivateTime.onAttack, null);
+            items.put(item , 3);
         }//16
 
         {
@@ -1008,8 +1033,9 @@ public class Defentions {
             buffs.add(new Buff(0, 1, 0, BuffType.disarm, false));
             ArrayList<Effect> effects = new ArrayList<>();
             effects.add(new Effect(buffs, null, null));
-            items.add(new Item(409, ItemType.usable, 15000, "shockHammer", effects
-                    , false, false, ItemActivateTime.onAttack, null));
+            Item item = new Item(409, ItemType.usable, 15000, "shockHammer", effects
+                    , false, false, ItemActivateTime.onAttack, null);
+            items.put(item , 3);
         }//17
 
         {
@@ -1018,8 +1044,9 @@ public class Defentions {
             buffs.add(new Buff(0, 1000, 1, BuffType.attack_power_up, false));
             ArrayList<Effect> effects = new ArrayList<>();
             effects.add(new Effect(buffs, null, targetForm));
-            items.add(new Item(410, ItemType.usable, 25000, "soulEater", effects
-                    , false, true, ItemActivateTime.onDeath, null));
+            Item item = new Item(410, ItemType.usable, 25000, "soulEater", effects
+                    , false, true, ItemActivateTime.onDeath, null);
+            items.put(item , 3);
         }//18
 
         {
@@ -1027,8 +1054,9 @@ public class Defentions {
             buffs.add(new Buff(0, 2, 1, BuffType.holy, false));
             ArrayList<Effect> effects = new ArrayList<>();
             effects.add(new Effect(buffs, null, null));
-            items.add(new Item(411, ItemType.usable, 20000, "ghoslTamid", effects
-                    , false, true, ItemActivateTime.onSpawn, null));
+            Item item = new Item(411, ItemType.usable, 20000, "ghoslTamid", effects
+                    , false, true, ItemActivateTime.onSpawn, null);
+            items.put(item , 3);
         }//19
 
         {
@@ -1038,51 +1066,45 @@ public class Defentions {
             buffs.add(new Buff(0, 1000, 5, BuffType.attack_power_up, false));
             ArrayList<Effect> effects = new ArrayList<>();
             effects.add(new Effect(buffs, null, targetForm));
-            items.add(new Item(420, ItemType.collectable, 0, "shamshirChini", effects
-                    , true, false, null, null));
+            Item item = new Item(420, ItemType.collectable, 0, "shamshirChini", effects
+                    , true, false, null, null);
+            items.put(item , 3);
         }//20
 
         return items;
     }
 
-    public static ArrayList<Card> defineCard() {
-        ArrayList<Card> cards = new ArrayList<>();
-        cards.addAll(defineHero());
-        cards.addAll(defineMinion());
-        cards.addAll(defineSpell());
+    public static HashMap<Card , Integer> defineCard() {
+        HashMap<Card , Integer> cards = new HashMap<>();
+        cards.putAll(defineHero());
+        cards.putAll(defineMinion());
+        cards.putAll(defineSpell());
+
+        for (Card card : cards.keySet()) {
+            card.getGraphicPack().setMovePhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_run.gif");
+            card.getGraphicPack().setAttackPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_attack.gif");
+            card.getGraphicPack().setBreathingPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_breathing.gif");
+            card.getGraphicPack().setDeathPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_death.gif");
+            card.getGraphicPack().setIdlePhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_idle.gif");
+        }
+
         return cards;
     }
 
-    public static ArrayList<Item> all_item_by_type(ItemType type) {
-        ArrayList<Item> items = new ArrayList<>();
-        ArrayList<Item> allItems = defineItem();
-        for (Item item : allItems) {
-            if (item.getItemType() == type) items.add(item);
+    public static HashMap<Item , Integer> all_item_by_type(ItemType type) {
+        HashMap<Item , Integer> items = new HashMap<>();
+        HashMap<Item , Integer> allItems = defineItem();
+        for (Item item : allItems.keySet()) {
+            if (item.getItemType() == type) items.put(item , 3);
         }
         return items;
     }
 
-    public static void defineDefultFileAdresses(Card card){
-        card.getGraphicPack().setMovePhotoAddress("src/resources/cards/Mmd_test/Avalanche_run.gif");
-        card.getGraphicPack().setAttackPhotoAddress("src/resources/cards/Mmd_test/Avalanche_attack.gif");
-        card.getGraphicPack().setBreathingPhotoAddress("src/resources/cards/Mmd_test/Avalanche_breathing.gif");
-        card.getGraphicPack().setDeathPhotoAddress("src/resources/cards/Mmd_test/Avalanche_death.gif");
-        card.getGraphicPack().setIdlePhotoAddress("src/resources/cards/Mmd_test/Avalanche_idle.gif");
-
-        card.getGraphicPack().setAttackSoundAddress("src/resources/cards/Mmd_test/attackSound.m4a");
-        card.getGraphicPack().setDeathSoundAddress("src/resources/cards/Mmd_test/deathSound.m4a");
-        card.getGraphicPack().setMoveSoundAddress("src/resources/cards/Mmd_test/runSound.m4a");
-        card.getGraphicPack().setSpawnSoundAddress("src/resources/cards/Mmd_test/spawnSound.m4a");
-        card.getGraphicPack().setImpactSoundAddress("src/resources/cards/Mmd_test/impactSound.m4a");
-        card.getGraphicPack().setHitSoundAddress("src/resources/cards/Mmd_test/hitSound.m4a");
-
-    }
-
     public static Deck maker(int[] cardsCodes, int itemCode, int heroCode) {
-        ArrayList<Card> allCards = defineCard();
-        ArrayList<Item> allItem = defineItem();
+        ArrayList<Card> allCards = new ArrayList<>(defineCard().keySet());
+        ArrayList<Item> allItem = new ArrayList<>(defineItem().keySet());
         ArrayList<Card> myCards = new ArrayList<>();
-        ArrayList<Hero> allHero = defineHero();
+        ArrayList<Hero> allHero = new ArrayList<>(defineHero().keySet());
         Item myItem = null;
         if (itemCode != 0) {
             for (Item item : allItem) {

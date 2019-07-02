@@ -2,6 +2,7 @@ package models;
 
 import controllers.Constants;
 import controllers.console.MainMenu;
+import controllers.graphical.UniversalShopController;
 import models.battle.MatchResult;
 import models.battle.Player;
 import models.cards.Card;
@@ -9,12 +10,14 @@ import models.deck.Deck;
 import models.item.Item;
 import views.MyPrinter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Account implements Cloneable {
     private String userName;
     private int money;
     private String password;
+    private String authToken;
 
     private ArrayList<MatchResult> matchHistory;
 
@@ -23,15 +26,20 @@ public class Account implements Cloneable {
     private ArrayList<Deck> decks;
     private int storyLvl;
     private Deck mainDeck;
+
     public Account(String userName, String password) {
         this.userName = new String(userName);
         this.money = 300_000;
-        storyLvl=1;
+        storyLvl = 1;
         this.matchHistory = new ArrayList<MatchResult>();
         cards = new ArrayList<>();
         items = new ArrayList<>();
         this.decks = new ArrayList<Deck>();
         this.password = password;
+    }
+
+    public String getAuthToken() {
+        return authToken;
     }
 
     public int getStoryLvl() {
@@ -151,6 +159,8 @@ public class Account implements Cloneable {
             if (card.getCode() == code) {
                 cards.remove(card);
                 moneyRise(card.getPrice());
+                Shop.getInstance().getCards().replace(card, Shop.getInstance().getCards().get(card) + 1);
+                UniversalShopController.instance.setUniversalCollectionMenu();
                 return true;
             }
         }
@@ -158,6 +168,8 @@ public class Account implements Cloneable {
             if (item.getCode() == code) {
                 items.remove(item);
                 moneyRise(item.getCode());
+                Shop.getInstance().getItems().replace(item, Shop.getInstance().getCards().get(item) + 1);
+                UniversalShopController.instance.setUniversalCollectionMenu();
                 return true;
             }
         }
@@ -169,7 +181,7 @@ public class Account implements Cloneable {
             System.out.println("main deck there not exist");
             return false;
         }
-        if (this.getMainDeck().check_deck_correct() != Constants.CORRECT_DECK){
+        if (this.getMainDeck().check_deck_correct() != Constants.CORRECT_DECK) {
             System.out.println("main deck is not correct!");
             return false;
         }
@@ -192,8 +204,8 @@ public class Account implements Cloneable {
         return decks;
     }
 
-    public boolean hasDeck(Deck deck){
-        for (Deck deck1 : decks){
+    public boolean hasDeck(Deck deck) {
+        for (Deck deck1 : decks) {
             if (deck.getName().equals(deck1.getName()))
                 return true;
         }
