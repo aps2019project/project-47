@@ -268,15 +268,11 @@ public class Defentions {
             spell.getGraphicPack().setShopPhotoAddress("/resources/cards/LightningCard.png");
             spellCards.add(spell);
         }//20
-        spellCards.addAll(customSpells);
 
-        for (Card card : spellCards) {
-            card.getGraphicPack().setMovePhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_run.gif");
-            card.getGraphicPack().setAttackPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_attack.gif");
-            card.getGraphicPack().setBreathingPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_breathing.gif");
-            card.getGraphicPack().setDeathPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_death.gif");
-            card.getGraphicPack().setIdlePhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_idle.gif");
+        for (Spell spell:spellCards){
+            defineDefultFileAdresses(spell);
         }
+        spellCards.addAll(customSpells);
         return spellCards;
     }
 
@@ -400,15 +396,11 @@ public class Defentions {
             hero.getGraphicPack().setShopPhotoAddress("/resources/cards/Rostam_logo.png");
             heroes.add(hero);
         }//10
-        heroes.addAll(customHeros);
 
-        for (Card card : heroes) {
-            card.getGraphicPack().setMovePhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_run.gif");
-            card.getGraphicPack().setAttackPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_attack.gif");
-            card.getGraphicPack().setBreathingPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_breathing.gif");
-            card.getGraphicPack().setDeathPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_death.gif");
-            card.getGraphicPack().setIdlePhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_idle.gif");
+        for (Hero hero:heroes){
+            defineDefultFileAdresses(hero);
         }
+        heroes.addAll(customHeros);
         return heroes;
     }
 
@@ -827,15 +819,11 @@ public class Defentions {
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_wujin_portrait_hex@2x.png");
             minions.add(minion);
         }//40
-        minions.addAll(customMinions);
 
-        for (Card card : minions) {
-            card.getGraphicPack().setMovePhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_run.gif");
-            card.getGraphicPack().setAttackPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_attack.gif");
-            card.getGraphicPack().setBreathingPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_breathing.gif");
-            card.getGraphicPack().setDeathPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_death.gif");
-            card.getGraphicPack().setIdlePhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_idle.gif");
+        for (Minion minion:minions){
+            defineDefultFileAdresses(minion);
         }
+        minions.addAll(customMinions);
         return minions;
     }
 
@@ -1062,15 +1050,6 @@ public class Defentions {
         cards.addAll(defineHero());
         cards.addAll(defineMinion());
         cards.addAll(defineSpell());
-
-        for (Card card : cards) {
-            card.getGraphicPack().setMovePhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_run.gif");
-            card.getGraphicPack().setAttackPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_attack.gif");
-            card.getGraphicPack().setBreathingPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_breathing.gif");
-            card.getGraphicPack().setDeathPhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_death.gif");
-            card.getGraphicPack().setIdlePhotoAddress("C:\\Users\\asus\\Desktop\\project\\project-47\\src\\resources\\cards\\Mmd_test\\Avalanche_idle.gif");
-        }
-
         return cards;
     }
 
@@ -1081,6 +1060,22 @@ public class Defentions {
             if (item.getItemType() == type) items.add(item);
         }
         return items;
+    }
+
+    public static void defineDefultFileAdresses(Card card){
+        card.getGraphicPack().setMovePhotoAddress("src/resources/cards/Mmd_test/Avalanche_run.gif");
+        card.getGraphicPack().setAttackPhotoAddress("src/resources/cards/Mmd_test/Avalanche_attack.gif");
+        card.getGraphicPack().setBreathingPhotoAddress("src/resources/cards/Mmd_test/Avalanche_breathing.gif");
+        card.getGraphicPack().setDeathPhotoAddress("src/resources/cards/Mmd_test/Avalanche_death.gif");
+        card.getGraphicPack().setIdlePhotoAddress("src/resources/cards/Mmd_test/Avalanche_idle.gif");
+
+        card.getGraphicPack().setAttackSoundAddress("src/resources/cards/Mmd_test/attackSound.m4a");
+        card.getGraphicPack().setDeathSoundAddress("src/resources/cards/Mmd_test/deathSound.m4a");
+        card.getGraphicPack().setMoveSoundAddress("src/resources/cards/Mmd_test/runSound.m4a");
+        card.getGraphicPack().setSpawnSoundAddress("src/resources/cards/Mmd_test/spawnSound.m4a");
+        card.getGraphicPack().setImpactSoundAddress("src/resources/cards/Mmd_test/impactSound.m4a");
+        card.getGraphicPack().setHitSoundAddress("src/resources/cards/Mmd_test/hitSound.m4a");
+
     }
 
     public static Deck maker(int[] cardsCodes, int itemCode, int heroCode) {

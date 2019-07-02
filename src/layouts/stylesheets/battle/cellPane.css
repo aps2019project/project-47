@@ -21,7 +21,7 @@
     -fx-background-radius: 5;
 }
 .downerLabel_white{
-    -fx-opacity: 0.1;
+    -fx-opacity: 0.2;
     -fx-background-color: white;
 }
 .downerLabel_red{
@@ -29,7 +29,7 @@
     -fx-background-color: red;
 }
 .downerLabel_yellow{
-    -fx-opacity: 0.5;
+    -fx-opacity: 0.2;
     -fx-background-color: yellow;
 }
 .downerLabel_blue{
