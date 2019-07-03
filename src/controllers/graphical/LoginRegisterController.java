@@ -52,10 +52,8 @@ public class LoginRegisterController implements Initializable {
         LoginRequest request = new LoginRequest(userNameField.getText(), passwordField.getText());
         Client.getOut().println(yaGson.toJson(request));
         Client.getOut().flush();
-        String responseStr = "";
-        LoginResponse response = null;
-        responseStr = Client.getServerScanner().nextLine();
-        response = yaGson.fromJson(responseStr, LoginResponse.class);
+        String responseStr = Client.getServerScanner().nextLine();
+        LoginResponse response = yaGson.fromJson(responseStr, LoginResponse.class);
         Constants requestResult = response.getRequestResult();
         switch (requestResult) {
             case INVALID_USERNAME:
@@ -93,8 +91,7 @@ public class LoginRegisterController implements Initializable {
         CreateAccountRequest request = new CreateAccountRequest(newUserNameField.getText(), newPasswordField.getText());
         Client.getOut().println(yaGson.toJson(request));
         Client.getOut().flush();
-        String responseStr = "";
-        responseStr = Client.getServerScanner().nextLine();
+        String responseStr = Client.getServerScanner().nextLine();
         CreateAccountResponse response = yaGson.fromJson(responseStr, CreateAccountResponse.class);
         Constants requestResult = response.getRequestResult();
 

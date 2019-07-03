@@ -44,9 +44,6 @@ public class ClientHandler extends Thread {
 
     @Override
     public void run() {
-        for(int i = 0; i < 100; i++){
-            System.out.println(i);
-        }
         while (scanner.hasNextLine()) {
             String str = this.scanner.nextLine();
             Request request = gson.fromJson(str, Request.class);
