@@ -8,9 +8,11 @@ import network.Server;
 
 public class FindResponse extends Response {
     private Object cardOrItem;
-
+    public FindResponse(FindRequest findRequest){
+        this.request = findRequest;
+    }
     @Override
-    public void handleRequest(Request request) {
+    public void handleRequest() {
         if (Server.getTokens().get(request.getAuthToken()) == null)
             return;
         cardOrItem = Shop.getInstance().find_in_shop(((FindRequest) request).getCode());
@@ -23,10 +25,5 @@ public class FindResponse extends Response {
     @Override
     public Constants getRequestResult() {
         return null;
-    }
-
-    @Override
-    public void setRequestResult(Constants result) {
-
     }
 }

@@ -144,7 +144,7 @@ public class AccountMenu {
         return login(account, password);
     }
 
-    private static Constants login(Account account, String password) {
+    public static Constants login(Account account, String password) {
         if (account.checkPassword(password)) {
             loginAccount = account;
             MyPrinter.green("You logged in successfully.");
