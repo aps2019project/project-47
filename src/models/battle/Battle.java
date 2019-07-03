@@ -36,6 +36,7 @@ public class Battle {
     private MatchResult matchResult;
     private int age;
     private int numOfFlags;
+    public HashMap<Minion,Location> deathMinions;
 
     public Battle(Player player0, Player player1, MatchType matchType, int numOfFlags) {
         this.players = new Player[2];
@@ -47,6 +48,7 @@ public class Battle {
         this.matchResult = null;
         this.age = 0;
         this.numOfFlags = numOfFlags;
+        deathMinions =  new HashMap<>();
         //set heroes at their starting locations...
         board.selectCell(Board.hero0).setMinion(player0.getHero());
         player0.getHero().setLocation(Board.hero0);
@@ -278,6 +280,7 @@ public class Battle {
 
     private void death(Minion minion) {
         if (minion.isDeath()) return;
+        MyPrinter.red(minion.getCardId()+" dead!");
         minion.death();
         Location location = minion.getLocation();
         ArrayList<Effect> effects = minion.getSpecialItem().getOnDeath();
@@ -289,6 +292,7 @@ public class Battle {
             players[minion.getPlyNum()].setSelectedMinion(null);
         }
         board.add_flags_to_aCell(minion.getFlags(), location);
+        deathMinions.put(minion,location);
     }
 
     private void collecting_flags_and_items_from_earth(Minion minion, Location location) {

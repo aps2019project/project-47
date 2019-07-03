@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import com.jfoenix.controls.JFXTextField?>
+<VBox alignment="center" prefHeight="1080.0" prefWidth="1920.0" spacing="20" styleClass="underBackGround"
+      stylesheets="@stylesheets/globalChatFormStyles.css" xmlns="http://javafx.com/javafx/8.0.172-ea"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.graphical.GlobalChatController">
+    <VBox alignment="center" maxHeight="800.0" maxWidth="800.0" spacing="20" styleClass="container">
+        <ScrollPane prefWidth="700" prefHeight="700" fx:id="chatsScrollPane">
+            <content>
+                <VBox fx:id="chats">
+                    <children>
+                    </children>
+                </VBox>
+            </content>
+        </ScrollPane>
+        <JFXTextField maxWidth="700" maxHeight="80" fx:id="chatText" onAction="#sendChat">
+        </JFXTextField>
+    </VBox>
+</VBox>

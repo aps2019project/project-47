@@ -5,6 +5,7 @@ import controllers.console.BattleMenu;
 import controllers.console.MainMenu;
 import defentions.Defentions;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -85,7 +86,7 @@ public class Client extends Application {
 //        Parent root = Shop.getRoot();
 //        Parent root = BattleMenu.getRoot();
 //        Parent root = Board.getRoot();
-//        Parent root = FXMLLoader.load(getClass().getResource("../layouts/customCardCreatePage.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("../layouts/customCardCreatePage.fxml"));
 //        Parent root = FXMLLoader.load(getClass().getResource("../layouts/Collection.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);

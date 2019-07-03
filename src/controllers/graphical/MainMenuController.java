@@ -8,9 +8,6 @@ import controllers.console.BattleMenu;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import layouts.AlertHelper;
 import models.Account;
 import models.Shop;
@@ -25,17 +22,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Formatter;
 
-public class MainMenuController {
-    public Label customCardLabel;
-    public Label playLabel;
-    public Label collectionLabel;
-    public ImageView playBullet;
-    public ImageView collectionPlay;
-    public ImageView customCard;
-    public ImageView exitImage;
-    public Label lbl_exit;
-    public ImageView saveAccount;
-    public Label saveAccountLabel;
+public class MainMenuController { ;
     public Account loginAccount = AccountMenu.getLoginAccount();
 
     public static YaGson yaGson;
@@ -72,15 +59,15 @@ public class MainMenuController {
         logoutResponse.getRequestResult();
     }
 
-    public void goToCustomCardMenu(MouseEvent mouseEvent) throws IOException {
+    public void goToCustomCardMenu() throws IOException {
         Client.getStage().getScene().setRoot(FXMLLoader.load(getClass().getResource("../../layouts/customCardCreatePage.fxml")));
     }
 
-    public void exit(MouseEvent mouseEvent) {
+    public void exit() {
         System.exit(0);
     }
 
-    public void saveAccount(MouseEvent mouseEvent) {
+    public void saveAccount() {
         if(loginAccount == null)
             return;
         yaGson = new YaGson();
@@ -96,5 +83,9 @@ public class MainMenuController {
             e.printStackTrace();
         }
         AlertHelper.showAlert(Alert.AlertType.INFORMATION, Client.getStage().getOwner(), "Account Saved!", "Account " + loginAccount.getUserName() + " Saved!");
+    }
+
+    public void goToGlobalChatForm() throws IOException {
+        Client.getStage().getScene().setRoot(FXMLLoader.load(getClass().getResource("../../layouts/globalChatForm.fxml")));
     }
 }
