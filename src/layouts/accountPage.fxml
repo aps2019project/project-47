@@ -36,7 +36,7 @@
         <Tab text="REGISTER" styleClass="duelystTabName">
             <VBox fx:id="registerTab" styleClass="duelystTab" spacing="20">
                 <JFXTextField fx:id="newUserNameField" promptText="User Name" styleClass="regular-textBox"
-                              prefWidth="400" prefHeight="80" onKeyReleased="#validateUserName">
+                              prefWidth="400" prefHeight="80">
                 </JFXTextField>
                 <JFXPasswordField fx:id="newPasswordField" promptText="Password" styleClass="regular-textBox"
                                   onKeyReleased="#typeOnNewPasswordField" prefWidth="400" prefHeight="80">

@@ -9,11 +9,11 @@ import network.Server;
 public class BuyResponse extends Response {
 
     @Override
-    public void handleRequest(Request request) {
+    public void handleRequest() {
         int code = ((BuyRequest) request).getCode();
         AccountMenu.setLoginAccount(Server.getTokens().get(request.getAuthToken()));
         Constants resultCode = Server.getShop().command_buy(code);
-        setRequestResult(resultCode);
+        requestResult = resultCode;
         AccountMenu.setLoginAccount(null);
     }
 
@@ -22,8 +22,4 @@ public class BuyResponse extends Response {
         return requestResult;
     }
 
-    @Override
-    public void setRequestResult(Constants result) {
-        this.requestResult = result;
-    }
 }

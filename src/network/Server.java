@@ -22,15 +22,16 @@ public class Server {
     }
 
     public Server(int port) throws IOException {
-        ServerSocket server = new ServerSocket(port);
+        ServerSocket serverSocket = new ServerSocket(port);
         System.out.println("Server started");
         ClientHandler.setServer(this);
         while (true) {
             try {
                 System.out.println("Waiting for a client ...");
-                Socket socket = server.accept();
+                Socket socket = serverSocket.accept();
                 System.out.println("Client accepted");
                 ClientHandler clientHandler = new ClientHandler(socket);
+                clientHandler.setName("cHandler");
                 clientHandler.start();
             } catch (IOException ignored) {
             }
