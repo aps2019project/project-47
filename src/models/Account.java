@@ -50,7 +50,7 @@ public class Account implements Cloneable {
         SecureRandom generator = new SecureRandom();
         String result = "";
         for (int i = 0; i < 32; i++){
-            result.concat(hexadecimalCharacter(generator.nextInt(16)));
+            result = result.concat(hexadecimalCharacter(generator.nextInt(16)));
         }
         return result;
     }
