@@ -1,0 +1,9 @@
+.lbl{
+    min-font-size: 100;
+    alignment: center;
+    align-content: center;
+    child-align: middle;
+    font-weight: bold;
+    color: #654323;
+    background-color: #28d716;
+}

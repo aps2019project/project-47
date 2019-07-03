@@ -46,10 +46,13 @@ public class BattleController extends MyController implements Initializable {
     private StateOfMouseClicked[] stateOfMouseClickeds;
     private int turn;
     private Player[] players;
+    private MyAlert myAlert;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setBackground();
+        myAlert = new MyAlert();
         playBackGroundMusic();
         creatBoardCells();
         creatHandScene();
@@ -66,8 +69,175 @@ public class BattleController extends MyController implements Initializable {
         background.setFitHeight(1080);
         background.setOnMouseClicked(event -> {
             freeClick();
+            myAlert.alert("salam.\nsfesfsfcsdchbcdvcscu\nferfsdcdscsds");
         });
         anchorPane.getChildren().add(background);
+    }
+
+    public class MyAlert{
+        Double moveTime = 3.0 ;
+        Double stringTime = 300.0;
+        Double typingSpeed = 3.0;
+
+        private ImageView left;
+        private ImageView up;
+        private ImageView right;
+        private Label label;
+        private String string;
+
+        public void alert(String string){
+            this.string = string;
+            creat();
+            comImages();
+        }
+
+        public void creat(){
+
+            if (left==null){
+                left = new ImageView(new File("src/resources/inBattle/Alert/left.png").toURI().toString());
+                left.relocate(-1920, 0);
+                left.setFitWidth(1920);
+                left.setFitHeight(1080);
+            }
+
+            if (right==null){
+                right = new ImageView(new File("src/resources/inBattle/Alert/right.png").toURI().toString());
+                right.relocate(1920, 0);
+                right.setFitWidth(1920);
+                right.setFitHeight(1080);
+            }
+
+            if (up==null){
+                up = new ImageView(new File("src/resources/inBattle/Alert/up.png").toURI().toString());
+                up.relocate(0, -1080);
+                up.setFitWidth(1920);
+                up.setFitHeight(1080);
+            }
+
+            if (label==null){
+                label = new Label();
+                label.getStylesheets().add("layouts/stylesheets/battle/myAlert.css");
+//                label.getStyleClass().add("lbl");
+                label.relocate(0,0);
+                label.setPrefSize(1920,1080);
+                label.setStyle("-fx-alignment: center;" +
+                        "-fx-font-size: 80;" +
+                        "-fx-font-weight: bold;");
+            }
+            stringTime = string.length()*typingSpeed+20;
+        }
+
+        public void comImages(){
+
+            anchorPane.getChildren().removeAll(left,right,up);
+            anchorPane.getChildren().addAll(left,right,up);
+
+            TranslateTransition leftTransition = new TranslateTransition();
+            leftTransition.setDuration(Duration.seconds(moveTime));
+            leftTransition.setNode(left);
+            leftTransition.setFromX(-1920);
+            leftTransition.setFromY(0);
+            leftTransition.setToX(0);
+            leftTransition.setToY(0);
+            leftTransition.setAutoReverse(true);
+            leftTransition.setCycleCount(2);
+            leftTransition.play();
+            left.relocate(0,0);
+
+            TranslateTransition rightTransition = new TranslateTransition();
+            rightTransition.setDuration(Duration.seconds(moveTime));
+            rightTransition.setNode(right);
+            rightTransition.setFromX(1920);
+            rightTransition.setFromY(0);
+            rightTransition.setToX(0);
+            rightTransition.setToY(0);
+            rightTransition.setAutoReverse(true);
+            rightTransition.setCycleCount(2);
+            rightTransition.play();
+            right.relocate(0,0);
+
+            TranslateTransition upTransition = new TranslateTransition();
+            upTransition.setDuration(Duration.seconds(moveTime));
+            upTransition.setNode(up);
+            upTransition.setFromX(0);
+            upTransition.setFromY(-1080);
+            upTransition.setToX(0);
+            upTransition.setToY(0);
+            upTransition.setAutoReverse(true);
+            upTransition.setCycleCount(2);
+            upTransition.play();
+            up.relocate(0,0);
+
+            AnimationTimer animationTimer = new AnimationTimer() {
+                int lastTime = 0;
+                Double movingTimeForHandle = 60*moveTime;
+                boolean paused;
+                boolean showString;
+                boolean playAgain;
+
+                @Override
+                public void handle(long now) {
+                    if (lastTime > movingTimeForHandle) afterCom();
+                    lastTime++;
+                }
+                public void afterCom(){
+                    if (lastTime>movingTimeForHandle+stringTime){
+                        afterStringShown();
+                        return;
+                    }
+                    if (!paused){
+                        paused=true;
+                        upTransition.pause();
+                        leftTransition.pause();
+                        rightTransition.pause();
+                    }
+                    if (!showString){
+                        showString=true;
+                        showString();
+                    }
+
+                }
+                public void afterStringShown(){
+                    if (!playAgain){
+                        playAgain=true;
+                        label.setText("");
+                        anchorPane.getChildren().remove(label);
+                        upTransition.play();
+                        leftTransition.play();
+                        rightTransition.play();
+                    }
+                    if (lastTime>2*movingTimeForHandle+stringTime)end();
+                }
+                public void end(){
+                    upTransition.stop();
+                    leftTransition.stop();
+                    rightTransition.stop();
+                    stop();
+                }
+            };
+            animationTimer.start();
+        }
+        public void showString(){
+            char[] chars = string.toCharArray();
+            anchorPane.getChildren().remove(label);
+            anchorPane.getChildren().add(label);
+            AnimationTimer stringShower = new AnimationTimer() {
+                int lastTime;
+
+                @Override
+                public void handle(long now) {
+                    if (lastTime>typingSpeed*(chars.length-1)){
+                        stop();
+                    }else {
+                        if (lastTime%typingSpeed==0){
+                            label.setText(label.getText() + chars[(int)(lastTime/typingSpeed)]);
+                        }
+                        lastTime++;
+                    }
+                }
+            };
+            stringShower.start();
+        }
     }
 
     private void playBackGroundMusic() {
@@ -351,7 +521,7 @@ public class BattleController extends MyController implements Initializable {
             lbl_manaNumbers.setText(String.valueOf(manaNumbers));
         }
 
-        public void setCardImageView(Card card) {
+        public void addCard(Card card,boolean delay) {
             this.card = card;
             ImageView cardImageView = new ImageView(new File(card.getGraphicPack().getIdlePhotoAddress()).toURI().toString());
             this.cardImageView = cardImageView;
@@ -361,6 +531,7 @@ public class BattleController extends MyController implements Initializable {
             mana_view.setVisible(true);
             set_mana_numbers(card.getMana());
             parentPane.getChildren().remove(upperCircle);
+            cardImageView.setOpacity(0);
             parentPane.getChildren().add(cardImageView);
             parentPane.getChildren().add(upperCircle);
             if (!(card instanceof Spell)) {
@@ -371,6 +542,32 @@ public class BattleController extends MyController implements Initializable {
                 healthImageView.setVisible(true);
                 lbl_health.setText(String.valueOf(health));
             }
+
+            Double risingTime;
+            if (delay){
+                risingTime = 50.0;
+            }else {
+                risingTime =0.0;
+            }
+
+            AnimationTimer hidenAnimation = new AnimationTimer() {
+                int lastTime = 0;
+
+                @Override
+                public void handle(long now) {
+                    if (lastTime > risingTime) end();
+                    Double opacity = cardImageView.getOpacity();
+                    opacity = Math.min(1,opacity+(1/risingTime));
+                    cardImageView.setOpacity(opacity);
+                    lastTime++;
+                }
+
+                public void end() {
+                    cardImageView.setOpacity(1);
+                    stop();
+                }
+            };
+            hidenAnimation.start();
         }
 
         public void ring_rotate(int degree) {
@@ -402,8 +599,16 @@ public class BattleController extends MyController implements Initializable {
             graphicalBoard.show_available_cells_for_insert(card);
         }
 
-        public void removeCard() {
-            Double removeTime = 50.0;
+        public void removeCard(boolean delay) {
+            if (card==null)return;
+
+            Double removeTime;
+            if (delay){
+                removeTime = 50.0;
+            }else {
+                removeTime = 0.0;
+            }
+
             card = null;
 
             AnimationTimer hidenAnimation = new AnimationTimer() {
@@ -418,11 +623,9 @@ public class BattleController extends MyController implements Initializable {
                         cardImageView.setOpacity(opacity);
                         lastTime++;
                     }
-
                 }
 
-                public void end() {
-                    stop();
+                private void end() {
                     parentPane.getChildren().remove(cardImageView);
                     cardImageView = null;
                     lbl_manaNumbers.setText("");
@@ -431,7 +634,7 @@ public class BattleController extends MyController implements Initializable {
                     attackPowerImageView.setVisible(false);
                     healthImageView.setVisible(false);
                     mana_view.setVisible(false);
-
+                    stop();
                 }
             };
             hidenAnimation.start();
@@ -670,12 +873,15 @@ public class BattleController extends MyController implements Initializable {
     }
 
     private class GraphicalHand {
-        private int x = 500, y = 800;
+        private int x = 50, y = 800;
+        int spaceBetween_nextCard_and_hand = 300;
         private Pane parentPane;
         private HBox hbox;
         private CardScene[] cardScenes;
         private int spacing = -20;
         private Hand hand;
+        private GraphicNextCard graphicNextCard;
+
 
         public GraphicalHand() {
             parentPane = new Pane();
@@ -683,6 +889,13 @@ public class BattleController extends MyController implements Initializable {
 
             hbox = new HBox();
             hbox.setSpacing(spacing);
+
+            graphicNextCard = new GraphicNextCard();
+            hbox.getChildren().add(graphicNextCard.parentPane);
+
+            Pane spacingPane1 = new Pane();
+            spacingPane1.setPrefSize(spaceBetween_nextCard_and_hand,0);
+            hbox.getChildren().add(spacingPane1);
 
             cardScenes = new CardScene[Hand.number_of_cards];
             for (int i = 0; i < Hand.number_of_cards; i++) {
@@ -700,14 +913,21 @@ public class BattleController extends MyController implements Initializable {
         public void updateHand() {
             ArrayList<Card> cards = hand.getCards();
             for (int i = 0; i < Hand.number_of_cards; i++) {
-                cardScenes[i].setCardImageView(cards.get(i));
+                cardScenes[i].removeCard(true);
+                cardScenes[i].addCard(cards.get(i),true);
+            }
+
+            graphicNextCard.removeCard(true);
+            Card nextOneCard = hand.getNextOne();
+            if (nextOneCard!=null){
+                graphicNextCard.addCard(hand.getNextOne(),true);
             }
         }
 
         public void insertCard(Card card) {
             for (CardScene cardScene : cardScenes) {
                 if (cardScene.getCard() == card) {
-                    cardScene.removeCard();
+                    cardScene.removeCard(true);
                 }
             }
         }
@@ -955,6 +1175,130 @@ public class BattleController extends MyController implements Initializable {
         }
     }
 
+    private class GraphicNextCard {
+        private int width = 260;
+        private int height = 260;
+        public Pane parentPane;
+        private ImageView downerImageView;
+        private ImageView ring;
+        private Card card;
+        private ImageView cardImageView;
+
+        public GraphicNextCard(){
+            parentPane = new Pane();
+            parentPane.relocate(0,0);
+            parentPane.setPrefSize(width,height);
+
+            Image blackRingImage = new Image(new File("src/resources/inBattle/nextCard/background.png").toURI().toString());
+            downerImageView = new ImageView(blackRingImage);
+            downerImageView.setFitHeight(height);
+            downerImageView.setFitWidth(width);
+            downerImageView.relocate(0, 0);
+            parentPane.getChildren().add(downerImageView);
+
+            creatRing();
+        }
+
+        public void creatRing(){
+            ring = new ImageView(new File("src/resources/sprites/MmdRing.png").toURI().toString());
+            ring.setFitHeight(width);
+            ring.setFitWidth(height);
+            ring.setOpacity(0.8);
+            ring.relocate(0,0);
+
+            parentPane.getChildren().add(ring);
+
+            ring.setViewport(new Rectangle2D(0, 0, 150, 1200));
+
+            final Animation animation = new SpriteAnimation(
+                    ring,
+                    Duration.millis(1000),
+                    8, 1,
+                    0, 0,
+                    150, 150
+            );
+            animation.setCycleCount(Animation.INDEFINITE);
+            animation.setCycleCount(1000000);
+            animation.setOnFinished(event -> {
+                parentPane.getChildren().remove(ring);
+            });
+            animation.play();
+        }
+
+        public void addCard(Card card,boolean delay){
+            Double risingTime;
+            if (delay){
+                risingTime = 50.0;
+            }else {
+                risingTime =0.0;
+            }
+
+            ImageView imageView = new ImageView(new Image(new File(card.getGraphicPack().getIdlePhotoAddress()).toURI().toString()));
+            this.card = card;
+            imageView.relocate(0,-height/7);
+            imageView.setFitHeight(height);
+            imageView.setFitWidth(width);
+            imageView.setOpacity(0);
+            parentPane.getChildren().remove(ring);
+            parentPane.getChildren().add(imageView);
+            parentPane.getChildren().add(ring);
+
+            AnimationTimer hidenAnimation = new AnimationTimer() {
+                int lastTime = 0;
+
+                @Override
+                public void handle(long now) {
+                    if (lastTime > risingTime) end();
+                    Double opacity = imageView.getOpacity();
+                    opacity = Math.min(1,opacity+(1/risingTime));
+                    imageView.setOpacity(opacity);
+                    lastTime++;
+                }
+
+                public void end() {
+                    imageView.setOpacity(1);
+                    stop();
+                }
+            };
+            hidenAnimation.start();
+        }
+
+        public void removeCard(boolean delay){
+            if (card==null)return;
+            this.card = null;
+
+            Double removeTime;
+            if (delay){
+                removeTime = 50.0;
+            }else {
+                removeTime = 0.0;
+            }
+
+            AnimationTimer hidenAnimation = new AnimationTimer() {
+                int lastTime = 0;
+
+                @Override
+                public void handle(long now) {
+                    if (lastTime > removeTime) end();
+                    if (cardImageView!=null){
+                        Double opacity = cardImageView.getOpacity();
+                        opacity = Math.max(0,opacity-(1/removeTime));
+                        cardImageView.setOpacity(opacity);
+                        lastTime++;
+                    }
+                }
+
+                public void end() {
+                    parentPane.getChildren().remove(cardImageView);
+                    cardImageView = null;
+                    stop();
+                }
+            };
+            hidenAnimation.start();
+
+        }
+    }
+
     private enum StateOfMouseClicked {
         insertingCardClicked,
         insiderMinionCardClicked,
@@ -1009,6 +1353,7 @@ public class BattleController extends MyController implements Initializable {
         death, attack, hit, impact,
         spawn, run
     }
+
 
 }
 
