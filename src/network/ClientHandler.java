@@ -2,12 +2,10 @@ package network;
 
 import com.gilecode.yagson.YaGson;
 import com.gilecode.yagson.YaGsonBuilder;
+import models.Account;
 import models.Shop;
 import network.Requests.*;
-import network.Responses.BuyResponse;
-import network.Responses.CreateAccountResponse;
-import network.Responses.FindResponse;
-import network.Responses.LoginResponse;
+import network.Responses.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -65,7 +63,7 @@ public class ClientHandler extends Thread {
                 continue;
             }
             if (request instanceof SellRequest) {
-                if (Server.getTokens().get(request.getAuthToken()) != null)
+                if (Account.getAccountsMapper().get(request.getAuthToken()) != null)
                     Shop.getInstance().command_sell(((SellRequest) request).getCode());
                 continue;
             }
@@ -84,6 +82,13 @@ public class ClientHandler extends Thread {
                 out.println(responseStr);
                 out.flush();
                 continue;
+            }
+            if (request instanceof LogoutRequest){
+                LogoutResponse logoutResponse = new LogoutResponse((LogoutRequest) request);
+                logoutResponse.handleRequest();
+                responseStr = gson.toJson(logoutResponse);
+                out.println(responseStr);
+                out.flush();
             }
         }
     }

@@ -1,11 +1,11 @@
 package controllers.graphical;
 
+import com.gilecode.yagson.YaGson;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import controllers.console.AccountMenu;
 import controllers.console.BattleMenu;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
@@ -14,21 +14,16 @@ import javafx.scene.input.MouseEvent;
 import layouts.AlertHelper;
 import models.Account;
 import models.Shop;
-import models.cards.hero.Hero;
-import models.cards.minion.Minion;
-import models.cards.spell.Spell;
-import models.item.Item;
 import network.Client;
+import network.Requests.LogoutRequest;
+import network.Responses.LogoutResponse;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Formatter;
-import java.util.ResourceBundle;
-import java.util.Scanner;
 
 public class MainMenuController {
     public Label customCardLabel;
@@ -43,8 +38,7 @@ public class MainMenuController {
     public Label saveAccountLabel;
     public Account loginAccount = AccountMenu.getLoginAccount();
 
-    public static GsonBuilder gsonBuilder;
-    public static Gson gson;
+    public static YaGson yaGson;
 
 
     public void goToPlayMenu() {
@@ -69,8 +63,13 @@ public class MainMenuController {
     }
 
     public void logOut() {
-        AccountMenu.setLoginAccount(null);
-        Client.getStage().getScene().setRoot(AccountMenu.getRoot());
+        yaGson = new YaGson();
+        LogoutRequest request = new LogoutRequest(AccountMenu.getLoginAccount().getAuthToken());
+        Client.getOut().println(yaGson.toJson(request));
+        Client.getOut().flush();
+        String responseStr = Client.getServerScanner().nextLine();
+        LogoutResponse logoutResponse = yaGson.fromJson(responseStr, LogoutResponse.class);
+        logoutResponse.getRequestResult();
     }
 
     public void goToCustomCardMenu(MouseEvent mouseEvent) throws IOException {
@@ -84,9 +83,8 @@ public class MainMenuController {
     public void saveAccount(MouseEvent mouseEvent) {
         if(loginAccount == null)
             return;
-        gsonBuilder = new GsonBuilder();
-        gson = gsonBuilder.create();
-        String json = gson.toJson(loginAccount);
+        yaGson = new YaGson();
+        String json = yaGson.toJson(loginAccount);
         try {
             Path path = Paths.get("src/JSONs/Accounts/" + loginAccount.getUserName() + ".json");
             FileOutputStream out = new FileOutputStream(path.toString());

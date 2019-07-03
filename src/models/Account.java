@@ -46,6 +46,11 @@ public class Account implements Cloneable {
     public static synchronized void putAccount(String authToken, Account account){
         accountsMapper.put(authToken, account);
     }
+
+    public static HashMap<String, Account> getAccountsMapper() {
+        return accountsMapper;
+    }
+
     public static String generateRandomString(){
         SecureRandom generator = new SecureRandom();
         String result = "";
