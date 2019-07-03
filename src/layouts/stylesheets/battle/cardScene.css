@@ -16,3 +16,15 @@
 .downerCircle_lower{
     -fx-opacity: 0.1;
 }
+.lbl_health{
+    -fx-alignment: center;
+    -fx-font-weight: bold;
+    -fx-font-size: 30;
+    -fx-fill: green;
+}
+.lbl_attackPower{
+    -fx-alignment: center;
+    -fx-font-weight: bold;
+    -fx-font-size: 30;
+    -fx-fill: red;
+}

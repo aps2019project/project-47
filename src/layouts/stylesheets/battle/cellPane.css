@@ -9,7 +9,7 @@
 
 
 .downerLabel_higher{
-    -fx-border-width: 10;
+    -fx-border-width: 4;
 }
 .downerLabel_lower{
     -fx-border-width: 0;
@@ -17,11 +17,11 @@
 
 .downerLabel_atFirst {
     -fx-border-radius: 5;
-    -fx-border-color: yellow;
+    -fx-border-color: blue;
     -fx-background-radius: 5;
 }
 .downerLabel_white{
-    -fx-opacity: 0.1;
+    -fx-opacity: 0.2;
     -fx-background-color: white;
 }
 .downerLabel_red{
@@ -29,7 +29,7 @@
     -fx-background-color: red;
 }
 .downerLabel_yellow{
-    -fx-opacity: 0.5;
+    -fx-opacity: 0.2;
     -fx-background-color: yellow;
 }
 .downerLabel_blue{

@@ -77,11 +77,31 @@ public class Minion extends Card implements Cloneable {
         this.cardType = cardType;
     }
 
-    public boolean canMove(boolean printError) {
-        if (moved_atThisTurn) {
-            if (printError) MyPrinter.red("minion moved at this turn and cant move again!");
+    public boolean canAttack(boolean printError) {
+//        if (age < 1) {
+//            if (printError) MyPrinter.red("you can't attack by a new inserted minion!");
+//            return false;
+//        }
+        if (this.get_Real_AttackPower() <= 0) {
+            if (printError) MyPrinter.red("attack power of this minion is lower than 0!");
             return false;
         }
+        if (this.attacked_atThisTurn) {
+            if (printError) MyPrinter.red("you can't attack twice by a minion!");
+            return false;
+        }
+        if (this.isStun()) {
+            if (printError) MyPrinter.red("your minion is stun!");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean canMove(boolean printError) {
+//        if (moved_atThisTurn) {
+//            if (printError) MyPrinter.red("minion moved at this turn and cant move again!");
+//            return false;
+//        }
         if (attacked_atThisTurn) {
             if (printError) MyPrinter.red("minion attacked at this turn and cant move now!");
         }
@@ -269,26 +289,6 @@ public class Minion extends Card implements Cloneable {
 
     public boolean defence_with_out_holy(int attack_power) {
         this.hurt(attack_power);
-        return true;
-    }
-
-    public boolean canAttack(boolean printError) {
-        if (age < 1) {
-            if (printError) MyPrinter.red("you can't attack by a new inserted minion!");
-            return false;
-        }
-        if (this.get_Real_AttackPower() <= 0) {
-            if (printError) MyPrinter.red("attack power of this minion is lower than 0!");
-            return false;
-        }
-        if (this.attacked_atThisTurn) {
-            if (printError) MyPrinter.red("you can't attack twice by a minion!");
-            return false;
-        }
-        if (this.isStun()) {
-            if (printError) MyPrinter.red("your minion is stun!");
-            return false;
-        }
         return true;
     }
 

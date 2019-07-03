@@ -140,6 +140,7 @@ public class Board {
             if (printError) MyPrinter.red("it's his cell!");
             return false;
         }
+        Minion m = getMinionByLocation(target);
         if (from.distance(target) > 2) {
             if (printError) MyPrinter.red("distance is bigger than 2! you can't move.");
             return false;
