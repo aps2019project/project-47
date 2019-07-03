@@ -5,7 +5,7 @@ import network.Requests.Request;
 
 public class SellResponse extends Response {
     @Override
-    public void handleRequest(Request request) {
+    public void handleRequest() {
 
     }
 
@@ -14,8 +14,4 @@ public class SellResponse extends Response {
         return null;
     }
 
-    @Override
-    public void setRequestResult(Constants result) {
-
-    }
 }

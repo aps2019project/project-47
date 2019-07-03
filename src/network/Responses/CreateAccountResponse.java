@@ -5,6 +5,7 @@ import com.gilecode.yagson.YaGsonBuilder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import controllers.Constants;
+import controllers.console.AccountMenu;
 import models.Account;
 import network.Requests.CreateAccountRequest;
 import network.Requests.Request;
@@ -18,7 +19,7 @@ public class CreateAccountResponse extends Response {
         this.request = createAccountRequest;
     }
     @Override
-    public void handleRequest(Request request){
+    public void handleRequest(){
         File accounts = new File("src/JSONs/Accounts");
         String userName = ((CreateAccountRequest) request).getUserName();
         String password = ((CreateAccountRequest) request).getPassword();
@@ -31,6 +32,7 @@ public class CreateAccountResponse extends Response {
 
 
         Account account = new Account(userName, password);
+        AccountMenu.addAccount(account);
         YaGsonBuilder gsonBuilder = new YaGsonBuilder();
         YaGson gson = gsonBuilder.create();
         try {
@@ -49,8 +51,4 @@ public class CreateAccountResponse extends Response {
         return this.requestResult;
     }
 
-    @Override
-    public void setRequestResult(Constants result) {
-
-    }
 }

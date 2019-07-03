@@ -11,7 +11,10 @@ import models.item.Item;
 import views.MyPrinter;
 
 import java.io.IOException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 public class Account implements Cloneable {
     private String userName;
@@ -36,6 +39,36 @@ public class Account implements Cloneable {
         items = new ArrayList<>();
         this.decks = new ArrayList<Deck>();
         this.password = password;
+    }
+
+    private static HashMap<String, Account> accountsMapper = new HashMap<>(); //token --> account
+
+    public static synchronized void putAccount(String authToken, Account account){
+        accountsMapper.put(authToken, account);
+    }
+    public static String generateRandomString(){
+        SecureRandom generator = new SecureRandom();
+        String result = "";
+        for (int i = 0; i < 32; i++){
+            result.concat(hexadecimalCharacter(generator.nextInt(16)));
+        }
+        return result;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    private static String hexadecimalCharacter(int code){
+        code %= 16;
+        if (code < 10)
+            return Integer.toString(code);
+        char ch = (char)(code%10);
+        ch += 'A';
+        return Character.toString(ch);
+    }
+    public void setAuthToken(String authToken) {
+        this.authToken = authToken;
     }
 
     public String getAuthToken() {
