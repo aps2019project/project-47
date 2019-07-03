@@ -1,6 +1,7 @@
 package network.Responses;
 
 import controllers.Constants;
+import models.Account;
 import models.Shop;
 import network.Requests.FindRequest;
 import network.Requests.Request;
@@ -13,7 +14,7 @@ public class FindResponse extends Response {
     }
     @Override
     public void handleRequest() {
-        if (Server.getTokens().get(request.getAuthToken()) == null)
+        if (Account.getAccountsMapper().get(request.getAuthToken()) == null)
             return;
         cardOrItem = Shop.getInstance().find_in_shop(((FindRequest) request).getCode());
     }

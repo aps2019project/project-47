@@ -1,0 +1,16 @@
+.underBackGround {
+    -fx-background-image: url("/resources/backgrounds/background4.jpg");
+    -fx-background-repeat: stretch;
+    -fx-background-size: 1920 1080;
+    -fx-background-position: center center;
+}
+
+.container {
+    -fx-pref-width: 800;
+    -fx-max-width: 800;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-background-color: rgba(255, 171, 86, 0.41);
+    -fx-alignment: center;
+    -fx-padding: 20px;
+}
