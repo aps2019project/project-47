@@ -13,10 +13,12 @@ import javafx.scene.control.Label;
 import javafx.scene.effect.PerspectiveTransform;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 import models.battle.Battle;
@@ -49,6 +51,7 @@ public class BattleController extends MyController implements Initializable {
     private Player[] players;
     private MyAlert myAlert;
     private AnimationTimer deathChecker;
+    private Label stateViewer;
 
 
     @Override
@@ -58,7 +61,7 @@ public class BattleController extends MyController implements Initializable {
         playBackGroundMusic();
         creatBoardCells();
         creatHandScene();
-
+        createButtons();
     }
 
     public void initializeBattle(Battle battle) {
@@ -291,17 +294,114 @@ public class BattleController extends MyController implements Initializable {
 
             @Override
             public void handle(long now) {
-                if (lastTime % prerioty == 0) {
-                    for (Minion minion : battle.deathMinions.keySet()) {
-                        Location location = battle.deathMinions.get(minion);
-                        battle.deathMinions.remove(minion);
-                        death(minion, location);
-                    }
+                if (lastTime%prerioty==0){
+                    //check
                 }
+                stateViewer.setText("0:"+stateOfMouseClickeds[0]+"---1:"+stateOfMouseClickeds[1]);
                 lastTime++;
             }
         };
         deathChecker.start();
+    }
+
+    public void createButtons(){
+
+        GraphicButton endTurn = new GraphicButton("END TURN");
+        endTurn.setSize(300,100);
+        endTurn.reLocate(100,100);
+        endTurn.setColor(Color.RED);
+        endTurn.setImageAddress("src/resources/inBattle/buttons/red.png");
+        endTurn.creat();
+        endTurn.setOnClick(event -> {
+            turn=1-turn;
+            myAlert.alert(players[turn].getUserName());
+        });
+        anchorPane.getChildren().add(endTurn.getParentPane());
+
+        GraphicButton state = new GraphicButton("state");
+        state.setSize(1000,100);
+        state.reLocate(400,0);
+        state.setColor(Color.BLUE);
+        state.setImageAddress("src/resources/inBattle/buttons/green.png");
+        state.creat();
+        stateViewer = state.getLabel();
+        anchorPane.getChildren().add(state.getParentPane());
+
+    }
+
+    public class GraphicButton {
+        private int x;
+        private int y;
+        private int width;
+        private int height;
+        private Pane parentPane;
+        private ImageView buttonView;
+        private Label label;
+        private String imageAddress;
+        private String buttonText;
+        private Paint textColor;
+
+        public GraphicButton(String buttonText) {
+            this.buttonText = buttonText;
+        }
+
+        public void setSize(int width, int height) {
+            this.width = width;
+            this.height = height;
+        }
+        public void reLocate(int x,int y){
+            this.x = x;
+            this.y = y;
+        }
+
+        public void setImageAddress(String address){
+            this.imageAddress = address;
+        }
+
+        public void setOnClick(EventHandler<MouseEvent> event){
+            label.setOnMouseClicked(event);
+        }
+
+        public void setColor(Paint color) {
+            this.textColor = color;
+        }
+
+        public void creat() {
+            parentPane = new Pane();
+            parentPane.relocate(x, y);
+            parentPane.getStylesheets().add("layouts/stylesheets/battle/button.css");
+            parentPane.setPrefSize(width, height);
+
+            Image buttonImage = new Image(new File(imageAddress).toURI().toString());
+            buttonView = new ImageView(buttonImage);
+            buttonView.relocate(0,0);
+            buttonView.setFitWidth(width);
+            buttonView.setFitHeight(height);
+            parentPane.getChildren().add(buttonView);
+
+            label = new Label(buttonText);
+            label.relocate(width*0.15,height*0.15);
+            label.setPrefSize(width*0.7,height*0.7);
+            label.setStyle("-fx-font-weight: bold;" +
+                    "-fx-alignment: center;" +
+                    "-fx-font-size: "+30+";");
+            label.setTextFill(textColor);
+            label.setOnMouseEntered(event -> {
+                label.setTextFill(Color.WHITE);
+            });
+            label.setOnMouseExited(event -> {
+                label.setTextFill(textColor);
+            });
+            parentPane.getChildren().add(label);
+        }
+
+        public Pane getParentPane() {
+            return parentPane;
+        }
+
+        public Label getLabel() {
+            return label;
+        }
     }
 
     public void death(Minion minion, Location location) {
@@ -384,8 +484,12 @@ public class BattleController extends MyController implements Initializable {
     private void attack(Minion attacker, Minion defender) {
         int attackTime = 60;
         graphicalBoard.setMinionAtCell(attacker, attacker.getLocation(), MinionImageViewType.attacking, false);
+
+        boolean counterAttackAvalabale = battle.canCounterAttack(attacker, defender, false);
+
         MyMediaPlayer.playEffectSoundOfACard(attacker, soundType.attack);
         MyMediaPlayer.playEffectSoundOfACard(defender, soundType.hit);
+
         AnimationTimer attackerAnimation = new AnimationTimer() {
             int lastTime = 0;
 
@@ -397,16 +501,15 @@ public class BattleController extends MyController implements Initializable {
 
             public void end() {
                 graphicalBoard.setMinionAtCell(attacker, attacker.getLocation(), MinionImageViewType.breathing, false);
+                if (!counterAttackAvalabale) {
+                    battle.attack(attacker, defender);
+                    graphicalBoard.updateNumbers(attacker.getLocation());
+                    graphicalBoard.updateNumbers(defender.getLocation());
+                }
                 stop();
             }
         };
         attackerAnimation.start();
-        boolean counterAttackAvalabale = battle.canCounterAttack(attacker, defender, false);
-        if (!counterAttackAvalabale) {
-            battle.attack(attacker, defender);
-            graphicalBoard.updateNumbers(attacker.getLocation());
-            graphicalBoard.updateNumbers(defender.getLocation());
-        }
         if (counterAttackAvalabale) {
             AnimationTimer defenderAnimation = new AnimationTimer() {
                 int lastTime = 0;
@@ -667,7 +770,7 @@ public class BattleController extends MyController implements Initializable {
                 freeClick();
             }
             if (!players[turn].isHuman()) {
-                stateOfMouseClickeds[1 - turn] = null;
+                return;
             }
             playerSelectedCard[turn] = card;
             stateOfMouseClickeds[turn] = StateOfMouseClicked.insertingCardClicked;

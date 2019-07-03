@@ -1,5 +1,6 @@
 package models.battle;
 
+import controllers.graphical.BattleController;
 import defentions.Defentions;
 import models.battle.board.Board;
 import models.battle.board.Cell;
@@ -36,7 +37,6 @@ public class Battle {
     private MatchResult matchResult;
     private int age;
     private int numOfFlags;
-    public HashMap<Minion,Location> deathMinions;
 
     public Battle(Player player0, Player player1, MatchType matchType, int numOfFlags) {
         this.players = new Player[2];
@@ -48,7 +48,6 @@ public class Battle {
         this.matchResult = null;
         this.age = 0;
         this.numOfFlags = numOfFlags;
-        deathMinions =  new HashMap<>();
         //set heroes at their starting locations...
         board.selectCell(Board.hero0).setMinion(player0.getHero());
         player0.getHero().setLocation(Board.hero0);
@@ -292,7 +291,9 @@ public class Battle {
             players[minion.getPlyNum()].setSelectedMinion(null);
         }
         board.add_flags_to_aCell(minion.getFlags(), location);
-        deathMinions.put(minion,location);
+        if (Board.getController()!=null){
+            ((BattleController)Board.getController()).death(minion,location);
+        }
     }
 
     private void collecting_flags_and_items_from_earth(Minion minion, Location location) {
