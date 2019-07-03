@@ -287,7 +287,7 @@ public class Defentions {
             SpecialItem specialItem = new SpecialItem(null);
             specialItem.setHeroPack(heroPack);
             specialItem.addCoolDown(new Effect(buffs, null, null));
-            Hero hero = new Hero(301, "whiteDamn", 0, 1, 8000, 4, MinionTargetsType.melee, 20, specialItem);
+            Hero hero = new Hero(301, "whiteDamn", 0, 50, 8000, 4, MinionTargetsType.melee, 20, specialItem);
             hero.getGraphicPack().setShopPhotoAddress("/resources/cards/White Daemon_logo.png");
             heroes.put(hero, 3);
         }//1

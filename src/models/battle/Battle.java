@@ -156,7 +156,7 @@ public class Battle {
         return true;
     }
 
-    private void changeTurn() {
+    public void changeTurn() {
         check_death_of_all();
         players[turn].add_num_of_turns_with_flags(board.numOfFlagsOfPlayer(turn, false));
         turn = 1 - turn;
@@ -358,18 +358,25 @@ public class Battle {
     public MatchResult logic() {
         turn = 1;
         while (true) {
+
             changeTurn();
-            if (checkVictory()) return matchResult;
+
+            if (checkVictory()){
+                return matchResult;
+            }
+
             Player player = this.players[turn];
 
-            boolean flag = false;
+            boolean flag;
 
             if (player.isHuman()) {
                 flag = human_menu(player);
             } else {
                 flag = ai_menu(player);
             }
-            if (flag) return matchResult;
+            if (flag){
+                return matchResult;
+            }
 
         }
     }
@@ -694,7 +701,7 @@ public class Battle {
         return true;
     }
 
-    private void use_special_power(Hero hero, Location location) {
+    public void use_special_power(Hero hero, Location location) {
         if (!canUseSpecialPower(hero, location, true)) return;
         //special power
         SelectionCellPack selectionCellPack = hero.getSpecialItem().getHeroPack().getSelectionCellPack();

@@ -50,7 +50,7 @@ public class BattleController extends MyController implements Initializable {
     private int turn;
     private Player[] players;
     private MyAlert myAlert;
-    private AnimationTimer deathChecker;
+    private AnimationTimer checker;
     private Label stateViewer;
 
 
@@ -64,21 +64,25 @@ public class BattleController extends MyController implements Initializable {
         createButtons();
     }
 
+
+
+
     public void initializeBattle(Battle battle) {
         this.battle = battle;
         this.board = battle.getBoard();
-        playerSelectedCard = new Card[2];
-        battle.getPlayers()[0].mana_rise(100);
-        graphicalHand.setHand(battle.getPlayers()[0].getHand());
         graphicalBoard.setBoard(board);
+        playerSelectedCard = new Card[2];
+        players = battle.getPlayers();
+        players[0].mana_rise(100);
+        graphicalHand.setHand(players[0].getHand());
         graphicalHand.updateHand();
         stateOfMouseClickeds = new StateOfMouseClicked[2];
         stateOfMouseClickeds[0] = StateOfMouseClicked.free;
         stateOfMouseClickeds[1] = StateOfMouseClicked.free;
         turn = battle.getTurn();
-        players = battle.getPlayers();
         setHeroOnPlane_atStatingBattle();
-        deathCheckerRun();
+        checkerRun();
+        myAlert.alert("Hello\nBattle started.\nWow...\nPashmam......");
     }
 
     private void setBackground() {
@@ -96,190 +100,6 @@ public class BattleController extends MyController implements Initializable {
         anchorPane.getChildren().add(background);
     }
 
-    public class MyAlert {
-        Double moveTime = 3.0;
-        Double stringTime = 300.0;
-        Double typingSpeed = 3.0;
-
-        private ImageView left;
-        private ImageView up;
-        private ImageView right;
-        private Label label;
-        private String string;
-        private ImageView background;
-
-        public void alert(String string) {
-            this.string = string;
-            creat();
-            comImages();
-        }
-
-        public void creat() {
-
-            if (left == null) {
-                Image leftImage = new Image(new File("src/resources/inBattle/Alert/leftImage.png").toURI().toString());
-                left = new ImageView(leftImage);
-                left.relocate(-1920, 0);
-                left.setFitWidth(1920);
-                left.setFitHeight(1080);
-            }
-
-            if (right == null) {
-                Image rightImage = new Image(new File("src/resources/inBattle/Alert/rightImage.png").toURI().toString());
-                right = new ImageView(rightImage);
-                right.relocate(1920, 0);
-                right.setFitWidth(1920);
-                right.setFitHeight(1080);
-            }
-
-            if (up == null) {
-                Image upImage = new Image(new File("src/resources/inBattle/Alert/upImage.png").toURI().toString());
-                up = new ImageView(upImage);
-                up.relocate(0, -1080);
-                up.setFitWidth(1920);
-                up.setFitHeight(1080);
-            }
-
-            if (label == null) {
-                label = new Label();
-                label.getStylesheets().add("layouts/stylesheets/battle/myAlert.css");
-//                label.getStyleClass().add("lbl");
-                label.relocate(0, 0);
-                label.setPrefSize(1920, 1080);
-                label.setStyle("-fx-alignment: center;" +
-                        "-fx-font-size: 80;" +
-                        "-fx-font-weight: bold;");
-            }
-            stringTime = string.length() * typingSpeed + 20;
-        }
-
-        public void comImages() {
-
-            anchorPane.getChildren().removeAll(left, right, up);
-            anchorPane.getChildren().addAll(left, right, up);
-
-            TranslateTransition leftTransition = new TranslateTransition();
-            leftTransition.setDuration(Duration.seconds(moveTime));
-            leftTransition.setNode(left);
-            leftTransition.setFromX(-1920);
-            leftTransition.setFromY(0);
-            leftTransition.setToX(0);
-            leftTransition.setToY(0);
-            leftTransition.setAutoReverse(true);
-            leftTransition.setCycleCount(2);
-            leftTransition.play();
-            left.relocate(0, 0);
-
-            TranslateTransition rightTransition = new TranslateTransition();
-            rightTransition.setDuration(Duration.seconds(moveTime));
-            rightTransition.setNode(right);
-            rightTransition.setFromX(1920);
-            rightTransition.setFromY(0);
-            rightTransition.setToX(0);
-            rightTransition.setToY(0);
-            rightTransition.setAutoReverse(true);
-            rightTransition.setCycleCount(2);
-            rightTransition.play();
-            right.relocate(0, 0);
-
-            TranslateTransition upTransition = new TranslateTransition();
-            upTransition.setDuration(Duration.seconds(moveTime));
-            upTransition.setNode(up);
-            upTransition.setFromX(0);
-            upTransition.setFromY(-1080);
-            upTransition.setToX(0);
-            upTransition.setToY(0);
-            upTransition.setAutoReverse(true);
-            upTransition.setCycleCount(2);
-            upTransition.play();
-            up.relocate(0, 0);
-
-            AnimationTimer animationTimer = new AnimationTimer() {
-                int lastTime = 0;
-                Double movingTimeForHandle = 58 * moveTime;
-                boolean paused;
-                boolean showString;
-                boolean returnImages;
-
-                @Override
-                public void handle(long now) {
-                    if (lastTime > movingTimeForHandle) afterCom();
-                    lastTime++;
-                }
-
-                public void afterCom() {
-                    if (lastTime > movingTimeForHandle + stringTime) {
-                        afterStringShown();
-                        return;
-                    }
-                    if (!paused) {
-                        paused = true;
-                        upTransition.pause();
-                        leftTransition.pause();
-                        rightTransition.pause();
-                        background = new ImageView(new Image(new File("src/resources/inBattle/Alert/background.jpg").toURI().toString()));
-                        background.setFitHeight(1080);
-                        background.setFitWidth(1920);
-                        anchorPane.getChildren().add(background);
-                    }
-                    if (!showString) {
-                        showString = true;
-                        showString();
-                    }
-
-                }
-
-                public void afterStringShown() {
-                    if (!returnImages) {
-                        returnImages = true;
-                        label.setText("");
-                        anchorPane.getChildren().remove(label);
-                        anchorPane.getChildren().remove(background);
-                        background = null;
-                        upTransition.play();
-                        leftTransition.play();
-                        rightTransition.play();
-                    }
-                    if (lastTime > 2 * movingTimeForHandle + stringTime) end();
-                }
-
-                public void end() {
-                    upTransition.stop();
-                    leftTransition.stop();
-                    rightTransition.stop();
-                    stop();
-                }
-            };
-            animationTimer.start();
-        }
-
-        public void showString() {
-            char[] chars = string.toCharArray();
-            anchorPane.getChildren().remove(label);
-            anchorPane.getChildren().add(label);
-            MediaPlayer typingSound = new MediaPlayer(new Media(new File("src/resources/inBattle/Alert/typingSound.mp3").toURI().toString()));
-            AnimationTimer stringShower = new AnimationTimer() {
-                int lastTime;
-
-                @Override
-                public void handle(long now) {
-                    if (lastTime > typingSpeed * (chars.length - 1)) {
-                        typingSound.stop();
-                        stop();
-                    } else {
-                        if (lastTime % typingSpeed == 0) {
-                            label.setText(label.getText() + chars[(int) (lastTime / typingSpeed)]);
-                        }
-                        lastTime++;
-                    }
-                }
-            };
-
-            stringShower.start();
-            typingSound.play();
-        }
-    }
-
     private void playBackGroundMusic() {
         String address = "src/resources/music/battleBackground/1.m4a";
         Media media = new Media(new File(address).toURI().toString());
@@ -287,40 +107,57 @@ public class BattleController extends MyController implements Initializable {
         mediaPlayer.play();
     }
 
-    public void deathCheckerRun() {
+    public void checkerRun() {
         int prerioty = 10;
-        deathChecker = new AnimationTimer() {
+        checker = new AnimationTimer() {
             int lastTime = 0;
 
             @Override
             public void handle(long now) {
-                if (lastTime%prerioty==0){
+                if (lastTime % prerioty == 0) {
                     //check
                 }
-                stateViewer.setText("0:"+stateOfMouseClickeds[0]+"---1:"+stateOfMouseClickeds[1]);
+                stateViewer.setText("0:" + stateOfMouseClickeds[0] + "---1:" + stateOfMouseClickeds[1]);
                 lastTime++;
             }
         };
-        deathChecker.start();
+        checker.start();
     }
 
-    public void createButtons(){
+
+
+
+    public void createButtons() {
 
         GraphicButton endTurn = new GraphicButton("END TURN");
-        endTurn.setSize(300,100);
-        endTurn.reLocate(100,100);
+        endTurn.setSize(300, 100);
+        endTurn.reLocate(1500, 100);
         endTurn.setColor(Color.RED);
         endTurn.setImageAddress("src/resources/inBattle/buttons/red.png");
         endTurn.creat();
         endTurn.setOnClick(event -> {
-            turn=1-turn;
+            turn = 1 - turn;
             myAlert.alert(players[turn].getUserName());
         });
         anchorPane.getChildren().add(endTurn.getParentPane());
 
+        GraphicButton specialPower = new GraphicButton("USE SPECIAL POWER");
+        specialPower.setSize(500, 100);
+        specialPower.reLocate(1400, 200);
+        specialPower.setColor(Color.web("#6df25e"));
+        specialPower.setImageAddress("src/resources/inBattle/buttons/green.png");
+        specialPower.creat();
+        specialPower.setOnClick(event -> {
+            if (players[turn].isHuman()) {
+                stateOfMouseClickeds[turn] = StateOfMouseClicked.specialPowerClicked;
+                graphicalBoard.show_available_cells_for_specialPower(players[turn].getHero());
+            }
+        });
+        anchorPane.getChildren().add(specialPower.getParentPane());
+
         GraphicButton state = new GraphicButton("state");
-        state.setSize(1000,100);
-        state.reLocate(400,0);
+        state.setSize(1000, 100);
+        state.reLocate(400, 0);
         state.setColor(Color.BLUE);
         state.setImageAddress("src/resources/inBattle/buttons/green.png");
         state.creat();
@@ -329,101 +166,27 @@ public class BattleController extends MyController implements Initializable {
 
     }
 
-    public class GraphicButton {
-        private int x;
-        private int y;
-        private int width;
-        private int height;
-        private Pane parentPane;
-        private ImageView buttonView;
-        private Label label;
-        private String imageAddress;
-        private String buttonText;
-        private Paint textColor;
-
-        public GraphicButton(String buttonText) {
-            this.buttonText = buttonText;
-        }
-
-        public void setSize(int width, int height) {
-            this.width = width;
-            this.height = height;
-        }
-        public void reLocate(int x,int y){
-            this.x = x;
-            this.y = y;
-        }
-
-        public void setImageAddress(String address){
-            this.imageAddress = address;
-        }
-
-        public void setOnClick(EventHandler<MouseEvent> event){
-            label.setOnMouseClicked(event);
-        }
-
-        public void setColor(Paint color) {
-            this.textColor = color;
-        }
-
-        public void creat() {
-            parentPane = new Pane();
-            parentPane.relocate(x, y);
-            parentPane.getStylesheets().add("layouts/stylesheets/battle/button.css");
-            parentPane.setPrefSize(width, height);
-
-            Image buttonImage = new Image(new File(imageAddress).toURI().toString());
-            buttonView = new ImageView(buttonImage);
-            buttonView.relocate(0,0);
-            buttonView.setFitWidth(width);
-            buttonView.setFitHeight(height);
-            parentPane.getChildren().add(buttonView);
-
-            label = new Label(buttonText);
-            label.relocate(width*0.15,height*0.15);
-            label.setPrefSize(width*0.7,height*0.7);
-            label.setStyle("-fx-font-weight: bold;" +
-                    "-fx-alignment: center;" +
-                    "-fx-font-size: "+30+";");
-            label.setTextFill(textColor);
-            label.setOnMouseEntered(event -> {
-                label.setTextFill(Color.WHITE);
-            });
-            label.setOnMouseExited(event -> {
-                label.setTextFill(textColor);
-            });
-            parentPane.getChildren().add(label);
-        }
-
-        public Pane getParentPane() {
-            return parentPane;
-        }
-
-        public Label getLabel() {
-            return label;
-        }
+    private void creatBoardCells() {
+        graphicalBoard = new GraphicalBoard();
+        anchorPane.getChildren().add(graphicalBoard.parentPane);
     }
 
-    public void death(Minion minion, Location location) {
-        int deathtime = 10;
-
-        graphicalBoard.setMinionAtCell(minion, location, MinionImageViewType.death, false);
-        AnimationTimer deathTimer = new AnimationTimer() {
-            int lastTime = 0;
-
-            @Override
-            public void handle(long now) {
-                if (lastTime > deathtime) end();
-                lastTime++;
-            }
-
-            public void end() {
-                graphicalBoard.removeImageViewFromCell(location, true);
-                this.stop();
-            }
-        };
-        deathTimer.start();
+    private void creatHandScene() {
+        graphicalHand = new GraphicalHand();
+        anchorPane.getChildren().add(graphicalHand.parentPane);
     }
+
+    public void setHeroOnPlane_atStatingBattle() {
+
+        Hero hero0 = battle.getPlayers()[0].getHero();
+        graphicalBoard.setMinionAtCell(hero0, hero0.getLocation(), MinionImageViewType.breathing, true);
+
+        Hero hero1 = battle.getPlayers()[1].getHero();
+        graphicalBoard.setMinionAtCell(hero1, hero1.getLocation(), MinionImageViewType.breathing, true);
+    }
+
+
+
 
     public ImageView creatImageViewerOfMinion(Minion minion, MinionImageViewType minionImageViewType) {
         switch (minionImageViewType) {
@@ -447,29 +210,30 @@ public class BattleController extends MyController implements Initializable {
     }
 
     public void freeClick() {
-//        System.out.println("free click");
         stateOfMouseClickeds[turn] = StateOfMouseClicked.free;
         playerSelectedCard[turn] = null;
         graphicalBoard.allCellsNormal();
     }
 
-    private void creatBoardCells() {
-        graphicalBoard = new GraphicalBoard();
-        anchorPane.getChildren().add(graphicalBoard.parentPane);
-    }
+    public void death(Minion minion, Location location) {
+        int deathtime = 10;
 
-    private void creatHandScene() {
-        graphicalHand = new GraphicalHand();
-        anchorPane.getChildren().add(graphicalHand.parentPane);
-    }
+        graphicalBoard.setMinionAtCell(minion, location, MinionImageViewType.death, false);
+        AnimationTimer deathTimer = new AnimationTimer() {
+            int lastTime = 0;
 
-    public void setHeroOnPlane_atStatingBattle() {
+            @Override
+            public void handle(long now) {
+                if (lastTime > deathtime) end();
+                lastTime++;
+            }
 
-        Hero hero0 = battle.getPlayers()[0].getHero();
-        graphicalBoard.setMinionAtCell(hero0, hero0.getLocation(), MinionImageViewType.breathing, true);
-
-        Hero hero1 = battle.getPlayers()[1].getHero();
-        graphicalBoard.setMinionAtCell(hero1, hero1.getLocation(), MinionImageViewType.breathing, true);
+            public void end() {
+                graphicalBoard.removeImageViewFromCell(location, true);
+                this.stop();
+            }
+        };
+        deathTimer.start();
     }
 
     private void insert(Card card, Location location) {
@@ -583,6 +347,18 @@ public class BattleController extends MyController implements Initializable {
 
         freeClick();
     }
+
+    private void useSpecialPower(Hero hero, Location location) {
+        graphicalBoard.lighting(graphicalBoard.getLocateOfAnImage_inParentPane(location));
+        battle.use_special_power(hero, location);
+        graphicalBoard.updateAllCellsNumbers();
+    }
+
+    private void endTurn(){
+        
+    }
+
+
 
     private class CardScene {
         Pane parentPane;
@@ -857,6 +633,7 @@ public class BattleController extends MyController implements Initializable {
         private Label lbl_health;
         private Label lbl_attackPower;
         private Minion minion;
+        private Label lbl_name;
 
         public CellPane(int cellHeight, int cellWidth, int i, int j) {
 
@@ -883,6 +660,9 @@ public class BattleController extends MyController implements Initializable {
             lbl_attackPower.setTextFill(Color.RED);
             parentPane.getChildren().add(lbl_attackPower);
 
+            lbl_name = new Label();
+            parentPane.getChildren().add(lbl_name);
+
             upperLabel = new Label();
             upperLabel.getStyleClass().add("upperLabel_atFirst");
             upperLabel.setPrefSize(cellWidth - 2, cellHeight - 2);
@@ -902,8 +682,13 @@ public class BattleController extends MyController implements Initializable {
 
         public void updateNumbers() {
             if (minion == null) {
+                lbl_name.setText("");
+                lbl_health.setText("");
+                lbl_attackPower.setText("");
                 return;
             }
+
+            lbl_name.setText(minion.getCardId());
             lbl_health.setText(String.valueOf(minion.getRealHp()));
             lbl_attackPower.setText(String.valueOf(minion.get_Real_AttackPower()));
         }
@@ -1069,6 +854,7 @@ public class BattleController extends MyController implements Initializable {
         private void removeMinion(boolean delay) {
             removeImageView(delay);
             this.minion = null;
+            lbl_name.setText("");
             lbl_attackPower.setText("");
             lbl_health.setText("");
         }
@@ -1083,9 +869,14 @@ public class BattleController extends MyController implements Initializable {
             downerLabel.getStyleClass().add("downerLabel_yellow");
         }
 
-        public void canAttack() {
+        public void canAttackCell() {
             uncolored();
             downerLabel.getStyleClass().add("downerLabel_red");
+        }
+
+        public void canSpecialPower() {
+            uncolored();
+            downerLabel.getStyleClass().add("downerLabel_green");
         }
 
         public void normalCell() {
@@ -1135,10 +926,6 @@ public class BattleController extends MyController implements Initializable {
             };
             hidenAnimation.start();
         }
-
-    }
-
-    private void useSpecialPower(Hero hero, Location location) {
 
     }
 
@@ -1256,13 +1043,25 @@ public class BattleController extends MyController implements Initializable {
         }
 
         public void show_available_works(Minion minion) {
+            allCellsNormal();
             for (int i = 0; i < Board.width; i++) {
                 for (int j = 0; j < Board.length; j++) {
                     if (battle.canMove(minion, new Location(i, j), false)) {
                         cellPanes[i][j].canMoveCell();
                     }
                     if (battle.canAttack(minion, board.getCells()[i][j].getMinion(), false)) {
-                        cellPanes[i][j].canAttack();
+                        cellPanes[i][j].canAttackCell();
+                    }
+                }
+            }
+        }
+
+        public void show_available_cells_for_specialPower(Hero hero) {
+            allCellsNormal();
+            for (int i = 0; i < Board.width; i++) {
+                for (int j = 0; j < Board.length; j++) {
+                    if (battle.canUseSpecialPower(hero, new Location(i, j), false)) {
+                        cellPanes[i][j].canSpecialPower();
                     }
                 }
             }
@@ -1556,6 +1355,82 @@ public class BattleController extends MyController implements Initializable {
         }
     }
 
+    public class GraphicButton {
+        private int x;
+        private int y;
+        private int width;
+        private int height;
+        private Pane parentPane;
+        private ImageView buttonView;
+        private Label label;
+        private String imageAddress;
+        private String buttonText;
+        private Paint textColor;
+
+        public GraphicButton(String buttonText) {
+            this.buttonText = buttonText;
+        }
+
+        public void setSize(int width, int height) {
+            this.width = width;
+            this.height = height;
+        }
+
+        public void reLocate(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        public void setImageAddress(String address) {
+            this.imageAddress = address;
+        }
+
+        public void setOnClick(EventHandler<MouseEvent> event) {
+            label.setOnMouseClicked(event);
+        }
+
+        public void setColor(Paint color) {
+            this.textColor = color;
+        }
+
+        public void creat() {
+            parentPane = new Pane();
+            parentPane.relocate(x, y);
+            parentPane.getStylesheets().add("layouts/stylesheets/battle/button.css");
+            parentPane.setPrefSize(width, height);
+
+            Image buttonImage = new Image(new File(imageAddress).toURI().toString());
+            buttonView = new ImageView(buttonImage);
+            buttonView.relocate(0, 0);
+            buttonView.setFitWidth(width);
+            buttonView.setFitHeight(height);
+            parentPane.getChildren().add(buttonView);
+
+            label = new Label(buttonText);
+            label.relocate(width * 0.15, height * 0.15);
+            label.setPrefSize(width * 0.7, height * 0.7);
+            label.setStyle("-fx-font-weight: bold;" +
+                    "-fx-alignment: center;" +
+                    "-fx-font-size: " + 30 + ";");
+            label.setTextFill(textColor);
+            label.setOnMouseEntered(event -> {
+                label.setTextFill(Color.WHITE);
+            });
+            label.setOnMouseExited(event -> {
+                label.setTextFill(textColor);
+            });
+            parentPane.getChildren().add(label);
+        }
+
+        public Pane getParentPane() {
+            return parentPane;
+        }
+
+        public Label getLabel() {
+            return label;
+        }
+    }
+
     private enum StateOfMouseClicked {
         insertingCardClicked,
         insiderMinionCardClicked,
@@ -1564,7 +1439,191 @@ public class BattleController extends MyController implements Initializable {
     }
 
     private enum MinionImageViewType {
-        idle, attacking, death, breathing, running;
+        idle, attacking, death, breathing, running
+    }
+
+    public class MyAlert {
+        Double moveTime = 3.0;
+        Double stringTime = 300.0;
+        Double typingSpeed = 3.0;
+
+        private ImageView left;
+        private ImageView up;
+        private ImageView right;
+        private Label label;
+        private String string;
+        private ImageView background;
+
+        public void alert(String string) {
+            this.string = string;
+            creat();
+            comImages();
+        }
+
+        public void creat() {
+
+            if (left == null) {
+                Image leftImage = new Image(new File("src/resources/inBattle/Alert/leftImage.png").toURI().toString());
+                left = new ImageView(leftImage);
+                left.relocate(-1920, 0);
+                left.setFitWidth(1920);
+                left.setFitHeight(1080);
+            }
+
+            if (right == null) {
+                Image rightImage = new Image(new File("src/resources/inBattle/Alert/rightImage.png").toURI().toString());
+                right = new ImageView(rightImage);
+                right.relocate(1920, 0);
+                right.setFitWidth(1920);
+                right.setFitHeight(1080);
+            }
+
+            if (up == null) {
+                Image upImage = new Image(new File("src/resources/inBattle/Alert/upImage.png").toURI().toString());
+                up = new ImageView(upImage);
+                up.relocate(0, -1080);
+                up.setFitWidth(1920);
+                up.setFitHeight(1080);
+            }
+
+            if (label == null) {
+                label = new Label();
+                label.getStylesheets().add("layouts/stylesheets/battle/myAlert.css");
+//                label.getStyleClass().add("lbl");
+                label.relocate(0, 0);
+                label.setPrefSize(1920, 1080);
+                label.setStyle("-fx-alignment: center;" +
+                        "-fx-font-size: 80;" +
+                        "-fx-font-weight: bold;");
+            }
+            stringTime = string.length() * typingSpeed + 50;
+        }
+
+        public void comImages() {
+
+            anchorPane.getChildren().removeAll(left, right, up);
+            anchorPane.getChildren().addAll(left, right, up);
+
+            TranslateTransition leftTransition = new TranslateTransition();
+            leftTransition.setDuration(Duration.seconds(moveTime));
+            leftTransition.setNode(left);
+            leftTransition.setFromX(-1920);
+            leftTransition.setFromY(0);
+            leftTransition.setToX(0);
+            leftTransition.setToY(0);
+            leftTransition.setAutoReverse(true);
+            leftTransition.setCycleCount(2);
+            leftTransition.play();
+            left.relocate(0, 0);
+
+            TranslateTransition rightTransition = new TranslateTransition();
+            rightTransition.setDuration(Duration.seconds(moveTime));
+            rightTransition.setNode(right);
+            rightTransition.setFromX(1920);
+            rightTransition.setFromY(0);
+            rightTransition.setToX(0);
+            rightTransition.setToY(0);
+            rightTransition.setAutoReverse(true);
+            rightTransition.setCycleCount(2);
+            rightTransition.play();
+            right.relocate(0, 0);
+
+            TranslateTransition upTransition = new TranslateTransition();
+            upTransition.setDuration(Duration.seconds(moveTime));
+            upTransition.setNode(up);
+            upTransition.setFromX(0);
+            upTransition.setFromY(-1080);
+            upTransition.setToX(0);
+            upTransition.setToY(0);
+            upTransition.setAutoReverse(true);
+            upTransition.setCycleCount(2);
+            upTransition.play();
+            up.relocate(0, 0);
+
+            AnimationTimer animationTimer = new AnimationTimer() {
+                int lastTime = 0;
+                Double movingTimeForHandle = 58 * moveTime;
+                boolean paused;
+                boolean showString;
+                boolean returnImages;
+
+                @Override
+                public void handle(long now) {
+                    if (lastTime > movingTimeForHandle) afterCom();
+                    lastTime++;
+                }
+
+                public void afterCom() {
+                    if (lastTime > movingTimeForHandle + stringTime) {
+                        afterStringShown();
+                        return;
+                    }
+                    if (!paused) {
+                        paused = true;
+                        upTransition.pause();
+                        leftTransition.pause();
+                        rightTransition.pause();
+                        background = new ImageView(new Image(new File("src/resources/inBattle/Alert/background.jpg").toURI().toString()));
+                        background.setFitHeight(1080);
+                        background.setFitWidth(1920);
+                        anchorPane.getChildren().add(background);
+                    }
+                    if (!showString) {
+                        showString = true;
+                        showString();
+                    }
+
+                }
+
+                public void afterStringShown() {
+                    if (!returnImages) {
+                        returnImages = true;
+                        label.setText("");
+                        anchorPane.getChildren().remove(label);
+                        anchorPane.getChildren().remove(background);
+                        background = null;
+                        upTransition.play();
+                        leftTransition.play();
+                        rightTransition.play();
+                    }
+                    if (lastTime > 2 * movingTimeForHandle + stringTime) end();
+                }
+
+                public void end() {
+                    upTransition.stop();
+                    leftTransition.stop();
+                    rightTransition.stop();
+                    stop();
+                }
+            };
+            animationTimer.start();
+        }
+
+        public void showString() {
+            char[] chars = string.toCharArray();
+            anchorPane.getChildren().remove(label);
+            anchorPane.getChildren().add(label);
+            MediaPlayer typingSound = new MediaPlayer(new Media(new File("src/resources/inBattle/Alert/typingSound.mp3").toURI().toString()));
+            AnimationTimer stringShower = new AnimationTimer() {
+                int lastTime;
+
+                @Override
+                public void handle(long now) {
+                    if (lastTime > typingSpeed * (chars.length - 1)) {
+                        typingSound.stop();
+                        stop();
+                    } else {
+                        if (lastTime % typingSpeed == 0) {
+                            label.setText(label.getText() + chars[(int) (lastTime / typingSpeed)]);
+                        }
+                        lastTime++;
+                    }
+                }
+            };
+
+            stringShower.start();
+            typingSound.play();
+        }
     }
 
     private static class MyMediaPlayer {
