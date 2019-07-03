@@ -86,7 +86,7 @@ public class Client extends Application {
 //        Parent root = Shop.getRoot();
         Parent root = BattleMenu.getRoot();
 //        Parent root = Board.getRoot();
-        Parent root = FXMLLoader.load(getClass().getResource("../layouts/customCardCreatePage.fxml"));
+//        Parent root = FXMLLoader.load(getClass().getResource("../layouts/customCardCreatePage.fxml"));
 //        Parent root = FXMLLoader.load(getClass().getResource("../layouts/Collection.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);

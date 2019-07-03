@@ -29,8 +29,11 @@ import models.battle.board.Location;
 import models.cards.Card;
 import models.cards.GraphicPack;
 import models.cards.hero.Hero;
+import models.cards.minion.ForceType;
 import models.cards.minion.Minion;
+import models.cards.minion.SideType;
 import models.cards.spell.Spell;
+import models.cards.spell.TargetForm;
 
 import java.io.File;
 import java.net.URL;
@@ -39,6 +42,8 @@ import java.util.Random;
 import java.util.ResourceBundle;
 
 public class BattleController extends MyController implements Initializable {
+    Double hideAndRiseSpeed = 50.0;
+    Double aiPlayerSpeed = 300.0;
 
     public AnchorPane anchorPane;
     private Board board;
@@ -52,6 +57,7 @@ public class BattleController extends MyController implements Initializable {
     private MyAlert myAlert;
     private AnimationTimer checker;
     private Label stateViewer;
+    private AnimationTimer aiTimer;
 
 
     @Override
@@ -62,8 +68,8 @@ public class BattleController extends MyController implements Initializable {
         creatBoardCells();
         creatHandScene();
         createButtons();
+        creatAiPlayer();
     }
-
 
 
 
@@ -82,7 +88,7 @@ public class BattleController extends MyController implements Initializable {
         turn = battle.getTurn();
         setHeroOnPlane_atStatingBattle();
         checkerRun();
-        myAlert.alert("Hello\nBattle started.\nWow...\nPashmam......");
+//        myAlert.alert("Hello\nBattle started.\nWow...\nPashmam......");
     }
 
     private void setBackground() {
@@ -95,7 +101,7 @@ public class BattleController extends MyController implements Initializable {
         background.setFitHeight(1080);
         background.setOnMouseClicked(event -> {
             freeClick();
-            myAlert.alert("salam.\nsfesfsfcsdchbcdvcscu\nferfsdcdscsds");
+            graphicalHand.graphicNextCard.removeCard(true);
         });
         anchorPane.getChildren().add(background);
     }
@@ -104,6 +110,7 @@ public class BattleController extends MyController implements Initializable {
         String address = "src/resources/music/battleBackground/1.m4a";
         Media media = new Media(new File(address).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setVolume(0.5);
         mediaPlayer.play();
     }
 
@@ -115,10 +122,14 @@ public class BattleController extends MyController implements Initializable {
             @Override
             public void handle(long now) {
                 if (lastTime % prerioty == 0) {
-                    //check
+                    battle.checkVictory();
+                    if (battle.getMatchResult()!=null){
+                        battleFinish();
+                    }
                 }
                 stateViewer.setText("0:" + stateOfMouseClickeds[0] + "---1:" + stateOfMouseClickeds[1]);
                 lastTime++;
+
             }
         };
         checker.start();
@@ -136,8 +147,7 @@ public class BattleController extends MyController implements Initializable {
         endTurn.setImageAddress("src/resources/inBattle/buttons/red.png");
         endTurn.creat();
         endTurn.setOnClick(event -> {
-            turn = 1 - turn;
-            myAlert.alert(players[turn].getUserName());
+            endTurn();
         });
         anchorPane.getChildren().add(endTurn.getParentPane());
 
@@ -183,6 +193,24 @@ public class BattleController extends MyController implements Initializable {
 
         Hero hero1 = battle.getPlayers()[1].getHero();
         graphicalBoard.setMinionAtCell(hero1, hero1.getLocation(), MinionImageViewType.breathing, true);
+    }
+
+    public void creatAiPlayer(){
+        aiTimer = new AnimationTimer() {
+            int lastTime = 1;
+            @Override
+            public void handle(long now) {
+                if (lastTime%aiPlayerSpeed==0){
+                    if (!ai_do_only_one_action())end();
+                }
+                lastTime++;
+            }
+
+            private void end() {
+                endTurn();
+                stop();
+            }
+        };
     }
 
 
@@ -355,8 +383,84 @@ public class BattleController extends MyController implements Initializable {
     }
 
     private void endTurn(){
-        
+        battle.changeTurn();
+        turn = 1 - turn;
+
+//        myAlert.alert(players[turn].getUserName());
+
+        stateOfMouseClickeds[0] = StateOfMouseClicked.free;
+        stateOfMouseClickeds[1] = StateOfMouseClicked.free;
+        graphicalHand.setHand(players[turn].getHand());
+        graphicalHand.updateHand();
+        graphicalHand.updateHand();
+
+        if (!players[turn].isHuman()){
+            aiTimer.start();
+        }
     }
+
+    private boolean ai_do_only_one_action(){
+        TargetForm insiderTargetForm = new TargetForm(0, 0, 9, 5, SideType.insider, ForceType.both, null, true);
+        TargetForm enemyTargetForm = new TargetForm(0, 0, 9, 5, SideType.enemy, ForceType.both, null, true);
+        ArrayList<Minion> enemyForces = board.find_all_minions_in_target(turn, new Location(0,0), enemyTargetForm);
+        ArrayList<Minion> insiderForces = board.find_all_minions_in_target(turn, new Location(0,0), insiderTargetForm);
+        ArrayList<Location> allLocations = new ArrayList<>();
+        for (int i = 0; i < Board.width; i++) {
+            for (int j = 0; j < Board.length; j++) {
+                allLocations.add(new Location(i, j));
+            }
+        }
+        //checking move
+        battle.randomSort(allLocations);
+        for (Minion minion : insiderForces) {
+            for (Location location : allLocations) {
+                if (battle.canMove(minion, location, false)) {
+                     move(minion,location);
+                     return true;
+                }
+            }
+        }
+        //checking attack
+        battle.randomSort(allLocations);
+        for (Minion attacker : insiderForces) {
+            for (Minion defender : enemyForces) {
+                if (attacker.isDeath()) break;
+                if (defender.isDeath()) break;
+                if (battle.canAttack(attacker, defender, false)) {
+                    attack(attacker,defender);
+                    return true;
+                }
+            }
+        }
+        //checking special power
+        battle.randomSort(allLocations);
+        for (Location location : allLocations) {
+            if (battle.canUseSpecialPower(players[turn].getHero(), location, false)) {
+                useSpecialPower(players[turn].getHero(),location);
+                return true;
+            }
+
+        }
+        //checking inserting
+        battle.randomSort(allLocations);
+        ArrayList<Card> handCards = new ArrayList<>();
+        handCards.addAll(players[turn].getHand().getCards());
+        for (Location location : allLocations) {
+            for (Card card : handCards) {
+                if (battle.canInsert(card, location, false)) {
+                    insert(card,location);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private void battleFinish(){
+        aiTimer.stop();
+        myAlert.alert("game was finished!");
+    }
+
 
 
 
@@ -370,7 +474,7 @@ public class BattleController extends MyController implements Initializable {
         private ImageView attackPowerImageView;
         private Label lbl_health;
         private Label lbl_attackPower;
-        Label lbl_manaNumbers;
+        Label lbl_manaNumber;
         public int paneWidth = 200;
         public int paneHeight = 200;
         Circle downerCircle;
@@ -413,10 +517,10 @@ public class BattleController extends MyController implements Initializable {
             mana_view.setVisible(false);
             parentPane.getChildren().add(mana_view);
 
-            lbl_manaNumbers = new Label();
-            lbl_manaNumbers.getStyleClass().add("lbl_manaNumber");
-            lbl_manaNumbers.relocate(paneWidth / 2.8 + 21, paneHeight / 1.3 + 10);
-            parentPane.getChildren().add(lbl_manaNumbers);
+            lbl_manaNumber = new Label();
+            lbl_manaNumber.getStyleClass().add("lbl_manaNumber");
+            lbl_manaNumber.relocate(paneWidth / 2.8 + 21, paneHeight / 1.3 + 10);
+            parentPane.getChildren().add(lbl_manaNumber);
 
             Image healthImage = new Image(new File("src/resources/inBattle/cardSceneInserting/healthImage.png").toURI().toString());
             healthImageView = new ImageView(healthImage);
@@ -471,59 +575,6 @@ public class BattleController extends MyController implements Initializable {
 
         }
 
-        public void set_mana_numbers(int manaNumbers) {
-            lbl_manaNumbers.setText(String.valueOf(manaNumbers));
-        }
-
-        public void addCard(Card card, boolean delay) {
-            this.card = card;
-            ImageView cardImageView = new ImageView(new File(card.getGraphicPack().getIdlePhotoAddress()).toURI().toString());
-            this.cardImageView = cardImageView;
-            cardImageView.relocate(0, -paneHeight / 10);
-            cardImageView.setFitWidth(paneWidth);
-            cardImageView.setFitHeight(paneHeight);
-            mana_view.setVisible(true);
-            set_mana_numbers(card.getMana());
-            parentPane.getChildren().remove(upperCircle);
-            cardImageView.setOpacity(0);
-            parentPane.getChildren().add(cardImageView);
-            parentPane.getChildren().add(upperCircle);
-            if (!(card instanceof Spell)) {
-                int attackPower = ((Minion) card).get_Real_AttackPower();
-                int health = ((Minion) card).getHp();
-                attackPowerImageView.setVisible(true);
-                lbl_attackPower.setText(String.valueOf(attackPower));
-                healthImageView.setVisible(true);
-                lbl_health.setText(String.valueOf(health));
-            }
-
-            Double risingTime;
-            if (delay) {
-                risingTime = 50.0;
-            } else {
-                risingTime = 0.0;
-            }
-
-            AnimationTimer hidenAnimation = new AnimationTimer() {
-                int lastTime = 0;
-
-                @Override
-                public void handle(long now) {
-                    if (lastTime > risingTime) end();
-                    Double opacity = cardImageView.getOpacity();
-                    opacity = Math.min(1, opacity + (1 / risingTime));
-                    cardImageView.setOpacity(opacity);
-                    lastTime++;
-                }
-
-                public void end() {
-                    cardImageView.setOpacity(1);
-                    stop();
-                }
-            };
-            hidenAnimation.start();
-        }
-
         public void ring_rotate(int degree) {
             ring.setRotate(degree);
         }
@@ -553,12 +604,52 @@ public class BattleController extends MyController implements Initializable {
             graphicalBoard.show_available_cells_for_insert(card);
         }
 
+        public void addCard(Card card, boolean delay) {
+            parentPane.getChildren().remove(cardImageView);
+            this.card = card;
+            ImageView cardImageView = new ImageView(new File(card.getGraphicPack().getIdlePhotoAddress()).toURI().toString());
+            this.cardImageView = cardImageView;
+            cardImageView.relocate(0, -paneHeight / 10);
+            cardImageView.setFitWidth(paneWidth);
+            cardImageView.setFitHeight(paneHeight);
+            parentPane.getChildren().remove(upperCircle);
+            cardImageView.setOpacity(0);
+            parentPane.getChildren().add(cardImageView);
+            parentPane.getChildren().add(upperCircle);
+
+            Double risingTime;
+            if (delay) {
+                risingTime = hideAndRiseSpeed;
+            } else {
+                risingTime = 0.0;
+            }
+
+            AnimationTimer hidenAnimation = new AnimationTimer() {
+                int lastTime = 0;
+
+                @Override
+                public void handle(long now) {
+                    if (lastTime > risingTime) end();
+                    Double opacity = cardImageView.getOpacity();
+                    opacity = Math.min(1, opacity + (1 / risingTime));
+                    cardImageView.setOpacity(opacity);
+                    lastTime++;
+                }
+
+                public void end() {
+                    cardImageView.setOpacity(1);
+                    updateNumbers();
+                    stop();
+                }
+            };
+            hidenAnimation.start();
+        }
+
         public void removeCard(boolean delay) {
             if (card == null) return;
-
             Double removeTime;
             if (delay) {
-                removeTime = 50.0;
+                removeTime = hideAndRiseSpeed;
             } else {
                 removeTime = 0.0;
             }
@@ -582,16 +673,33 @@ public class BattleController extends MyController implements Initializable {
                 private void end() {
                     parentPane.getChildren().remove(cardImageView);
                     cardImageView = null;
-                    lbl_manaNumbers.setText("");
-                    lbl_health.setText("");
-                    lbl_attackPower.setText("");
-                    attackPowerImageView.setVisible(false);
-                    healthImageView.setVisible(false);
-                    mana_view.setVisible(false);
+                    updateNumbers();
                     stop();
                 }
             };
             hidenAnimation.start();
+        }
+
+        public void updateNumbers(){
+            if (card == null){
+                lbl_manaNumber.setText("");
+                lbl_health.setText("");
+                lbl_attackPower.setText("");
+                attackPowerImageView.setVisible(false);
+                healthImageView.setVisible(false);
+                mana_view.setVisible(false);
+            }else {
+                if (!(card instanceof Spell)) {
+                    int attackPower = ((Minion) card).get_Real_AttackPower();
+                    int health = ((Minion) card).getHp();
+                    attackPowerImageView.setVisible(true);
+                    lbl_attackPower.setText(String.valueOf(attackPower));
+                    healthImageView.setVisible(true);
+                    lbl_health.setText(String.valueOf(health));
+                }
+                mana_view.setVisible(true);
+                lbl_manaNumber.setText(String.valueOf(card.getMana()));
+            }
         }
 
         public Card getCard() {
@@ -817,19 +925,18 @@ public class BattleController extends MyController implements Initializable {
         private void addImageView(ImageView imageView, boolean delay) {
             final Double risingTime;
             if (delay) {
-                risingTime = 100.0;
+                risingTime = hideAndRiseSpeed;
             } else {
                 risingTime = 0.0;
             }
-
+            parentPane.getChildren().remove(this.imageView);
+            this.imageView = imageView;
             graphicalBoard.reSizeImageViewer(imageView);
             graphicalBoard.relocateImageViewer(imageView);
-            parentPane.getChildren().remove(this.imageView);
             imageView.setOpacity(0);
-            parentPane.getChildren().add(imageView);
             parentPane.getChildren().remove(upperLabel);
+            parentPane.getChildren().add(imageView);
             parentPane.getChildren().add(upperLabel);
-            this.imageView = imageView;
             AnimationTimer hidenAnimation = new AnimationTimer() {
                 int lastTime = 0;
 
@@ -895,7 +1002,7 @@ public class BattleController extends MyController implements Initializable {
         public void removeImageView(boolean delay) {
             final Double removingTime;
             if (delay) {
-                removingTime = 100.0;
+                removingTime = hideAndRiseSpeed;
             } else {
                 removingTime = 0.0;
             }
@@ -968,17 +1075,34 @@ public class BattleController extends MyController implements Initializable {
         }
 
         public void updateHand() {
-            ArrayList<Card> cards = hand.getCards();
-            for (int i = 0; i < Hand.number_of_cards; i++) {
+            for (int i = 0; i <Hand.number_of_cards ; i++) {
                 cardScenes[i].removeCard(true);
-                cardScenes[i].addCard(cards.get(i), true);
             }
-
             graphicNextCard.removeCard(true);
-            Card nextOneCard = hand.getNextOne();
-            if (nextOneCard != null) {
-                graphicNextCard.addCard(hand.getNextOne(), true);
-            }
+
+            AnimationTimer timer = new AnimationTimer() {
+                int lastTime = 0;
+                @Override
+                public void handle(long now) {
+                    if (lastTime>2*hideAndRiseSpeed)end();
+                    lastTime++;
+                }
+                public void end(){
+                    addNewCards();
+                    stop();
+                }
+                public void addNewCards(){
+                    ArrayList<Card> cards = hand.getCards();
+                    for (int i = 0; i < cards.size(); i++) {
+                        cardScenes[i].addCard(cards.get(i), true);
+                    }
+                    Card nextOneCard = hand.getNextOne();
+                    if (nextOneCard != null) {
+                        graphicNextCard.addCard(hand.getNextOne(), true);
+                    }
+                }
+            };
+            timer.start();
         }
 
         public void insertCard(Card card) {
@@ -1142,7 +1266,6 @@ public class BattleController extends MyController implements Initializable {
         public void removeImageViewFromCell(Location location, boolean delay) {
             CellPane cellPane = cellPanes[location.getX()][location.getY()];
             cellPane.removeMinion(delay);
-
         }
 
         public void updateNumbers(Location location) {
@@ -1202,8 +1325,8 @@ public class BattleController extends MyController implements Initializable {
 
         public void lighting(Location location) {
             ImageView imageView = new ImageView(new File("src/resources/sprites/lighting_sprite.png").toURI().toString());
-            imageView.setFitHeight(200);
-            imageView.setFitWidth(200);
+            imageView.setFitHeight(150);
+            imageView.setFitWidth(150);
             imageView.relocate(location.getX(), location.getY());
 
             parentPane.getChildren().add(imageView);
@@ -1284,13 +1407,15 @@ public class BattleController extends MyController implements Initializable {
         public void addCard(Card card, boolean delay) {
             Double risingTime;
             if (delay) {
-                risingTime = 50.0;
+                risingTime = hideAndRiseSpeed;
             } else {
                 risingTime = 0.0;
             }
 
+            parentPane.getChildren().remove(cardImageView);
             ImageView imageView = new ImageView(new Image(new File(card.getGraphicPack().getIdlePhotoAddress()).toURI().toString()));
             this.card = card;
+            this.cardImageView = imageView;
             imageView.relocate(0, -height / 7);
             imageView.setFitHeight(height);
             imageView.setFitWidth(width);
@@ -1325,7 +1450,7 @@ public class BattleController extends MyController implements Initializable {
 
             Double removeTime;
             if (delay) {
-                removeTime = 50.0;
+                removeTime = hideAndRiseSpeed;
             } else {
                 removeTime = 0.0;
             }
@@ -1340,8 +1465,8 @@ public class BattleController extends MyController implements Initializable {
                         Double opacity = cardImageView.getOpacity();
                         opacity = Math.max(0, opacity - (1 / removeTime));
                         cardImageView.setOpacity(opacity);
-                        lastTime++;
                     }
+                    lastTime++;
                 }
 
                 public void end() {

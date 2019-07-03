@@ -342,8 +342,7 @@ public class Battle {
             give_an_effect_to_a_minion(effect, defender);
         }
         //check deaths
-        checkDeath(attacker);
-        checkDeath(defender);
+        check_death_of_all();
     }
 
     public void move(Minion minion, Location target) {
@@ -353,6 +352,7 @@ public class Battle {
         //collecting flags and items...
         collecting_flags_and_items_from_earth(minion, target);
         MyPrinter.green(minion.getCardId() + " moved to cell " + target.getX() + "," + target.getY() + " successfully!");
+        check_death_of_all();
     }
 
     public MatchResult logic() {
@@ -642,6 +642,7 @@ public class Battle {
         players[card.getPlyNum()].getHand().removeCard(card);
         card.setInserted(true);
         MyPrinter.green(card.getCardId() + " inserted in cell " + location.getX() + "," + location.getY() + " successfully!");
+        check_death_of_all();
     }
 
     public boolean canInsert(Card card, Location location, boolean printError) {
@@ -794,8 +795,8 @@ public class Battle {
         TargetForm insiderTargetForm = new TargetForm(0, 0, 9, 5, SideType.insider, ForceType.both, null, true);
         TargetForm enemyTargetForm = new TargetForm(0, 0, 9, 5, SideType.enemy, ForceType.both, null, true);
         ArrayList<Location> allLocations = new ArrayList<>();
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 5; j++) {
+        for (int i = 0; i < Board.width; i++) {
+            for (int j = 0; j < Board.length; j++) {
                 allLocations.add(new Location(i, j));
             }
         }
@@ -876,7 +877,7 @@ public class Battle {
         }
     }
 
-    private void randomSort(ArrayList<Location> locations) {
+    public void randomSort(ArrayList<Location> locations) {
         int l = locations.size();
         Random random = new Random();
         for (int i = 0; i < 3 * l; i++) {
