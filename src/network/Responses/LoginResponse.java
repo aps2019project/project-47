@@ -43,8 +43,12 @@ public class LoginResponse extends Response{
                 break;
             }
         }
-        if (this.account == null)
+        if (requestResult == null)
             requestResult = Constants.INVALID_USERNAME;
+    }
+
+    public Account getAccount() {
+        return account;
     }
 
     @Override

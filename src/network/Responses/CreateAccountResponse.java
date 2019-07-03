@@ -30,19 +30,20 @@ public class CreateAccountResponse extends Response {
             }
         }
 
-
-        Account account = new Account(userName, password);
-        AccountMenu.addAccount(account);
-        YaGsonBuilder gsonBuilder = new YaGsonBuilder();
-        YaGson gson = gsonBuilder.create();
-        try {
-            Formatter formatter = new Formatter("src/JSONs/Accounts/" + userName + ".json");
-            formatter.format(gson.toJson(account));
-            requestResult = Constants.ACCOUNT_CREATE_SUCCESSFULLY;
-            formatter.flush();
-            formatter.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        if (requestResult != Constants.ACCOUNT_EXISTS) {
+            Account account = new Account(userName, password);
+            AccountMenu.addAccount(account);
+            YaGsonBuilder gsonBuilder = new YaGsonBuilder();
+            YaGson gson = gsonBuilder.create();
+            try {
+                Formatter formatter = new Formatter("src/JSONs/Accounts/" + userName + ".json");
+                formatter.format(gson.toJson(account));
+                requestResult = Constants.ACCOUNT_CREATE_SUCCESSFULLY;
+                formatter.flush();
+                formatter.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
 
