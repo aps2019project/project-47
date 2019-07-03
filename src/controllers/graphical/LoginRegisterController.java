@@ -45,26 +45,19 @@ public class LoginRegisterController implements Initializable {
     public Label messageLabelRegister;
     public Label messageLabelLogin;
 
-    public static YaGsonBuilder yaGsonBuilder;
-    public static YaGson yaGson;
+    public static YaGson yaGson = new YaGson();
 
     public void loginButtonAction() throws IOException {
-        yaGsonBuilder = new YaGsonBuilder();
-        yaGson = yaGsonBuilder.create();
-        Constants requestResult = null;
         if (checkFreeBoxes(userNameField, passwordField, messageLabelLogin)) return;
         LoginRequest request = new LoginRequest(userNameField.getText(), passwordField.getText());
         Client.getOut().println(yaGson.toJson(request));
         Client.getOut().flush();
         String responseStr = "";
         LoginResponse response = null;
-        while (Client.getServerScanner().hasNextLine()) {
-            responseStr = Client.getServerScanner().nextLine();
-            response = yaGson.fromJson(responseStr, LoginResponse.class);
-            requestResult = response.getRequestResult();
-            break;
-        }
-            switch (requestResult) {
+        responseStr = Client.getServerScanner().nextLine();
+        response = yaGson.fromJson(responseStr, LoginResponse.class);
+        Constants requestResult = response.getRequestResult();
+        switch (requestResult) {
             case INVALID_USERNAME:
                 userNameField.getStyleClass().add("wrong");
                 userNameField.setText("");
@@ -96,20 +89,14 @@ public class LoginRegisterController implements Initializable {
     }
 
     public void registerButtonAction() {
-        yaGsonBuilder = new YaGsonBuilder();
-        yaGson = yaGsonBuilder.create();
-        Constants requestResult = null;
         if (checkFreeBoxes(newUserNameField, newPasswordField, messageLabelRegister)) return;
         CreateAccountRequest request = new CreateAccountRequest(newUserNameField.getText(), newPasswordField.getText());
         Client.getOut().println(yaGson.toJson(request));
         Client.getOut().flush();
         String responseStr = "";
-        while (Client.getServerScanner().hasNextLine()) {
-            responseStr = Client.getServerScanner().nextLine();
-            Response response = yaGson.fromJson(responseStr, CreateAccountResponse.class);
-            requestResult = response.getRequestResult();
-            break;
-        }
+        responseStr = Client.getServerScanner().nextLine();
+        CreateAccountResponse response = yaGson.fromJson(responseStr, CreateAccountResponse.class);
+        Constants requestResult = response.getRequestResult();
 
         if (requestResult == ACCOUNT_CREATE_SUCCESSFULLY) {
             messageLabelRegister.setText("The account with name " + newUserNameField.getText() + " created.");
@@ -117,8 +104,7 @@ public class LoginRegisterController implements Initializable {
             messageLabelRegister.getStyleClass().add("goodMessage");
             newPasswordField.setText("");
             newUserNameField.setText("");
-        }
-        else if(requestResult == ACCOUNT_EXISTS){
+        } else if (requestResult == ACCOUNT_EXISTS) {
             newUserNameField.getStyleClass().add("wrong");
             messageLabelRegister.getStyleClass().removeIf(style -> !style.equals("badMessage"));
             messageLabelRegister.getStyleClass().add("badMessage");
@@ -168,8 +154,6 @@ public class LoginRegisterController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        yaGsonBuilder = new YaGsonBuilder();
-        yaGson = yaGsonBuilder.create();
         File file = new File("src/JSONs/Accounts/");
         for (File file1 : file.listFiles()) {
             if (file1.getName().contains(".json")) {
