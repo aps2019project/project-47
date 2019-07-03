@@ -39,3 +39,16 @@
     -fx-opacity: 0.5;
     -fx-background-color: green;
 }
+
+.lbl_health{
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+    -fx-fill: green;
+}
+.lbl_attackPower{
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+    -fx-fill: red;
+}
