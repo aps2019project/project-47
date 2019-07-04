@@ -547,7 +547,7 @@ public class Board {
 
 
     public static Parent getRoot() {
-            FXMLLoader fxmlLoader = new FXMLLoader(MainMenu.class.getResource("../../layouts/battlePlane.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(MainMenu.class.getResource("/layouts/battlePlane.fxml"));
             try {
                 root = fxmlLoader.load();
             } catch (IOException e) {

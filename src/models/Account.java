@@ -51,10 +51,10 @@ public class Account implements Cloneable {
         return accountsMapper;
     }
 
-    public static String generateRandomString(){
+    public static String generateRandomString(int length){
         SecureRandom generator = new SecureRandom();
         String result = "";
-        for (int i = 0; i < 32; i++){
+        for (int i = 0; i < length; i++){
             result = result.concat(hexadecimalCharacter(generator.nextInt(16)));
         }
         return result;

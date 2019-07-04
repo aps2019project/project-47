@@ -30,7 +30,7 @@ public class LoginResponse extends Response{
                         if (this.account.getAuthToken() != null) {
                             //todo and error in response that says an other device is logged in with this account
                         }
-                        String authToken = Account.generateRandomString();
+                        String authToken = Account.generateRandomString(32);
                         this.account.setAuthToken(authToken);
                         Account.putAccount(authToken, this.account);
                         requestResult = Constants.SUCCESSFUL_LOGIN;

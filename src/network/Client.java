@@ -1,5 +1,6 @@
 package network;
 
+import com.gilecode.yagson.YaGson;
 import controllers.console.AccountMenu;
 import controllers.console.BattleMenu;
 import controllers.console.MainMenu;
@@ -22,6 +23,7 @@ import models.item.Item;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.Scanner;
 
 public class Client extends Application {
@@ -46,13 +48,13 @@ public class Client extends Application {
     public void start(Stage primaryStage) throws IOException {
 
         {
-//            BufferedReader reader = new BufferedReader(new FileReader("src/network/config"));
-//            int port = Integer.parseInt(reader.readLine());
-//            reader.close();
-//            Socket socket = new Socket("127.0.0.1", port);
-//            out = new PrintWriter(socket.getOutputStream());
-//            DataInputStream serverResponse = new DataInputStream(socket.getInputStream());
-//            serverScanner = new Scanner(serverResponse);
+            BufferedReader reader = new BufferedReader(new FileReader("src/network/config"));
+            int port = Integer.parseInt(reader.readLine());
+            reader.close();
+            Socket socket = new Socket("127.0.0.1", port);
+            out = new PrintWriter(socket.getOutputStream());
+            DataInputStream serverResponse = new DataInputStream(socket.getInputStream());
+            serverScanner = new Scanner(serverResponse);
         }//phase2//
 
         {
@@ -82,9 +84,9 @@ public class Client extends Application {
         stage = primaryStage;
 
 //        Parent root = AccountMenu.getRoot();
-        Parent root = MainMenu.getRoot();
+//        Parent root = MainMenu.getRoot();
 //        Parent root = Shop.getRoot();
-//        Parent root = BattleMenu.getRoot();
+        Parent root = BattleMenu.getRoot();
 //        Parent root = Board.getRoot();
 //        Parent root = FXMLLoader.load(getClass().getResource("../layouts/customCardCreatePage.fxml"));
 //        Parent root = FXMLLoader.load(getClass().getResource("../layouts/Collection.fxml"));

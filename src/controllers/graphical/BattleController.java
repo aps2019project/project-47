@@ -42,6 +42,7 @@ import network.Client;
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Random;
 import java.util.ResourceBundle;
 
@@ -69,7 +70,7 @@ public class BattleController extends MyController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setBackground();
-        setMusic();
+//        setMusic();
         creatBoardCells();
         creatHandScene();
         createButtons();
@@ -1294,7 +1295,7 @@ public class BattleController extends MyController implements Initializable {
 
         public GraphicalBoard() {
             parentPane = new Pane();
-
+            this.board = new Board();
             int width = Board.width;
             int height = Board.length;
             cellWidth = (boardWidth - (cellGap * (width + 1))) / width;
@@ -1954,3 +1955,62 @@ public class BattleController extends MyController implements Initializable {
 
 }
 
+class manaViewer {
+    private boolean rightToLeft;
+    private LinkedList<ImageView> imageViews = new LinkedList<>();
+    private VBox container;
+    private Image activeManaImage;
+    private Image inactiveManaImage;
+
+    public manaViewer(boolean rightToLeft, int panePositionX, int panePositionY, int width, int height, String activeManaAddress, String inActiveManaAddress) {
+        this.rightToLeft = rightToLeft;
+        container = new VBox();
+        container.setPrefWidth(width);
+        container.setPrefHeight(height);
+        container.setLayoutX(panePositionX);
+        container.setLayoutY(panePositionY);
+        this.activeManaImage = new Image(activeManaAddress);
+        this.inactiveManaImage = new Image(inActiveManaAddress);
+        for (int i = 0; i < 10; i++) {
+            if ((i == 0 && rightToLeft) || (i == 9 && !rightToLeft)) {
+                imageViews.add(new ImageView(activeManaImage));
+            } else {
+                imageViews.add(new ImageView(inactiveManaImage));
+            }
+        }
+    }
+
+    public void addMana() {
+        ImageView imageView = new ImageView(activeManaImage);
+        if (rightToLeft) {
+            imageViews.addFirst(imageView);
+            imageViews.removeLast();
+        } else {
+            imageViews.addLast(imageView);
+            imageViews.removeFirst();
+        }
+    }
+
+    public void removeMana() {
+        ImageView imageView = new ImageView(inactiveManaImage);
+        if (rightToLeft) {
+            imageViews.addLast(imageView);
+            imageViews.removeFirst();
+        } else {
+            imageViews.addFirst(imageView);
+            imageViews.removeLast();
+        }
+    }
+
+    public void update() {
+        clearContainer();
+        for (ImageView imageView : imageViews) {
+            container.getChildren().add(imageView);
+        }
+    }
+
+    public void clearContainer() {
+        container.getChildren().remove(0, container.getChildren().size());
+    }
+
+}
