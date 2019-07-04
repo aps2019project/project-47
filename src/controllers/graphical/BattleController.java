@@ -62,6 +62,8 @@ public class BattleController extends MyController implements Initializable {
     private AnimationTimer checker;
     private ImageView background;
     private MediaPlayer music;
+    private boolean nowInAlertt;
+    private GraphicButton specialPower;
 
 
     @Override
@@ -89,8 +91,10 @@ public class BattleController extends MyController implements Initializable {
         stateOfMouseClickeds[1] = StateOfMouseClicked.free;
         turn = battle.getTurn();
         setHeroOnPlane_atStatingBattle();
+        update_specialPower_btn();
         checkerRun();
-//        new MyAlert("Hello\nBattle started.\nWow...\nPashmam......").alert();
+
+        new MyAlert("Hello\nBattle started.\nWow...\nPashmam......").alert();
     }
 
     private void setBackground() {
@@ -148,9 +152,9 @@ public class BattleController extends MyController implements Initializable {
 
         GraphicButton endTurn = new GraphicButton("END TURN");
         endTurn.setSize(300, 100);
-        endTurn.reLocate(1500, 100);
-        endTurn.setColor(Color.RED);
-        endTurn.setImageAddress("src/resources/inBattle/buttons/red.png");
+        endTurn.reLocate(1500, 400);
+        endTurn.setColor(Color.web("#abb056"));
+        endTurn.setImageAddress("src/resources/inBattle/buttons/golden.png");
         endTurn.creat();
         endTurn.setOnClick(event -> {
             if (!players[turn].isHuman()) {
@@ -160,11 +164,11 @@ public class BattleController extends MyController implements Initializable {
         });
         anchorPane.getChildren().add(endTurn.getParentPane());
 
-        GraphicButton specialPower = new GraphicButton("USE SPECIAL POWER");
+        specialPower = new GraphicButton("USE SPECIAL POWER");
         specialPower.setSize(500, 100);
-        specialPower.reLocate(1400, 200);
-        specialPower.setColor(Color.web("#6df25e"));
-        specialPower.setImageAddress("src/resources/inBattle/buttons/green.png");
+        specialPower.reLocate(1400, 320);
+        specialPower.setColor(Color.RED);
+        specialPower.setImageAddress("src/resources/inBattle/buttons/red.png");
         specialPower.creat();
         specialPower.setOnClick(event -> {
             btn_specialPowerClicked();
@@ -172,13 +176,13 @@ public class BattleController extends MyController implements Initializable {
         anchorPane.getChildren().add(specialPower.getParentPane());
 
         GraphicButton help = new GraphicButton("HELP");
-        help.setSize(300, 100);
-        help.reLocate(1500, 300);
-        help.setColor(Color.web("#abb056"));
-        help.setImageAddress("src/resources/inBattle/buttons/golden.png");
+        help.setSize(200, 100);
+        help.reLocate(1550, 480);
+        help.setColor(Color.web("#6df25e"));
+        help.setImageAddress("src/resources/inBattle/buttons/green.png");
         help.creat();
         help.setOnClick(event -> {
-            if (!players[turn].isHuman()){
+            if (!players[turn].isHuman()) {
                 return;
             }
             ai_do_only_one_action();
@@ -187,8 +191,8 @@ public class BattleController extends MyController implements Initializable {
 
 
         GraphicButton changeBackground = new GraphicButton("change background");
-        changeBackground.setSize(270, 100);
-        changeBackground.reLocate(1440, 650);
+        changeBackground.setSize(300, 100);
+        changeBackground.reLocate(1550, 850);
         changeBackground.setColor(Color.BLACK);
         changeBackground.setImageAddress("src/resources/inBattle/buttons/left.png");
         changeBackground.creat();
@@ -206,8 +210,8 @@ public class BattleController extends MyController implements Initializable {
 
 
         GraphicButton chagneMusic = new GraphicButton("change music");
-        chagneMusic.setSize(200, 100);
-        chagneMusic.reLocate(1700, 650);
+        chagneMusic.setSize(300, 100);
+        chagneMusic.reLocate(1550, 950);
         chagneMusic.setColor(Color.BLACK);
         chagneMusic.setImageAddress("src/resources/inBattle/buttons/right.png");
         chagneMusic.creat();
@@ -225,7 +229,7 @@ public class BattleController extends MyController implements Initializable {
 
         GraphicButton info = new GraphicButton("INFO");
         info.setSize(200, 100);
-        info.reLocate(1570, 580);
+        info.reLocate(1600, 750);
         info.setColor(Color.BLACK);
         info.setImageAddress("src/resources/inBattle/buttons/middle.png");
         info.creat();
@@ -239,19 +243,20 @@ public class BattleController extends MyController implements Initializable {
             sb.append(" vs ");
             sb.append(players[1].getUserName());
             sb.append("\n");
-            switch (battle.getMatchType()){
-                case collectFlag:{
-                    sb.append(board.numOfFlagsOfPlayer(0,false));
+            switch (battle.getMatchType()) {
+                case collectFlag: {
+                    sb.append(board.numOfFlagsOfPlayer(0, false));
                     sb.append(" : ");
-                    sb.append(board.numOfFlagsOfPlayer(1,false));
+                    sb.append(board.numOfFlagsOfPlayer(1, false));
                     break;
                 }
-                case keepFlag:{
+                case keepFlag: {
                     sb.append(players[0].getNum_of_turns_with_flags());
                     sb.append(" : ");
                     sb.append(players[1].getNum_of_turns_with_flags());
                     break;
-                }case kill:{
+                }
+                case kill: {
                     sb.append(players[0].getHero().getRealHp());
                     sb.append(" : ");
                     sb.append(players[1].getHero().getRealHp());
@@ -479,6 +484,15 @@ public class BattleController extends MyController implements Initializable {
         graphicalBoard.allCellsNormal();
     }
 
+    private void update_specialPower_btn(){
+        specialPower.hide();
+        if (players[0].isHuman()){
+            if (battle.specialPowerAvalable(players[turn].getHero(),false)){
+                specialPower.show();
+            }
+        }
+    }
+
     private void endTurn() {
 
         aiTimer.stop();
@@ -495,6 +509,7 @@ public class BattleController extends MyController implements Initializable {
         graphicalHand.setHand(players[turn].getHand());
         graphicalHand.updateHand();
         graphicalHand.updateHand();
+        update_specialPower_btn();
 
         if (!players[turn].isHuman()) {
             aiTimer.start();
@@ -592,7 +607,7 @@ public class BattleController extends MyController implements Initializable {
         String string = "game was finished!\n";
         string = string + players[battle.getMatchResult().getWinner()].getUserName();
         string = string + " win!";
-        string =string+"\n--------";
+        string = string + "\n--------";
 
         MyAlert myAlert = new MyAlert(string);
         myAlert.setSpeeds(6000.0, 5.0);
@@ -615,12 +630,13 @@ public class BattleController extends MyController implements Initializable {
         private ImageView attackPowerImageView;
         private Label lbl_health;
         private Label lbl_attackPower;
-        Label lbl_manaNumber;
-        public int paneWidth = 200;
-        public int paneHeight = 200;
-        Circle downerCircle;
-        Circle upperCircle;
-        Card card;
+        private Label lbl_manaNumber;
+        private Label lbl_name;
+        private int paneWidth = 200;
+        private int paneHeight = 200;
+        private Circle downerCircle;
+        private Circle upperCircle;
+        private Card card;
         int numberOfCardScene;
 
         public CardScene(int numberOfCardScene) {
@@ -689,12 +705,18 @@ public class BattleController extends MyController implements Initializable {
             attackPowerImageView.setVisible(false);
 
             lbl_attackPower = new Label();
-            lbl_attackPower.relocate(paneWidth / 1.6, paneHeight / 1.3);
+            lbl_attackPower.relocate(paneWidth / 1.65, paneHeight / 1.3);
             lbl_attackPower.getStyleClass().add("lbl_attackPower");
             lbl_attackPower.setTextFill(Color.RED);
             lbl_attackPower.setAlignment(Pos.CENTER);
             lbl_attackPower.setPrefSize(paneWidth / 5.3, paneHeight / 10);
             parentPane.getChildren().add(lbl_attackPower);
+
+            lbl_name = new Label();
+            lbl_name.relocate(paneWidth/4.5,-paneHeight/10);
+            lbl_name.setAlignment(Pos.CENTER);
+            lbl_name.setTextFill(Color.WHITE);
+            parentPane.getChildren().add(lbl_name);
 
             creatRing();
 
@@ -826,6 +848,7 @@ public class BattleController extends MyController implements Initializable {
                 lbl_manaNumber.setText("");
                 lbl_health.setText("");
                 lbl_attackPower.setText("");
+                lbl_name.setText("");
                 attackPowerImageView.setVisible(false);
                 healthImageView.setVisible(false);
                 mana_view.setVisible(false);
@@ -838,6 +861,7 @@ public class BattleController extends MyController implements Initializable {
                     healthImageView.setVisible(true);
                     lbl_health.setText(String.valueOf(health));
                 }
+                lbl_name.setText(card.getCardId());
                 mana_view.setVisible(true);
                 lbl_manaNumber.setText(String.valueOf(card.getMana()));
             }
@@ -1177,7 +1201,7 @@ public class BattleController extends MyController implements Initializable {
 
     private class GraphicalHand {
         private int x = 50, y = 800;
-        int spaceBetween_nextCard_and_hand = 300;
+        int spaceBetween_nextCard_and_hand = 250;
         private Pane parentPane;
         private HBox hbox;
         private CardScene[] cardScenes;
@@ -1696,6 +1720,14 @@ public class BattleController extends MyController implements Initializable {
         public Label getLabel() {
             return label;
         }
+
+        public void hide(){
+            anchorPane.getChildren().remove(parentPane);
+        }
+        public void show(){
+            hide();
+            anchorPane.getChildren().add(parentPane);
+        }
     }
 
     private enum StateOfMouseClicked {
@@ -1763,7 +1795,11 @@ public class BattleController extends MyController implements Initializable {
         }
 
         public void alert() {
-            comImages();
+            if (!nowInAlertt){
+                comImages();
+                nowInAlertt = true;
+            }
+
         }
 
         public void setSpeeds(Double moveSpeed, Double typingSpeed) {
@@ -1787,6 +1823,7 @@ public class BattleController extends MyController implements Initializable {
 
             upTT.setOnFinished(event -> {
                 anchorPane.getChildren().removeAll(left, right, up);
+                nowInAlertt = false;
             });
 
             leftTT.setOnFinished(finishEventHandler);

@@ -12,6 +12,26 @@ public class Hero extends Minion {
         super(code,name,mp,hp,attackRange,price, CardType.hero,minionTargetsType,ap,specialItem);
         this.setCardType(CardType.hero);
         }
+        public boolean canUseSpecialPower(boolean printError){
+            HeroSpecialItemPack heroPack = getSpecialItem().getHeroPack();
+            if (isUsedSpecialItem()) {
+                if (printError) MyPrinter.red("you used specialItem in this turn!");
+                return false;
+            }
+            if (heroPack == null) {
+                if (printError) MyPrinter.red("special power not exist.");
+                return false;
+            }
+            if (getSpecialItem().getCoolDown().size() == 0) {
+                if (printError) MyPrinter.red("special power not exist.");
+                return false;
+            }
+            if (heroPack.getReminded_coolDown() > 0) {
+                if (printError) MyPrinter.red("you must wait for " + heroPack.getReminded_coolDown() + " turns!");
+                return false;
+            }
+        return true;
+        }
     @Override
     public void do_first_Of_every_Turn_works(){
         usedSpecialItem=false;
