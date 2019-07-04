@@ -154,6 +154,9 @@ public class BattleController extends MyController implements Initializable {
         endTurn.setImageAddress("src/resources/inBattle/buttons/red.png");
         endTurn.creat();
         endTurn.setOnClick(event -> {
+            if (!players[turn].isHuman()){
+                return;
+            }
             endTurn();
         });
         anchorPane.getChildren().add(endTurn.getParentPane());
@@ -189,6 +192,9 @@ public class BattleController extends MyController implements Initializable {
             setBackground();
         });
         changeBackground.setOnClick(event -> {
+            if (!players[turn].isHuman()){
+                return;
+            }
             changeBGAlert.alert();
         });
         anchorPane.getChildren().add(changeBackground.getParentPane());
@@ -205,6 +211,9 @@ public class BattleController extends MyController implements Initializable {
             setMusic();
         });
         chagneMusic.setOnClick(event -> {
+            if (!players[turn].isHuman()){
+                return;
+            }
             chagneMusicAlert.alert();
         });
         anchorPane.getChildren().add(chagneMusic.getParentPane());
@@ -427,9 +436,9 @@ public class BattleController extends MyController implements Initializable {
     }
 
     private void endTurn() {
-        if (!players[turn].isHuman()){
-            return;
-        }
+
+        aiTimer.stop();
+
         battle.changeTurn();
         turn = 1 - turn;
 
