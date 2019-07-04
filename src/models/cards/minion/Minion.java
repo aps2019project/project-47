@@ -78,10 +78,10 @@ public class Minion extends Card implements Cloneable {
     }
 
     public boolean canAttack(boolean printError) {
-//        if (age < 1) {
-//            if (printError) MyPrinter.red("you can't attack by a new inserted minion!");
-//            return false;
-//        }
+        if (age < 1) {
+            if (printError) MyPrinter.red("you can't attack by a new inserted minion!");
+            return false;
+        }
         if (this.get_Real_AttackPower() <= 0) {
             if (printError) MyPrinter.red("attack power of this minion is lower than 0!");
             return false;
@@ -98,10 +98,10 @@ public class Minion extends Card implements Cloneable {
     }
 
     public boolean canMove(boolean printError) {
-//        if (moved_atThisTurn) {
-//            if (printError) MyPrinter.red("minion moved at this turn and cant move again!");
-//            return false;
-//        }
+        if (moved_atThisTurn) {
+            if (printError) MyPrinter.red("minion moved at this turn and cant move again!");
+            return false;
+        }
         if (attacked_atThisTurn) {
             if (printError) MyPrinter.red("minion attacked at this turn and cant move now!");
         }
@@ -328,6 +328,7 @@ public class Minion extends Card implements Cloneable {
     }
 
     public void addNumOfAttacks() {
+        attacked_atThisTurn = true;
         numOfAttacks++;
     }
 

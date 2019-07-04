@@ -1,5 +1,6 @@
 package models.battle;
 
+import controllers.graphical.BattleController;
 import defentions.Defentions;
 import models.battle.board.Board;
 import models.battle.board.Cell;
@@ -36,7 +37,6 @@ public class Battle {
     private MatchResult matchResult;
     private int age;
     private int numOfFlags;
-    public HashMap<Minion,Location> deathMinions;
 
     public Battle(Player player0, Player player1, MatchType matchType, int numOfFlags) {
         this.players = new Player[2];
@@ -48,7 +48,6 @@ public class Battle {
         this.matchResult = null;
         this.age = 0;
         this.numOfFlags = numOfFlags;
-        deathMinions =  new HashMap<>();
         //set heroes at their starting locations...
         board.selectCell(Board.hero0).setMinion(player0.getHero());
         player0.getHero().setLocation(Board.hero0);
@@ -157,7 +156,7 @@ public class Battle {
         return true;
     }
 
-    private void changeTurn() {
+    public void changeTurn() {
         check_death_of_all();
         players[turn].add_num_of_turns_with_flags(board.numOfFlagsOfPlayer(turn, false));
         turn = 1 - turn;
@@ -292,7 +291,9 @@ public class Battle {
             players[minion.getPlyNum()].setSelectedMinion(null);
         }
         board.add_flags_to_aCell(minion.getFlags(), location);
-        deathMinions.put(minion,location);
+        if (Board.getController()!=null){
+            ((BattleController)Board.getController()).death(minion,location);
+        }
     }
 
     private void collecting_flags_and_items_from_earth(Minion minion, Location location) {
@@ -341,8 +342,7 @@ public class Battle {
             give_an_effect_to_a_minion(effect, defender);
         }
         //check deaths
-        checkDeath(attacker);
-        checkDeath(defender);
+        check_death_of_all();
     }
 
     public void move(Minion minion, Location target) {
@@ -352,23 +352,31 @@ public class Battle {
         //collecting flags and items...
         collecting_flags_and_items_from_earth(minion, target);
         MyPrinter.green(minion.getCardId() + " moved to cell " + target.getX() + "," + target.getY() + " successfully!");
+        check_death_of_all();
     }
 
     public MatchResult logic() {
         turn = 1;
         while (true) {
+
             changeTurn();
-            if (checkVictory()) return matchResult;
+
+            if (checkVictory()){
+                return matchResult;
+            }
+
             Player player = this.players[turn];
 
-            boolean flag = false;
+            boolean flag;
 
             if (player.isHuman()) {
                 flag = human_menu(player);
             } else {
                 flag = ai_menu(player);
             }
-            if (flag) return matchResult;
+            if (flag){
+                return matchResult;
+            }
 
         }
     }
@@ -634,6 +642,7 @@ public class Battle {
         players[card.getPlyNum()].getHand().removeCard(card);
         card.setInserted(true);
         MyPrinter.green(card.getCardId() + " inserted in cell " + location.getX() + "," + location.getY() + " successfully!");
+        check_death_of_all();
     }
 
     public boolean canInsert(Card card, Location location, boolean printError) {
@@ -693,7 +702,7 @@ public class Battle {
         return true;
     }
 
-    private void use_special_power(Hero hero, Location location) {
+    public void use_special_power(Hero hero, Location location) {
         if (!canUseSpecialPower(hero, location, true)) return;
         //special power
         SelectionCellPack selectionCellPack = hero.getSpecialItem().getHeroPack().getSelectionCellPack();
@@ -786,8 +795,8 @@ public class Battle {
         TargetForm insiderTargetForm = new TargetForm(0, 0, 9, 5, SideType.insider, ForceType.both, null, true);
         TargetForm enemyTargetForm = new TargetForm(0, 0, 9, 5, SideType.enemy, ForceType.both, null, true);
         ArrayList<Location> allLocations = new ArrayList<>();
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 5; j++) {
+        for (int i = 0; i < Board.width; i++) {
+            for (int j = 0; j < Board.length; j++) {
                 allLocations.add(new Location(i, j));
             }
         }
@@ -868,7 +877,7 @@ public class Battle {
         }
     }
 
-    private void randomSort(ArrayList<Location> locations) {
+    public void randomSort(ArrayList<Location> locations) {
         int l = locations.size();
         Random random = new Random();
         for (int i = 0; i < 3 * l; i++) {
