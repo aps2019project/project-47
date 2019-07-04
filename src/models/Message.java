@@ -17,6 +17,11 @@ public class Message {
     private String textMessage;
     private String time;
     private String messageId;
+
+    public String getSenderUserName() {
+        return senderUserName;
+    }
+
     public Message(String senderUserName, String textMessage) {
         this.senderUserName = senderUserName;
         this.textMessage = textMessage;
@@ -40,10 +45,10 @@ public class Message {
                     "-fx-background-color:  linear-gradient(to right, #757f9a, #d7dde8);");
         Label sender;
         if (mine) {
-            sender = new Label(this.senderUserName);
+            sender = new Label("Me");
         }
         else
-            sender = new Label("Me");
+            sender = new Label(this.senderUserName);
         Font font = Font.font("System", FontWeight.BOLD, 13);
         sender.setFont(font);
         Label time = new Label(this.time);

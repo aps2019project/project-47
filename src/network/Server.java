@@ -1,11 +1,12 @@
 package network;
 
-import models.Account;
+import models.Message;
 import models.Shop;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Server {
@@ -16,6 +17,9 @@ public class Server {
         return shop;
     }
 
+    public static ArrayList<Message> messages = new ArrayList<>();
+
+    public static HashMap<String, Integer> userLastMessageReceivedIndex = new HashMap<>();
 
     public Server(int port) throws IOException {
         ServerSocket serverSocket = new ServerSocket(port);

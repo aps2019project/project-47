@@ -10,7 +10,11 @@
     -fx-max-width: 800;
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;
-    -fx-background-color: black;
+    -fx-background-color: darkgray;
     -fx-alignment: center;
     -fx-padding: 20px;
+}
+
+.scrollPane{
+    -fx-background-color: linear-gradient(to right, #0F2027, #203A43, #2C5364);
 }

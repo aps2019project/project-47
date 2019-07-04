@@ -89,6 +89,20 @@ public class ClientHandler extends Thread {
                 responseStr = gson.toJson(logoutResponse);
                 out.println(responseStr);
                 out.flush();
+                continue;
+            }
+            if (request instanceof UpdateChatRequest){
+                UpdateChatResponse updateChatResponse = new UpdateChatResponse((UpdateChatRequest) request);
+                updateChatResponse.handleRequest();
+                responseStr = gson.toJson(updateChatResponse);
+                out.println(responseStr);
+                out.flush();
+                continue;
+            }
+            if (request instanceof SendMessageRequest){
+                SendMessageResponse sendMessageResponse = new SendMessageResponse((SendMessageRequest) request);
+                sendMessageResponse.handleRequest();
+                continue;
             }
         }
     }
