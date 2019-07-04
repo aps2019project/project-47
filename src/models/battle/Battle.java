@@ -674,30 +674,29 @@ public class Battle {
 
     public boolean canUseSpecialPower(Hero hero, Location target, boolean printError) {
         HeroSpecialItemPack heroPack = hero.getSpecialItem().getHeroPack();
-        if (hero.isUsedSpecialItem()) {
-            if (printError) MyPrinter.red("you used specialItem in this turn!");
+
+        if (!specialPowerAvalable(hero,printError)){
             return false;
         }
-        if (heroPack == null) {
-            if (printError) MyPrinter.red("special power not exist.");
-            return false;
-        }
-        if (hero.getSpecialItem().getCoolDown().size() == 0) {
-            if (printError) MyPrinter.red("special power not exist.");
-            return false;
-        }
-        if (heroPack.getReminded_coolDown() > 0) {
-            if (printError) MyPrinter.red("you must wait for " + heroPack.getReminded_coolDown() + " turns!");
-            return false;
-        }
-        if (heroPack.getMana() > players[hero.getPlyNum()].getMana()) {
-            if (printError) MyPrinter.red("you have not enough mana to use special power!");
-        }
+
         if (heroPack.getSelectionCellPack() != null) {
             if (!check_correcty_selection(heroPack.getSelectionCellPack(), hero.getPlyNum(), target)) {
                 if (printError) MyPrinter.red("selected cell is incorrect!");
                 return false;
             }
+        }
+        return true;
+    }
+
+    public boolean specialPowerAvalable(Hero hero, boolean printError){
+        HeroSpecialItemPack heroPack = hero.getSpecialItem().getHeroPack();
+
+        if (!hero.canUseSpecialPower(printError)){
+            return false;
+        }
+        if (heroPack.getMana() > players[hero.getPlyNum()].getMana()) {
+            if (printError) MyPrinter.red("you have not enough mana to use special power!");
+            return false;
         }
         return true;
     }
@@ -885,6 +884,17 @@ public class Battle {
             int y = random.nextInt(l);
             Collections.swap(locations, x, y);
         }
+    }
+
+    public boolean isThereAnyCellToSpecialPower(int plaNum){
+        for (int i = 0; i < Board.width; i++) {
+            for (int j = 0; j < Board.length; j++) {
+                if (canUseSpecialPower(players[plaNum].getHero(),new Location(i,j),false)){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public int getBoundOfItems() {
