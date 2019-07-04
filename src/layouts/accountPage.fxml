@@ -18,7 +18,7 @@
         <Image url="/resources/buttons/logo.png"/>
     </ImageView>
     <JFXTabPane fx:id="mainPage" styleClass="tabContainer">
-        <Tab text="LOG IN" styleClass="duelystTabName">
+        <Tab textMessage="LOG IN" styleClass="duelystTabName">
             <VBox fx:id="loginTab" styleClass="duelystTab" spacing="20">
                 <JFXTextField fx:id="userNameField" promptText="User Name" styleClass="regular-textBox" prefWidth="400"
                               onKeyReleased="#typeOnUserNameField" prefHeight="80">
@@ -28,12 +28,12 @@
                 </JFXPasswordField>
                 <Label fx:id="messageLabelLogin" styleClass="message, regularMessage" prefWidth="400" prefHeight="30">
                 </Label>
-                <JFXButton fx:id="loginButton" text="LOG IN" styleClass="regularButton" prefWidth="440" prefHeight="80"
+                <JFXButton fx:id="loginButton" textMessage="LOG IN" styleClass="regularButton" prefWidth="440" prefHeight="80"
                            onAction="#loginButtonAction">
                 </JFXButton>
             </VBox>
         </Tab>
-        <Tab text="REGISTER" styleClass="duelystTabName">
+        <Tab textMessage="REGISTER" styleClass="duelystTabName">
             <VBox fx:id="registerTab" styleClass="duelystTab" spacing="20">
                 <JFXTextField fx:id="newUserNameField" promptText="User Name" styleClass="regular-textBox"
                               prefWidth="400" prefHeight="80">
@@ -44,7 +44,7 @@
                 <Label fx:id="messageLabelRegister" styleClass="message, regularMessage" prefWidth="400"
                        prefHeight="30">
                 </Label>
-                <JFXButton fx:id="registerButton" text="REGISTER" styleClass="regularButton" prefWidth="440"
+                <JFXButton fx:id="registerButton" textMessage="REGISTER" styleClass="regularButton" prefWidth="440"
                            prefHeight="80" onAction="#registerButtonAction">
                 </JFXButton>
             </VBox>

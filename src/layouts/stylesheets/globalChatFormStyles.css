@@ -10,7 +10,7 @@
     -fx-max-width: 800;
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;
-    -fx-background-color: rgba(255, 171, 86, 0.41);
+    -fx-background-color: black;
     -fx-alignment: center;
     -fx-padding: 20px;
 }

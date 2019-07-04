@@ -8,21 +8,21 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.textMessage.Font?>
 
 <SplitPane fx:id="allParent" dividerPositions="0.29797979797979796" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.graphical.CollectionController">
     <AnchorPane fx:id="leftBar" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-        <Button fx:id="myDecksButton" layoutX="253.0" layoutY="119.0" mnemonicParsing="false" onAction="#ShowMyDecks" prefHeight="60.0" prefWidth="548.0" style="-fx-background-radius: 60px; -fx-font-weight: 900;" text="MyDecks" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
+        <Button fx:id="myDecksButton" layoutX="253.0" layoutY="119.0" mnemonicParsing="false" onAction="#ShowMyDecks" prefHeight="60.0" prefWidth="548.0" style="-fx-background-radius: 60px; -fx-font-weight: 900;" textMessage="MyDecks" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0">
             <font>
                 <Font size="18.0" />
             </font>
         </Button>
-        <Button fx:id="createNewDeckButton" layoutX="427.0" layoutY="248.0" mnemonicParsing="false" onAction="#createNewDeck" prefHeight="60.0" prefWidth="131.0" style="-fx-font-weight: 900; -fx-background-radius: 60px;" text="Create" AnchorPane.leftAnchor="427.0" AnchorPane.rightAnchor="10.0">
+        <Button fx:id="createNewDeckButton" layoutX="427.0" layoutY="248.0" mnemonicParsing="false" onAction="#createNewDeck" prefHeight="60.0" prefWidth="131.0" style="-fx-font-weight: 900; -fx-background-radius: 60px;" textMessage="Create" AnchorPane.leftAnchor="427.0" AnchorPane.rightAnchor="10.0">
             <font>
                 <Font size="15.0" />
             </font>
         </Button>
-        <Button fx:id="backButton" layoutX="14.0" layoutY="1038.0" mnemonicParsing="false" onAction="#back" prefHeight="90.0" prefWidth="90.0" style="-fx-background-radius: 50%; -fx-border-radius: 50%; -fx-background-color: white;" text="Back" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0">
+        <Button fx:id="backButton" layoutX="14.0" layoutY="1038.0" mnemonicParsing="false" onAction="#back" prefHeight="90.0" prefWidth="90.0" style="-fx-background-radius: 50%; -fx-border-radius: 50%; -fx-background-color: white;" textMessage="Back" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0">
             <font>
                 <Font size="19.0" />
             </font>
@@ -33,18 +33,18 @@
             </font>
         </TextField>
         <VBox fx:id="infoBox" layoutX="234.0" layoutY="539.0" prefHeight="541.0" prefWidth="568.0" AnchorPane.bottomAnchor="120.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-            <Label alignment="CENTER" prefHeight="53.0" prefWidth="568.0" style="-fx-font-weight: 900;" text="Infos:" textAlignment="CENTER">
+            <Label alignment="CENTER" prefHeight="53.0" prefWidth="568.0" style="-fx-font-weight: 900;" textMessage="Infos:" textAlignment="CENTER">
                 <font>
                     <Font size="19.0" />
                 </font>
             </Label>
         </VBox>
-        <Button fx:id="importDeckButton" layoutX="14.0" layoutY="348.0" mnemonicParsing="false" onAction="#showImportableDecks" prefHeight="50.0" prefWidth="269.0" style="-fx-font-weight: 900; -fx-background-radius: 60;" text="Import Deck" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="285.0" AnchorPane.topAnchor="380.0">
+        <Button fx:id="importDeckButton" layoutX="14.0" layoutY="348.0" mnemonicParsing="false" onAction="#showImportableDecks" prefHeight="50.0" prefWidth="269.0" style="-fx-font-weight: 900; -fx-background-radius: 60;" textMessage="Import Deck" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="285.0" AnchorPane.topAnchor="380.0">
             <font>
                 <Font size="19.0" />
             </font>
         </Button>
-        <Button fx:id="exportDeckButton" layoutX="288.0" layoutY="348.0" mnemonicParsing="false" onAction="#showDecksForExport" prefHeight="50.0" prefWidth="269.0" style="-fx-font-weight: 900; -fx-background-radius: 60;" text="Export Deck" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="380.0">
+        <Button fx:id="exportDeckButton" layoutX="288.0" layoutY="348.0" mnemonicParsing="false" onAction="#showDecksForExport" prefHeight="50.0" prefWidth="269.0" style="-fx-font-weight: 900; -fx-background-radius: 60;" textMessage="Export Deck" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="380.0">
             <font>
                 <Font size="19.0" />
             </font>
