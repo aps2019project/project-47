@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.textMessage.Font?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.graphical.MatchHistoryController">
    <children>
@@ -18,7 +18,7 @@
             </VBox>
          </content>
       </ScrollPane>
-      <Button fx:id="backButton" layoutX="14.0" layoutY="966.0" mnemonicParsing="false" onAction="#back" prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 50%; -fx-background-color: white;" textMessage="back">
+      <Button fx:id="backButton" layoutX="14.0" layoutY="966.0" mnemonicParsing="false" onAction="#back" prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 50%; -fx-background-color: white;" text="back">
          <font>
             <Font name="System Bold" size="19.0" />
          </font>

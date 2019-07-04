@@ -68,7 +68,7 @@ public class BattleController extends MyController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setBackground();
-        setMusic();
+//        setMusic();
         creatBoardCells();
         creatHandScene();
         createButtons();
@@ -1271,7 +1271,7 @@ public class BattleController extends MyController implements Initializable {
 
         public GraphicalBoard() {
             parentPane = new Pane();
-
+            this.board = new Board();
             int width = Board.width;
             int height = Board.length;
             cellWidth = (boardWidth - (cellGap * (width + 1))) / width;

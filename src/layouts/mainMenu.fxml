@@ -26,7 +26,7 @@
                 <Image url="/resources/buttons/bullet.png"/>
             </ImageView>
             <Label onMouseClicked="#goToPlayMenu"
-                   prefHeight="40.0" prefWidth="170.0" styleClass="menuName" textMessage="PLAY">
+                   prefHeight="40.0" prefWidth="170.0" styleClass="menuName" text="PLAY">
             </Label>
         </HBox>
         <HBox>
@@ -37,7 +37,7 @@
                 <Image url="/resources/buttons/bullet.png"/>
             </ImageView>
             <Label onMouseClicked="#goToCollectionMenu"
-                   prefHeight="40.0" prefWidth="400.0" styleClass="menuName" textMessage="COLLECTION">
+                   prefHeight="40.0" prefWidth="400.0" styleClass="menuName" text="COLLECTION">
             </Label>
         </HBox>
         <HBox>
@@ -48,7 +48,7 @@
                 <Image url="/resources/buttons/bullet.png"/>
             </ImageView>
             <Label onMouseClicked="#goToCustomCardMenu"
-                   prefHeight="40.0" prefWidth="500.0" styleClass="menuName" textMessage="CUSTOM CARD">
+                   prefHeight="40.0" prefWidth="500.0" styleClass="menuName" text="CUSTOM CARD">
             </Label>
         </HBox>
         <HBox>
@@ -59,7 +59,7 @@
                 <Image url="/resources/buttons/bullet.png"/>
             </ImageView>
             <Label onMouseClicked="#saveAccount"
-                   prefHeight="40.0" prefWidth="500.0" styleClass="menuName" textMessage="SAVE ACCOUNT">
+                   prefHeight="40.0" prefWidth="500.0" styleClass="menuName" text="SAVE ACCOUNT">
             </Label>
         </HBox>
         <HBox>
@@ -70,7 +70,7 @@
                 <Image url="/resources/buttons/bullet.png"/>
             </ImageView>
             <Label onMouseClicked="#goToGlobalChatForm"
-                   prefHeight="40.0" prefWidth="500.0" styleClass="menuName" textMessage="GLOBAL CHAT">
+                   prefHeight="40.0" prefWidth="500.0" styleClass="menuName" text="GLOBAL CHAT">
             </Label>
         </HBox>
         <HBox>
@@ -81,7 +81,7 @@
                 <Image url="/resources/buttons/bullet.png"/>
             </ImageView>
             <Label onMouseClicked="#exit"
-                   prefHeight="40.0" prefWidth="170.0" styleClass="menuName" textMessage="EXIT">
+                   prefHeight="40.0" prefWidth="170.0" styleClass="menuName" text="EXIT">
             </Label>
         </HBox>
         <HBox spacing="30">
@@ -92,14 +92,14 @@
                 <ImageView fitHeight="96" fitWidth="96" styleClass="menuButton" onMouseClicked="#goToShop">
                     <Image url="/resources/buttons/shop.png"/>
                 </ImageView>
-                <Label prefWidth="90" prefHeight="10" textMessage=" SHOP" styleClass="buttonName" onMouseClicked="#goToShop">
+                <Label prefWidth="90" prefHeight="10" text=" SHOP" styleClass="buttonName" onMouseClicked="#goToShop">
                 </Label>
             </VBox>
             <VBox spacing="5">
                 <ImageView fitHeight="96" fitWidth="96" styleClass="menuButton" onMouseClicked="#goToHistoryMenu">
                     <Image url="/resources/buttons/scoreBoard.png"/>
                 </ImageView>
-                <Label prefWidth="90" prefHeight="10" textMessage=" HISTORY" styleClass="buttonName"
+                <Label prefWidth="90" prefHeight="10" text=" HISTORY" styleClass="buttonName"
                        onMouseClicked="#goToHistoryMenu">
                 </Label>
             </VBox>
@@ -107,7 +107,7 @@
                 <ImageView fitHeight="96" fitWidth="96" styleClass="menuButton" onMouseClicked="#logOut">
                     <Image url="/resources/buttons/logout.png"/>
                 </ImageView>
-                <Label prefWidth="90" prefHeight="10" textMessage=" LOGOUT" styleClass="buttonName" onMouseClicked="#logOut">
+                <Label prefWidth="90" prefHeight="10" text=" LOGOUT" styleClass="buttonName" onMouseClicked="#logOut">
                 </Label>
             </VBox>
         </HBox>

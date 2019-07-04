@@ -16,36 +16,36 @@
         <Image url="/resources/buttons/logo.png" />
     </ImageView>
     <JFXTabPane fx:id="mainPage" styleClass="tabContainer">
-        <Tab styleClass="duelystTabName" textMessage="Single player">
+        <Tab styleClass="duelystTabName" text="Single player">
             <VBox fx:id="SingleGameTab" spacing="20" styleClass="duelystTab">
                 <ComboBox fx:id="mode" prefHeight="80" prefWidth="400" promptText="mode" styleClass="regular-textBox">
 
                 </ComboBox>
                 <JFXTextField fx:id="numberOfFlags" prefHeight="80" prefWidth="400" promptText="number of flags" styleClass="regular-textBox">
                 </JFXTextField>
-                <JFXButton fx:id="startSinglePlayer" onAction="#startSinglePlayer" prefHeight="80" prefWidth="440" styleClass="regularButton" textMessage="Start">
+                <JFXButton fx:id="startSinglePlayer" onAction="#startSinglePlayer" prefHeight="80" prefWidth="440" styleClass="regularButton" text="Start">
                 </JFXButton>
             </VBox>
         </Tab>
-        <Tab styleClass="duelystTabName" textMessage="Story">
+        <Tab styleClass="duelystTabName" text="Story">
             <VBox fx:id="storyGameTab" spacing="20" styleClass="duelystTab">
 
                 <Label fx:id="levelOfStoryGame" prefHeight="30" prefWidth="400" styleClass="message, regularMessage">
                 </Label>
 
-                <JFXButton fx:id="startStoryGame" onAction="#startStoryGame" prefHeight="80" prefWidth="440" styleClass="regularButton" textMessage="Start">
+                <JFXButton fx:id="startStoryGame" onAction="#startStoryGame" prefHeight="80" prefWidth="440" styleClass="regularButton" text="Start">
                 </JFXButton>
             </VBox>
         </Tab>
-        <Tab styleClass="duelystTabName" textMessage="Multi player">
+        <Tab styleClass="duelystTabName" text="Multi player">
             <VBox fx:id="multiPlayerGameTab" spacing="20" styleClass="duelystTab">
                 <ComboBox fx:id="otherPlayers" prefHeight="80" prefWidth="400" promptText="opponent" styleClass="regular-textBox">
 
                 </ComboBox>
-                <JFXButton fx:id="StartMultiPlayerGame" onAction="#startMultiPlayerGame" prefHeight="80" prefWidth="440" styleClass="regularButton" textMessage="Start">
+                <JFXButton fx:id="StartMultiPlayerGame" onAction="#startMultiPlayerGame" prefHeight="80" prefWidth="440" styleClass="regularButton" text="Start">
                 </JFXButton>
             </VBox>
         </Tab>
     </JFXTabPane>
-    <JFXButton fx:id="btn_back" onAction="#back" styleClass="backButton"  textMessage="back"/>
+    <JFXButton fx:id="btn_back" onAction="#back" styleClass="backButton"  text="back"/>
 </VBox>

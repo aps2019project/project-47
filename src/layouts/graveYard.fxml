@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.textMessage.Font?>
+<?import javafx.scene.text.Font?>
 
 <SplitPane fx:id="parentOfAll" dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="864.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.graphical.GraveYardController">
   <items>
@@ -35,12 +35,12 @@
                   </GridPane>
                </content>
             </ScrollPane>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="441.0" layoutY="-1.0" prefHeight="92.0" prefWidth="74.0" textMessage="Player 1" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="441.0" layoutY="-1.0" prefHeight="92.0" prefWidth="74.0" text="Player 1" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
-            <Button fx:id="backButton" layoutX="14.0" layoutY="768.0" mnemonicParsing="false" onAction="#back" prefHeight="80.0" prefWidth="80.0" style="-fx-background-radius: 50%;" textMessage="Back" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
+            <Button fx:id="backButton" layoutX="14.0" layoutY="768.0" mnemonicParsing="false" onAction="#back" prefHeight="80.0" prefWidth="80.0" style="-fx-background-radius: 50%;" text="Back" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
                <font>
                   <Font name="System Bold" size="19.0" />
                </font>
@@ -69,7 +69,7 @@
                   </GridPane>
                </content>
             </ScrollPane>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="92.0" prefWidth="74.0" textMessage="Player 2" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="92.0" prefWidth="74.0" text="Player 2" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
