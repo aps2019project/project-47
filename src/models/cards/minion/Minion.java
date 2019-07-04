@@ -328,6 +328,7 @@ public class Minion extends Card implements Cloneable {
     }
 
     public void addNumOfAttacks() {
+        attacked_atThisTurn = true;
         numOfAttacks++;
     }
 

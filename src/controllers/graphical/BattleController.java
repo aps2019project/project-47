@@ -1,6 +1,7 @@
 package controllers.graphical;
 
 import controllers.MyController;
+import controllers.console.BattleMenu;
 import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
 import javafx.animation.TranslateTransition;
@@ -36,6 +37,7 @@ import models.cards.minion.Minion;
 import models.cards.minion.SideType;
 import models.cards.spell.Spell;
 import models.cards.spell.TargetForm;
+import network.Client;
 
 import java.io.File;
 import java.net.URL;
@@ -56,7 +58,6 @@ public class BattleController extends MyController implements Initializable {
     private StateOfMouseClicked[] stateOfMouseClickeds;
     private int turn;
     private Player[] players;
-    private Label stateViewer;
     private AnimationTimer aiTimer;
     private AnimationTimer checker;
     private ImageView background;
@@ -89,7 +90,7 @@ public class BattleController extends MyController implements Initializable {
         turn = battle.getTurn();
         setHeroOnPlane_atStatingBattle();
         checkerRun();
-        new MyAlert("Hello\nBattle started.\nWow...\nPashmam......").alert();
+//        new MyAlert("Hello\nBattle started.\nWow...\nPashmam......").alert();
     }
 
     private void setBackground() {
@@ -135,14 +136,12 @@ public class BattleController extends MyController implements Initializable {
                         battleFinish();
                     }
                 }
-                stateViewer.setText("0:" + stateOfMouseClickeds[0] + "---1:" + stateOfMouseClickeds[1]);
                 lastTime++;
 
             }
         };
         checker.start();
     }
-
 
 
     public void createButtons() {
@@ -154,7 +153,7 @@ public class BattleController extends MyController implements Initializable {
         endTurn.setImageAddress("src/resources/inBattle/buttons/red.png");
         endTurn.creat();
         endTurn.setOnClick(event -> {
-            if (!players[turn].isHuman()){
+            if (!players[turn].isHuman()) {
                 return;
             }
             endTurn();
@@ -172,27 +171,33 @@ public class BattleController extends MyController implements Initializable {
         });
         anchorPane.getChildren().add(specialPower.getParentPane());
 
-        GraphicButton state = new GraphicButton("state");
-        state.setSize(1000, 100);
-        state.reLocate(400, 0);
-        state.setColor(Color.BLUE);
-        state.setImageAddress("src/resources/inBattle/buttons/green.png");
-        state.creat();
-        stateViewer = state.getLabel();
-        anchorPane.getChildren().add(state.getParentPane());
+        GraphicButton help = new GraphicButton("HELP");
+        help.setSize(300, 100);
+        help.reLocate(1500, 300);
+        help.setColor(Color.web("#abb056"));
+        help.setImageAddress("src/resources/inBattle/buttons/golden.png");
+        help.creat();
+        help.setOnClick(event -> {
+            if (!players[turn].isHuman()){
+                return;
+            }
+            ai_do_only_one_action();
+        });
+        anchorPane.getChildren().add(help.getParentPane());
+
 
         GraphicButton changeBackground = new GraphicButton("change background");
-        changeBackground.setSize(300, 100);
-        changeBackground.reLocate(50, 500);
-        changeBackground.setColor(Color.RED);
-        changeBackground.setImageAddress("src/resources/inBattle/buttons/red.png");
+        changeBackground.setSize(270, 100);
+        changeBackground.reLocate(1440, 650);
+        changeBackground.setColor(Color.BLACK);
+        changeBackground.setImageAddress("src/resources/inBattle/buttons/left.png");
         changeBackground.creat();
         MyAlert changeBGAlert = new MyAlert("changing background");
         changeBGAlert.setMiddleEventHandler(event -> {
             setBackground();
         });
         changeBackground.setOnClick(event -> {
-            if (!players[turn].isHuman()){
+            if (!players[turn].isHuman()) {
                 return;
             }
             changeBGAlert.alert();
@@ -201,24 +206,63 @@ public class BattleController extends MyController implements Initializable {
 
 
         GraphicButton chagneMusic = new GraphicButton("change music");
-        chagneMusic.setSize(300, 100);
-        chagneMusic.reLocate(50, 600);
-        chagneMusic.setColor(Color.RED);
-        chagneMusic.setImageAddress("src/resources/inBattle/buttons/red.png");
+        chagneMusic.setSize(200, 100);
+        chagneMusic.reLocate(1700, 650);
+        chagneMusic.setColor(Color.BLACK);
+        chagneMusic.setImageAddress("src/resources/inBattle/buttons/right.png");
         chagneMusic.creat();
         MyAlert chagneMusicAlert = new MyAlert("changing music");
         chagneMusicAlert.setMiddleEventHandler(event -> {
             setMusic();
         });
         chagneMusic.setOnClick(event -> {
-            if (!players[turn].isHuman()){
+            if (!players[turn].isHuman()) {
                 return;
             }
             chagneMusicAlert.alert();
         });
         anchorPane.getChildren().add(chagneMusic.getParentPane());
 
-
+        GraphicButton info = new GraphicButton("INFO");
+        info.setSize(200, 100);
+        info.reLocate(1570, 580);
+        info.setColor(Color.BLACK);
+        info.setImageAddress("src/resources/inBattle/buttons/middle.png");
+        info.creat();
+        info.setOnClick(event -> {
+            if (!players[turn].isHuman()) {
+                return;
+            }
+            StringBuilder sb = new StringBuilder();
+            sb.append("Battle\n");
+            sb.append(players[0].getUserName());
+            sb.append(" vs ");
+            sb.append(players[1].getUserName());
+            sb.append("\n");
+            switch (battle.getMatchType()){
+                case collectFlag:{
+                    sb.append(board.numOfFlagsOfPlayer(0,false));
+                    sb.append(" : ");
+                    sb.append(board.numOfFlagsOfPlayer(1,false));
+                    break;
+                }
+                case keepFlag:{
+                    sb.append(players[0].getNum_of_turns_with_flags());
+                    sb.append(" : ");
+                    sb.append(players[1].getNum_of_turns_with_flags());
+                    break;
+                }case kill:{
+                    sb.append(players[0].getHero().getRealHp());
+                    sb.append(" : ");
+                    sb.append(players[1].getHero().getRealHp());
+                    break;
+                }
+            }
+            sb.append("\n");
+            sb.append("--------");
+            new MyAlert(sb.toString()).alert();
+        });
+        anchorPane.getChildren().add(info.getParentPane());
     }
 
     private void creatBoardCells() {
@@ -258,7 +302,6 @@ public class BattleController extends MyController implements Initializable {
             }
         };
     }
-
 
 
     public ImageView creatImageViewerOfMinion(Minion minion, MinionImageViewType minionImageViewType) {
@@ -421,8 +464,8 @@ public class BattleController extends MyController implements Initializable {
         freeClick(turn);
     }
 
-    public void btn_specialPowerClicked(){
-        if (!players[turn].isHuman()){
+    public void btn_specialPowerClicked() {
+        if (!players[turn].isHuman()) {
             return;
         }
         stateOfMouseClickeds[turn] = StateOfMouseClicked.specialPowerClicked;
@@ -433,6 +476,7 @@ public class BattleController extends MyController implements Initializable {
         graphicalBoard.lighting(graphicalBoard.getLocateOfAnImage_inParentPane(location));
         battle.use_special_power(hero, location);
         graphicalBoard.updateAllCellsNumbers();
+        graphicalBoard.allCellsNormal();
     }
 
     private void endTurn() {
@@ -545,18 +589,20 @@ public class BattleController extends MyController implements Initializable {
             }
         };
 
-        String string = "game was finished!";
+        String string = "game was finished!\n";
+        string = string + players[battle.getMatchResult().getWinner()].getUserName();
+        string = string + " win!";
+        string =string+"\n--------";
+
         MyAlert myAlert = new MyAlert(string);
         myAlert.setSpeeds(6000.0, 5.0);
         myAlert.setOnfinishEvent(event -> {
-            System.exit(1);
+            Client.getStage().getScene().setRoot(BattleMenu.getRoot());
         });
         myAlert.alert();
         hidenTimer.start();
 
     }
-
-
 
 
     private class CardScene {
@@ -859,7 +905,7 @@ public class BattleController extends MyController implements Initializable {
 
             lbl_attackPower = new Label();
             lbl_attackPower.getStyleClass().add("lbl_attackPower");
-            lbl_attackPower.relocate(cellWidth / 1.2, cellHeight / 1.5);
+            lbl_attackPower.relocate(cellWidth / 1.25, cellHeight / 1.5);
             lbl_attackPower.setTextFill(Color.RED);
             parentPane.getChildren().add(lbl_attackPower);
 
@@ -1632,7 +1678,7 @@ public class BattleController extends MyController implements Initializable {
             label.setPrefSize(width * 0.7, height * 0.7);
             label.setStyle("-fx-font-weight: bold;" +
                     "-fx-alignment: center;" +
-                    "-fx-font-size: " + Math.min(width/(0.8*buttonText.length()),height/3) + ";");
+                    "-fx-font-size: " + Math.min(width / (0.8 * buttonText.length()), height / 3) + ";");
             label.setTextFill(textColor);
             label.setOnMouseEntered(event -> {
                 label.setTextFill(Color.WHITE);
