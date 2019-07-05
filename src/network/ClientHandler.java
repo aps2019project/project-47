@@ -102,6 +102,11 @@ public class ClientHandler extends Thread {
             if (request instanceof SendMessageRequest){
                 SendMessageResponse sendMessageResponse = new SendMessageResponse((SendMessageRequest) request);
                 sendMessageResponse.handleRequest();
+                for (ClientHandler clientHandler : Server.clientHandlers){
+                    ReceiveMessageResponse receiveMessageResponse = new ReceiveMessageResponse(((SendMessageRequest)request).getMessage());
+                    clientHandler.getOut().println(receiveMessageResponse);
+                    clientHandler.getOut().flush();
+                }
                 continue;
             }
         }

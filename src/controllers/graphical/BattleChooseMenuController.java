@@ -7,6 +7,7 @@ import controllers.MyController;
 import controllers.console.AccountMenu;
 import controllers.console.MainMenu;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -17,6 +18,8 @@ import models.battle.Player;
 import models.battle.StoryGame;
 import models.battle.board.Board;
 import network.Client;
+
+import java.io.IOException;
 
 public class BattleChooseMenuController extends MyController {
     public ComboBox mode;
@@ -48,9 +51,7 @@ public class BattleChooseMenuController extends MyController {
         Parent root=Board.getRoot();
         BattleController controller = (BattleController) Board.getController();
         controller.initializeBattle(battle);
-        Client.getStage().getScene().setRoot(root);
-
-
+        //Client.getStage().getScene().setRoot(root);
     }
 
     public void startMultiPlayerGame(ActionEvent event) {

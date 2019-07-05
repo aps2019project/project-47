@@ -34,6 +34,7 @@ public class GlobalChatController implements Initializable {
                 BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(
                 100, 100, true, true, true, true)));
         sendButton.setBackground(background);
+        update();
     }
     @FXML
     private void update() {
