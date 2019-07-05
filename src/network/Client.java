@@ -55,7 +55,7 @@ public class Client extends Application {
             out = new PrintWriter(socket.getOutputStream());
             DataInputStream serverResponse = new DataInputStream(socket.getInputStream());
             serverScanner = new Scanner(serverResponse);
-        }//phase2//
+        }//phase3//
 
         {
             Shop shop = Shop.getInstance();
@@ -84,9 +84,9 @@ public class Client extends Application {
         stage = primaryStage;
 
 //        Parent root = AccountMenu.getRoot();
-//        Parent root = MainMenu.getRoot();
+        Parent root = MainMenu.getRoot();
 //        Parent root = Shop.getRoot();
-        Parent root = BattleMenu.getRoot();
+//        Parent root = BattleMenu.getRoot();
 //        Parent root = Board.getRoot();
 //        Parent root = FXMLLoader.load(getClass().getResource("../layouts/customCardCreatePage.fxml"));
 //        Parent root = FXMLLoader.load(getClass().getResource("../layouts/Collection.fxml"));

@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 
 public class Battle {
     private int boundOfItems = 3;
-    public static final int maxMana = 100;
+    public static final int maxMana = 20;
     public static final int manaEachTurn = 5;
     private static int keepFlagToVictory = 6;
     private static Scanner scanner = new Scanner(System.in);

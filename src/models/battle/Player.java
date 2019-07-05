@@ -133,8 +133,11 @@ public class Player {
         }
     }
     public void mana_rise(int value){
-        if (mana<=Battle.maxMana-value)
-        this.mana=mana+value;
+        if (mana+value>Battle.maxMana){
+            mana=Battle.maxMana;
+        }else {
+            mana = mana + value;
+        }
     }
     public boolean have_enough_mana(int value){
         if (mana<value)return false;

@@ -48,7 +48,7 @@ import java.util.ResourceBundle;
 
 public class BattleController extends MyController implements Initializable {
     Double hideAndRiseSpeed = 50.0;
-    Double aiPlayerSpeed = 300.0;
+    Double aiPlayerSpeed = 150.0;
 
     public AnchorPane anchorPane;
     private Board board;
@@ -65,16 +65,18 @@ public class BattleController extends MyController implements Initializable {
     private MediaPlayer music;
     private boolean nowInAlertt;
     private GraphicButton specialPower;
+    private ManaViewer[] manaViewers;
 
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setBackground();
-//        setMusic();
+        setMusic();
         creatBoardCells();
         creatHandScene();
         createButtons();
         creatAiPlayer();
+        creatManaViewers();
     }
 
 
@@ -84,7 +86,8 @@ public class BattleController extends MyController implements Initializable {
         graphicalBoard.setBoard(board);
         playerSelectedCard = new Card[2];
         players = battle.getPlayers();
-        players[0].mana_rise(100);
+        players[0].mana_rise(2);
+        players[1].mana_rise(2);
         graphicalHand.setHand(players[0].getHand());
         graphicalHand.updateHand();
         stateOfMouseClickeds = new StateOfMouseClicked[2];
@@ -92,10 +95,12 @@ public class BattleController extends MyController implements Initializable {
         stateOfMouseClickeds[1] = StateOfMouseClicked.free;
         turn = battle.getTurn();
         setHeroOnPlane_atStatingBattle();
+        manaViewers[0].update();
+        manaViewers[1].update();
         update_specialPower_btn();
         checkerRun();
 
-        new MyAlert("Hello\nBattle started.\nWow...\nPashmam......").alert();
+        new MyAlert("Hello\nBattle started.\nWow...\nPashmam......").start();
     }
 
     private void setBackground() {
@@ -205,7 +210,7 @@ public class BattleController extends MyController implements Initializable {
             if (!players[turn].isHuman()) {
                 return;
             }
-            changeBGAlert.alert();
+            changeBGAlert.start();
         });
         anchorPane.getChildren().add(changeBackground.getParentPane());
 
@@ -224,9 +229,22 @@ public class BattleController extends MyController implements Initializable {
             if (!players[turn].isHuman()) {
                 return;
             }
-            chagneMusicAlert.alert();
+            chagneMusicAlert.start();
         });
         anchorPane.getChildren().add(chagneMusic.getParentPane());
+
+        GraphicButton closeButton = new GraphicButton("   ");
+        closeButton.setSize(100, 100);
+        closeButton.reLocate(1820, 0);
+        closeButton.setImageAddress("src/resources/inBattle/buttons/close.png");
+        closeButton.setColor(Color.BLACK);
+        closeButton.creat();
+        closeButton.setOnClick(event -> {
+            battleFinish();
+        });
+        anchorPane.getChildren().add(closeButton.getParentPane());
+
+
 
         GraphicButton info = new GraphicButton("INFO");
         info.setSize(200, 100);
@@ -266,9 +284,11 @@ public class BattleController extends MyController implements Initializable {
             }
             sb.append("\n");
             sb.append("--------");
-            new MyAlert(sb.toString()).alert();
+            new MyAlert(sb.toString()).start();
         });
         anchorPane.getChildren().add(info.getParentPane());
+
+
     }
 
     private void creatBoardCells() {
@@ -307,6 +327,18 @@ public class BattleController extends MyController implements Initializable {
                 stop();
             }
         };
+    }
+
+    public void creatManaViewers() {
+        manaViewers = new ManaViewer[2];
+
+        manaViewers[0] = new ManaViewer(false, 0);
+        manaViewers[0].parentPane.relocate(30, 20);
+        anchorPane.getChildren().add(manaViewers[0].parentPane);
+
+        manaViewers[1] = new ManaViewer(true, 1);
+        manaViewers[1].parentPane.relocate(150, 20);
+        anchorPane.getChildren().add(manaViewers[1].parentPane);
     }
 
 
@@ -363,6 +395,7 @@ public class BattleController extends MyController implements Initializable {
         graphicalBoard.insertCard(card, location);
         MyMediaPlayer.playEffectSoundOfACard(card, soundType.spawn);
         battle.insert(card, location);
+        manaViewers[turn].update();
         graphicalBoard.updateAllCellsNumbers();
         freeClick(turn);
     }
@@ -481,14 +514,15 @@ public class BattleController extends MyController implements Initializable {
     private void useSpecialPower(Hero hero, Location location) {
         graphicalBoard.lighting(graphicalBoard.getLocateOfAnImage_inParentPane(location));
         battle.use_special_power(hero, location);
+        manaViewers[turn].update();
         graphicalBoard.updateAllCellsNumbers();
         graphicalBoard.allCellsNormal();
     }
 
-    private void update_specialPower_btn(){
+    private void update_specialPower_btn() {
         specialPower.hide();
-        if (players[0].isHuman()){
-            if (battle.specialPowerAvalable(players[turn].getHero(),false)){
+        if (players[0].isHuman()) {
+            if (battle.specialPowerAvalable(players[turn].getHero(), false)) {
                 specialPower.show();
             }
         }
@@ -501,20 +535,26 @@ public class BattleController extends MyController implements Initializable {
         battle.changeTurn();
         turn = 1 - turn;
 
-        String string = "It's turn of " + players[turn].getUserName() + " .";
-        string = string + " \njust a moment ...";
-        new MyAlert(string).alert();
-
         freeClick(0);
         freeClick(1);
-        graphicalHand.setHand(players[turn].getHand());
-        graphicalHand.updateHand();
-        graphicalHand.updateHand();
-        update_specialPower_btn();
 
-        if (!players[turn].isHuman()) {
-            aiTimer.start();
-        }
+        String string = "It's turn of " + players[turn].getUserName() + " .";
+        string = string + " \njust a moment ...";
+        MyAlert myAlert = new MyAlert(string);
+        myAlert.setOnfinishEvent(event -> {
+            update_specialPower_btn();
+
+            if (!players[turn].isHuman()) {
+                aiTimer.start();
+            }
+
+            graphicalHand.setHand(players[turn].getHand());
+            graphicalHand.updateHand();
+            graphicalHand.updateHand();
+            manaViewers[turn].update();
+        });
+        myAlert.start();
+
     }
 
     private boolean ai_do_only_one_action() {
@@ -606,17 +646,24 @@ public class BattleController extends MyController implements Initializable {
         };
 
         String string = "game was finished!\n";
-        string = string + players[battle.getMatchResult().getWinner()].getUserName();
-        string = string + " win!";
-        string = string + "\n--------";
+        if (battle.getMatchResult()!=null){
+            string = string + players[battle.getMatchResult().getWinner()].getUserName();
+            string = string + " win!";
+            string = string + "\n--------";
+            analyseMatchResult();
+        }
 
         MyAlert myAlert = new MyAlert(string);
         myAlert.setSpeeds(6000.0, 5.0);
         myAlert.setOnfinishEvent(event -> {
             Client.getStage().getScene().setRoot(BattleMenu.getRoot());
         });
-        myAlert.alert();
+        myAlert.start();
         hidenTimer.start();
+
+    }
+
+    public void analyseMatchResult(){
 
     }
 
@@ -714,7 +761,7 @@ public class BattleController extends MyController implements Initializable {
             parentPane.getChildren().add(lbl_attackPower);
 
             lbl_name = new Label();
-            lbl_name.relocate(paneWidth/4.5,-paneHeight/10);
+            lbl_name.relocate(paneWidth / 4.5, -paneHeight / 10);
             lbl_name.setAlignment(Pos.CENTER);
             lbl_name.setTextFill(Color.WHITE);
             parentPane.getChildren().add(lbl_name);
@@ -1420,7 +1467,7 @@ public class BattleController extends MyController implements Initializable {
         }
 
         private Location locateOfImageInCellPane() {
-            return new Location((int) (-graphicalBoard.cellWidth / 3), (int) (-graphicalBoard.cellHeight / 1.7));
+            return new Location((-graphicalBoard.cellWidth / 3), (int) (-graphicalBoard.cellHeight / 1.7));
         }
 
         public Location getLocateOfAnImage_inParentPane(Location location) {
@@ -1541,6 +1588,13 @@ public class BattleController extends MyController implements Initializable {
             downerImageView.setFitWidth(width);
             downerImageView.relocate(0, 0);
             parentPane.getChildren().add(downerImageView);
+
+            Label label = new Label("NEXT CARD");
+            label.setStyle("-fx-text-fill: blue;" +
+                    "-fx-font-size: 40;" +
+                    "-fx-font-weight: bold");
+            label.relocate(width/10,-height/5);
+            parentPane.getChildren().add(label);
 
             creatRing();
         }
@@ -1722,76 +1776,138 @@ public class BattleController extends MyController implements Initializable {
             return label;
         }
 
-        public void hide(){
+        public void hide() {
             anchorPane.getChildren().remove(parentPane);
         }
-        public void show(){
+
+        public void show() {
             hide();
             anchorPane.getChildren().add(parentPane);
         }
     }
 
 
-    class manaViewer {
-        int addAndRemoveTime = 10;
-        private boolean rightToLeft;
+    class ManaViewer {
+        int plyNum;
+        int count;
+        int containerWidth = 1500;
+        int conainerHeight = 100;
+        int faceSize = 150;
+        int manaSize = 60;
+        public Pane parentPane;
+        private ImageView face;
+        Double addAndRemoveTime = 10.0;
         private LinkedList<ImageView> imageViews = new LinkedList<>();
-        private VBox container;
-        private Image activeManaImage;
-        private Image inactiveManaImage;
+        private HBox container;
 
-        public manaViewer(boolean rightToLeft, int panePositionX, int panePositionY, int width, int height, String activeManaAddress, String inActiveManaAddress) {
-            this.rightToLeft = rightToLeft;
-            container = new VBox();
-            container.setPrefWidth(width);
-            container.setPrefHeight(height);
-            container.setLayoutX(panePositionX);
-            container.setLayoutY(panePositionY);
-            this.activeManaImage = new Image(activeManaAddress);
-            this.inactiveManaImage = new Image(inActiveManaAddress);
-            for (int i = 0; i < 10; i++) {
-                if ((i == 0 && rightToLeft) || (i == 9 && !rightToLeft)) {
-                    imageViews.add(new ImageView(activeManaImage));
-                } else {
-                    imageViews.add(new ImageView(inactiveManaImage));
-                }
+        public ManaViewer(boolean rightToLeft, int plyNum) {
+            this.plyNum = plyNum;
+            count = 0;
+            imageViews = new LinkedList<>();
+            parentPane = new Pane();
+
+            int r = new Random().nextInt(15);
+            face = new ImageView(new Image(new File("src/resources/inBattle/mana/face/" + r + ".png").toURI().toString()));
+            face.setFitHeight(faceSize);
+            face.setFitWidth(faceSize);
+            parentPane.getChildren().add(face);
+
+            container = new HBox();
+            container.setPrefSize(containerWidth, conainerHeight);
+            parentPane.getChildren().add(container);
+
+            if (rightToLeft) {
+                face.relocate(containerWidth, 0);
+                container.relocate(0, -conainerHeight/5);
+                container.setRotate(180);
+            } else {
+                face.relocate(0, 0);
+                container.relocate(faceSize, faceSize / 1.5);
             }
         }
 
-        public void addMana(int value) {
-            for (int i = 0; i <value ; i++) {
-
-                ImageView imageView = new ImageView(activeManaImage);
-                if (rightToLeft) {
-                    imageViews.addFirst(imageView);
-                    imageViews.removeLast();
-                } else {
-                    imageViews.addLast(imageView);
-                    imageViews.removeFirst();
-                }
+        public synchronized void update() {
+            int realValue = players[plyNum].getMana();
+            if (realValue > count) {
+                addMana(realValue - count);
+            } else if (realValue < count) {
+                removeMana(count - realValue);
             }
         }
 
-        public void removeMana(int value) {
-            for (int i = 0; i <value ; i++) {
-                ImageView imageView = new ImageView(inactiveManaImage);
-                if (rightToLeft) {
-                    imageViews.addLast(imageView);
-                    imageViews.removeFirst();
-                } else {
-                    imageViews.addFirst(imageView);
-                    imageViews.removeLast();
+        private void addMana(int value) {
+
+            count += value;
+
+            AnimationTimer addingTimer = new AnimationTimer() {
+                int lastTime = 0;
+
+                @Override
+                public void handle(long now) {
+                    if (lastTime % addAndRemoveTime == 0) {
+                        addNewImageViewer();
+                    }
+                    brighting();
+                    lastTime++;
+                    if (lastTime == (value * addAndRemoveTime - 1)) {
+                        end();
+                    }
                 }
-            }
+
+                public void brighting() {
+                    Double opacity = imageViews.getLast().getOpacity();
+                    opacity = Math.min(1, opacity + (1 / addAndRemoveTime));
+                    imageViews.getLast().setOpacity(opacity);
+                }
+
+                public void addNewImageViewer() {
+
+                    ImageView newOne = new ImageView(new Image(new File("src/resources/inBattle/mana/icon_mana.png").toURI().toString()));
+                    newOne.setFitWidth(manaSize);
+                    newOne.setFitHeight(manaSize);
+                    newOne.setOpacity(0);
+                    container.getChildren().add(newOne);
+                    imageViews.addLast(newOne);
+                }
+
+                public void end() {
+                    stop();
+                }
+            };
+            addingTimer.start();
         }
 
-        public void setValue(int value) {
-            clearContainer();
-            addMana(value);
-        }
+        private void removeMana(int value) {
 
-        public void clearContainer() {
-            container.getChildren().clear();
+            count -= value;
+
+            AnimationTimer removingTimer = new AnimationTimer() {
+                int lastTime = 1;
+
+                @Override
+                public void handle(long now) {
+                    hiding();
+                    if (lastTime % addAndRemoveTime == 0) {
+                        container.getChildren().remove(imageViews.getLast());
+                        imageViews.removeLast();
+                    }
+                    if (lastTime == (value * addAndRemoveTime)) {
+                        end();
+                    }
+                    lastTime++;
+                }
+
+                public void hiding() {
+                    Double opacity = imageViews.getLast().getOpacity();
+                    opacity = Math.max(0, opacity - (1 / addAndRemoveTime));
+                    imageViews.getLast().setOpacity(opacity);
+                }
+
+                public void end() {
+                    stop();
+                }
+            };
+            removingTimer.start();
         }
 
     }
@@ -1800,7 +1916,7 @@ public class BattleController extends MyController implements Initializable {
         insertingCardClicked,
         insiderMinionCardClicked,
         specialPowerClicked,
-        free;
+        free
     }
 
     private enum MinionImageViewType {
@@ -1860,8 +1976,8 @@ public class BattleController extends MyController implements Initializable {
 
         }
 
-        public void alert() {
-            if (!nowInAlertt){
+        public void start() {
+            if (!nowInAlertt) {
                 comImages();
                 nowInAlertt = true;
             }

@@ -283,7 +283,7 @@ public class CustomCardCreateFormController implements Initializable {
 //                    Spell spell = new Spell() //todo add define spell
                     break;
             }
-            //todo add alert helper
+            //todo add start helper
         } catch (Exception e) {
             AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "ERROR", e.getMessage());
         }
