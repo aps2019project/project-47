@@ -41,7 +41,7 @@ public class Account implements Cloneable {
         this.password = password;
     }
 
-    private static HashMap<String, Account> accountsMapper = new HashMap<>(); //token --> account
+   private static HashMap<String, Account> accountsMapper = new HashMap<>(); //token --> account
 
     public static synchronized void putAccount(String authToken, Account account) {
         accountsMapper.put(authToken, account);

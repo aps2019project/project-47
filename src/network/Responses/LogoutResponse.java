@@ -6,14 +6,14 @@ import models.Account;
 import network.Client;
 import network.Requests.LogoutRequest;
 
-public class LogoutResponse extends Response{
-    public LogoutResponse(LogoutRequest logoutRequest){
+public class LogoutResponse extends Response {
+    public LogoutResponse(LogoutRequest logoutRequest) {
         this.request = logoutRequest;
     }
 
     @Override
     public void handleRequest() {
-        if (Account.getAccountsMapper().containsKey(request.getAuthToken())){
+        if (Account.getAccountsMapper().containsKey(request.getAuthToken())) {
             Account.getAccountsMapper().get(request.getAuthToken()).setAuthToken(null);
             Account.getAccountsMapper().remove(request.getAuthToken());
         }
@@ -21,8 +21,6 @@ public class LogoutResponse extends Response{
 
     @Override
     public Constants getRequestResult() {
-        AccountMenu.setLoginAccount(null);
-        Client.getStage().getScene().setRoot(AccountMenu.getRoot());
         return null;
     }
 }

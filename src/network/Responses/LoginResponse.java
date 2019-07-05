@@ -8,34 +8,46 @@ import network.Requests.Request;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
 
-public class LoginResponse extends Response{
+public class LoginResponse extends Response {
     private Account account = null;
-    public LoginResponse(LoginRequest loginRequest){
+
+    public LoginResponse(LoginRequest loginRequest) {
         this.request = loginRequest;
     }
+
     @Override
     public synchronized void handleRequest() {
-        String userName = ((LoginRequest)request).getUserName();
-        String password = ((LoginRequest)request).getPassword();
+        String userName = ((LoginRequest) request).getUserName();
+        String password = ((LoginRequest) request).getPassword();
         File accounts = new File("src/JSONs/Accounts/");
-        for(File accountFile : accounts.listFiles()){
-            if (accountFile.getName().startsWith(userName)){
+        for (File accountFile : Objects.requireNonNull(accounts.listFiles())) {
+            if (accountFile.getName().startsWith(userName)) {
                 try {
                     Scanner scanner = new Scanner(accountFile);
                     Account account = new YaGson().fromJson(scanner.nextLine(), Account.class);
                     if (account.getPassword().equals(password)) {
                         this.account = account;
-                        if (this.account.getAuthToken() != null) {
-                            //todo and error in response that says an other device is logged in with this account
+                        ArrayList<Account> accounts1 = new ArrayList<>(Account.getAccountsMapper().values());
+                        boolean isLoggedin = false;
+                        for (Account account1 : accounts1) {
+                            if (account1.getUserName().equals(account.getUserName())){
+                                isLoggedin = true;
+                                break;
+                            }
+                        }
+                        if (isLoggedin) {
+                            requestResult = Constants.ACCOUNT_LOGGED_IN;
+                            break;
                         }
                         String authToken = Account.generateRandomString(32);
                         this.account.setAuthToken(authToken);
                         Account.putAccount(authToken, this.account);
                         requestResult = Constants.SUCCESSFUL_LOGIN;
-                    }
-                    else
+                    } else
                         requestResult = Constants.WRONG_PASSWORD;
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();

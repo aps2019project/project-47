@@ -60,6 +60,7 @@ public class LoginRegisterController implements Initializable {
         if (response instanceof LoginResponse){
             requestResult = response.getRequestResult();
         }
+        assert requestResult != null;
         switch (requestResult) {
             case INVALID_USERNAME:
                 userNameField.getStyleClass().add("wrong");
@@ -76,6 +77,14 @@ public class LoginRegisterController implements Initializable {
                 messageLabelLogin.getStyleClass().removeIf(style -> !style.equals("badMessage"));
                 messageLabelLogin.getStyleClass().add("badMessage");
                 messageLabelLogin.setText("Wrong password,try again...");
+                return;
+            case ACCOUNT_LOGGED_IN:
+                messageLabelLogin.getStyleClass().removeIf(style -> !style.equals("badMessage"));
+                messageLabelLogin.getStyleClass().add("badMessage");
+                messageLabelLogin.setText("Account " + userNameField.getText() + " Logged in!");
+                userNameField.getStyleClass().add("wrong");
+                userNameField.setText("");
+                passwordField.setText("");
                 return;
             case SUCCESSFUL_LOGIN:
                 if (response instanceof LoginResponse) {
