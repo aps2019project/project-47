@@ -55,41 +55,42 @@ public class Client extends Application {
             out = new PrintWriter(socket.getOutputStream());
             DataInputStream serverResponse = new DataInputStream(socket.getInputStream());
             serverScanner = new Scanner(serverResponse);
-        }//phase2//
-//
-//
-//            Shop shop = Shop.getInstance();
-//            Account Mmd = new Account("Mmd", "1234");
-//            Deck deck1 = new Deck("best");
-//            ArrayList<Minion> minions = new ArrayList<>(Defentions.defineMinion().keySet());
-//            ArrayList<Hero> heroes = new ArrayList<>(Defentions.defineHero().keySet());
-//            ArrayList<Spell> spells = new ArrayList<>(Defentions.defineSpell().keySet());
-//            ArrayList<Item> items = new ArrayList<>(Defentions.defineItem().keySet());
-//            for (int i = 0; i < 15; i++) {
-//                deck1.addCard(minions.get(i));
-//            }
-//            for (int i = 0; i < 4; i++) {
-//                deck1.addCard(spells.get(i));
-//            }
-//            deck1.addCard(heroes.get(0));
-//            deck1.setItem(items.get(0));
-//            Mmd.addDeck(deck1);
-//            Mmd.setMainDeck(deck1);
-//            AccountMenu.addAccount(Mmd);
-//            AccountMenu.setLoginAccount(Mmd);
-//            for (int i = 101; i < 500; i++) {
-//                shop.command_buy(i);
-//            }
+        }//phase3//
 
+        {
+            Shop shop = Shop.getInstance();
+            Account Mmd = new Account("Mmd", "1234");
+            Deck deck1 = new Deck("best");
+            ArrayList<Minion> minions = new ArrayList<>(Defentions.defineMinion().keySet());
+            ArrayList<Hero> heroes = new ArrayList<>(Defentions.defineHero().keySet());
+            ArrayList<Spell> spells = new ArrayList<>(Defentions.defineSpell().keySet());
+            ArrayList<Item> items = new ArrayList<>(Defentions.defineItem().keySet());
+            for (int i = 0; i < 15; i++) {
+                deck1.addCard(minions.get(i));
+            }
+            for (int i = 0; i < 4; i++) {
+                deck1.addCard(spells.get(i));
+            }
+            deck1.addCard(heroes.get(0));
+            deck1.setItem(items.get(0));
+            Mmd.addDeck(deck1);
+            Mmd.setMainDeck(deck1);
+            AccountMenu.addAccount(Mmd);
+            AccountMenu.setLoginAccount(Mmd);
+            for (int i = 101; i < 500; i++) {
+                shop.command_buy(i);
+            }
+        }
         stage = primaryStage;
 
-        Parent root = AccountMenu.getRoot();
-//        Parent root = MainMenu.getRoot();
+//        Parent root = AccountMenu.getRoot();
+        Parent root = MainMenu.getRoot();
 //        Parent root = Shop.getRoot();
 //        Parent root = BattleMenu.getRoot();
 //        Parent root = Board.getRoot();
 //        Parent root = FXMLLoader.load(getClass().getResource("../layouts/customCardCreatePage.fxml"));
 //        Parent root = FXMLLoader.load(getClass().getResource("../layouts/Collection.fxml"));
+//        Parent root = FXMLLoader.load(getClass().getResource("../layouts/globalChatForm.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setFullScreen(true);

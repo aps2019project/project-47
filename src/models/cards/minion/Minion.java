@@ -104,6 +104,7 @@ public class Minion extends Card implements Cloneable {
         }
         if (attacked_atThisTurn) {
             if (printError) MyPrinter.red("minion attacked at this turn and cant move now!");
+            return false;
         }
         return true;
     }
