@@ -7,7 +7,6 @@ public class CreateAccountRequest extends Request {
     private String userName;
     private String password;
     public CreateAccountRequest(String userName, String password){
-        this.reqResType = ReqResType.accountMenu;
         this.userName = userName;
         this.password = password;
         this.authToken = null;

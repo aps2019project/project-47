@@ -24,9 +24,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
-import models.battle.Battle;
-import models.battle.Hand;
-import models.battle.Player;
+import models.battle.*;
 import models.battle.board.Board;
 import models.battle.board.Location;
 import models.cards.Card;
@@ -38,7 +36,6 @@ import models.cards.minion.SideType;
 import models.cards.spell.Spell;
 import models.cards.spell.TargetForm;
 import network.Client;
-import sun.dc.pr.PRError;
 
 import java.io.File;
 import java.net.URL;
@@ -48,8 +45,10 @@ import java.util.Random;
 import java.util.ResourceBundle;
 
 public class BattleController extends MyController implements Initializable {
-    Double hideAndRiseSpeed = 50.0;
+    Double hideAndRiseSpeed = 100.0;
     Double aiPlayerSpeed = 150.0;
+    Double reviewSpeed = 150.0;
+
 
     public AnchorPane anchorPane;
     private Board board;
@@ -58,11 +57,14 @@ public class BattleController extends MyController implements Initializable {
     private GraphicalHand graphicalHand;
     private GraphicalBoard graphicalBoard;
     private StateOfMouseClicked[] stateOfMouseClickeds;
+    private BattleHistory lastBattleHistory;
     private boolean onServer;
+    private boolean onReview;
     private int turn;
     private Player[] players;
     private AnimationTimer aiTimer;
     private AnimationTimer checker;
+    private AnimationTimer reviewTimer;
     private ImageView background;
     private MediaPlayer music;
     private boolean nowInAlertt;
@@ -81,14 +83,17 @@ public class BattleController extends MyController implements Initializable {
         creatManaViewers();
     }
 
-
-    public void initializeBattle(Battle battle,boolean onServer) {
+    public void initializeBattle(Battle battle,boolean onServer,boolean onReview) {
         this.battle = battle;
         this.onServer = onServer;
+        this.onReview = onReview;
         this.board = battle.getBoard();
         graphicalBoard.setBoard(board);
         playerSelectedCard = new Card[2];
         players = battle.getPlayers();
+        if (!onReview){
+            lastBattleHistory = new BattleHistory(players,board);
+        }
         players[0].mana_rise(2);
         players[1].mana_rise(2);
         turn = battle.getTurn();
@@ -102,11 +107,16 @@ public class BattleController extends MyController implements Initializable {
         manaViewers[1].update();
         update_specialPower_btn();
         checkerRun();
-        if (!players[turn].isHuman()){
-            if (!onServer){
-                aiTimer.start();
+        if (onReview){
+            reviewTimer.start();
+        }else {
+            if (!players[turn].isHuman()){
+                if (!onServer){
+                    aiTimer.start();
+                }
             }
         }
+
     }
 
     private void setBackground() {
@@ -139,7 +149,7 @@ public class BattleController extends MyController implements Initializable {
         music.play();
     }
 
-    public void checkerRun() {
+    private void checkerRun() {
         int prerioty = 10;
         checker = new AnimationTimer() {
             int lastTime = 0;
@@ -160,7 +170,7 @@ public class BattleController extends MyController implements Initializable {
     }
 
 
-    public void createButtons() {
+    private void createButtons() {
 
         GraphicButton endTurn = new GraphicButton("END TURN");
         endTurn.setSize(300, 100);
@@ -307,7 +317,7 @@ public class BattleController extends MyController implements Initializable {
         anchorPane.getChildren().add(graphicalHand.parentPane);
     }
 
-    public void setHeroOnPlane_atStatingBattle() {
+    private void setHeroOnPlane_atStatingBattle() {
 
         Hero hero0 = battle.getPlayers()[0].getHero();
         graphicalBoard.setMinionAtCell(hero0, hero0.getLocation(), MinionImageViewType.breathing, true);
@@ -316,7 +326,7 @@ public class BattleController extends MyController implements Initializable {
         graphicalBoard.setMinionAtCell(hero1, hero1.getLocation(), MinionImageViewType.breathing, true);
     }
 
-    public void creatAiPlayer() {
+    private void creatAiPlayer() {
         aiTimer = new AnimationTimer() {
             int lastTime = 1;
 
@@ -335,7 +345,7 @@ public class BattleController extends MyController implements Initializable {
         };
     }
 
-    public void creatManaViewers() {
+    private void creatManaViewers() {
         manaViewers = new ManaViewer[2];
 
         manaViewers[0] = new ManaViewer(false, 0);
@@ -347,8 +357,44 @@ public class BattleController extends MyController implements Initializable {
         anchorPane.getChildren().add(manaViewers[1].parentPane);
     }
 
+    private void createReviewTimer(){
+        reviewTimer = new AnimationTimer() {
+            int historyActionCoiunter = 0;
+            int lastTime = 1;
 
-    public ImageView creatImageViewerOfMinion(Minion minion, MinionImageViewType minionImageViewType) {
+            @Override
+            public void handle(long now) {
+                if (lastTime % reviewSpeed == 0) {
+                    doNextOneAction();
+                }
+                lastTime++;
+            }
+
+            private void doNextOneAction() {
+                BattleAction lastOn = lastBattleHistory.get(historyActionCoiunter);
+                switch (lastOn.getType()){
+                    case attack:{
+                        attackRes(lastOn.getCardId1(),lastOn.getCardId2());
+                        break;
+                    }
+                    case move:{
+                        moveRes(lastOn.getCardId1(),lastOn.getLocation());
+                        break;
+                    }
+                    case endTurn:{
+                        endTurn();
+                    }
+                    case useSpecialPower:{
+                        useSpecialPowerRes(lastOn.getCardId1(),lastOn.getLocation());
+                    }
+                }
+                historyActionCoiunter++;
+            }
+        };
+    }
+
+
+    private ImageView creatImageViewerOfMinion(Minion minion, MinionImageViewType minionImageViewType) {
         switch (minionImageViewType) {
             case death: {
                 return new ImageView(new File(minion.getGraphicPack().getDeathPhotoAddress()).toURI().toString());
@@ -369,7 +415,7 @@ public class BattleController extends MyController implements Initializable {
         return null;
     }
 
-    public void freeClick(int turn) {
+    private void freeClick(int turn) {
         stateOfMouseClickeds[turn] = StateOfMouseClicked.free;
         playerSelectedCard[turn] = null;
         graphicalBoard.allCellsNormal();
@@ -469,7 +515,7 @@ public class BattleController extends MyController implements Initializable {
 
     }
 
-    public void move(Minion minion, Location target) {
+    private void move(Minion minion, Location target) {
 
         Double moveTime = 1.0;
 
@@ -538,6 +584,7 @@ public class BattleController extends MyController implements Initializable {
     private void endTurn() {
 
         aiTimer.stop();
+        reviewTimer.stop();
 
         battle.changeTurn();
         turn = 1 - turn;
@@ -551,9 +598,13 @@ public class BattleController extends MyController implements Initializable {
         myAlert.setOnfinishEvent(event -> {
             update_specialPower_btn();
 
-            if (!players[turn].isHuman()) {
-                if (!onServer){
-                    aiTimer.start();
+            if (onReview){
+                reviewTimer.start();
+            }else {
+                if (!players[turn].isHuman()){
+                    if (!onServer){
+                        aiTimer.start();
+                    }
                 }
             }
 
@@ -572,7 +623,7 @@ public class BattleController extends MyController implements Initializable {
         ArrayList<Minion> insiderForces = board.find_all_minions_in_target(turn, new Location(0, 0), insiderTargetForm);
         ArrayList<Location> allLocations = new ArrayList<>();
         for (int i = 0; i < Board.width; i++) {
-            for (int j = 0; j < Board.length; j++) {
+            for (int j = 0; j < Board.height; j++) {
                 allLocations.add(new Location(i, j));
             }
         }
@@ -586,7 +637,7 @@ public class BattleController extends MyController implements Initializable {
                 }
             }
         }
-        //checking attack
+        //checking battle
         battle.randomSort(allLocations);
         for (Minion attacker : insiderForces) {
             for (Minion defender : enemyForces) {
@@ -624,6 +675,7 @@ public class BattleController extends MyController implements Initializable {
 
     private void battleFinish() {
         aiTimer.stop();
+        reviewTimer.stop();
         checker.stop();
         music.stop();
 
@@ -633,31 +685,33 @@ public class BattleController extends MyController implements Initializable {
 
         Double hidenTime = 200.0;
 
-        Rectangle rectangle = new Rectangle(0, 0, 1920, 1080);
-        rectangle.setStyle("-fx-background-color: white; -fx-opacity: 0");
-        anchorPane.getChildren().add(rectangle);
+        Pane pane = new Pane();
+        pane.setPrefSize(1920,1080);
+        pane.setStyle("-fx-background-color: #a56600");
+        pane.setOpacity(0);
+        anchorPane.getChildren().add(pane);
         AnimationTimer hidenTimer = new AnimationTimer() {
             int lastTime = 0;
 
             @Override
             public void handle(long now) {
                 if (lastTime > hidenTime) end();
-                Double opacity = rectangle.getOpacity();
+                Double opacity = pane.getOpacity();
                 opacity = Math.min(1, opacity + (1 / hidenTime));
-                rectangle.setOpacity(opacity);
+                pane.setOpacity(opacity);
                 lastTime++;
             }
 
             public void end() {
                 stop();
-                rectangle.setOpacity(1);
+                pane.setOpacity(1);
                 anchorPane.getChildren().removeAll(graphicalBoard.parentPane, graphicalHand.parentPane);
                 graphicalHand = null;
                 graphicalBoard = null;
             }
         };
 
-        String string = "game was finished!\n";
+        String string = "riidiiii!\n";
         if (battle.getMatchResult()!=null){
             string = string + players[battle.getMatchResult().getWinner()].getUserName();
             string = string + " win!";
@@ -670,12 +724,43 @@ public class BattleController extends MyController implements Initializable {
         myAlert.setOnfinishEvent(event -> {
             Client.getStage().getScene().setRoot(BattleMenu.getRoot());
         });
+        myAlert.setMiddleEventHandler(event -> {
+            rainShit();
+        });
         myAlert.start();
         hidenTimer.start();
 
     }
 
-    public void analyseMatchResult(){
+    private void rainShit(){
+        int speed = 2;
+        ImageView imageView = new ImageView(new Image(new File("src/resources/inBattle/finish/shit.png").toURI().toString()));
+        imageView.setFitWidth(1920);
+        imageView.setFitHeight(1080);
+        imageView.relocate(0,0);
+        imageView.setViewport(new Rectangle2D(0,1080-108,192,108));
+        anchorPane.getChildren().add(imageView);
+        AnimationTimer timer = new AnimationTimer() {
+            int y=1080-108;
+
+            @Override
+            public void handle(long now) {
+                imageView.setViewport(new Rectangle2D(0,y,192,108));
+                    y-=speed;
+
+                if (y<=0){
+                    end();
+                }
+            }
+            public void end(){
+                anchorPane.getChildren().remove(imageView);
+                stop();
+            }
+        };
+        timer.start();
+    }
+
+    private void analyseMatchResult(){
 
     }
 
@@ -1356,7 +1441,7 @@ public class BattleController extends MyController implements Initializable {
             parentPane = new Pane();
             this.board = new Board();
             int width = Board.width;
-            int height = Board.length;
+            int height = Board.height;
             cellWidth = (boardWidth - (cellGap * (width + 1))) / width;
             cellHeight = (boardHeight - (cellGap * (height + 1))) / height;
             cellPanes = new CellPane[width][height];
@@ -1395,7 +1480,7 @@ public class BattleController extends MyController implements Initializable {
         public void show_available_works(Minion minion) {
             allCellsNormal();
             for (int i = 0; i < Board.width; i++) {
-                for (int j = 0; j < Board.length; j++) {
+                for (int j = 0; j < Board.height; j++) {
                     if (battle.canMove(minion, new Location(i, j), false)) {
                         cellPanes[i][j].canMoveCell();
                     }
@@ -1409,7 +1494,7 @@ public class BattleController extends MyController implements Initializable {
         public void show_available_cells_for_specialPower(Hero hero) {
             allCellsNormal();
             for (int i = 0; i < Board.width; i++) {
-                for (int j = 0; j < Board.length; j++) {
+                for (int j = 0; j < Board.height; j++) {
                     if (battle.canUseSpecialPower(hero, new Location(i, j), false)) {
                         cellPanes[i][j].canSpecialPowerCell();
                     }
@@ -1427,7 +1512,7 @@ public class BattleController extends MyController implements Initializable {
 
         public void updateAllCellsNumbers() {
             for (int i = 0; i < Board.width; i++) {
-                for (int j = 0; j < Board.length; j++) {
+                for (int j = 0; j < Board.height; j++) {
                     updateNumbers(new Location(i, j));
                 }
 
@@ -1446,7 +1531,7 @@ public class BattleController extends MyController implements Initializable {
         private void show_available_cells_for_insert(Card card) {
             allCellsNormal();
             for (int i = 0; i < Board.width; i++) {
-                for (int j = 0; j < Board.length; j++) {
+                for (int j = 0; j < Board.height; j++) {
                     if (battle.canInsert(card, new Location(i, j), false)) {
                         cellPanes[i][j].canInsertCell();
                     }
@@ -1456,7 +1541,7 @@ public class BattleController extends MyController implements Initializable {
 
         private void allCellsNormal() {
             for (int i = 0; i < Board.width; i++) {
-                for (int j = 0; j < Board.length; j++) {
+                for (int j = 0; j < Board.height; j++) {
                     cellPanes[i][j].normalCell();
                 }
             }
@@ -2143,6 +2228,33 @@ public class BattleController extends MyController implements Initializable {
     private enum soundType {
         death, attack, hit, impact,
         spawn, run
+    }
+
+
+
+    public void attackRes(String attackerId , String defenderId){
+        Minion attacker = board.getMinionById(attackerId);
+        Minion defender = board.getMinionById(defenderId);
+        attack(attacker,defender);
+    }
+
+    public void moveRes(String minionId,Location target){
+        Minion minion = board.getMinionById(minionId);
+        move(minion,target);
+    }
+
+    public void insertRes(String cardId,Location target){
+        Card card = battle.getCardByIdFromHands(cardId);
+        insert(card,target);
+    }
+
+    public void endTurnRes(){
+        endTurn();
+    }
+
+    public void useSpecialPowerRes(String heroId,Location target){
+        Hero hero = (Hero) board.getMinionById(heroId);
+        useSpecialPower(hero,target);
     }
 
 

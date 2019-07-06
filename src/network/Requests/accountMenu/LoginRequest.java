@@ -10,7 +10,6 @@ public class LoginRequest extends Request {
     public LoginRequest(String userName, String password) {
         this.userName = userName;
         this.password = password;
-        this.reqResType = ReqResType.accountMenu;
         this.authToken = null;
     }
 
