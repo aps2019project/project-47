@@ -1,4 +1,4 @@
-package network.Requests.accountMenu;
+package network.Requests.account;
 
 import network.ReqResType;
 import network.Requests.Request;

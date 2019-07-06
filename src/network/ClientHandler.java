@@ -5,13 +5,14 @@ import com.gilecode.yagson.YaGsonBuilder;
 import models.Account;
 import models.Shop;
 import network.Requests.*;
-import network.Requests.accountMenu.CreateAccountRequest;
-import network.Requests.accountMenu.LoginRequest;
-import network.Requests.accountMenu.LogoutRequest;
+import network.Requests.account.CreateAccountRequest;
+import network.Requests.account.LoginRequest;
+import network.Requests.account.LogoutRequest;
 import network.Requests.chatRoom.SendMessageRequest;
 import network.Requests.chatRoom.UpdateChatRequest;
 import network.Requests.shop.BuyRequest;
 import network.Requests.shop.FindRequest;
+import network.Requests.shop.SellRequest;
 import network.Responses.*;
 
 import java.io.IOException;
@@ -54,7 +55,7 @@ public class ClientHandler extends Thread {
             Request request = gson.fromJson(str, Request.class);
             String responseStr = "";
             if (request instanceof BuyRequest) {
-                BuyResponse buyResponse = new BuyResponse();
+                BuyResponse buyResponse = new BuyResponse((BuyRequest) request);
                 buyResponse.handleRequest();
                 responseStr = gson.toJson(buyResponse);
                 out.println(responseStr);

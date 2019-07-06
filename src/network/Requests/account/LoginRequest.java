@@ -1,15 +1,16 @@
-package network.Requests.accountMenu;
+package network.Requests.account;
 
 import network.ReqResType;
 import network.Requests.Request;
 
-public class CreateAccountRequest extends Request {
+public class LoginRequest extends Request {
     private String userName;
     private String password;
-    public CreateAccountRequest(String userName, String password){
-        this.reqResType = ReqResType.accountMenu;
+
+    public LoginRequest(String userName, String password) {
         this.userName = userName;
         this.password = password;
+        this.reqResType = ReqResType.accountMenu;
         this.authToken = null;
     }
 
