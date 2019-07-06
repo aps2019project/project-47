@@ -1,8 +1,6 @@
 package controllers.graphical;
 
 import com.gilecode.yagson.YaGson;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import controllers.console.AccountMenu;
 import controllers.console.BattleMenu;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +10,7 @@ import layouts.AlertHelper;
 import models.Account;
 import models.Shop;
 import network.Client;
-import network.Requests.LogoutRequest;
+import network.Requests.accountMenu.LogoutRequest;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -52,8 +50,8 @@ public class MainMenuController {
     public void logOut() {
         yaGson = new YaGson();
         LogoutRequest request = new LogoutRequest(AccountMenu.getLoginAccount().getAuthToken());
-        Client.getOut().println(yaGson.toJson(request));
-        Client.getOut().flush();
+        Client.getWriter().println(yaGson.toJson(request));
+        Client.getWriter().flush();
         AccountMenu.setLoginAccount(null);
         Client.getStage().getScene().setRoot(AccountMenu.getRoot());
     }

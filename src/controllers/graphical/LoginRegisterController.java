@@ -15,8 +15,10 @@ import models.Account;
 import network.Client;
 import network.Requests.accountMenu.CreateAccountRequest;
 import network.Requests.accountMenu.LoginRequest;
+import network.ResponseHandler;
 import network.Responses.CreateAccountResponse;
 import network.Responses.LoginResponse;
+import network.Responses.Response;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -44,8 +46,8 @@ public class LoginRegisterController implements Initializable {
     public void loginButtonAction() throws IOException {
         if (checkFreeBoxes(userNameField, passwordField, messageLabelLogin)) return;
         LoginRequest request = new LoginRequest(userNameField.getText(), passwordField.getText());
-        Client.getOut().println(yaGson.toJson(request));
-        Client.getOut().flush();
+        Client.getWriter().println(yaGson.toJson(request));
+        Client.getWriter().flush();
         String responseStr = Client.getServerScanner().nextLine();
         LoginResponse response = yaGson.fromJson(responseStr, LoginResponse.class);
         Constants requestResult = response.getRequestResult();
@@ -94,8 +96,8 @@ public class LoginRegisterController implements Initializable {
         if (checkFreeBoxes(newUserNameField, newPasswordField, messageLabelRegister)) return;
         CreateAccountRequest request = new CreateAccountRequest(newUserNameField.getText(), newPasswordField.getText());
         Constants requestResult = null;
-        Client.getOut().println(yaGson.toJson(request));
-        Client.getOut().flush();
+        Client.getWriter().println(yaGson.toJson(request));
+        Client.getWriter().flush();
         waitForResponse();
         Response response = ResponseHandler.getInstance().getCurrentResponse();
         ResponseHandler.getInstance().clearResponse();
