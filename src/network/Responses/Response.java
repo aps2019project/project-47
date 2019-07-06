@@ -1,6 +1,7 @@
 package network.Responses;
 
 import controllers.Constants;
+import network.ReqResType;
 import network.Requests.Request;
 
 public abstract class Response{
@@ -10,7 +11,14 @@ public abstract class Response{
     public abstract void handleRequest();
     public abstract Constants getRequestResult();
 
-    //namoosan vase requestResult setter tarif nakonin injoori harki eshghesh
+    public ReqResType getType() {
+        return type;
+    }
+
+    public void handle(){
+        
+    }
+//namoosan vase requestResult setter tarif nakonin injoori harki eshghesh
     // bekeshe mitoone taghiresh bede vali bedone setter faghat to package mishe
     // taghiresh dad kholase chon jozi az classe farzande tojihi nadare setter
     // dashte bashe

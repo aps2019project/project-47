@@ -232,7 +232,7 @@ public class AccountMenu {
         return root;
     }
 
-    public MyController getController() {
+    public static MyController getController() {
         return controller;
     }
 

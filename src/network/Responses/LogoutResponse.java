@@ -23,4 +23,9 @@ public class LogoutResponse extends Response {
     public Constants getRequestResult() {
         return null;
     }
+
+    @Override
+    public void handle(){
+
+    }
 }

@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextField;
 import controllers.Constants;
+import controllers.MyController;
 import controllers.console.AccountMenu;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -29,7 +30,7 @@ import java.util.Scanner;
 
 import static controllers.Constants.*;
 
-public class LoginRegisterController implements Initializable {
+public class LoginRegisterController extends MyController implements Initializable {
 
     public JFXTabPane mainPage;
     public JFXTextField userNameField;
@@ -48,9 +49,6 @@ public class LoginRegisterController implements Initializable {
         LoginRequest request = new LoginRequest(userNameField.getText(), passwordField.getText());
         Client.getWriter().println(yaGson.toJson(request));
         Client.getWriter().flush();
-        String responseStr = Client.getServerScanner().nextLine();
-        LoginResponse response = yaGson.fromJson(responseStr, LoginResponse.class);
-        Constants requestResult = response.getRequestResult();
         switch (requestResult) {
             case INVALID_USERNAME:
                 userNameField.getStyleClass().add("wrong");
@@ -98,13 +96,9 @@ public class LoginRegisterController implements Initializable {
         Constants requestResult = null;
         Client.getWriter().println(yaGson.toJson(request));
         Client.getWriter().flush();
-        waitForResponse();
-        Response response = ResponseHandler.getInstance().getCurrentResponse();
-        ResponseHandler.getInstance().clearResponse();
-        if (response instanceof CreateAccountResponse){
-            requestResult = response.getRequestResult();
-        }
+    }
 
+    public void createAccount(Constants requestResult) {
         if (requestResult == ACCOUNT_CREATE_SUCCESSFULLY) {
             messageLabelRegister.setText("The account with name " + newUserNameField.getText() + " created.");
             messageLabelRegister.getStyleClass().removeIf(style -> !style.equals("goodMessage"));
