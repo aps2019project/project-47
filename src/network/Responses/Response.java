@@ -2,7 +2,6 @@ package network.Responses;
 
 import controllers.Constants;
 import network.Requests.Request;
-import network.ReqResType;
 
 public abstract class Response{
     protected ReqResType type;

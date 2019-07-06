@@ -5,6 +5,9 @@ import com.gilecode.yagson.YaGsonBuilder;
 import models.Account;
 import models.Shop;
 import network.Requests.*;
+import network.Requests.accountMenu.CreateAccountRequest;
+import network.Requests.accountMenu.LoginRequest;
+import network.Requests.accountMenu.LogoutRequest;
 import network.Responses.*;
 
 import java.io.IOException;

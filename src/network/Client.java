@@ -48,13 +48,13 @@ public class Client extends Application {
     public void start(Stage primaryStage) throws IOException {
 
         {
-            BufferedReader reader = new BufferedReader(new FileReader("src/network/config"));
-            int port = Integer.parseInt(reader.readLine());
-            reader.close();
-            Socket socket = new Socket("127.0.0.1", port);
-            out = new PrintWriter(socket.getOutputStream());
-            DataInputStream serverResponse = new DataInputStream(socket.getInputStream());
-            serverScanner = new Scanner(serverResponse);
+//            BufferedReader reader = new BufferedReader(new FileReader("src/network/config"));
+//            int port = Integer.parseInt(reader.readLine());
+//            reader.close();
+//            Socket socket = new Socket("127.0.0.1", port);
+//            out = new PrintWriter(socket.getOutputStream());
+//            DataInputStream serverResponse = new DataInputStream(socket.getInputStream());
+//            serverScanner = new Scanner(serverResponse);
         }//phase3//
 
         {

@@ -1,9 +1,6 @@
 package controllers.graphical;
 
 import com.gilecode.yagson.YaGson;
-import com.gilecode.yagson.YaGsonBuilder;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTabPane;
@@ -16,21 +13,18 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import models.Account;
 import network.Client;
-import network.Requests.CreateAccountRequest;
-import network.Requests.LoginRequest;
+import network.Requests.accountMenu.CreateAccountRequest;
+import network.Requests.accountMenu.LoginRequest;
 import network.Responses.CreateAccountResponse;
 import network.Responses.LoginResponse;
-import network.Responses.Response;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
-import static controllers.console.AccountMenu.doCommand;
 import static controllers.Constants.*;
 
 public class LoginRegisterController implements Initializable {

@@ -99,8 +99,6 @@ public class BattleController extends MyController implements Initializable {
         manaViewers[1].update();
         update_specialPower_btn();
         checkerRun();
-
-        new MyAlert("Hello\nBattle started.\nWow...\nPashmam......").start();
     }
 
     private void setBackground() {
@@ -503,20 +501,21 @@ public class BattleController extends MyController implements Initializable {
         freeClick(turn);
     }
 
-    public void btn_specialPowerClicked() {
-        if (!players[turn].isHuman()) {
-            return;
-        }
-        stateOfMouseClickeds[turn] = StateOfMouseClicked.specialPowerClicked;
-        graphicalBoard.show_available_cells_for_specialPower(players[turn].getHero());
-    }
-
     private void useSpecialPower(Hero hero, Location location) {
         graphicalBoard.lighting(graphicalBoard.getLocateOfAnImage_inParentPane(location));
         battle.use_special_power(hero, location);
         manaViewers[turn].update();
         graphicalBoard.updateAllCellsNumbers();
         graphicalBoard.allCellsNormal();
+    }
+
+
+    public void btn_specialPowerClicked() {
+        if (!players[turn].isHuman()) {
+            return;
+        }
+        stateOfMouseClickeds[turn] = StateOfMouseClicked.specialPowerClicked;
+        graphicalBoard.show_available_cells_for_specialPower(players[turn].getHero());
     }
 
     private void update_specialPower_btn() {

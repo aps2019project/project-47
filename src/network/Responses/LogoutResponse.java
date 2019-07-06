@@ -4,7 +4,7 @@ import controllers.Constants;
 import controllers.console.AccountMenu;
 import models.Account;
 import network.Client;
-import network.Requests.LogoutRequest;
+import network.Requests.accountMenu.LogoutRequest;
 
 public class LogoutResponse extends Response{
     public LogoutResponse(LogoutRequest logoutRequest){

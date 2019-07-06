@@ -1,16 +1,17 @@
-package network.Requests;
+package network.Requests.accountMenu;
 
 import network.ReqResType;
+import network.Requests.Request;
 
-public class LogoutRequest extends Request{
+public class LogoutRequest extends Request {
     public LogoutRequest(String authToken){
         this.authToken = authToken;
-        this.reqResType = ReqResType.LOGOUT;
+        this.reqResType = ReqResType.accountMenu;
     }
 
     @Override
     public ReqResType getReqResType() {
-        return ReqResType.LOGOUT;
+        return ReqResType.accountMenu;
     }
 
     @Override

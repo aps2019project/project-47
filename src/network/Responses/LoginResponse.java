@@ -3,8 +3,7 @@ package network.Responses;
 import com.gilecode.yagson.YaGson;
 import controllers.Constants;
 import models.Account;
-import network.Requests.LoginRequest;
-import network.Requests.Request;
+import network.Requests.accountMenu.LoginRequest;
 
 import java.io.File;
 import java.io.FileNotFoundException;
