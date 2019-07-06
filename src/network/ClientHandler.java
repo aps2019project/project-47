@@ -13,6 +13,7 @@ import network.Requests.chatRoom.SendMessageRequest;
 import network.Requests.chatRoom.UpdateChatRequest;
 import network.Requests.shop.BuyRequest;
 import network.Requests.shop.FindRequest;
+import network.Requests.shop.SellRequest;
 import network.Responses.*;
 
 import java.io.IOException;
@@ -55,7 +56,7 @@ public class ClientHandler extends Thread {
             Request request = gson.fromJson(str, Request.class);
             String responseStr = "";
             if (request instanceof BuyRequest) {
-                BuyResponse buyResponse = new BuyResponse();
+                BuyResponse buyResponse = new BuyResponse((BuyRequest) request);
                 buyResponse.handleRequest();
                 responseStr = gson.toJson(buyResponse);
                 out.println(responseStr);

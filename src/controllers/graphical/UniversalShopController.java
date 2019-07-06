@@ -3,7 +3,6 @@ package controllers.graphical;
 import com.gilecode.yagson.YaGson;
 import com.gilecode.yagson.YaGsonBuilder;
 import com.jfoenix.controls.JFXButton;
-import controllers.Constants;
 import controllers.console.AccountMenu;
 import controllers.console.MainMenu;
 import javafx.event.ActionEvent;
@@ -26,18 +25,13 @@ import models.cards.spell.Spell;
 import models.item.Item;
 import network.Client;
 import network.Requests.shop.BuyRequest;
-import network.Requests.shop.FindRequest;
-import network.Requests.SellRequest;
-import network.ResponseHandler;
-import network.Responses.BuyResponse;
-import network.Responses.FindResponse;
+import network.Requests.shop.SellRequest;
+import network.Responses.Response;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class UniversalShopController implements Initializable {
 
@@ -176,6 +170,26 @@ public class UniversalShopController implements Initializable {
             addNewCard(id, true);
     }
 
+    public void showBuyResponse(Response response) {
+        switch (response.getRequestResult()) {
+            case SUCCESSFUL_BUY:
+
+                break;
+            case NOT_ENOUGH_MONEY:
+                AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Error!", "You don't have enough money!");
+                break;
+            case HAD_BOUGHT_BEFORE:
+                AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Error!", "You have bought this thing!");
+                break;
+            case NO_ACCOUNT_LOGGED_IN:
+                AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "!WTF!", "No account logged in! WTF!!!!");
+                break;
+            case NOT_EXISTS:
+                AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Warning!", "The card Not exist in shop :(!");
+                break;
+        }
+    }
+
     private void addNewCard(String id, boolean buyOrSell) {
         SplitPane splitPane = new SplitPane();
         splitPane.setOrientation(Orientation.VERTICAL);
@@ -193,22 +207,20 @@ public class UniversalShopController implements Initializable {
                 buyID(id);
                 money.setText("Money : ".concat(Integer.toString(loginAccount.getMoney())));
             });
-            if (cardOrItem instanceof Card){
-
+            if (cardOrItem instanceof Card) {
                 button.setText("Buy " + ((Card) cardOrItem).getName() + " " + ((Card) cardOrItem).getPrice() + "$\n"
                         + Shop.getInstance().getCards().get(cardOrItem) + " of it existed!");
-            }
-            else if (cardOrItem instanceof Item)
+            } else if (cardOrItem instanceof Item)
                 button.setText("Buy " + ((Item) cardOrItem).getName() + " " + ((Item) cardOrItem).getPrice() + "$\n " +
                         +Shop.getInstance().getItems().get(cardOrItem) + " of this item existed!");
         } else {
             button.setOnMouseClicked(event -> {
                 String name = "";
                 if (id.contains("m") || id.contains("h") || id.contains("s")) {
-                    name = ((Card) getCardOfItem(id)).getName();
+                    name = ((Card) Objects.requireNonNull(getCardOfItem(id))).getName();
                 }
                 if (id.contains("i")) {
-                    name = ((Item) getCardOfItem(id)).getName();
+                    name = ((Item) Objects.requireNonNull(getCardOfItem(id))).getName();
                 }
                 SellRequest sellRequest = new SellRequest(AccountMenu.getLoginAccount().getAuthToken(), Integer.parseInt(id.substring(1)));
                 String yaJson1 = yaGson.toJson(sellRequest);
@@ -255,43 +267,21 @@ public class UniversalShopController implements Initializable {
         String yaJson1 = yaGson.toJson(buyRequest);
         Client.getWriter().println(yaJson1);
         Client.getWriter().flush();
-        String str1 = Client.getServerScanner().nextLine();
-        BuyResponse buyResponse = yaGson.fromJson(str1, BuyResponse.class);
-        switch (buyResponse.getRequestResult()) {
-            case NOT_ENOUGH_MONEY:
-                AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Error!", "You don't have enough money!");
-                break;
-            case HAD_BOUGHT_BEFORE:
-                AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Error!", "You have bought this thing!");
-                break;
-            case NO_ACCOUNT_LOGGED_IN:
-                AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "!WTF!", "No account logged in! WTF!!!!");
-                break;
-            case NOT_EXISTS:
-                AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Warning!", "The card Not exist in shop :(!");
-                break;
-        }
     }
-
-    private void waitForResponse() {
-        while (ResponseHandler.getInstance().getCurrentResponse() == null) {
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
 
     private Object getCardOfItem(String id) {
-        FindRequest findRequest = new FindRequest(AccountMenu.getLoginAccount().getAuthToken(), Integer.parseInt(id.substring(1)));
-        String yaJson = yaGson.toJson(findRequest);
-        Client.getWriter().println(yaJson);
-        Client.getWriter().flush();
-        String str = Client.getServerScanner().nextLine();
-        FindResponse findResponse = yaGson.fromJson(str, FindResponse.class);
-        return findResponse.getCardOrItem();
+        ArrayList<Object> things = new ArrayList<>(Shop.getInstance().getCards().keySet());
+        things.addAll(Shop.getInstance().getItems().keySet());
+        for (Object thing : things) {
+            if (thing instanceof Card) {
+                if (((Card) thing).getCode() == Integer.parseInt(id.substring(1)))
+                    return thing;
+            } else if (thing instanceof Item) {
+                if (((Item) thing).getCode() == Integer.parseInt(id.substring(1)))
+                    return thing;
+            }
+        }
+        return null;
     }
 
     public void addCardsToContainer(Collection<SplitPane> source) {
@@ -308,10 +298,11 @@ public class UniversalShopController implements Initializable {
     }
 
     public void gotoMyCollection() {
+        //todo
         if (loginAccount == null)
             return;
-        accountCards = loginAccount.getCards();
-        accountItems = loginAccount.getItems();
+        accountCards = loginAccount.getCards();//todo account ..
+        accountItems = loginAccount.getItems();//todo account ..
         topContainer.getChildren().remove(0, topContainer.getChildren().size());
         bottomContainer.getChildren().remove(0, bottomContainer.getChildren().size());
         cards.clear();
@@ -341,7 +332,6 @@ public class UniversalShopController implements Initializable {
 
     @FXML
     public void backButtonAction(ActionEvent actionEvent) throws IOException {
-
         Client.getStage().getScene().setRoot(MainMenu.getRoot());
     }
 }

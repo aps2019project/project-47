@@ -1,5 +1,5 @@
 package network;
 
 public enum ReqResType {
-    battle,shop,accountMenu,chatMenu
+    battle,shop,accountMenu, SHOP, chatMenu
 }

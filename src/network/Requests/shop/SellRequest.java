@@ -1,6 +1,7 @@
-package network.Requests;
+package network.Requests.shop;
 
 import network.ReqResType;
+import network.Requests.Request;
 
 public class SellRequest extends Request {
 

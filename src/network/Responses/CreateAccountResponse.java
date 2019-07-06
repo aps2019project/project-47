@@ -6,7 +6,7 @@ import controllers.Constants;
 import controllers.console.AccountMenu;
 import controllers.graphical.LoginRegisterController;
 import models.Account;
-import network.Requests.accountMenu.CreateAccountRequest;
+import network.Requests.account.CreateAccountRequest;
 
 import java.io.File;
 import java.io.FileNotFoundException;

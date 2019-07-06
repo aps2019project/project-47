@@ -14,10 +14,8 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import models.Account;
 import network.Client;
-import network.Requests.accountMenu.CreateAccountRequest;
-import network.Requests.accountMenu.LoginRequest;
-import network.ResponseHandler;
-import network.Responses.CreateAccountResponse;
+import network.Requests.account.CreateAccountRequest;
+import network.Requests.account.LoginRequest;
 import network.Responses.LoginResponse;
 import network.Responses.Response;
 
@@ -117,16 +115,6 @@ public class LoginRegisterController extends MyController implements Initializab
             messageLabelRegister.getStyleClass().removeIf(style -> !style.equals("badMessage"));
             messageLabelRegister.getStyleClass().add("badMessage");
             messageLabelRegister.setText("The account with name " + newUserNameField.getText() + " existed.");
-        }
-    }
-
-    private void waitForResponse() {
-        while (ResponseHandler.getInstance().getCurrentResponse() == null) {
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
     }
 

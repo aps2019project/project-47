@@ -11,7 +11,7 @@ import layouts.AlertHelper;
 import models.Account;
 import models.Shop;
 import network.Client;
-import network.Requests.accountMenu.LogoutRequest;
+import network.Requests.account.LogoutRequest;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
