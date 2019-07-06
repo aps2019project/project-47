@@ -38,6 +38,7 @@ import models.cards.minion.SideType;
 import models.cards.spell.Spell;
 import models.cards.spell.TargetForm;
 import network.Client;
+import sun.dc.pr.PRError;
 
 import java.io.File;
 import java.net.URL;
@@ -57,6 +58,7 @@ public class BattleController extends MyController implements Initializable {
     private GraphicalHand graphicalHand;
     private GraphicalBoard graphicalBoard;
     private StateOfMouseClicked[] stateOfMouseClickeds;
+    private boolean onServer;
     private int turn;
     private Player[] players;
     private AnimationTimer aiTimer;
@@ -80,25 +82,31 @@ public class BattleController extends MyController implements Initializable {
     }
 
 
-    public void initializeBattle(Battle battle) {
+    public void initializeBattle(Battle battle,boolean onServer) {
         this.battle = battle;
+        this.onServer = onServer;
         this.board = battle.getBoard();
         graphicalBoard.setBoard(board);
         playerSelectedCard = new Card[2];
         players = battle.getPlayers();
         players[0].mana_rise(2);
         players[1].mana_rise(2);
-        graphicalHand.setHand(players[0].getHand());
+        turn = battle.getTurn();
+        graphicalHand.setHand(players[turn].getHand());
         graphicalHand.updateHand();
         stateOfMouseClickeds = new StateOfMouseClicked[2];
         stateOfMouseClickeds[0] = StateOfMouseClicked.free;
         stateOfMouseClickeds[1] = StateOfMouseClicked.free;
-        turn = battle.getTurn();
         setHeroOnPlane_atStatingBattle();
         manaViewers[0].update();
         manaViewers[1].update();
         update_specialPower_btn();
         checkerRun();
+        if (!players[turn].isHuman()){
+            if (!onServer){
+                aiTimer.start();
+            }
+        }
     }
 
     private void setBackground() {
@@ -544,7 +552,9 @@ public class BattleController extends MyController implements Initializable {
             update_specialPower_btn();
 
             if (!players[turn].isHuman()) {
-                aiTimer.start();
+                if (!onServer){
+                    aiTimer.start();
+                }
             }
 
             graphicalHand.setHand(players[turn].getHand());
@@ -553,7 +563,6 @@ public class BattleController extends MyController implements Initializable {
             manaViewers[turn].update();
         });
         myAlert.start();
-
     }
 
     private boolean ai_do_only_one_action() {
@@ -617,6 +626,10 @@ public class BattleController extends MyController implements Initializable {
         aiTimer.stop();
         checker.stop();
         music.stop();
+
+        if (onServer){
+        //send finish battle requesta
+        }
 
         Double hidenTime = 200.0;
 

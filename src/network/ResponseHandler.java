@@ -27,6 +27,7 @@ public class ResponseHandler {
         });
         listener.start();
     }
+
     private static ResponseHandler responseHandler;
     public static ResponseHandler getInstance(){
         if (responseHandler == null)
@@ -47,5 +48,8 @@ public class ResponseHandler {
             currentResponse = null;
             currentResponseStr = null;
         }
+    }
+    public void handleAttackResponse(){
+        
     }
 }

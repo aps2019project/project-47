@@ -50,7 +50,7 @@ public class BattleChooseMenuController extends MyController {
         Battle battle = storyGame.story(player0, account.getStoryLvl());
         Parent root=Board.getRoot();
         BattleController controller = (BattleController) Board.getController();
-        controller.initializeBattle(battle);
+        controller.initializeBattle(battle,false);
         //Client.getStage().getScene().setRoot(root);
     }
 
