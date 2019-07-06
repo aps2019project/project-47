@@ -1,12 +1,9 @@
 package network.Responses;
 
 import controllers.Constants;
-import controllers.console.AccountMenu;
-import controllers.console.MainMenu;
 import controllers.graphical.MainMenuController;
 import models.Account;
-import network.Client;
-import network.Requests.accountMenu.LogoutRequest;
+import network.Requests.account.LogoutRequest;
 
 public class LogoutResponse extends Response {
     public LogoutResponse(LogoutRequest logoutRequest) {

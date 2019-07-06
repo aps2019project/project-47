@@ -14,6 +14,8 @@ import javafx.scene.layout.*;
 import models.Account;
 import models.Message;
 import network.Client;
+import network.ClientHandler;
+import network.Requests.chatRoom.LeaveChatRequest;
 import network.Requests.chatRoom.SendMessageRequest;
 import network.Requests.chatRoom.UpdateChatRequest;
 import network.Responses.UpdateChatResponse;
@@ -90,6 +92,12 @@ public class GlobalChatController implements Initializable {
 
     @FXML
     private void back(){
+        LeaveChatRequest leaveChatRequest = new LeaveChatRequest(loginAccount.getAuthToken());
+        Client.getWriter().println(yaGson.toJson(leaveChatRequest));
+        Client.getWriter().flush();
+    }
+
+    public void goToMainMenu(){
         Client.getStage().getScene().setRoot(MainMenu.getRoot());
     }
 }

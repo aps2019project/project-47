@@ -16,9 +16,4 @@ public class BuyRequest extends Request {
         return code;
     }
 
-
-    public ReqResType getReqResType() {
-        return ReqResType.shop;
-    }
-
 }

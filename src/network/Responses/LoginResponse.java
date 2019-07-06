@@ -5,7 +5,7 @@ import controllers.Constants;
 import controllers.console.AccountMenu;
 import controllers.graphical.LoginRegisterController;
 import models.Account;
-import network.Requests.accountMenu.LoginRequest;
+import network.Requests.account.LoginRequest;
 
 import java.io.File;
 import java.io.FileNotFoundException;

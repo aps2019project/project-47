@@ -27,6 +27,10 @@ public class Shop {
         return ourInstance;
     }
 
+    public static void setOurInstance(Shop ourInstance) {
+        Shop.ourInstance = ourInstance;
+    }
+
     private static Parent root;
     private static MyController controller;
 

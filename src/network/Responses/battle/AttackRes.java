@@ -3,7 +3,7 @@ package network.Responses.battle;
 import controllers.Constants;
 import controllers.graphical.BattleController;
 import models.battle.board.Board;
-import network.Requests.accountMenu.LogoutRequest;
+import network.Requests.account.LogoutRequest;
 import network.Responses.Response;
 
 public class AttackRes extends Response {
