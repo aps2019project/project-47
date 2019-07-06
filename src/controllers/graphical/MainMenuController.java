@@ -1,6 +1,7 @@
 package controllers.graphical;
 
 import com.gilecode.yagson.YaGson;
+import controllers.MyController;
 import controllers.console.AccountMenu;
 import controllers.console.BattleMenu;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +20,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Formatter;
 
-public class MainMenuController {
+public class MainMenuController extends MyController {
 
     public Account loginAccount = AccountMenu.getLoginAccount();
 
@@ -52,6 +53,9 @@ public class MainMenuController {
         LogoutRequest request = new LogoutRequest(AccountMenu.getLoginAccount().getAuthToken());
         Client.getWriter().println(yaGson.toJson(request));
         Client.getWriter().flush();
+    }
+
+    public void doLogOut(){
         AccountMenu.setLoginAccount(null);
         Client.getStage().getScene().setRoot(AccountMenu.getRoot());
     }

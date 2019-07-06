@@ -22,4 +22,9 @@ public class ReceiveMessageResponse extends Response {
     public Message getMessage() {
         return message;
     }
+
+    @Override
+    public void handleResponse() {
+
+    }
 }

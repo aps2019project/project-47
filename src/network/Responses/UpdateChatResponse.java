@@ -36,4 +36,9 @@ public class UpdateChatResponse extends Response {
     public Constants getRequestResult() {
         return null;
     }
+
+    @Override
+    public void handleResponse() {
+
+    }
 }

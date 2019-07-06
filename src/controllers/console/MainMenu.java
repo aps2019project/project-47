@@ -110,7 +110,7 @@ public class MainMenu {
         if (root==null){
             FXMLLoader fxmlLoader = new FXMLLoader();
             try {
-                root = fxmlLoader.load(MainMenu.class.getResource("../../layouts/mainMenu.fxml"));
+                root = fxmlLoader.load(MainMenu.class.getResource("../../layouts/mainMenu.fxml").openStream());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -118,7 +118,7 @@ public class MainMenu {
         }
         return root;
     }
-    public MyController getController() {
+    public static MyController getController() {
         return controller;
     }
 }

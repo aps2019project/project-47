@@ -22,4 +22,8 @@ public class BuyResponse extends Response {
         return requestResult;
     }
 
+    @Override
+    public void handleResponse() {
+
+    }
 }

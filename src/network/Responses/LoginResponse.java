@@ -2,6 +2,8 @@ package network.Responses;
 
 import com.gilecode.yagson.YaGson;
 import controllers.Constants;
+import controllers.console.AccountMenu;
+import controllers.graphical.LoginRegisterController;
 import models.Account;
 import network.Requests.accountMenu.LoginRequest;
 
@@ -65,5 +67,10 @@ public class LoginResponse extends Response {
     @Override
     public Constants getRequestResult() {
         return requestResult;
+    }
+
+    @Override
+    public void handleResponse() {
+        ((LoginRegisterController) AccountMenu.getController()).login(this);
     }
 }

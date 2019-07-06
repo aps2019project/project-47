@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 import models.Account;
 import views.MyPrinter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
@@ -25,7 +26,7 @@ public class AccountMenu {
     }
 
     private static Parent root;
-    private static MyController controller;
+    public static MyController controller;
 
     private static Scanner scanner = new Scanner(System.in);
     private static Pattern pattern;
@@ -223,8 +224,8 @@ public class AccountMenu {
         if (root == null) {
             FXMLLoader fxmlLoader = new FXMLLoader();
             try {
-                root = FXMLLoader.load(AccountMenu.class.getResource("../../layouts/accountPage.fxml"));
-            } catch (Exception e) {
+                root =  fxmlLoader.load(AccountMenu.class.getResource("../../layouts/accountPage.fxml").openStream());
+            } catch (IOException e) {
                 e.printStackTrace();
             }
             controller = fxmlLoader.getController();

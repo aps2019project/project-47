@@ -13,4 +13,9 @@ public class NumOfCardResponse extends Response {
     public Constants getRequestResult() {
         return Constants.NUM_OF_CARD_RESPONSE;
     }
+
+    @Override
+    public void handleResponse() {
+
+    }
 }

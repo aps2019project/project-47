@@ -9,7 +9,7 @@ public class NumOfThingRequest extends Request {
 
     @Override
     public ReqResType getReqResType() {
-        return ReqResType.NUM_OF_CARD_REQUEST;
+        return ReqResType.shop;
     }
 
     public NumOfThingRequest(String token, String cardOrItemName, Boolean cardOrItem) {

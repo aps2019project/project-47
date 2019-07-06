@@ -23,4 +23,9 @@ public class SendMessageResponse extends Response{
     public Constants getRequestResult() {
         return null;
     }
+
+    @Override
+    public void handleResponse() {
+
+    }
 }

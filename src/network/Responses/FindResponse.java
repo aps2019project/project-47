@@ -25,4 +25,9 @@ public class FindResponse extends Response {
     public Constants getRequestResult() {
         return null;
     }
+
+    @Override
+    public void handleResponse() {
+
+    }
 }

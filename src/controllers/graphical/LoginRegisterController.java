@@ -44,12 +44,15 @@ public class LoginRegisterController extends MyController implements Initializab
 
     public static YaGson yaGson = new YaGson();
 
-    public void loginButtonAction() throws IOException {
+    public void loginButtonAction(){
         if (checkFreeBoxes(userNameField, passwordField, messageLabelLogin)) return;
         LoginRequest request = new LoginRequest(userNameField.getText(), passwordField.getText());
         Client.getWriter().println(yaGson.toJson(request));
         Client.getWriter().flush();
-        switch (requestResult) {
+    }
+
+    public void login(Response response){
+        switch (response.getRequestResult()) {
             case INVALID_USERNAME:
                 userNameField.getStyleClass().add("wrong");
                 userNameField.setText("");
@@ -84,7 +87,12 @@ public class LoginRegisterController extends MyController implements Initializab
 //                messageLabelLogin.setText("You are logged in successfully!");
                     messageLabelLogin.getStyleClass().removeIf(style -> !style.equals("goodMessage"));
                     messageLabelLogin.getStyleClass().add("goodMessage");
-                    Parent root = FXMLLoader.load(getClass().getResource("../../layouts/mainMenu.fxml"));
+                    Parent root = null;
+                    try {
+                        root = FXMLLoader.load(getClass().getResource("../../layouts/mainMenu.fxml"));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     Client.getStage().getScene().setRoot(root);
                 }
         }
@@ -93,7 +101,6 @@ public class LoginRegisterController extends MyController implements Initializab
     public void registerButtonAction() {
         if (checkFreeBoxes(newUserNameField, newPasswordField, messageLabelRegister)) return;
         CreateAccountRequest request = new CreateAccountRequest(newUserNameField.getText(), newPasswordField.getText());
-        Constants requestResult = null;
         Client.getWriter().println(yaGson.toJson(request));
         Client.getWriter().flush();
     }
@@ -179,5 +186,6 @@ public class LoginRegisterController extends MyController implements Initializab
                 AccountMenu.addAccount(account);
             }
         }
+        AccountMenu.controller = this;
     }
 }
