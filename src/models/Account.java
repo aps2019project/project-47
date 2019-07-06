@@ -41,9 +41,9 @@ public class Account implements Cloneable {
         this.password = password;
     }
 
-    private static HashMap<String, Account> accountsMapper = new HashMap<>(); //token --> account
+   private static HashMap<String, Account> accountsMapper = new HashMap<>(); //token --> account
 
-    public static synchronized void putAccount(String authToken, Account account){
+    public static synchronized void putAccount(String authToken, Account account) {
         accountsMapper.put(authToken, account);
     }
 
@@ -51,10 +51,10 @@ public class Account implements Cloneable {
         return accountsMapper;
     }
 
-    public static String generateRandomString(int length){
+    public static String generateRandomString(int length) {
         SecureRandom generator = new SecureRandom();
         String result = "";
-        for (int i = 0; i < length; i++){
+        for (int i = 0; i < length; i++) {
             result = result.concat(hexadecimalCharacter(generator.nextInt(16)));
         }
         return result;
@@ -64,14 +64,15 @@ public class Account implements Cloneable {
         return password;
     }
 
-    private static String hexadecimalCharacter(int code){
+    private static String hexadecimalCharacter(int code) {
         code %= 16;
         if (code < 10)
             return Integer.toString(code);
-        char ch = (char)(code%10);
+        char ch = (char) (code % 10);
         ch += 'A';
         return Character.toString(ch);
     }
+
     public void setAuthToken(String authToken) {
         this.authToken = authToken;
     }

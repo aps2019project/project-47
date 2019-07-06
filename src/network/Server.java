@@ -21,6 +21,8 @@ public class Server {
 
     public static HashMap<String, Integer> userLastMessageReceivedIndex = new HashMap<>();
 
+    public static ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
+
     public Server(int port) throws IOException {
         ServerSocket serverSocket = new ServerSocket(port);
         System.out.println("Server started");
@@ -32,6 +34,7 @@ public class Server {
                 System.out.println("Client accepted");
                 ClientHandler clientHandler = new ClientHandler(socket);
                 clientHandler.setName("cHandler");
+                clientHandlers.add(clientHandler);
                 clientHandler.start();
             } catch (IOException ignored) {
             }

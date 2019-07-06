@@ -11,7 +11,7 @@ public class FindResponse extends Response {
         this.request = findRequest;
     }
     @Override
-    public void handleRequest() {
+    public synchronized void handleRequest() {
         if (Account.getAccountsMapper().get(request.getAuthToken()) == null)
             return;
         cardOrItem = Shop.getInstance().find_in_shop(((FindRequest) request).getCode());

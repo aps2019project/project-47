@@ -44,8 +44,8 @@ public class LoginRegisterController implements Initializable {
     public void loginButtonAction() throws IOException {
         if (checkFreeBoxes(userNameField, passwordField, messageLabelLogin)) return;
         LoginRequest request = new LoginRequest(userNameField.getText(), passwordField.getText());
-        Client.getWriter().println(yaGson.toJson(request));
-        Client.getWriter().flush();
+        Client.getOut().println(yaGson.toJson(request));
+        Client.getOut().flush();
         String responseStr = Client.getServerScanner().nextLine();
         LoginResponse response = yaGson.fromJson(responseStr, LoginResponse.class);
         Constants requestResult = response.getRequestResult();
@@ -66,28 +66,42 @@ public class LoginRegisterController implements Initializable {
                 messageLabelLogin.getStyleClass().add("badMessage");
                 messageLabelLogin.setText("Wrong password,try again...");
                 return;
-            case SUCCESSFUL_LOGIN:
-                AccountMenu.setLoginAccount(response.getAccount());
+            case ACCOUNT_LOGGED_IN:
+                messageLabelLogin.getStyleClass().removeIf(style -> !style.equals("badMessage"));
+                messageLabelLogin.getStyleClass().add("badMessage");
+                messageLabelLogin.setText("Account " + userNameField.getText() + " Logged in!");
+                userNameField.getStyleClass().add("wrong");
                 userNameField.setText("");
                 passwordField.setText("");
-                userNameField.getStyleClass().removeIf(style -> style.equals("wrong"));
-                passwordField.getStyleClass().removeIf(style -> style.equals("wrong"));
+                return;
+            case SUCCESSFUL_LOGIN:
+                if (response instanceof LoginResponse) {
+                    AccountMenu.setLoginAccount(((LoginResponse) response).getAccount());
+                    userNameField.setText("");
+                    passwordField.setText("");
+                    userNameField.getStyleClass().removeIf(style -> style.equals("wrong"));
+                    passwordField.getStyleClass().removeIf(style -> style.equals("wrong"));
 //                messageLabelLogin.setText("You are logged in successfully!");
-                messageLabelLogin.getStyleClass().removeIf(style -> !style.equals("goodMessage"));
-                messageLabelLogin.getStyleClass().add("goodMessage");
-                Parent root = FXMLLoader.load(getClass().getResource("../../layouts/mainMenu.fxml"));
-                Client.getStage().getScene().setRoot(root);
+                    messageLabelLogin.getStyleClass().removeIf(style -> !style.equals("goodMessage"));
+                    messageLabelLogin.getStyleClass().add("goodMessage");
+                    Parent root = FXMLLoader.load(getClass().getResource("../../layouts/mainMenu.fxml"));
+                    Client.getStage().getScene().setRoot(root);
+                }
         }
     }
 
     public void registerButtonAction() {
         if (checkFreeBoxes(newUserNameField, newPasswordField, messageLabelRegister)) return;
         CreateAccountRequest request = new CreateAccountRequest(newUserNameField.getText(), newPasswordField.getText());
-        Client.getWriter().println(yaGson.toJson(request));
-        Client.getWriter().flush();
-        String responseStr = Client.getServerScanner().nextLine();
-        CreateAccountResponse response = yaGson.fromJson(responseStr, CreateAccountResponse.class);
-        Constants requestResult = response.getRequestResult();
+        Constants requestResult = null;
+        Client.getOut().println(yaGson.toJson(request));
+        Client.getOut().flush();
+        waitForResponse();
+        Response response = ResponseHandler.getInstance().getCurrentResponse();
+        ResponseHandler.getInstance().clearResponse();
+        if (response instanceof CreateAccountResponse){
+            requestResult = response.getRequestResult();
+        }
 
         if (requestResult == ACCOUNT_CREATE_SUCCESSFULLY) {
             messageLabelRegister.setText("The account with name " + newUserNameField.getText() + " created.");
@@ -100,6 +114,16 @@ public class LoginRegisterController implements Initializable {
             messageLabelRegister.getStyleClass().removeIf(style -> !style.equals("badMessage"));
             messageLabelRegister.getStyleClass().add("badMessage");
             messageLabelRegister.setText("The account with name " + newUserNameField.getText() + " existed.");
+        }
+    }
+
+    private void waitForResponse() {
+        while (ResponseHandler.getInstance().getCurrentResponse() == null) {
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 

@@ -93,9 +93,6 @@ public class ClientHandler extends Thread {
             if (request instanceof LogoutRequest){
                 LogoutResponse logoutResponse = new LogoutResponse((LogoutRequest) request);
                 logoutResponse.handleRequest();
-                responseStr = gson.toJson(logoutResponse);
-                out.println(responseStr);
-                out.flush();
                 continue;
             }
             if (request instanceof UpdateChatRequest){
@@ -109,6 +106,11 @@ public class ClientHandler extends Thread {
             if (request instanceof SendMessageRequest){
                 SendMessageResponse sendMessageResponse = new SendMessageResponse((SendMessageRequest) request);
                 sendMessageResponse.handleRequest();
+                for (ClientHandler clientHandler : Server.clientHandlers){
+                    ReceiveMessageResponse receiveMessageResponse = new ReceiveMessageResponse(((SendMessageRequest)request).getMessage());
+                    clientHandler.getOut().println(receiveMessageResponse);
+                    clientHandler.getOut().flush();
+                }
                 continue;
             }
         }

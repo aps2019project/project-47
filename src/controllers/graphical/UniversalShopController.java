@@ -3,6 +3,7 @@ package controllers.graphical;
 import com.gilecode.yagson.YaGson;
 import com.gilecode.yagson.YaGsonBuilder;
 import com.jfoenix.controls.JFXButton;
+import controllers.Constants;
 import controllers.console.AccountMenu;
 import controllers.console.MainMenu;
 import javafx.event.ActionEvent;
@@ -27,6 +28,7 @@ import network.Client;
 import network.Requests.shop.BuyRequest;
 import network.Requests.shop.FindRequest;
 import network.Requests.SellRequest;
+import network.ResponseHandler;
 import network.Responses.BuyResponse;
 import network.Responses.FindResponse;
 
@@ -59,9 +61,6 @@ public class UniversalShopController implements Initializable {
     HashMap<String, SplitPane> forSearchCards = new HashMap<>();
     HashMap<String, SplitPane> cards = new HashMap<>();
     Shop shop = Shop.getInstance();
-
-    public UniversalShopController() {
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -102,9 +101,6 @@ public class UniversalShopController implements Initializable {
 
     @FXML
     private TextField searchField;
-
-    @FXML
-    private Button searchShowButton;
 
     @FXML
     private Label money;
@@ -197,9 +193,11 @@ public class UniversalShopController implements Initializable {
                 buyID(id);
                 money.setText("Money : ".concat(Integer.toString(loginAccount.getMoney())));
             });
-            if (cardOrItem instanceof Card)
+            if (cardOrItem instanceof Card){
+
                 button.setText("Buy " + ((Card) cardOrItem).getName() + " " + ((Card) cardOrItem).getPrice() + "$\n"
                         + Shop.getInstance().getCards().get(cardOrItem) + " of it existed!");
+            }
             else if (cardOrItem instanceof Item)
                 button.setText("Buy " + ((Item) cardOrItem).getName() + " " + ((Item) cardOrItem).getPrice() + "$\n " +
                         +Shop.getInstance().getItems().get(cardOrItem) + " of this item existed!");
@@ -274,6 +272,17 @@ public class UniversalShopController implements Initializable {
                 break;
         }
     }
+
+    private void waitForResponse() {
+        while (ResponseHandler.getInstance().getCurrentResponse() == null) {
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     private Object getCardOfItem(String id) {
         FindRequest findRequest = new FindRequest(AccountMenu.getLoginAccount().getAuthToken(), Integer.parseInt(id.substring(1)));
