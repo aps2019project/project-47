@@ -1,25 +1,26 @@
 package controllers.graphical;
 
+import com.gilecode.yagson.YaGson;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextField;
 import controllers.MyController;
 import controllers.console.AccountMenu;
-import controllers.console.MainMenu;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import models.Account;
 import models.battle.Battle;
+import models.battle.BattleHistory;
 import models.battle.Player;
 import models.battle.StoryGame;
 import models.battle.board.Board;
 import network.Client;
 
-import java.io.IOException;
+import java.io.*;
+import java.util.Scanner;
 
 public class BattleChooseMenuController extends MyController {
     public ComboBox mode;
@@ -106,7 +107,23 @@ public class BattleChooseMenuController extends MyController {
     }
 
     public void back(ActionEvent event) {
-        Client.getStage().getScene().setRoot(MainMenu.getRoot());
-
+//        Client.getStage().getScene().setRoot(MainMenu.getRoot());
+        YaGson yaGson = new YaGson();
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(new FileInputStream("fileName.txt"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        String scanned = scanner.nextLine();
+        System.out.println(scanned);
+        BattleHistory battleHistory = yaGson.fromJson(scanned,BattleHistory.class);
+        Battle battle =(battleHistory.getBattel());
+        Parent root=Board.getRoot();
+        System.out.println(battleHistory.battleActions.size());
+        BattleController controller = (BattleController) Board.getController();
+        controller.initializeBattle(battle,false,true);
+        controller.setHistory(battleHistory);
+        Client.getStage().getScene().setRoot(root);
     }
 }

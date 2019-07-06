@@ -16,7 +16,7 @@ public class BuyRequest extends Request {
         return code;
     }
 
-    @Override
+
     public ReqResType getReqResType() {
         return ReqResType.shop;
     }

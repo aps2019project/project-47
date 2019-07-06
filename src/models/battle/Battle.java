@@ -63,6 +63,10 @@ public class Battle {
         action_item(find_item_minions_target(0, player0.getItem(), null), player0.getItem());
         action_item(find_item_minions_target(1, player1.getItem(), null), player1.getItem());
     }
+    public Battle(Player[] players,Board board,MatchType matchType){
+        this(players[0],players[1],matchType,0);
+        this.board = board;
+    }
 
     public void set_items_on_the_board() {
         Random random = new Random();

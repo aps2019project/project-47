@@ -15,8 +15,5 @@ public class SellRequest extends Request {
         return code;
     }
 
-    @Override
-    public ReqResType getReqResType() {
-        return ReqResType.shop;
-    }
+
 }

@@ -23,6 +23,8 @@ public class Server {
 
     public static ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
 
+    public static HashMap<Integer,Integer> battleConections = new HashMap<>();
+
     public Server(int port) throws IOException {
         ServerSocket serverSocket = new ServerSocket(port);
         System.out.println("Server started");

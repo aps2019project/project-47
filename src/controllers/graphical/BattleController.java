@@ -1,5 +1,6 @@
 package controllers.graphical;
 
+import com.gilecode.yagson.YaGson;
 import controllers.MyController;
 import controllers.console.BattleMenu;
 import javafx.animation.Animation;
@@ -38,11 +39,9 @@ import models.cards.spell.TargetForm;
 import network.Client;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Random;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class BattleController extends MyController implements Initializable {
     Double hideAndRiseSpeed = 100.0;
@@ -57,7 +56,7 @@ public class BattleController extends MyController implements Initializable {
     private GraphicalHand graphicalHand;
     private GraphicalBoard graphicalBoard;
     private StateOfMouseClicked[] stateOfMouseClickeds;
-    private BattleHistory lastBattleHistory;
+    public BattleHistory lastBattleHistory;
     private boolean onServer;
     private boolean onReview;
     private int turn;
@@ -93,7 +92,7 @@ public class BattleController extends MyController implements Initializable {
         playerSelectedCard = new Card[2];
         players = battle.getPlayers();
         if (!onReview){
-            lastBattleHistory = new BattleHistory(players,board);
+            lastBattleHistory = new BattleHistory(players,board,battle.getMatchType());
         }
         players[0].mana_rise(2);
         players[1].mana_rise(2);
@@ -367,6 +366,7 @@ public class BattleController extends MyController implements Initializable {
             public void handle(long now) {
                 if (lastTime % reviewSpeed == 0) {
                     doNextOneAction();
+                    System.out.println("next one don");
                 }
                 lastTime++;
             }
@@ -444,6 +444,11 @@ public class BattleController extends MyController implements Initializable {
     }
 
     private void insert(Card card, Location location) {
+
+        if (!onReview){
+            lastBattleHistory.add(new BattleAction(card.getCardId(),null,location,BattleActionType.insert));
+        }
+
         graphicalHand.insertCard(card);
         graphicalBoard.insertCard(card, location);
         MyMediaPlayer.playEffectSoundOfACard(card, soundType.spawn);
@@ -455,6 +460,11 @@ public class BattleController extends MyController implements Initializable {
 
     private void attack(Minion attacker, Minion defender) {
         int attackTime = 60;
+
+        if (!onReview){
+            lastBattleHistory.add(new BattleAction(attacker.getCardId(),defender.getCardId(),null,BattleActionType.attack));
+        }
+
         graphicalBoard.setMinionAtCell(attacker, attacker.getLocation(), MinionImageViewType.attacking, false);
 
         boolean counterAttackAvalabale = battle.canCounterAttack(attacker, defender, false);
@@ -520,6 +530,10 @@ public class BattleController extends MyController implements Initializable {
 
         Double moveTime = 1.0;
 
+        if (!onReview){
+            lastBattleHistory.add(new BattleAction(minion.getCardId(),null,target,BattleActionType.move));
+        }
+
         ImageView runningImageView = creatImageViewerOfMinion(minion, MinionImageViewType.running);
         graphicalBoard.reSizeImageViewer(runningImageView);
 
@@ -553,12 +567,19 @@ public class BattleController extends MyController implements Initializable {
         MyMediaPlayer.playEffectSoundOfACard(minion, soundType.run);
         battle.move(minion, target);
 
+
+
         freeClick(turn);
     }
 
-    private void useSpecialPower(Hero hero, Location location) {
-        graphicalBoard.lighting(graphicalBoard.getLocateOfAnImage_inParentPane(location));
-        battle.use_special_power(hero, location);
+    private void useSpecialPower(Hero hero, Location target) {
+
+        if (!onReview){
+            lastBattleHistory.add(new BattleAction(hero.getCardId(),null,target,BattleActionType.useSpecialPower));
+        }
+
+        graphicalBoard.lighting(graphicalBoard.getLocateOfAnImage_inParentPane(target));
+        battle.use_special_power(hero, target);
         manaViewers[turn].update();
         graphicalBoard.updateAllCellsNumbers();
         graphicalBoard.allCellsNormal();
@@ -586,6 +607,10 @@ public class BattleController extends MyController implements Initializable {
 
         aiTimer.stop();
         reviewTimer.stop();
+
+        if (!onReview){
+            lastBattleHistory.add(new BattleAction(null,null,null,BattleActionType.endTurn));
+        }
 
         battle.changeTurn();
         turn = 1 - turn;
@@ -730,6 +755,17 @@ public class BattleController extends MyController implements Initializable {
         });
         myAlert.start();
         hidenTimer.start();
+
+        YaGson yaGson = new YaGson();
+        try {
+            Formatter formatter = new Formatter("fileName.txt");
+            formatter.format(yaGson.toJson(lastBattleHistory));
+            formatter.flush();
+            formatter.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
@@ -2258,6 +2294,13 @@ public class BattleController extends MyController implements Initializable {
         useSpecialPower(hero,target);
     }
 
+
+
+
+
+    public void setHistory(BattleHistory battleHistory){
+        this.lastBattleHistory = battleHistory;
+    }
 
 }
 

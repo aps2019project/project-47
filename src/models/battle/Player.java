@@ -180,4 +180,8 @@ public class Player {
         return cloned;
     }
 
+    public void setHuman(boolean human){
+        this.human = human;
+    }
+
 }
