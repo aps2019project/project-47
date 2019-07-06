@@ -17,7 +17,7 @@ public abstract class Response{
     }
 
     public void handle(){
-        
+
     }
 //namoosan vase requestResult setter tarif nakonin injoori harki eshghesh
     // bekeshe mitoone taghiresh bede vali bedone setter faghat to package mishe

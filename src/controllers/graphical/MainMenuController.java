@@ -64,11 +64,9 @@ public class MainMenuController extends MyController {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/layouts/accountPage.fxml"));
             Client.getStage().getScene().setRoot(root);
-            System.out.println("keshidesh");
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("alan tooye do log out am");
     }
 
     public void goToCustomCardMenu() throws IOException {

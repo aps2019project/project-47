@@ -69,7 +69,7 @@ public class Battle {
         int b = random.nextInt(boundOfItems);
         for (int i = 0; i < b; i++) {
             int x = random.nextInt(Board.width);
-            int y = random.nextInt(Board.length);
+            int y = random.nextInt(Board.height);
             Location location = new Location(x, y);
             if (location.equals(Board.hero0) || location.equals(Board.hero1)) {
                 i--;
@@ -183,7 +183,7 @@ public class Battle {
             return false;
         }
         if (!board.canAttack(attacker, defender.getLocation())) {
-            if (printError) MyPrinter.red("the attacker cant attack from this distance(melee,ranged,hybird)");
+            if (printError) MyPrinter.red("the attacker cant battle from this distance(melee,ranged,hybird)");
             return false;
         }
         if (defender.getSpecialItem() != null &&
@@ -305,9 +305,9 @@ public class Battle {
     }
 
     public void attack(Minion attacker, Minion defender) {
-        //checking attack availability...
+        //checking battle availability...
         if (!canAttack(attacker, defender, true)) return;
-        //attack
+        //battle
         int attackPower = attacker.get_Real_AttackPower();
         if (attacker.getSpecialItem() != null &&
                 attacker.getSpecialItem().getOption() != null &&
@@ -477,7 +477,7 @@ public class Battle {
                     continue;
                 }
                 if (defender.getPlyNum() == playerNum) {
-                    MyPrinter.red("you cant attack to an insider force!");
+                    MyPrinter.red("you cant battle to an insider force!");
                     continue;
                 }
                 attack(attacker, defender);
@@ -605,7 +605,7 @@ public class Battle {
         MyPrinter.blue("4. show card info <card id>");
         MyPrinter.blue("5. select <card id>");
         MyPrinter.blue("6. move to <x>,<y>");
-        MyPrinter.blue("7. attack <card id>");
+        MyPrinter.blue("7. battle <card id>");
         MyPrinter.blue("8. combo <opponent card id> <card1> <card2>...");
         MyPrinter.blue("9. use special power <x>,<y>");
         MyPrinter.blue("10. insert <card id> in <x>,<y>");
@@ -779,7 +779,7 @@ public class Battle {
     }
 
     public void do_passive_effects(int playerNum) {
-        TargetForm targetForm = new TargetForm(0, 0, Board.width, Board.length, SideType.insider, ForceType.both, null, true);
+        TargetForm targetForm = new TargetForm(0, 0, Board.width, Board.height, SideType.insider, ForceType.both, null, true);
         ArrayList<Minion> minions = board.find_all_minions_in_target(playerNum, new Location(0, 0), targetForm);
         for (Minion minion : minions) {
             if (minion.getSpecialItem() != null && minion.getSpecialItem().getPassive().size() != 0) {
@@ -795,7 +795,7 @@ public class Battle {
         TargetForm enemyTargetForm = new TargetForm(0, 0, 9, 5, SideType.enemy, ForceType.both, null, true);
         ArrayList<Location> allLocations = new ArrayList<>();
         for (int i = 0; i < Board.width; i++) {
-            for (int j = 0; j < Board.length; j++) {
+            for (int j = 0; j < Board.height; j++) {
                 allLocations.add(new Location(i, j));
             }
         }
@@ -822,7 +822,7 @@ public class Battle {
                 if (attacker.isDeath()) break;
                 if (defender.isDeath()) break;
                 if (canAttack(attacker, defender, false)) {
-                    if (print) MyPrinter.purple(attacker.getCardId() + " can attack to " + defender.getCardId() + ".");
+                    if (print) MyPrinter.purple(attacker.getCardId() + " can battle to " + defender.getCardId() + ".");
                     if (do_works) {
                         attack(attacker, defender);
                         if (checkVictory()) return true;
@@ -888,7 +888,7 @@ public class Battle {
 
     public boolean isThereAnyCellToSpecialPower(int plaNum){
         for (int i = 0; i < Board.width; i++) {
-            for (int j = 0; j < Board.length; j++) {
+            for (int j = 0; j < Board.height; j++) {
                 if (canUseSpecialPower(players[plaNum].getHero(),new Location(i,j),false)){
                     return true;
                 }
@@ -951,5 +951,17 @@ public class Battle {
 
     public int getNumOfFlags() {
         return numOfFlags;
+    }
+
+    public Card getCardByIdFromHands(String cardId){
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.addAll(players[0].getHand().getCards());
+        cards.addAll(players[1].getHand().getCards());
+        for (Card card:cards){
+            if (card.getCardId().equals(cardId)){
+                return card;
+            }
+        }
+        return null;
     }
 }

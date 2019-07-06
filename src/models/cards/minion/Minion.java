@@ -79,15 +79,15 @@ public class Minion extends Card implements Cloneable {
 
     public boolean canAttack(boolean printError) {
         if (age < 1) {
-            if (printError) MyPrinter.red("you can't attack by a new inserted minion!");
+            if (printError) MyPrinter.red("you can't battle by a new inserted minion!");
             return false;
         }
         if (this.get_Real_AttackPower() <= 0) {
-            if (printError) MyPrinter.red("attack power of this minion is lower than 0!");
+            if (printError) MyPrinter.red("battle power of this minion is lower than 0!");
             return false;
         }
         if (this.attacked_atThisTurn) {
-            if (printError) MyPrinter.red("you can't attack twice by a minion!");
+            if (printError) MyPrinter.red("you can't battle twice by a minion!");
             return false;
         }
         if (this.isStun()) {

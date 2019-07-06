@@ -1,6 +1,7 @@
 package network.Responses;
 
 import controllers.Constants;
+import controllers.graphical.GlobalChatController;
 import models.Account;
 import models.Message;
 import network.Requests.chatRoom.UpdateChatRequest;
@@ -39,6 +40,8 @@ public class UpdateChatResponse extends Response {
 
     @Override
     public void handleResponse() {
-
+        for(Message message : messages){
+            GlobalChatController.instance.addNewMessage(message);
+        }
     }
 }

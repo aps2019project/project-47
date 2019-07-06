@@ -224,7 +224,7 @@ public class AccountMenu {
         if (root == null) {
             FXMLLoader fxmlLoader = new FXMLLoader();
             try {
-                root =  fxmlLoader.load(AccountMenu.class.getResource("../../layouts/accountPage.fxml").openStream());
+                root =  fxmlLoader.load(AccountMenu.class.getResource("../../layouts/accountPage.fxml"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
