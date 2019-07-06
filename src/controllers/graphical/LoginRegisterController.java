@@ -54,7 +54,7 @@ public class LoginRegisterController implements Initializable {
         Client.getOut().println(yaGson.toJson(request));
         Client.getOut().flush();
         Constants requestResult = null;
-        waitForResponse();
+        ResponseHandler.waitForResponse();
         Response response = ResponseHandler.getInstance().getCurrentResponse();
         ResponseHandler.getInstance().clearResponse();
         if (response instanceof LoginResponse){
@@ -99,7 +99,7 @@ public class LoginRegisterController implements Initializable {
         Constants requestResult = null;
         Client.getOut().println(yaGson.toJson(request));
         Client.getOut().flush();
-        waitForResponse();
+        ResponseHandler.waitForResponse();
         Response response = ResponseHandler.getInstance().getCurrentResponse();
         ResponseHandler.getInstance().clearResponse();
         if (response instanceof CreateAccountResponse){
@@ -120,15 +120,6 @@ public class LoginRegisterController implements Initializable {
         }
     }
 
-    private void waitForResponse() {
-        while (ResponseHandler.getInstance().getCurrentResponse() == null) {
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     private boolean checkFreeBoxes(JFXTextField userNameField, JFXPasswordField passwordField, Label messageLabel) {
         if (!userNameField.getText().equals(""))
