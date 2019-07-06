@@ -30,7 +30,7 @@ public class ResponseHandler {
 
                     switch (currentResponse.getType()){
                         case accountMenu:
-                                handleAccountMenuRes(currentResponse);
+                            handleAccountMenuRes(currentResponse);
                             break;
                         case shop:
                             break;
@@ -52,7 +52,7 @@ public class ResponseHandler {
         }
         if (currentResponse instanceof LoginResponse){
             if(AccountMenu.getController() != null){
-                ((LoginRegisterController) AccountMenu.getController().)
+
             }
         }
     }

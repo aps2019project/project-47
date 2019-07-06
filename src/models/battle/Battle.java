@@ -69,7 +69,7 @@ public class Battle {
         int b = random.nextInt(boundOfItems);
         for (int i = 0; i < b; i++) {
             int x = random.nextInt(Board.width);
-            int y = random.nextInt(Board.length);
+            int y = random.nextInt(Board.height);
             Location location = new Location(x, y);
             if (location.equals(Board.hero0) || location.equals(Board.hero1)) {
                 i--;
@@ -779,7 +779,7 @@ public class Battle {
     }
 
     public void do_passive_effects(int playerNum) {
-        TargetForm targetForm = new TargetForm(0, 0, Board.width, Board.length, SideType.insider, ForceType.both, null, true);
+        TargetForm targetForm = new TargetForm(0, 0, Board.width, Board.height, SideType.insider, ForceType.both, null, true);
         ArrayList<Minion> minions = board.find_all_minions_in_target(playerNum, new Location(0, 0), targetForm);
         for (Minion minion : minions) {
             if (minion.getSpecialItem() != null && minion.getSpecialItem().getPassive().size() != 0) {
@@ -795,7 +795,7 @@ public class Battle {
         TargetForm enemyTargetForm = new TargetForm(0, 0, 9, 5, SideType.enemy, ForceType.both, null, true);
         ArrayList<Location> allLocations = new ArrayList<>();
         for (int i = 0; i < Board.width; i++) {
-            for (int j = 0; j < Board.length; j++) {
+            for (int j = 0; j < Board.height; j++) {
                 allLocations.add(new Location(i, j));
             }
         }
@@ -888,7 +888,7 @@ public class Battle {
 
     public boolean isThereAnyCellToSpecialPower(int plaNum){
         for (int i = 0; i < Board.width; i++) {
-            for (int j = 0; j < Board.length; j++) {
+            for (int j = 0; j < Board.height; j++) {
                 if (canUseSpecialPower(players[plaNum].getHero(),new Location(i,j),false)){
                     return true;
                 }
@@ -951,5 +951,17 @@ public class Battle {
 
     public int getNumOfFlags() {
         return numOfFlags;
+    }
+
+    public Card getCardByIdFromHands(String cardId){
+        ArrayList<Card> cards = new ArrayList<>();
+        cards.addAll(players[0].getHand().getCards());
+        cards.addAll(players[1].getHand().getCards());
+        for (Card card:cards){
+            if (card.getCardId().equals(cardId)){
+                return card;
+            }
+        }
+        return null;
     }
 }

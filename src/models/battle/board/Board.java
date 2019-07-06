@@ -2,7 +2,6 @@ package models.battle.board;
 
 import controllers.MyController;
 import controllers.console.MainMenu;
-import controllers.graphical.BattleChooseMenuController;
 import controllers.graphical.BattleController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -27,7 +26,7 @@ public class Board {
     public static final Location hero1 = new Location(8, 2);
     private static final Location center = new Location(4, 2);
     public static final int width = 9;
-    public static final int length = 5;
+    public static final int height = 5;
 
     private static Parent root;
     private static BattleController controller;
@@ -37,7 +36,7 @@ public class Board {
     private Cell[][] cells;
 
     public Board() {
-        cells = new Cell[width][length];
+        cells = new Cell[width][height];
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 5; j++) {
                 cells[i][j] = new Cell();
@@ -61,7 +60,7 @@ public class Board {
         Random random = new Random();
         while (number_of_flags > 0) {
             int x = random.nextInt(width);
-            int y = random.nextInt(length);
+            int y = random.nextInt(height);
             Location location = new Location(x, y);
             if (location.equals(hero1)) continue;
             if (location.equals(hero0)) continue;
@@ -136,7 +135,7 @@ public class Board {
 
     public boolean canMove(Minion minion, Location target, boolean printError) {
         Location from = minion.getLocation();
-        if (minion.getLocation().equals(target)){
+        if (minion.getLocation().equals(target)) {
             if (printError) MyPrinter.red("it's his cell!");
             return false;
         }
@@ -324,7 +323,7 @@ public class Board {
         int y1 = originLocation.getY() + targetForm.getY1();
         for (int i = x0; i < x1; i++) {
             for (int j = y0; j < y1; j++) {
-                if (i >= 0 && i < width && j >= 0 && j < length) {
+                if (i >= 0 && i < width && j >= 0 && j < height) {
                     cells.add(this.cells[i][j]);
                 }
             }
@@ -335,7 +334,7 @@ public class Board {
 
     public void do_house_effects() {
         for (int i = 0; i < width; i++) {
-            for (int j = 0; j < length; j++) {
+            for (int j = 0; j < height; j++) {
                 Cell cell = selectCell(i, j);
                 cell.actionHouseEffects();
             }
@@ -351,7 +350,7 @@ public class Board {
         MyPrinter.clearBackground();
         System.out.println();
         MyPrinter.setBackgroundWhite();
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < height; i++) {
             MyPrinter.setBackgroundWhite();
             System.out.print("|");
             //location
@@ -532,8 +531,8 @@ public class Board {
         return width;
     }
 
-    public static int getLength() {
-        return length;
+    public static int getHeight() {
+        return height;
     }
 
     public int getShowBoardSize() {
@@ -544,24 +543,39 @@ public class Board {
         return cells;
     }
 
+    public Minion getMinionByLocation(Location location) {
+        return cells[location.getX()][location.getY()].getMinion();
+    }
 
+    public Minion getMinionById(String minionId){
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                Minion minion = cells[i][j].getMinion();
+                if (minion!=null){
+                    if (minion.getCardId().equals(minionId)){
+                        return minion;
+                    }
+                }
+            }
+        }
+        return null;
+    }
 
     public static Parent getRoot() {
-            FXMLLoader fxmlLoader = new FXMLLoader(MainMenu.class.getResource("/layouts/battlePlane.fxml"));
-            try {
-                root = fxmlLoader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            controller = fxmlLoader.getController();
+        FXMLLoader fxmlLoader = new FXMLLoader(Board.class.getResource("/layouts/battlePlane.fxml"));
+        try {
+            root = fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        controller = fxmlLoader.getController();
 
         controller.update();
         return root;
     }
+
     public static MyController getController() {
         return controller;
     }
-    public Minion getMinionByLocation(Location location){
-        return cells[location.getX()][location.getY()].getMinion();
-    }
+
 }

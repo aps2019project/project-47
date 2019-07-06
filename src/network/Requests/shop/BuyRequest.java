@@ -8,7 +8,6 @@ public class BuyRequest extends Request {
     private int code;
 
     public BuyRequest(String token, int code) {
-        this.reqResType = ReqResType.shop;
         this.authToken = token;
         this.code = code;
     }

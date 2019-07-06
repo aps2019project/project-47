@@ -1,6 +1,7 @@
 package network;
 
 import controllers.console.AccountMenu;
+import controllers.console.BattleMenu;
 import controllers.console.MainMenu;
 import defentions.Defentions;
 import javafx.application.Application;
@@ -11,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import models.Account;
 import models.Shop;
+import models.battle.board.Board;
 import models.cards.hero.Hero;
 import models.cards.minion.Minion;
 import models.cards.spell.Spell;
@@ -78,10 +80,10 @@ public class Client extends Application {
         }
         stage = primaryStage;
 
-        Parent root = AccountMenu.getRoot();
+//        Parent root = AccountMenu.getRoot();
 //        Parent root = MainMenu.getRoot();
 //        Parent root = Shop.getRoot();
-//        Parent root = BattleMenu.getRoot();
+        Parent root = BattleMenu.getRoot();
 //        Parent root = Board.getRoot();
 //        Parent root = FXMLLoader.load(getClass().getResource("../layouts/customCardCreatePage.fxml"));
 //        Parent root = FXMLLoader.load(getClass().getResource("../layouts/Collection.fxml"));

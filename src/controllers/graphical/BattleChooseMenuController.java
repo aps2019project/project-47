@@ -51,7 +51,7 @@ public class BattleChooseMenuController extends MyController {
         Parent root=Board.getRoot();
         BattleController controller = (BattleController) Board.getController();
         controller.initializeBattle(battle,false);
-        //Client.getStage().getScene().setRoot(root);
+        Client.getStage().getScene().setRoot(root);
     }
 
     public void startMultiPlayerGame(ActionEvent event) {
