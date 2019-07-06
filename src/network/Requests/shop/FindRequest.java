@@ -6,10 +6,7 @@ import network.Requests.Request;
 public class FindRequest extends Request {
     private int code;
 
-    @Override
-    public ReqResType getReqResType() {
-        return ReqResType.shop;
-    }
+
 
     public FindRequest(String token, int code) {
         this.authToken = token;

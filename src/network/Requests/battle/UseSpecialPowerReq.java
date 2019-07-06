@@ -8,9 +8,4 @@ public class UseSpecialPowerReq extends Request {
     String heroId;
     Location target;
 
-
-    @Override
-    public ReqResType getReqResType() {
-        return ReqResType.battle;
-    }
 }
