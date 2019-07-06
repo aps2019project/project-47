@@ -10,11 +10,6 @@ public class LogoutRequest extends Request {
     }
 
     @Override
-    public ReqResType getReqResType() {
-        return ReqResType.accountMenu;
-    }
-
-    @Override
     public String getAuthToken() {
         return authToken;
     }

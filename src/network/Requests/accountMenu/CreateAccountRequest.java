@@ -13,11 +13,6 @@ public class CreateAccountRequest extends Request {
         this.authToken = null;
     }
 
-    @Override
-    public ReqResType getReqResType() {
-        return ReqResType.accountMenu;
-    }
-
     public String getUserName() {
         return userName;
     }
