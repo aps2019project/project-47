@@ -11,9 +11,9 @@ public class BattleHistory {
 
     public BattleHistory(Player[] players, Board board) {
         this.battleActions = new ArrayList<>();
-        players = new Player[2];
-        players[0] = players[0].clone();
-        players[1] = players[1].clone();
+        this.players = new Player[2];
+        this.players[0] = players[0].clone();
+        this.players[1] = players[1].clone();
         this.board = board.clone();
     }
 

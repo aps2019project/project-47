@@ -80,6 +80,7 @@ public class BattleController extends MyController implements Initializable {
         creatHandScene();
         createButtons();
         creatAiPlayer();
+        createReviewTimer();
         creatManaViewers();
     }
 

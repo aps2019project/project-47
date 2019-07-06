@@ -80,8 +80,8 @@ public class Client extends Application {
         }
         stage = primaryStage;
 
-        Parent root = AccountMenu.getRoot();
-//        Parent root = MainMenu.getRoot();
+//        Parent root = AccountMenu.getRoot();
+        Parent root = MainMenu.getRoot();
 //        Parent root = Shop.getRoot();
 //        Parent root = BattleMenu.getRoot();
 //        Parent root = Board.getRoot();
