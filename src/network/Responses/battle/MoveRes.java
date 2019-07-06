@@ -1,4 +1,4 @@
-package network.Responses.attack;
+package network.Responses.battle;
 
 import controllers.Constants;
 import controllers.graphical.BattleController;
@@ -16,12 +16,17 @@ public class MoveRes extends Response {
     }
 
     @Override
+    public void handleResponse() {
+        ((BattleController)Board.getController()).moveRes(minionId,location);
+    }
+
+    @Override
     public Constants getRequestResult() {
         return null;
     }
 
     @Override
     public void handle(){
-        ((BattleController)Board.getController()).moveRes(minionId,location);
+
     }
 }

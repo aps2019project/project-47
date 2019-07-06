@@ -93,6 +93,9 @@ public class ClientHandler extends Thread {
             if (request instanceof LogoutRequest){
                 LogoutResponse logoutResponse = new LogoutResponse((LogoutRequest) request);
                 logoutResponse.handleRequest();
+                responseStr = gson.toJson(logoutResponse);
+                out.println(responseStr);
+                out.flush();
                 continue;
             }
             if (request instanceof UpdateChatRequest){

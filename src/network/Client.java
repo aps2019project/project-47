@@ -1,7 +1,6 @@
 package network;
 
 import controllers.console.AccountMenu;
-import controllers.console.BattleMenu;
 import controllers.console.MainMenu;
 import defentions.Defentions;
 import javafx.application.Application;
@@ -20,6 +19,7 @@ import models.deck.Deck;
 import models.item.Item;
 
 import java.io.*;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -80,10 +80,10 @@ public class Client extends Application {
         }
         stage = primaryStage;
 
-//        Parent root = AccountMenu.getRoot();
+        Parent root = AccountMenu.getRoot();
 //        Parent root = MainMenu.getRoot();
 //        Parent root = Shop.getRoot();
-        Parent root = BattleMenu.getRoot();
+//        Parent root = BattleMenu.getRoot();
 //        Parent root = Board.getRoot();
 //        Parent root = FXMLLoader.load(getClass().getResource("../layouts/customCardCreatePage.fxml"));
 //        Parent root = FXMLLoader.load(getClass().getResource("../layouts/Collection.fxml"));

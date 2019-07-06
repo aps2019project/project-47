@@ -9,6 +9,7 @@ public abstract class Response{
     protected Request request;
     protected Constants requestResult;
     public abstract void handleRequest();
+    public abstract void handleResponse();
     public abstract Constants getRequestResult();
 
     public ReqResType getType() {

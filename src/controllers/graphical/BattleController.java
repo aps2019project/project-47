@@ -24,9 +24,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
-import models.battle.Battle;
-import models.battle.Hand;
-import models.battle.Player;
+import models.battle.*;
 import models.battle.board.Board;
 import models.battle.board.Location;
 import models.cards.Card;
@@ -47,8 +45,10 @@ import java.util.Random;
 import java.util.ResourceBundle;
 
 public class BattleController extends MyController implements Initializable {
-    Double hideAndRiseSpeed = 50.0;
+    Double hideAndRiseSpeed = 100.0;
     Double aiPlayerSpeed = 150.0;
+    Double reviewSpeed = 150.0;
+
 
     public AnchorPane anchorPane;
     private Board board;
@@ -57,11 +57,14 @@ public class BattleController extends MyController implements Initializable {
     private GraphicalHand graphicalHand;
     private GraphicalBoard graphicalBoard;
     private StateOfMouseClicked[] stateOfMouseClickeds;
+    private BattleHistory lastBattleHistory;
     private boolean onServer;
+    private boolean onReview;
     private int turn;
     private Player[] players;
     private AnimationTimer aiTimer;
     private AnimationTimer checker;
+    private AnimationTimer reviewTimer;
     private ImageView background;
     private MediaPlayer music;
     private boolean nowInAlertt;
@@ -80,13 +83,17 @@ public class BattleController extends MyController implements Initializable {
         creatManaViewers();
     }
 
-    public void initializeBattle(Battle battle,boolean onServer) {
+    public void initializeBattle(Battle battle,boolean onServer,boolean onReview) {
         this.battle = battle;
         this.onServer = onServer;
+        this.onReview = onReview;
         this.board = battle.getBoard();
         graphicalBoard.setBoard(board);
         playerSelectedCard = new Card[2];
         players = battle.getPlayers();
+        if (!onReview){
+            lastBattleHistory = new BattleHistory(players,board);
+        }
         players[0].mana_rise(2);
         players[1].mana_rise(2);
         turn = battle.getTurn();
@@ -100,12 +107,16 @@ public class BattleController extends MyController implements Initializable {
         manaViewers[1].update();
         update_specialPower_btn();
         checkerRun();
-        if (!players[turn].isHuman()){
-            if (!onServer){
-                aiTimer.start();
+        if (onReview){
+            reviewTimer.start();
+        }else {
+            if (!players[turn].isHuman()){
+                if (!onServer){
+                    aiTimer.start();
+                }
             }
         }
-        rainShit();
+
     }
 
     private void setBackground() {
@@ -346,6 +357,42 @@ public class BattleController extends MyController implements Initializable {
         anchorPane.getChildren().add(manaViewers[1].parentPane);
     }
 
+    private void createReviewTimer(){
+        reviewTimer = new AnimationTimer() {
+            int historyActionCoiunter = 0;
+            int lastTime = 1;
+
+            @Override
+            public void handle(long now) {
+                if (lastTime % reviewSpeed == 0) {
+                    doNextOneAction();
+                }
+                lastTime++;
+            }
+
+            private void doNextOneAction() {
+                BattleAction lastOn = lastBattleHistory.get(historyActionCoiunter);
+                switch (lastOn.getType()){
+                    case attack:{
+                        attackRes(lastOn.getCardId1(),lastOn.getCardId2());
+                        break;
+                    }
+                    case move:{
+                        moveRes(lastOn.getCardId1(),lastOn.getLocation());
+                        break;
+                    }
+                    case endTurn:{
+                        endTurn();
+                    }
+                    case useSpecialPower:{
+                        useSpecialPowerRes(lastOn.getCardId1(),lastOn.getLocation());
+                    }
+                }
+                historyActionCoiunter++;
+            }
+        };
+    }
+
 
     private ImageView creatImageViewerOfMinion(Minion minion, MinionImageViewType minionImageViewType) {
         switch (minionImageViewType) {
@@ -537,6 +584,7 @@ public class BattleController extends MyController implements Initializable {
     private void endTurn() {
 
         aiTimer.stop();
+        reviewTimer.stop();
 
         battle.changeTurn();
         turn = 1 - turn;
@@ -550,9 +598,13 @@ public class BattleController extends MyController implements Initializable {
         myAlert.setOnfinishEvent(event -> {
             update_specialPower_btn();
 
-            if (!players[turn].isHuman()) {
-                if (!onServer){
-                    aiTimer.start();
+            if (onReview){
+                reviewTimer.start();
+            }else {
+                if (!players[turn].isHuman()){
+                    if (!onServer){
+                        aiTimer.start();
+                    }
                 }
             }
 
@@ -585,7 +637,7 @@ public class BattleController extends MyController implements Initializable {
                 }
             }
         }
-        //checking attack
+        //checking battle
         battle.randomSort(allLocations);
         for (Minion attacker : insiderForces) {
             for (Minion defender : enemyForces) {
@@ -623,6 +675,7 @@ public class BattleController extends MyController implements Initializable {
 
     private void battleFinish() {
         aiTimer.stop();
+        reviewTimer.stop();
         checker.stop();
         music.stop();
 

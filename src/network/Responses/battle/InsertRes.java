@@ -1,20 +1,23 @@
-package network.Responses.attack;
+package network.Responses.battle;
 
 import controllers.Constants;
-import controllers.MyController;
-import controllers.console.AccountMenu;
 import controllers.graphical.BattleController;
-import models.Account;
 import models.battle.board.Board;
-import network.Client;
-import network.Requests.accountMenu.LogoutRequest;
+import models.battle.board.Location;
 import network.Responses.Response;
 
-public class EndTurnRes extends Response {
+public class InsertRes extends Response {
+    String cardId;
+    Location target;
 
     @Override
     public void handleRequest() {
 
+    }
+
+    @Override
+    public void handleResponse() {
+        ((BattleController)Board.getController()).insertRes(cardId, target);
     }
 
     @Override
@@ -24,6 +27,5 @@ public class EndTurnRes extends Response {
 
     @Override
     public void handle(){
-        ((BattleController)Board.getController()).endTurnRes();
     }
 }

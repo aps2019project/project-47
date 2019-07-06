@@ -1,19 +1,15 @@
 package network;
 
 import com.gilecode.yagson.YaGson;
-import controllers.console.AccountMenu;
-import controllers.graphical.LoginRegisterController;
 import javafx.animation.AnimationTimer;
-import network.Responses.CreateAccountResponse;
-import network.Responses.LoginResponse;
-import network.Responses.ReceiveMessageResponse;
+import javafx.application.Platform;
 import network.Responses.Response;
 
 import java.util.Scanner;
 
-import static network.ReqResType.*;
-
 public class ResponseHandler {
+    //    private final AnimationTimer listener;
+    private Thread listener;
     private String currentResponseStr;
     private Response currentResponse;
     private Object lock = new Object();
@@ -21,40 +17,46 @@ public class ResponseHandler {
     private ResponseHandler() {
         Scanner responseScanner = Client.getServerScanner();
         YaGson yaGson = new YaGson();
-        AnimationTimer listener = new AnimationTimer() {
+
+//        listener = new AnimationTimer() {
+//            int lastTime = 0;
+//            @Override
+//            public void handle(long now) {
+//
+//                if(responseScanner.hasNextLine()) {
+//                    currentResponseStr = responseScanner.nextLine();
+//                    currentResponse = yaGson.fromJson(currentResponseStr, Response.class);
+//                    currentResponse.handleResponse();
+//                }
+//                lastTime++;
+//                System.out.println(lastTime);
+//                if (lastTime>100){
+//                    stop();
+//                }
+//            }
+//        };
+        listener = new Thread() {
             @Override
-            public void handle(long now) {
+            public void run() {
                 while (responseScanner.hasNextLine()) {
                     currentResponseStr = responseScanner.nextLine();
                     currentResponse = yaGson.fromJson(currentResponseStr, Response.class);
-
-                    switch (currentResponse.getType()){
-                        case accountMenu:
-                            handleAccountMenuRes(currentResponse);
-                            break;
-                        case shop:
-                            break;
-                        case battle:
-                            break;
-                        case chatMenu:
-                            break;
-                    }
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            currentResponse.handleResponse();
+                        }
+                    });
                 }
             }
         };
+        listener.setPriority(1);
+
     }
 
-    private void handleAccountMenuRes(Response currentResponse) {
-        if (currentResponse instanceof CreateAccountResponse){
-            if (AccountMenu.getController()!=null){
-                ((LoginRegisterController) AccountMenu.getController()).createAccount(currentResponse.getRequestResult());
-            }
-        }
-        if (currentResponse instanceof LoginResponse){
-            if(AccountMenu.getController() != null){
-
-            }
-        }
+    public void start() {
+        listener.start();
+        System.out.println("k1");
     }
 
     private static ResponseHandler responseHandler;

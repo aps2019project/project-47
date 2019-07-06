@@ -1,5 +1,7 @@
 package models.battle;
 
+import com.gilecode.yagson.YaGson;
+import models.battle.board.Board;
 import models.cards.buff.Buff;
 import models.cards.Card;
 import models.cards.hero.Hero;
@@ -169,6 +171,13 @@ public class Player {
 
     public Item getItem() {
         return item;
+    }
+
+    public Player clone(){
+        YaGson yaGson = new YaGson();
+        String clonedStr = yaGson.toJson(this);
+        Player cloned = yaGson.fromJson(clonedStr, Player.class);
+        return cloned;
     }
 
 }

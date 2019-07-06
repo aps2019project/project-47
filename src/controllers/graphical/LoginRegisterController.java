@@ -44,56 +44,63 @@ public class LoginRegisterController extends MyController implements Initializab
 
     public static YaGson yaGson = new YaGson();
 
-    public void loginButtonAction() throws IOException {
+    public void loginButtonAction(){
         if (checkFreeBoxes(userNameField, passwordField, messageLabelLogin)) return;
         LoginRequest request = new LoginRequest(userNameField.getText(), passwordField.getText());
         Client.getWriter().println(yaGson.toJson(request));
         Client.getWriter().flush();
-//        switch (requestResult) {
-//            case INVALID_USERNAME:
-//                userNameField.getStyleClass().add("wrong");
-//                userNameField.setText("");
-//                passwordField.getStyleClass().removeIf(style -> style.equals("wrong"));
-//                messageLabelLogin.getStyleClass().removeIf(style -> !style.equals("badMessage"));
-//                messageLabelLogin.getStyleClass().add("badMessage");
-//                messageLabelLogin.setText("Invalid user name!");
-//                return;
-//            case WRONG_PASSWORD:
-//                passwordField.getStyleClass().add("wrong");
-//                passwordField.setText("");
-//                userNameField.getStyleClass().removeIf(style -> style.equals("wrong"));
-//                messageLabelLogin.getStyleClass().removeIf(style -> !style.equals("badMessage"));
-//                messageLabelLogin.getStyleClass().add("badMessage");
-//                messageLabelLogin.setText("Wrong password,try again...");
-//                return;
-//            case ACCOUNT_LOGGED_IN:
-//                messageLabelLogin.getStyleClass().removeIf(style -> !style.equals("badMessage"));
-//                messageLabelLogin.getStyleClass().add("badMessage");
-//                messageLabelLogin.setText("Account " + userNameField.getText() + " Logged in!");
-//                userNameField.getStyleClass().add("wrong");
-//                userNameField.setText("");
-//                passwordField.setText("");
-//                return;
-//            case SUCCESSFUL_LOGIN:
-//                if (response instanceof LoginResponse) {
-//                    AccountMenu.setLoginAccount(((LoginResponse) response).getAccount());
-//                    userNameField.setText("");
-//                    passwordField.setText("");
-//                    userNameField.getStyleClass().removeIf(style -> style.equals("wrong"));
-//                    passwordField.getStyleClass().removeIf(style -> style.equals("wrong"));
-////                messageLabelLogin.setText("You are logged in successfully!");
-//                    messageLabelLogin.getStyleClass().removeIf(style -> !style.equals("goodMessage"));
-//                    messageLabelLogin.getStyleClass().add("goodMessage");
-//                    Parent root = FXMLLoader.load(getClass().getResource("../../layouts/mainMenu.fxml"));
-//                    Client.getStage().getScene().setRoot(root);
-//                }
-//        }
+    }
+
+    public void login(Response response){
+        switch (response.getRequestResult()) {
+            case INVALID_USERNAME:
+                userNameField.getStyleClass().add("wrong");
+                userNameField.setText("");
+                passwordField.getStyleClass().removeIf(style -> style.equals("wrong"));
+                messageLabelLogin.getStyleClass().removeIf(style -> !style.equals("badMessage"));
+                messageLabelLogin.getStyleClass().add("badMessage");
+                messageLabelLogin.setText("Invalid user name!");
+                return;
+            case WRONG_PASSWORD:
+                passwordField.getStyleClass().add("wrong");
+                passwordField.setText("");
+                userNameField.getStyleClass().removeIf(style -> style.equals("wrong"));
+                messageLabelLogin.getStyleClass().removeIf(style -> !style.equals("badMessage"));
+                messageLabelLogin.getStyleClass().add("badMessage");
+                messageLabelLogin.setText("Wrong password,try again...");
+                return;
+            case ACCOUNT_LOGGED_IN:
+                messageLabelLogin.getStyleClass().removeIf(style -> !style.equals("badMessage"));
+                messageLabelLogin.getStyleClass().add("badMessage");
+                messageLabelLogin.setText("Account " + userNameField.getText() + " Logged in!");
+                userNameField.getStyleClass().add("wrong");
+                userNameField.setText("");
+                passwordField.setText("");
+                return;
+            case SUCCESSFUL_LOGIN:
+                if (response instanceof LoginResponse) {
+                    AccountMenu.setLoginAccount(((LoginResponse) response).getAccount());
+                    userNameField.setText("");
+                    passwordField.setText("");
+                    userNameField.getStyleClass().removeIf(style -> style.equals("wrong"));
+                    passwordField.getStyleClass().removeIf(style -> style.equals("wrong"));
+//                messageLabelLogin.setText("You are logged in successfully!");
+                    messageLabelLogin.getStyleClass().removeIf(style -> !style.equals("goodMessage"));
+                    messageLabelLogin.getStyleClass().add("goodMessage");
+                    Parent root = null;
+                    try {
+                        root = FXMLLoader.load(getClass().getResource("../../layouts/mainMenu.fxml"));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Client.getStage().getScene().setRoot(root);
+                }
+        }
     }
 
     public void registerButtonAction() {
         if (checkFreeBoxes(newUserNameField, newPasswordField, messageLabelRegister)) return;
         CreateAccountRequest request = new CreateAccountRequest(newUserNameField.getText(), newPasswordField.getText());
-        Constants requestResult = null;
         Client.getWriter().println(yaGson.toJson(request));
         Client.getWriter().flush();
     }
@@ -179,5 +186,6 @@ public class LoginRegisterController extends MyController implements Initializab
                 AccountMenu.addAccount(account);
             }
         }
+        AccountMenu.controller = this;
     }
 }

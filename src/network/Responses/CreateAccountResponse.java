@@ -4,6 +4,7 @@ import com.gilecode.yagson.YaGson;
 import com.gilecode.yagson.YaGsonBuilder;
 import controllers.Constants;
 import controllers.console.AccountMenu;
+import controllers.graphical.LoginRegisterController;
 import models.Account;
 import network.Requests.accountMenu.CreateAccountRequest;
 
@@ -49,4 +50,8 @@ public class CreateAccountResponse extends Response {
         return this.requestResult;
     }
 
+    @Override
+    public void handleResponse() {
+        ((LoginRegisterController) AccountMenu.getController()).createAccount(requestResult);
+    }
 }

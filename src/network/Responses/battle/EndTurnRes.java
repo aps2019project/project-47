@@ -1,17 +1,19 @@
-package network.Responses.attack;
+package network.Responses.battle;
 
 import controllers.Constants;
 import controllers.graphical.BattleController;
 import models.battle.board.Board;
-import models.battle.board.Location;
 import network.Responses.Response;
 
-public class UseSpecialPowerRes extends Response {
-    String heroId;
-    Location target;
+public class EndTurnRes extends Response {
 
     @Override
     public void handleRequest() {
+
+    }
+
+    @Override
+    public void handleResponse() {
 
     }
 
@@ -22,6 +24,6 @@ public class UseSpecialPowerRes extends Response {
 
     @Override
     public void handle(){
-        ((BattleController)Board.getController()).useSpecialPowerRes(heroId,target);
+        ((BattleController)Board.getController()).endTurnRes();
     }
 }

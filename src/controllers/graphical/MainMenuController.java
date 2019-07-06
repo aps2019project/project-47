@@ -1,6 +1,7 @@
 package controllers.graphical;
 
 import com.gilecode.yagson.YaGson;
+import controllers.MyController;
 import controllers.console.AccountMenu;
 import controllers.console.BattleMenu;
 import javafx.fxml.FXMLLoader;
@@ -19,12 +20,16 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Formatter;
 
-public class MainMenuController {
+public class MainMenuController extends MyController {
 
     public Account loginAccount = AccountMenu.getLoginAccount();
 
     public static YaGson yaGson;
 
+    public static MainMenuController instance;
+    {
+        instance = this;
+    }
 
     public void goToPlayMenu() {
         Client.getStage().getScene().setRoot(BattleMenu.getRoot());
@@ -52,8 +57,18 @@ public class MainMenuController {
         LogoutRequest request = new LogoutRequest(AccountMenu.getLoginAccount().getAuthToken());
         Client.getWriter().println(yaGson.toJson(request));
         Client.getWriter().flush();
+    }
+
+    public void doLogOut(){
         AccountMenu.setLoginAccount(null);
-        Client.getStage().getScene().setRoot(AccountMenu.getRoot());
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/layouts/accountPage.fxml"));
+            Client.getStage().getScene().setRoot(root);
+            System.out.println("keshidesh");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("alan tooye do log out am");
     }
 
     public void goToCustomCardMenu() throws IOException {

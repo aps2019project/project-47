@@ -2,6 +2,8 @@ package network.Responses;
 
 import controllers.Constants;
 import controllers.console.AccountMenu;
+import controllers.console.MainMenu;
+import controllers.graphical.MainMenuController;
 import models.Account;
 import network.Client;
 import network.Requests.accountMenu.LogoutRequest;
@@ -25,7 +27,8 @@ public class LogoutResponse extends Response {
     }
 
     @Override
-    public void handle(){
-
+    public void handleResponse() {
+        MainMenuController.instance.doLogOut();
+        System.out.println("alan toye handle response am");
     }
 }

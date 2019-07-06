@@ -1,5 +1,6 @@
 package models.battle.board;
 
+import com.gilecode.yagson.YaGson;
 import controllers.MyController;
 import controllers.console.MainMenu;
 import controllers.graphical.BattleController;
@@ -576,6 +577,12 @@ public class Board {
 
     public static MyController getController() {
         return controller;
+    }
+    public Board clone(){
+        YaGson yaGson = new YaGson();
+        String clonedStr = yaGson.toJson(this);
+        Board cloned = yaGson.fromJson(clonedStr, Board.class);
+        return cloned;
     }
 
 }
