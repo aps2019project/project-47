@@ -1,12 +1,14 @@
-package network.Requests;
+package network.Requests.shop;
 
 import network.ReqResType;
+import network.Requests.Request;
 
 public class BuyRequest extends Request {
 
     private int code;
 
     public BuyRequest(String token, int code) {
+        this.reqResType = ReqResType.shop;
         this.authToken = token;
         this.code = code;
     }
@@ -17,7 +19,7 @@ public class BuyRequest extends Request {
 
     @Override
     public ReqResType getReqResType() {
-        return ReqResType.BUY;
+        return ReqResType.shop;
     }
 
 }

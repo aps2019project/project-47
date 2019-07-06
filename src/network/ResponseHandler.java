@@ -1,11 +1,17 @@
 package network;
 
 import com.gilecode.yagson.YaGson;
+import controllers.console.AccountMenu;
+import controllers.graphical.LoginRegisterController;
 import javafx.animation.AnimationTimer;
+import network.Responses.CreateAccountResponse;
+import network.Responses.LoginResponse;
 import network.Responses.ReceiveMessageResponse;
 import network.Responses.Response;
 
 import java.util.Scanner;
+
+import static network.ReqResType.*;
 
 public class ResponseHandler {
     private String currentResponseStr;
@@ -22,10 +28,33 @@ public class ResponseHandler {
                     currentResponseStr = responseScanner.nextLine();
                     currentResponse = yaGson.fromJson(currentResponseStr, Response.class);
 
-                    if (currentResponse)
+                    switch (currentResponse.getType()){
+                        case accountMenu:
+                                handleAccountMenuRes(currentResponse);
+                            break;
+                        case shop:
+                            break;
+                        case battle:
+                            break;
+                        case chatMenu:
+                            break;
+                    }
                 }
             }
         };
+    }
+
+    private void handleAccountMenuRes(Response currentResponse) {
+        if (currentResponse instanceof CreateAccountResponse){
+            if (AccountMenu.getController()!=null){
+                ((LoginRegisterController) AccountMenu.getController()).createAccount(currentResponse.getRequestResult());
+            }
+        }
+        if (currentResponse instanceof LoginResponse){
+            if(AccountMenu.getController() != null){
+                ((LoginRegisterController) AccountMenu.getController().)
+            }
+        }
     }
 
     private static ResponseHandler responseHandler;
@@ -36,9 +65,6 @@ public class ResponseHandler {
         return responseHandler;
     }
 
-    public String getCurrentResponseStr() {
-        return currentResponseStr;
-    }
 
     public Response getCurrentResponse() {
         return currentResponse;

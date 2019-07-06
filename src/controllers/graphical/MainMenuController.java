@@ -1,8 +1,6 @@
 package controllers.graphical;
 
 import com.gilecode.yagson.YaGson;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import controllers.console.AccountMenu;
 import controllers.console.BattleMenu;
 import javafx.fxml.FXMLLoader;
@@ -12,8 +10,7 @@ import layouts.AlertHelper;
 import models.Account;
 import models.Shop;
 import network.Client;
-import network.Requests.LogoutRequest;
-import network.Responses.LogoutResponse;
+import network.Requests.accountMenu.LogoutRequest;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -22,7 +19,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Formatter;
 
-public class MainMenuController { ;
+public class MainMenuController {
+
     public Account loginAccount = AccountMenu.getLoginAccount();
 
     public static YaGson yaGson;
@@ -43,7 +41,7 @@ public class MainMenuController { ;
 
     public void goToHistoryMenu() {
         try {
-            FXMLLoader.load(getClass().getResource("/layouts/MatchHistory.fxml"));
+           Client.getStage().getScene().setRoot(FXMLLoader.load(getClass().getResource("/layouts/MatchHistory.fxml")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -52,11 +50,10 @@ public class MainMenuController { ;
     public void logOut() {
         yaGson = new YaGson();
         LogoutRequest request = new LogoutRequest(AccountMenu.getLoginAccount().getAuthToken());
-        Client.getOut().println(yaGson.toJson(request));
-        Client.getOut().flush();
-        String responseStr = Client.getServerScanner().nextLine();
-        LogoutResponse logoutResponse = yaGson.fromJson(responseStr, LogoutResponse.class);
-        logoutResponse.getRequestResult();
+        Client.getWriter().println(yaGson.toJson(request));
+        Client.getWriter().flush();
+        AccountMenu.setLoginAccount(null);
+        Client.getStage().getScene().setRoot(AccountMenu.getRoot());
     }
 
     public void goToCustomCardMenu() throws IOException {
@@ -64,11 +61,12 @@ public class MainMenuController { ;
     }
 
     public void exit() {
+        logOut();
         System.exit(0);
     }
 
     public void saveAccount() {
-        if(loginAccount == null)
+        if (loginAccount == null)
             return;
         yaGson = new YaGson();
         String json = yaGson.toJson(loginAccount);

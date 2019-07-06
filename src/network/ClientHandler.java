@@ -5,6 +5,13 @@ import com.gilecode.yagson.YaGsonBuilder;
 import models.Account;
 import models.Shop;
 import network.Requests.*;
+import network.Requests.accountMenu.CreateAccountRequest;
+import network.Requests.accountMenu.LoginRequest;
+import network.Requests.accountMenu.LogoutRequest;
+import network.Requests.chatRoom.SendMessageRequest;
+import network.Requests.chatRoom.UpdateChatRequest;
+import network.Requests.shop.BuyRequest;
+import network.Requests.shop.FindRequest;
 import network.Responses.*;
 
 import java.io.IOException;
@@ -86,9 +93,6 @@ public class ClientHandler extends Thread {
             if (request instanceof LogoutRequest){
                 LogoutResponse logoutResponse = new LogoutResponse((LogoutRequest) request);
                 logoutResponse.handleRequest();
-                responseStr = gson.toJson(logoutResponse);
-                out.println(responseStr);
-                out.flush();
                 continue;
             }
             if (request instanceof UpdateChatRequest){

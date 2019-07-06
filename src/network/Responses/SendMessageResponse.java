@@ -3,7 +3,7 @@ package network.Responses;
 import controllers.Constants;
 import models.Account;
 import models.Message;
-import network.Requests.SendMessageRequest;
+import network.Requests.chatRoom.SendMessageRequest;
 import network.Server;
 
 public class SendMessageResponse extends Response{

@@ -3,6 +3,7 @@ package controllers.graphical;
 import com.gilecode.yagson.YaGson;
 import com.gilecode.yagson.YaGsonBuilder;
 import com.jfoenix.controls.JFXButton;
+import controllers.Constants;
 import controllers.console.AccountMenu;
 import controllers.console.MainMenu;
 import javafx.event.ActionEvent;
@@ -24,9 +25,10 @@ import models.cards.minion.Minion;
 import models.cards.spell.Spell;
 import models.item.Item;
 import network.Client;
-import network.Requests.BuyRequest;
-import network.Requests.FindRequest;
+import network.Requests.shop.BuyRequest;
+import network.Requests.shop.FindRequest;
 import network.Requests.SellRequest;
+import network.ResponseHandler;
 import network.Responses.BuyResponse;
 import network.Responses.FindResponse;
 
@@ -59,9 +61,6 @@ public class UniversalShopController implements Initializable {
     HashMap<String, SplitPane> forSearchCards = new HashMap<>();
     HashMap<String, SplitPane> cards = new HashMap<>();
     Shop shop = Shop.getInstance();
-
-    public UniversalShopController() {
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -102,9 +101,6 @@ public class UniversalShopController implements Initializable {
 
     @FXML
     private TextField searchField;
-
-    @FXML
-    private Button searchShowButton;
 
     @FXML
     private Label money;
@@ -197,9 +193,11 @@ public class UniversalShopController implements Initializable {
                 buyID(id);
                 money.setText("Money : ".concat(Integer.toString(loginAccount.getMoney())));
             });
-            if (cardOrItem instanceof Card)
+            if (cardOrItem instanceof Card){
+
                 button.setText("Buy " + ((Card) cardOrItem).getName() + " " + ((Card) cardOrItem).getPrice() + "$\n"
                         + Shop.getInstance().getCards().get(cardOrItem) + " of it existed!");
+            }
             else if (cardOrItem instanceof Item)
                 button.setText("Buy " + ((Item) cardOrItem).getName() + " " + ((Item) cardOrItem).getPrice() + "$\n " +
                         +Shop.getInstance().getItems().get(cardOrItem) + " of this item existed!");
@@ -214,8 +212,8 @@ public class UniversalShopController implements Initializable {
                 }
                 SellRequest sellRequest = new SellRequest(AccountMenu.getLoginAccount().getAuthToken(), Integer.parseInt(id.substring(1)));
                 String yaJson1 = yaGson.toJson(sellRequest);
-                Client.getOut().println(yaJson1);
-                Client.getOut().flush();
+                Client.getWriter().println(yaJson1);
+                Client.getWriter().flush();
                 cards.remove(name);
                 addCardsToContainer(cards.values());
                 money.setText("Money : ".concat(Integer.toString(loginAccount.getMoney())));
@@ -255,8 +253,8 @@ public class UniversalShopController implements Initializable {
     private void buyID(String id) {
         BuyRequest buyRequest = new BuyRequest(AccountMenu.getLoginAccount().getAuthToken(), Integer.parseInt(id.substring(1)));
         String yaJson1 = yaGson.toJson(buyRequest);
-        Client.getOut().println(yaJson1);
-        Client.getOut().flush();
+        Client.getWriter().println(yaJson1);
+        Client.getWriter().flush();
         String str1 = Client.getServerScanner().nextLine();
         BuyResponse buyResponse = yaGson.fromJson(str1, BuyResponse.class);
         switch (buyResponse.getRequestResult()) {
@@ -275,11 +273,22 @@ public class UniversalShopController implements Initializable {
         }
     }
 
+    private void waitForResponse() {
+        while (ResponseHandler.getInstance().getCurrentResponse() == null) {
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
     private Object getCardOfItem(String id) {
         FindRequest findRequest = new FindRequest(AccountMenu.getLoginAccount().getAuthToken(), Integer.parseInt(id.substring(1)));
         String yaJson = yaGson.toJson(findRequest);
-        Client.getOut().println(yaJson);
-        Client.getOut().flush();
+        Client.getWriter().println(yaJson);
+        Client.getWriter().flush();
         String str = Client.getServerScanner().nextLine();
         FindResponse findResponse = yaGson.fromJson(str, FindResponse.class);
         return findResponse.getCardOrItem();

@@ -2,13 +2,10 @@ package network.Responses;
 
 import com.gilecode.yagson.YaGson;
 import com.gilecode.yagson.YaGsonBuilder;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import controllers.Constants;
 import controllers.console.AccountMenu;
 import models.Account;
-import network.Requests.CreateAccountRequest;
-import network.Requests.Request;
+import network.Requests.accountMenu.CreateAccountRequest;
 
 import java.io.File;
 import java.io.FileNotFoundException;

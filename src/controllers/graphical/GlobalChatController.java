@@ -4,10 +4,7 @@ import com.gilecode.yagson.YaGson;
 import com.jfoenix.controls.JFXTextField;
 import controllers.console.AccountMenu;
 import controllers.console.MainMenu;
-import javafx.animation.AnimationTimer;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -17,10 +14,8 @@ import javafx.scene.layout.*;
 import models.Account;
 import models.Message;
 import network.Client;
-import network.Requests.SendMessageRequest;
-import network.Requests.UpdateChatRequest;
-import network.ResponseHandler;
-import network.Responses.Response;
+import network.Requests.chatRoom.SendMessageRequest;
+import network.Requests.chatRoom.UpdateChatRequest;
 import network.Responses.UpdateChatResponse;
 
 import java.net.URL;
@@ -29,7 +24,6 @@ import java.util.ResourceBundle;
 public class GlobalChatController implements Initializable {
     Account loginAccount = AccountMenu.getLoginAccount();
     YaGson yaGson = new YaGson();
-    boolean hasStarted = false;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -38,31 +32,16 @@ public class GlobalChatController implements Initializable {
                 BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(
                 100, 100, true, true, true, true)));
         sendButton.setBackground(background);
-        AnimationTimer animationTimer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                while (true) {
-                    update();
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        };
-        animationTimer.start();
+        update();
     }
-
     @FXML
     private void update() {
         UpdateChatRequest request = new UpdateChatRequest(loginAccount.getAuthToken());
-        Client.getOut().println(yaGson.toJson(request));
-        Client.getOut().flush();
-        ResponseHandler.waitForResponse();
-        Response response = ResponseHandler.getInstance().getCurrentResponse();
-        ResponseHandler.getInstance().clearResponse();
-        for (Message message : ((UpdateChatResponse) response).getMessages()) {
+        Client.getWriter().println(yaGson.toJson(request));
+        Client.getWriter().flush();
+        String responseStr = Client.getServerScanner().nextLine();
+        UpdateChatResponse response = yaGson.fromJson(responseStr, UpdateChatResponse.class);
+        for (Message message : response.getMessages()) {
             if (message.getSenderUserName().equals(loginAccount.getUserName())) {
                 AnchorPane myMessage = message.buildMessageBox(true);
                 chats.getChildren().add(myMessage);
@@ -100,15 +79,13 @@ public class GlobalChatController implements Initializable {
 
         Message message = new Message(senderUserName, textMessage);
         SendMessageRequest request = new SendMessageRequest(message, loginAccount.getAuthToken());
-        Client.getOut().println(yaGson.toJson(request));
-        Client.getOut().flush();
+        Client.getWriter().println(yaGson.toJson(request));
+        Client.getWriter().flush();
         chatText.clear();
-
     }
 
     @FXML
-    private void back() {
+    private void back(){
         Client.getStage().getScene().setRoot(MainMenu.getRoot());
-        hasStarted = false;
     }
 }

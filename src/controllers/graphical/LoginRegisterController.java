@@ -1,14 +1,12 @@
 package controllers.graphical;
 
 import com.gilecode.yagson.YaGson;
-import com.gilecode.yagson.YaGsonBuilder;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextField;
 import controllers.Constants;
+import controllers.MyController;
 import controllers.console.AccountMenu;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,8 +14,8 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import models.Account;
 import network.Client;
-import network.Requests.CreateAccountRequest;
-import network.Requests.LoginRequest;
+import network.Requests.accountMenu.CreateAccountRequest;
+import network.Requests.accountMenu.LoginRequest;
 import network.ResponseHandler;
 import network.Responses.CreateAccountResponse;
 import network.Responses.LoginResponse;
@@ -27,14 +25,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
-import static controllers.console.AccountMenu.doCommand;
 import static controllers.Constants.*;
 
-public class LoginRegisterController implements Initializable {
+public class LoginRegisterController extends MyController implements Initializable {
 
     public JFXTabPane mainPage;
     public JFXTextField userNameField;
@@ -51,15 +47,8 @@ public class LoginRegisterController implements Initializable {
     public void loginButtonAction() throws IOException {
         if (checkFreeBoxes(userNameField, passwordField, messageLabelLogin)) return;
         LoginRequest request = new LoginRequest(userNameField.getText(), passwordField.getText());
-        Client.getOut().println(yaGson.toJson(request));
-        Client.getOut().flush();
-        Constants requestResult = null;
-        ResponseHandler.waitForResponse();
-        Response response = ResponseHandler.getInstance().getCurrentResponse();
-        ResponseHandler.getInstance().clearResponse();
-        if (response instanceof LoginResponse){
-            requestResult = response.getRequestResult();
-        }
+        Client.getWriter().println(yaGson.toJson(request));
+        Client.getWriter().flush();
         switch (requestResult) {
             case INVALID_USERNAME:
                 userNameField.getStyleClass().add("wrong");
@@ -76,6 +65,14 @@ public class LoginRegisterController implements Initializable {
                 messageLabelLogin.getStyleClass().removeIf(style -> !style.equals("badMessage"));
                 messageLabelLogin.getStyleClass().add("badMessage");
                 messageLabelLogin.setText("Wrong password,try again...");
+                return;
+            case ACCOUNT_LOGGED_IN:
+                messageLabelLogin.getStyleClass().removeIf(style -> !style.equals("badMessage"));
+                messageLabelLogin.getStyleClass().add("badMessage");
+                messageLabelLogin.setText("Account " + userNameField.getText() + " Logged in!");
+                userNameField.getStyleClass().add("wrong");
+                userNameField.setText("");
+                passwordField.setText("");
                 return;
             case SUCCESSFUL_LOGIN:
                 if (response instanceof LoginResponse) {
@@ -97,15 +94,11 @@ public class LoginRegisterController implements Initializable {
         if (checkFreeBoxes(newUserNameField, newPasswordField, messageLabelRegister)) return;
         CreateAccountRequest request = new CreateAccountRequest(newUserNameField.getText(), newPasswordField.getText());
         Constants requestResult = null;
-        Client.getOut().println(yaGson.toJson(request));
-        Client.getOut().flush();
-        ResponseHandler.waitForResponse();
-        Response response = ResponseHandler.getInstance().getCurrentResponse();
-        ResponseHandler.getInstance().clearResponse();
-        if (response instanceof CreateAccountResponse){
-            requestResult = response.getRequestResult();
-        }
+        Client.getWriter().println(yaGson.toJson(request));
+        Client.getWriter().flush();
+    }
 
+    public void createAccount(Constants requestResult) {
         if (requestResult == ACCOUNT_CREATE_SUCCESSFULLY) {
             messageLabelRegister.setText("The account with name " + newUserNameField.getText() + " created.");
             messageLabelRegister.getStyleClass().removeIf(style -> !style.equals("goodMessage"));
@@ -120,6 +113,15 @@ public class LoginRegisterController implements Initializable {
         }
     }
 
+    private void waitForResponse() {
+        while (ResponseHandler.getInstance().getCurrentResponse() == null) {
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     private boolean checkFreeBoxes(JFXTextField userNameField, JFXPasswordField passwordField, Label messageLabel) {
         if (!userNameField.getText().equals(""))

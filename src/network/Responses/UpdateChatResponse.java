@@ -3,7 +3,7 @@ package network.Responses;
 import controllers.Constants;
 import models.Account;
 import models.Message;
-import network.Requests.UpdateChatRequest;
+import network.Requests.chatRoom.UpdateChatRequest;
 import network.Server;
 
 import java.util.ArrayList;
