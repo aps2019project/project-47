@@ -72,8 +72,11 @@ public class ClientHandler extends Thread {
                 continue;
             }
             if (request instanceof SellRequest) {
-                if (Account.getAccountsMapper().get(request.getAuthToken()) != null)
-                    Shop.getInstance().command_sell(((SellRequest) request).getCode());
+                SellResponse sellResponse = new SellResponse((SellRequest) request);
+                sellResponse.handleRequest();
+                responseStr = gson.toJson(sellResponse);
+                out.println(responseStr);
+                out.flush();
                 continue;
             }
             if (request instanceof CreateAccountRequest){

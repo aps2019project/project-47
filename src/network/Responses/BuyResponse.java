@@ -10,19 +10,24 @@ import network.Server;
 
 public class BuyResponse extends Response {
 
-    public BuyResponse(BuyRequest buyRequest){
+    public BuyResponse(BuyRequest buyRequest) {
         this.request = buyRequest;
     }
 
     Shop shop;
+    Account account;
 
     @Override
     public synchronized void handleRequest() {
-        int code = ((BuyRequest) request).getCode();
         shop = Shop.getInstance();
+        account = Account.getAccountsMapper().get(request.getAuthToken());
         AccountMenu.setLoginAccount(Account.getAccountsMapper().get(request.getAuthToken()));
-        Constants resultCode = Server.getShop().command_buy(code);
-        requestResult = resultCode;
+        if (request != null) {
+            int code = ((BuyRequest) request).getCode();
+            requestResult = Server.getShop().command_buy(code);
+        } else {
+            requestResult = Constants.NULL_REQUEST;
+        }
         AccountMenu.setLoginAccount(null);
     }
 
@@ -33,7 +38,9 @@ public class BuyResponse extends Response {
 
     @Override
     public synchronized void handleResponse() {
-        UniversalShopController.instance.showBuyResponse(this);
         Shop.setOurInstance(shop);
+        AccountMenu.setLoginAccount(account);
+        UniversalShopController.instance.setLoginAccount(account);
+        UniversalShopController.instance.showBuyResponse(this);
     }
 }

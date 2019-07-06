@@ -41,7 +41,7 @@ public class Account implements Cloneable {
         this.password = password;
     }
 
-   private static HashMap<String, Account> accountsMapper = new HashMap<>(); //token --> account
+    private static HashMap<String, Account> accountsMapper = new HashMap<>(); //token --> account
 
     public static synchronized void putAccount(String authToken, Account account) {
         accountsMapper.put(authToken, account);
@@ -199,7 +199,10 @@ public class Account implements Cloneable {
                 cards.remove(card);
                 moneyRise(card.getPrice());
                 Shop.getInstance().getCards().replace(card, Shop.getInstance().getCards().get(card) + 1);
-                UniversalShopController.instance.setUniversalCollectionMenu();
+                try {
+                    UniversalShopController.instance.setUniversalCollectionMenu();
+                } catch (NullPointerException ignored) {
+                }
                 return true;
             }
         }
@@ -208,7 +211,10 @@ public class Account implements Cloneable {
                 items.remove(item);
                 moneyRise(item.getCode());
                 Shop.getInstance().getItems().replace(item, Shop.getInstance().getCards().get(item) + 1);
-                UniversalShopController.instance.setUniversalCollectionMenu();
+                try {
+                    UniversalShopController.instance.setUniversalCollectionMenu();
+                } catch (NullPointerException ignored) {
+                }
                 return true;
             }
         }

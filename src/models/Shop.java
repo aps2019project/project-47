@@ -222,7 +222,10 @@ public class Shop {
         }
         if (account.sellCardOrItem(code)) {
             MyPrinter.green("the card was sold successfully!");
-            UniversalShopController.instance.setUniversalCollectionMenu();
+            try {
+                UniversalShopController.instance.setUniversalCollectionMenu();
+            } catch (NullPointerException ignored) {
+            }
         } else {
             MyPrinter.red("there isn't any card or item by this code!");
         }
