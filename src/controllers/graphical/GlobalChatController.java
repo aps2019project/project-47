@@ -25,6 +25,11 @@ public class GlobalChatController implements Initializable {
     Account loginAccount = AccountMenu.getLoginAccount();
     YaGson yaGson = new YaGson();
 
+    public static GlobalChatController instance;
+    {
+        instance = this;
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Image image = new Image("/resources/backgrounds/sendImage.png");
@@ -39,18 +44,17 @@ public class GlobalChatController implements Initializable {
         UpdateChatRequest request = new UpdateChatRequest(loginAccount.getAuthToken());
         Client.getWriter().println(yaGson.toJson(request));
         Client.getWriter().flush();
-        String responseStr = Client.getServerScanner().nextLine();
-        UpdateChatResponse response = yaGson.fromJson(responseStr, UpdateChatResponse.class);
-        for (Message message : response.getMessages()) {
-            if (message.getSenderUserName().equals(loginAccount.getUserName())) {
-                AnchorPane myMessage = message.buildMessageBox(true);
-                chats.getChildren().add(myMessage);
-                VBox.setMargin(myMessage, new Insets(5, 20, 5, 300));
-            } else {
-                AnchorPane theirMessage = message.buildMessageBox(false);
-                chats.getChildren().add(theirMessage);
-                VBox.setMargin(theirMessage, new Insets(5, 300, 5, 20));
-            }
+    }
+
+    public void addNewMessage(Message message) {
+        if (message.getSenderUserName().equals(loginAccount.getUserName())) {
+            AnchorPane myMessage = message.buildMessageBox(true);
+            chats.getChildren().add(myMessage);
+            VBox.setMargin(myMessage, new Insets(5, 20, 5, 300));
+        } else {
+            AnchorPane theirMessage = message.buildMessageBox(false);
+            chats.getChildren().add(theirMessage);
+            VBox.setMargin(theirMessage, new Insets(5, 300, 5, 20));
         }
     }
 

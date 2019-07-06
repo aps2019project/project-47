@@ -1,6 +1,7 @@
 package network.Responses;
 
 import controllers.Constants;
+import controllers.graphical.GlobalChatController;
 import models.Message;
 
 public class ReceiveMessageResponse extends Response {
@@ -25,6 +26,6 @@ public class ReceiveMessageResponse extends Response {
 
     @Override
     public void handleResponse() {
-
+        GlobalChatController.instance.addNewMessage(message);
     }
 }
