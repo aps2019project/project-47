@@ -1,12 +1,9 @@
 package network;
 
-import com.gilecode.yagson.YaGson;
 import controllers.console.AccountMenu;
-import controllers.console.BattleMenu;
 import controllers.console.MainMenu;
 import defentions.Defentions;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -21,19 +18,17 @@ import models.deck.Deck;
 import models.item.Item;
 
 import java.io.*;
-import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Formatter;
 import java.util.Scanner;
 
 public class Client extends Application {
 
     private static Stage stage;
-    private static PrintWriter out;
+    private static PrintWriter writer;
     private static Scanner serverScanner;
 
-    public static PrintWriter getOut() {
-        return out;
+    public static PrintWriter getWriter() {
+        return writer;
     }
 
     public static Scanner getServerScanner() {
@@ -52,7 +47,7 @@ public class Client extends Application {
 //            int port = Integer.parseInt(reader.readLine());
 //            reader.close();
 //            Socket socket = new Socket("127.0.0.1", port);
-//            out = new PrintWriter(socket.getOutputStream());
+//            writer = new PrintWriter(socket.getOutputStream());
 //            DataInputStream serverResponse = new DataInputStream(socket.getInputStream());
 //            serverScanner = new Scanner(serverResponse);
         }//phase3//

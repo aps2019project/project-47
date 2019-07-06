@@ -3,9 +3,7 @@ package network.Responses;
 import controllers.Constants;
 import models.Account;
 import models.Shop;
-import network.Requests.FindRequest;
-import network.Requests.Request;
-import network.Server;
+import network.Requests.shop.FindRequest;
 
 public class FindResponse extends Response {
     private Object cardOrItem;

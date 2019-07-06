@@ -4,9 +4,7 @@ import com.gilecode.yagson.YaGson;
 import com.jfoenix.controls.JFXTextField;
 import controllers.console.AccountMenu;
 import controllers.console.MainMenu;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -16,8 +14,8 @@ import javafx.scene.layout.*;
 import models.Account;
 import models.Message;
 import network.Client;
-import network.Requests.SendMessageRequest;
-import network.Requests.UpdateChatRequest;
+import network.Requests.chatRoom.SendMessageRequest;
+import network.Requests.chatRoom.UpdateChatRequest;
 import network.Responses.UpdateChatResponse;
 
 import java.net.URL;
@@ -38,8 +36,8 @@ public class GlobalChatController implements Initializable {
     @FXML
     private void update() {
         UpdateChatRequest request = new UpdateChatRequest(loginAccount.getAuthToken());
-        Client.getOut().println(yaGson.toJson(request));
-        Client.getOut().flush();
+        Client.getWriter().println(yaGson.toJson(request));
+        Client.getWriter().flush();
         String responseStr = Client.getServerScanner().nextLine();
         UpdateChatResponse response = yaGson.fromJson(responseStr, UpdateChatResponse.class);
         for (Message message : response.getMessages()) {
@@ -80,8 +78,8 @@ public class GlobalChatController implements Initializable {
 
         Message message = new Message(senderUserName, textMessage);
         SendMessageRequest request = new SendMessageRequest(message, loginAccount.getAuthToken());
-        Client.getOut().println(yaGson.toJson(request));
-        Client.getOut().flush();
+        Client.getWriter().println(yaGson.toJson(request));
+        Client.getWriter().flush();
         chatText.clear();
     }
 

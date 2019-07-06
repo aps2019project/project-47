@@ -50,8 +50,8 @@ public class MainMenuController { ;
     public void logOut() {
         yaGson = new YaGson();
         LogoutRequest request = new LogoutRequest(AccountMenu.getLoginAccount().getAuthToken());
-        Client.getOut().println(yaGson.toJson(request));
-        Client.getOut().flush();
+        Client.getWriter().println(yaGson.toJson(request));
+        Client.getWriter().flush();
         String responseStr = Client.getServerScanner().nextLine();
         LogoutResponse logoutResponse = yaGson.fromJson(responseStr, LogoutResponse.class);
         logoutResponse.getRequestResult();

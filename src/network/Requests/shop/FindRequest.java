@@ -1,13 +1,14 @@
-package network.Requests;
+package network.Requests.shop;
 
 import network.ReqResType;
+import network.Requests.Request;
 
 public class FindRequest extends Request {
     private int code;
 
     @Override
     public ReqResType getReqResType() {
-        return ReqResType.FIND;
+        return ReqResType.shop;
     }
 
     public FindRequest(String token, int code) {

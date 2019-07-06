@@ -3,8 +3,7 @@ package network.Responses;
 import controllers.Constants;
 import controllers.console.AccountMenu;
 import models.Account;
-import network.Requests.BuyRequest;
-import network.Requests.Request;
+import network.Requests.shop.BuyRequest;
 import network.Server;
 
 public class BuyResponse extends Response {

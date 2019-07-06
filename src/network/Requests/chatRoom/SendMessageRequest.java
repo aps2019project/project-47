@@ -1,9 +1,10 @@
-package network.Requests;
+package network.Requests.chatRoom;
 
 import models.Message;
 import network.ReqResType;
+import network.Requests.Request;
 
-public class SendMessageRequest extends Request{
+public class SendMessageRequest extends Request {
     Message message;
     public SendMessageRequest(Message message, String authToken){
         this.authToken = authToken;

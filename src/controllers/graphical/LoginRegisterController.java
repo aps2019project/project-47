@@ -44,8 +44,8 @@ public class LoginRegisterController implements Initializable {
     public void loginButtonAction() throws IOException {
         if (checkFreeBoxes(userNameField, passwordField, messageLabelLogin)) return;
         LoginRequest request = new LoginRequest(userNameField.getText(), passwordField.getText());
-        Client.getOut().println(yaGson.toJson(request));
-        Client.getOut().flush();
+        Client.getWriter().println(yaGson.toJson(request));
+        Client.getWriter().flush();
         String responseStr = Client.getServerScanner().nextLine();
         LoginResponse response = yaGson.fromJson(responseStr, LoginResponse.class);
         Constants requestResult = response.getRequestResult();
@@ -83,8 +83,8 @@ public class LoginRegisterController implements Initializable {
     public void registerButtonAction() {
         if (checkFreeBoxes(newUserNameField, newPasswordField, messageLabelRegister)) return;
         CreateAccountRequest request = new CreateAccountRequest(newUserNameField.getText(), newPasswordField.getText());
-        Client.getOut().println(yaGson.toJson(request));
-        Client.getOut().flush();
+        Client.getWriter().println(yaGson.toJson(request));
+        Client.getWriter().flush();
         String responseStr = Client.getServerScanner().nextLine();
         CreateAccountResponse response = yaGson.fromJson(responseStr, CreateAccountResponse.class);
         Constants requestResult = response.getRequestResult();

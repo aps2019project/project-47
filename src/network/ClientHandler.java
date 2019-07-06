@@ -8,6 +8,10 @@ import network.Requests.*;
 import network.Requests.accountMenu.CreateAccountRequest;
 import network.Requests.accountMenu.LoginRequest;
 import network.Requests.accountMenu.LogoutRequest;
+import network.Requests.chatRoom.SendMessageRequest;
+import network.Requests.chatRoom.UpdateChatRequest;
+import network.Requests.shop.BuyRequest;
+import network.Requests.shop.FindRequest;
 import network.Responses.*;
 
 import java.io.IOException;

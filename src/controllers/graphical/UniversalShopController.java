@@ -24,12 +24,11 @@ import models.cards.minion.Minion;
 import models.cards.spell.Spell;
 import models.item.Item;
 import network.Client;
-import network.Requests.BuyRequest;
-import network.Requests.FindRequest;
+import network.Requests.shop.BuyRequest;
+import network.Requests.shop.FindRequest;
 import network.Requests.SellRequest;
 import network.Responses.BuyResponse;
 import network.Responses.FindResponse;
-import network.Responses.SellResponse;
 
 import java.io.IOException;
 import java.net.URL;
@@ -215,8 +214,8 @@ public class UniversalShopController implements Initializable {
                 }
                 SellRequest sellRequest = new SellRequest(AccountMenu.getLoginAccount().getAuthToken(), Integer.parseInt(id.substring(1)));
                 String yaJson1 = yaGson.toJson(sellRequest);
-                Client.getOut().println(yaJson1);
-                Client.getOut().flush();
+                Client.getWriter().println(yaJson1);
+                Client.getWriter().flush();
                 cards.remove(name);
                 addCardsToContainer(cards.values());
                 money.setText("Money : ".concat(Integer.toString(loginAccount.getMoney())));
@@ -256,8 +255,8 @@ public class UniversalShopController implements Initializable {
     private void buyID(String id) {
         BuyRequest buyRequest = new BuyRequest(AccountMenu.getLoginAccount().getAuthToken(), Integer.parseInt(id.substring(1)));
         String yaJson1 = yaGson.toJson(buyRequest);
-        Client.getOut().println(yaJson1);
-        Client.getOut().flush();
+        Client.getWriter().println(yaJson1);
+        Client.getWriter().flush();
         String str1 = Client.getServerScanner().nextLine();
         BuyResponse buyResponse = yaGson.fromJson(str1, BuyResponse.class);
         switch (buyResponse.getRequestResult()) {
@@ -279,8 +278,8 @@ public class UniversalShopController implements Initializable {
     private Object getCardOfItem(String id) {
         FindRequest findRequest = new FindRequest(AccountMenu.getLoginAccount().getAuthToken(), Integer.parseInt(id.substring(1)));
         String yaJson = yaGson.toJson(findRequest);
-        Client.getOut().println(yaJson);
-        Client.getOut().flush();
+        Client.getWriter().println(yaJson);
+        Client.getWriter().flush();
         String str = Client.getServerScanner().nextLine();
         FindResponse findResponse = yaGson.fromJson(str, FindResponse.class);
         return findResponse.getCardOrItem();
