@@ -8,6 +8,7 @@ import network.Requests.*;
 import network.Requests.accountMenu.CreateAccountRequest;
 import network.Requests.accountMenu.LoginRequest;
 import network.Requests.accountMenu.LogoutRequest;
+import network.Requests.chatRoom.LeaveChatRequest;
 import network.Requests.chatRoom.SendMessageRequest;
 import network.Requests.chatRoom.UpdateChatRequest;
 import network.Requests.shop.BuyRequest;
@@ -115,6 +116,14 @@ public class ClientHandler extends Thread {
                     clientHandler.getOut().println(receiveMessageResponseStr);
                     clientHandler.getOut().flush();
                 }
+                continue;
+            }
+            if (request instanceof LeaveChatRequest){
+                LeaveChatResponse leaveChatResponse = new LeaveChatResponse((LeaveChatRequest) request);
+                leaveChatResponse.handleRequest();
+                responseStr = gson.toJson(leaveChatResponse);
+                out.println(responseStr);
+                out.flush();
                 continue;
             }
         }

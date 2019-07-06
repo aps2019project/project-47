@@ -11,11 +11,6 @@ public class SendMessageRequest extends Request {
         this.message = message;
     }
 
-    @Override
-    public ReqResType getReqResType() {
-        return null;
-    }
-
     public Message getMessage() {
         return message;
     }
