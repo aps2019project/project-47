@@ -28,6 +28,7 @@ public class LogoutResponse extends Response {
 
     @Override
     public void handleResponse() {
-        ((MainMenuController) MainMenu.getController()).doLogOut();
+        MainMenuController.instance.doLogOut();
+        System.out.println("alan toye handle response am");
     }
 }

@@ -38,16 +38,16 @@ public class ResponseHandler {
         listener = new Thread() {
             @Override
             public void run() {
-                Runnable responseListener = new Runnable() {
-                    @Override
-                    public void run() {
-                        currentResponseStr = responseScanner.nextLine();
-                        currentResponse = yaGson.fromJson(currentResponseStr, Response.class);
-                        currentResponse.handleResponse();
-                    }
-                };
-                while (responseScanner.hasNextLine())
-                    Platform.runLater(responseListener);
+                while (responseScanner.hasNextLine()) {
+                    currentResponseStr = responseScanner.nextLine();
+                    currentResponse = yaGson.fromJson(currentResponseStr, Response.class);
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            currentResponse.handleResponse();
+                        }
+                    });
+                }
             }
         };
         listener.setPriority(1);

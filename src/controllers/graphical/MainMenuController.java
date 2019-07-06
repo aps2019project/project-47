@@ -26,6 +26,10 @@ public class MainMenuController extends MyController {
 
     public static YaGson yaGson;
 
+    public static MainMenuController instance;
+    {
+        instance = this;
+    }
 
     public void goToPlayMenu() {
         Client.getStage().getScene().setRoot(BattleMenu.getRoot());
@@ -57,7 +61,14 @@ public class MainMenuController extends MyController {
 
     public void doLogOut(){
         AccountMenu.setLoginAccount(null);
-        Client.getStage().getScene().setRoot(AccountMenu.getRoot());
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/layouts/accountPage.fxml"));
+            Client.getStage().getScene().setRoot(root);
+            System.out.println("keshidesh");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("alan tooye do log out am");
     }
 
     public void goToCustomCardMenu() throws IOException {
