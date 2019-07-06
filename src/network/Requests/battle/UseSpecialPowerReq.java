@@ -7,5 +7,4 @@ import network.Requests.Request;
 public class UseSpecialPowerReq extends Request {
     String heroId;
     Location target;
-
 }

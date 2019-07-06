@@ -36,7 +36,6 @@ public class ResponseHandler {
 
     public void start() {
         listener.start();
-        System.out.println("k1");
     }
 
     private static ResponseHandler responseHandler;

@@ -1,26 +1,15 @@
 package network;
 
 import controllers.console.AccountMenu;
-import controllers.console.MainMenu;
-import defentions.Defentions;
 import javafx.application.Application;
 import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import models.Account;
-import models.Shop;
-import models.battle.board.Board;
-import models.cards.hero.Hero;
-import models.cards.minion.Minion;
-import models.cards.spell.Spell;
-import models.deck.Deck;
-import models.item.Item;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Client extends Application {
@@ -42,7 +31,7 @@ public class Client extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void init() throws IOException {
 
         {
             BufferedReader reader = new BufferedReader(new FileReader("src/network/config"));
@@ -52,9 +41,10 @@ public class Client extends Application {
             writer = new PrintWriter(socket.getOutputStream());
             DataInputStream serverResponse = new DataInputStream(socket.getInputStream());
             serverScanner = new Scanner(serverResponse);
+            ResponseHandler.getInstance().start();
         }//phase3//
 
-//        {
+        {
 //            Shop shop = Shop.getInstance();
 //            Account Mmd = new Account("Mmd", "1234");
 //            Deck deck1 = new Deck("best");
@@ -77,7 +67,11 @@ public class Client extends Application {
 //            for (int i = 101; i < 500; i++) {
 //                shop.command_buy(i);
 //            }
-//        }
+        }
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws IOException {
         stage = primaryStage;
 
         Parent root = AccountMenu.getRoot();

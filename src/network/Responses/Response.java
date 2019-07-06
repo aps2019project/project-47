@@ -5,16 +5,11 @@ import network.ReqResType;
 import network.Requests.Request;
 
 public abstract class Response{
-    protected ReqResType type;
     protected Request request;
     protected Constants requestResult;
     public abstract void handleRequest();
     public abstract void handleResponse();
     public abstract Constants getRequestResult();
-
-    public ReqResType getType() {
-        return type;
-    }
 
     public void handle(){
 

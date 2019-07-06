@@ -8,5 +8,4 @@ public class LeaveChatRequest extends Request {
         this.authToken = authToken;
     }
 
-
 }
