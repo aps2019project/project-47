@@ -106,7 +106,7 @@ public class BattleController extends MyController implements Initializable {
         manaViewers[0].update();
         manaViewers[1].update();
         update_specialPower_btn();
-
+        graphicalBoard.updateFlags();
         updatesOfANewTurn();
     }
 
@@ -526,6 +526,7 @@ public class BattleController extends MyController implements Initializable {
             public void handle(ActionEvent event) {
                 graphicalBoard.parentPane.getChildren().remove(runningImageView);
                 graphicalBoard.setMinionAtCell(minion, target, MinionImageViewType.breathing, false);
+                graphicalBoard.updateFlags();
             }
         });
         graphicalBoard.removeImageViewFromCell(minion.getLocation(), false);
@@ -534,7 +535,6 @@ public class BattleController extends MyController implements Initializable {
         battle.move(minion, target);
 
 
-        graphicalBoard.updateFlags();
         freeClick(turn);
     }
 
@@ -1403,8 +1403,8 @@ public class BattleController extends MyController implements Initializable {
             if (board.getCells()[iCell][jCell].getFlags().size()>0){
                 if (flagImage==null){
                     flagImage = new ImageView(new Image(new File("src/resources/inBattle/flag.png").toURI().toString()));
-                    flagImage.setFitHeight(100);
-                    flagImage.setFitWidth(100);
+                    graphicalBoard.reSizeImageViewer(flagImage);
+                    graphicalBoard.relocateImageViewer(flagImage);
                     parentPane.getChildren().remove(upperLabel);
                     parentPane.getChildren().add(flagImage);
                     parentPane.getChildren().add(upperLabel);
