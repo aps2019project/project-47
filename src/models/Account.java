@@ -215,7 +215,12 @@ public class Account implements Cloneable {
             if (item.getCode() == code) {
                 items.remove(item);
                 moneyRise(item.getCode());
-                Shop.getInstance().getItems().replace(item, Shop.getInstance().getCards().get(item) + 1);
+                for (Item item1 : Shop.getInstance().getItems().keySet()) {
+                    if (item1.getName().equals(item.getName())){
+                        Shop.getInstance().getItems().replace(item, Shop.getInstance().getItems().get(item1) + 1);
+                        break;
+                    }
+                }
                 try {
                     UniversalShopController.instance.setUniversalCollectionMenu();
                 } catch (NullPointerException ignored) {

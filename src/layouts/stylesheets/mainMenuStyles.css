@@ -22,6 +22,14 @@
     -fx-alignment: center;
 }
 
+.scoreBoardButtonName {
+    -fx-font-size: 13px;
+    -fx-font-family: Bahnschrift;
+    -fx-text-fill: white;
+    -fx-alignment: center;
+}
+
+
 .menuButton:hover {
     -fx-effect: innershadow(gaussian, rgba(255, 255, 255, 0.5), 20, 0.3, -5, -5);
 }
@@ -31,5 +39,9 @@
 }
 
 .buttonName:hover{
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.5), 20, 0.3, -5, -5);
+}
+
+.scoreBoardButtonName:hover{
     -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.5), 20, 0.3, -5, -5);
 }

@@ -84,7 +84,7 @@
                 <ImageView fitHeight="96" fitWidth="96" onMouseClicked="#goToScoreBoard" styleClass="menuButton">
                     <Image url="/resources/buttons/scoreBoard.png" />
                 </ImageView>
-                <Label onMouseClicked="#goToScoreBoard" prefHeight="10" prefWidth="90" styleClass="buttonName" text=" SCORE BOARD">
+                <Label onMouseClicked="#goToScoreBoard" prefHeight="16.0" prefWidth="102.0" styleClass="scoreBoardButtonName" text=" SCORE BOARD">
                 </Label>
             </VBox>
             <VBox spacing="5">
