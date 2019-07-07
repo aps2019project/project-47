@@ -12,13 +12,14 @@ import network.Responses.Response;
 import java.io.IOException;
 
 public class AcceptancePageResponse extends Response {
+    private String requesterUserName;
     public AcceptancePageResponse(NewBattleRequest newBattleRequest) {
         this.request = newBattleRequest;
     }
 
     @Override
     public void handleRequest() {
-
+        requesterUserName = Account.getAccountsMapper().get(request.getAuthToken()).getUserName();
     }
 
     @Override
@@ -27,11 +28,8 @@ public class AcceptancePageResponse extends Response {
         try {
             root = FXMLLoader.load(getClass().getResource("/layouts/newBattleReq.fxml"));
             Client.getStage().getScene().setRoot(root);
-            NewBattleController.instance.setText(((NewBattleRequest) request).getOpponentUserName());
-            NewBattleController.instance.setUserNameOfRequest(Account.
-                    getAccountsMapper().
-                    get(request.getAuthToken())
-                    .getUserName());
+            NewBattleController.instance.setUserNameOfRequest(requesterUserName);
+            NewBattleController.instance.setText();
         } catch (IOException e) {
             e.printStackTrace();
         }

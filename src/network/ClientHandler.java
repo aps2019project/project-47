@@ -157,6 +157,7 @@ public class ClientHandler extends Thread {
             }
             if (request instanceof NewBattleRequest){
                 AcceptancePageResponse acceptancePageResponse = new AcceptancePageResponse((NewBattleRequest) request);
+                acceptancePageResponse.handleRequest();
                 ClientHandler clientHandler = Server.clientHandlers.get(((NewBattleRequest) request).getOpponentUserName());
                 responseStr = gson.toJson(acceptancePageResponse);
                 clientHandler.out.println(responseStr);

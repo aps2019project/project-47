@@ -64,8 +64,8 @@ public class NewBattleController implements Initializable {
         this.userNameOfRequest = userNameOfRequest;
     }
 
-    public void setText(String userName){
-        text.setText("Player " + userName + " wants to start new battle with you");
+    public void setText(){
+        text.setText("Player " + userNameOfRequest + " wants to start new battle with you");
     }
 
     AnimationTimer alarmer = new AnimationTimer() {
@@ -109,16 +109,4 @@ public class NewBattleController implements Initializable {
         Client.getWriter().println(yaGson.toJson(rejectNewGameRequest));
         Client.getWriter().flush();
     }
-
-    public void showAcceptancePage(String string){
-        Parent root;
-        try {
-            root = FXMLLoader.load(getClass().getResource("/layouts/newBattleReq.fxml"));
-            Client.getStage().getScene().setRoot(root);
-            setText(string);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 }

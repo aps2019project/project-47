@@ -83,6 +83,8 @@ public class BattleChooseMenuController extends MyController implements Initiali
     }
 
     public void startMultiPlayerGame(ActionEvent event) {
+        if (otherPlayers.getSelectionModel().getSelectedItem() == null)
+            return;
         String opponentUserName = (String) (otherPlayers.getSelectionModel().getSelectedItem());
         NewBattleRequest newBattleRequest = new NewBattleRequest(loginAccount.getAuthToken(), opponentUserName);
         Client.getWriter().println(yaGson.toJson(newBattleRequest));
@@ -107,7 +109,6 @@ public class BattleChooseMenuController extends MyController implements Initiali
 
     @Override
     public void update() {
-        loginAccount = AccountMenu.getLoginAccount();
         setStoryGame();
         setSingleGame();
     }
@@ -155,9 +156,7 @@ public class BattleChooseMenuController extends MyController implements Initiali
 
     public void getOnlinePlayers() {
         otherPlayers.getItems().remove(0, otherPlayers.getItems().size());
-        OnlinePlayersRequest onlinePlayersRequest = new OnlinePlayersRequest(
-                loginAccount.
-                        getAuthToken());
+        OnlinePlayersRequest onlinePlayersRequest = new OnlinePlayersRequest(loginAccount.getAuthToken());
         Client.getWriter().println(yaGson.toJson(onlinePlayersRequest));
         Client.getWriter().flush();
     }
