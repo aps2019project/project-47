@@ -24,17 +24,8 @@ import java.util.Scanner;
 public class ClientHandler extends Thread {
     public static YaGsonBuilder gsonBuilder = new YaGsonBuilder();
     public static YaGson gson = gsonBuilder.create();
-    private static Server server;
     private PrintWriter out;
     private Scanner scanner;
-
-    public static void setServer(Server server) {
-        ClientHandler.server = server;
-    }
-
-    public static Server getServer() {
-        return server;
-    }
 
     public PrintWriter getOut() {
         return out;

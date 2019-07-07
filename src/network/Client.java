@@ -36,8 +36,9 @@ public class Client extends Application {
         {
             BufferedReader reader = new BufferedReader(new FileReader("src/network/config"));
             int port = Integer.parseInt(reader.readLine());
+            String ip = reader.readLine();
             reader.close();
-            Socket socket = new Socket("127.0.0.1", port);
+            Socket socket = new Socket(ip, port);
             writer = new PrintWriter(socket.getOutputStream());
             DataInputStream serverResponse = new DataInputStream(socket.getInputStream());
             serverScanner = new Scanner(serverResponse);
@@ -91,7 +92,7 @@ public class Client extends Application {
         setCursor();
     }
 
-    public void setCursor(){
+    public void setCursor() {
         Image img = new Image("/resources/buttons/cursor.png");
         ImageCursor cursor = new ImageCursor(img, 0, 0);
         stage.getScene().setCursor(cursor);

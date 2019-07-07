@@ -300,7 +300,7 @@ public class CollectionController implements Initializable {
     public static void removeInfos(VBox infoBox) {
         try {
             infoBox.getChildren().remove(1, infoBox.getChildren().size());
-        } catch (NullPointerException ignored) {
+        } catch (Exception ignored) {
         }
     }
 
