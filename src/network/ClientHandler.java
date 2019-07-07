@@ -113,9 +113,11 @@ public class ClientHandler extends Thread {
                 sendMessageResponse.handleRequest();
                 ReceiveMessageResponse receiveMessageResponse = new ReceiveMessageResponse(((SendMessageRequest)request).getMessage());
                 String receiveMessageResponseStr = gson.toJson(receiveMessageResponse);
-                for (ClientHandler clientHandler : Server.clientHandlers){
-                    clientHandler.getOut().println(receiveMessageResponseStr);
-                    clientHandler.getOut().flush();
+
+                broadcastMessage(receiveMessageResponseStr);
+
+                for(String authToken : Server.userLastMessageReceivedIndex.keySet()){
+                    Server.increamentMessageIndex(authToken);
                 }
                 continue;
             }
@@ -127,6 +129,13 @@ public class ClientHandler extends Thread {
                 out.flush();
                 continue;
             }
+        }
+    }
+
+    private void broadcastMessage(String receiveMessageResponseStr) {
+        for (ClientHandler clientHandler : Server.clientHandlers){
+            clientHandler.getOut().println(receiveMessageResponseStr);
+            clientHandler.getOut().flush();
         }
     }
 }

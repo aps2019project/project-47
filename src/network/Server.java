@@ -23,6 +23,9 @@ public class Server {
 
     public static ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
 
+    public static void increamentMessageIndex(String authToken){
+        Server.userLastMessageReceivedIndex.put(authToken, Server.userLastMessageReceivedIndex.get(authToken) + 1);
+    }
     public Server(int port) throws IOException {
         ServerSocket serverSocket = new ServerSocket(port);
         System.out.println("Server started");

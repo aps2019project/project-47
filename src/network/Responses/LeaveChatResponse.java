@@ -2,6 +2,7 @@ package network.Responses;
 
 import controllers.Constants;
 import controllers.graphical.GlobalChatController;
+import models.Account;
 import network.ReqResType;
 import network.Requests.Request;
 import network.Requests.chatRoom.LeaveChatRequest;
@@ -14,7 +15,7 @@ public class LeaveChatResponse extends Response {
 
     @Override
     public void handleRequest() {
-        Server.userLastMessageReceivedIndex.remove(request.getAuthToken());
+        Server.userLastMessageReceivedIndex.remove(Account.getAccountsMapper().get(request.getAuthToken()).getUserName());
     }
 
     @Override
