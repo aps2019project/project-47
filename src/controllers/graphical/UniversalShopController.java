@@ -44,7 +44,7 @@ public class UniversalShopController implements Initializable {
         instance = this;
     }
 
-    Account loginAccount = AccountMenu.getLoginAccount();
+    private Account loginAccount = AccountMenu.getLoginAccount();
     ArrayList<Card> accountCards;
     ArrayList<Item> accountItems;
 
@@ -54,14 +54,18 @@ public class UniversalShopController implements Initializable {
     ArrayList<String> itemIds = new ArrayList<>();
     HashMap<String, SplitPane> forSearchCards = new HashMap<>();
     HashMap<String, SplitPane> cards = new HashMap<>();
-    Shop shop = Shop.getInstance();
+
+    public void setLoginAccount(Account loginAccount) {
+        this.loginAccount = loginAccount;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        buyID("0000");
         initializeIds();
         container.setPrefHeight(allParent.getPrefHeight());
         container.setPrefWidth(0.75 * allParent.getPrefWidth());
-        money.setText("Money : " + Integer.toString(loginAccount.getMoney()));
+        money.setText("Money : " + loginAccount.getMoney());
         heroesAndMinions.setPrefHeight(container.getPrefHeight());
         heroesAndMinions.setPrefWidth(container.getPrefWidth());
         topScrollPane.setPrefHeight(heroesAndMinions.getPrefHeight() / 2);
@@ -113,6 +117,7 @@ public class UniversalShopController implements Initializable {
         initializeCards();
         addCardsToContainer(cards.values());
         copyCardsInSearchSource();
+        money.setText("Money : " + loginAccount.getMoney());
     }
 
     @FXML
@@ -129,6 +134,10 @@ public class UniversalShopController implements Initializable {
                 cards.put(string, forSearchCards.get(string));
         }
         addCardsToContainer(cards.values());
+    }
+
+    public Label getMoney() {
+        return money;
     }
 
     public void initializeIds() {
@@ -171,22 +180,27 @@ public class UniversalShopController implements Initializable {
     }
 
     public void showBuyResponse(Response response) {
-        switch (response.getRequestResult()) {
-            case SUCCESSFUL_BUY:
-
-                break;
-            case NOT_ENOUGH_MONEY:
-                AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Error!", "You don't have enough money!");
-                break;
-            case HAD_BOUGHT_BEFORE:
-                AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Error!", "You have bought this thing!");
-                break;
-            case NO_ACCOUNT_LOGGED_IN:
-                AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "!WTF!", "No account logged in! WTF!!!!");
-                break;
-            case NOT_EXISTS:
-                AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Warning!", "The card Not exist in shop :(!");
-                break;
+        try {
+            switch (response.getRequestResult()) {
+                case NULL_REQUEST:
+                case SUCCESSFUL_BUY:
+                    setUniversalCollectionMenu();
+                    break;
+                case NOT_ENOUGH_MONEY:
+                    AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Error!", "You don't have enough money!");
+                    break;
+                case HAD_BOUGHT_BEFORE:
+                    AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Error!", "You have bought this thing!");
+                    break;
+                case NO_ACCOUNT_LOGGED_IN:
+                    AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "!WTF!", "No account logged in! WTF!!!!");
+                    break;
+                case NOT_EXISTS:
+                    AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Warning!", "The card Not exist in shop :(!");
+                    break;
+            }
+        } catch (NullPointerException e) {
+            setUniversalCollectionMenu();
         }
     }
 
@@ -298,7 +312,6 @@ public class UniversalShopController implements Initializable {
     }
 
     public void gotoMyCollection() {
-        //todo
         if (loginAccount == null)
             return;
         accountCards = loginAccount.getCards();//todo account ..

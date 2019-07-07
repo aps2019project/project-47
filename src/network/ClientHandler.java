@@ -33,17 +33,8 @@ import java.util.Scanner;
 public class ClientHandler extends Thread {
     public static YaGsonBuilder gsonBuilder = new YaGsonBuilder();
     public static YaGson gson = gsonBuilder.create();
-    private static Server server;
     private PrintWriter out;
     private Scanner scanner;
-
-    public static void setServer(Server server) {
-        ClientHandler.server = server;
-    }
-
-    public static Server getServer() {
-        return server;
-    }
 
     public PrintWriter getOut() {
         return out;
@@ -81,11 +72,14 @@ public class ClientHandler extends Thread {
                 continue;
             }
             if (request instanceof SellRequest) {
-                if (Account.getAccountsMapper().get(request.getAuthToken()) != null)
-                    Shop.getInstance().command_sell(((SellRequest) request).getCode());
+                SellResponse sellResponse = new SellResponse((SellRequest) request);
+                sellResponse.handleRequest();
+                responseStr = gson.toJson(sellResponse);
+                out.println(responseStr);
+                out.flush();
                 continue;
             }
-            if (request instanceof CreateAccountRequest){
+            if (request instanceof CreateAccountRequest) {
                 CreateAccountResponse createAccountResponse = new CreateAccountResponse((CreateAccountRequest) request);
                 createAccountResponse.handleRequest();
                 responseStr = gson.toJson(createAccountResponse);
@@ -93,7 +87,7 @@ public class ClientHandler extends Thread {
                 out.flush();
                 continue;
             }
-            if (request instanceof LoginRequest){
+            if (request instanceof LoginRequest) {
                 LoginResponse loginResponse = new LoginResponse((LoginRequest) request);
                 loginResponse.handleRequest();
                 responseStr = gson.toJson(loginResponse);
@@ -102,18 +96,27 @@ public class ClientHandler extends Thread {
                 if (loginResponse.getRequestResult() == Constants.SUCCESSFUL_LOGIN) {
                     Server.clientHandlers.put(loginResponse.getAccount().getUserName(), this);
                 }
+                System.out.println("online Accounts:");
+                Account.getAccountsMapper().values().forEach(account ->
+                        System.out.println(account.getUserName()));
                 continue;
             }
-            if (request instanceof LogoutRequest){
+            if (request instanceof LogoutRequest) {
                 LogoutResponse logoutResponse = new LogoutResponse((LogoutRequest) request);
                 Server.clientHandlers.remove(Account.getAccountsMapper().get(request.getAuthToken()).getUserName());
                 logoutResponse.handleRequest();
                 responseStr = gson.toJson(logoutResponse);
+                System.out.println("online Accounts:");
+                Account.getAccountsMapper().values().forEach(account ->
+                        System.out.println(account.getUserName()));
                 out.println(responseStr);
                 out.flush();
                 continue;
             }
-            if (request instanceof UpdateChatRequest){
+            if (request instanceof UpdateAccountRequest){
+                new UpdateAccountResponse((UpdateAccountRequest) request);
+            }
+            if (request instanceof UpdateChatRequest) {
                 UpdateChatResponse updateChatResponse = new UpdateChatResponse((UpdateChatRequest) request);
                 updateChatResponse.handleRequest();
                 responseStr = gson.toJson(updateChatResponse);
@@ -121,10 +124,10 @@ public class ClientHandler extends Thread {
                 out.flush();
                 continue;
             }
-            if (request instanceof SendMessageRequest){
+            if (request instanceof SendMessageRequest) {
                 SendMessageResponse sendMessageResponse = new SendMessageResponse((SendMessageRequest) request);
                 sendMessageResponse.handleRequest();
-                ReceiveMessageResponse receiveMessageResponse = new ReceiveMessageResponse(((SendMessageRequest)request).getMessage());
+                ReceiveMessageResponse receiveMessageResponse = new ReceiveMessageResponse(((SendMessageRequest) request).getMessage());
                 String receiveMessageResponseStr = gson.toJson(receiveMessageResponse);
 
                 broadcastMessage(receiveMessageResponseStr);
@@ -134,7 +137,7 @@ public class ClientHandler extends Thread {
                 }
                 continue;
             }
-            if (request instanceof LeaveChatRequest){
+            if (request instanceof LeaveChatRequest) {
                 LeaveChatResponse leaveChatResponse = new LeaveChatResponse((LeaveChatRequest) request);
                 leaveChatResponse.handleRequest();
                 responseStr = gson.toJson(leaveChatResponse);

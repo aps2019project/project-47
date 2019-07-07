@@ -1,5 +1,7 @@
 package controllers.graphical;
 
+import com.gilecode.yagson.YaGson;
+import com.gilecode.yagson.YaGsonBuilder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jfoenix.controls.JFXButton;
@@ -31,6 +33,7 @@ import models.cards.spell.effect.Effect;
 import models.deck.Deck;
 import models.item.Item;
 import network.Client;
+import network.Requests.account.UpdateAccountRequest;
 
 import java.io.*;
 import java.net.URL;
@@ -43,8 +46,8 @@ public class CollectionController implements Initializable {
     ArrayList<Deck> decks = loginAccount.getDecks();
     Deck currentDeck;
 
-    public static GsonBuilder gsonBuilder;
-    public static Gson gson;
+    public static YaGsonBuilder yaGsonBuilder = new YaGsonBuilder();
+    public static YaGson yaGson = yaGsonBuilder.create();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -155,12 +158,12 @@ public class CollectionController implements Initializable {
     void createNewDeck(ActionEvent event) {
         String nameOfDeck = nameField.getText();
         if (nameOfDeck == null || nameOfDeck.equals("")) {
-            AlertHelper.showAlert(Alert.AlertType.ERROR , Client.getStage().getOwner() , "Error" , "Fill all Fields!");
+            AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Error", "Fill all Fields!");
             return;
         }
         for (Deck deck : loginAccount.getDecks()) {
             if (deck.getName().equals(nameOfDeck)) {
-                AlertHelper.showAlert(Alert.AlertType.ERROR , Client.getStage().getOwner() , "Error" , "Choose an other name for your deck error!");
+                AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Error", "Choose an other name for your deck error!");
                 return;
             }
         }
@@ -179,7 +182,7 @@ public class CollectionController implements Initializable {
             SplitPane splitPane = createCard("select ", card.getName(), new Image(card.getGraphicPack().getShopPhotoAddress()), event12 -> {
                 for (Card card1 : deck.getCards()) {
                     if (card1.getName().equals(card.getName())) {
-                        AlertHelper.showAlert(Alert.AlertType.ERROR , Client.getStage().getOwner() ,"Error!" , "You have chose this before!");
+                        AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Error!", "You have chose this before!");
                         return;
                     }
                 }
@@ -220,7 +223,7 @@ public class CollectionController implements Initializable {
         for (Item item : loginAccount.getItems()) {
             SplitPane splitPane = createCard("select ", item.getName(), new Image("/resources/cards/general_portrait_image_hex_rook.png"), event13 -> {
                 if (deck.getItem() != null) {
-                    AlertHelper.showAlert(Alert.AlertType.ERROR , Client.getStage().getOwner() , "Error!" , "You have selected an item before!");
+                    AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Error!", "You have selected an item before!");
                     return;
                 }
                 deck.setItem(item);
@@ -252,23 +255,27 @@ public class CollectionController implements Initializable {
             Constants constant = deck.check_deck_correct();
             if (constant == Constants.NO_HERO) {
                 System.out.println("no hero");
-                AlertHelper.showAlert(Alert.AlertType.ERROR , Client.getStage().getOwner() , "Error!" , "You don't have hero!");
+                AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Error!", "You don't have hero!");
             }
             if (constant == Constants.NOT_20_CARDS) {
                 System.out.println("not 20 cards");
-                AlertHelper.showAlert(Alert.AlertType.ERROR , Client.getStage().getOwner() , "Error!" , "You don't have 20 Cards!");
+                AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Error!", "You don't have 20 Cards!");
             }
             if (constant == Constants.MULTIPLE_HEROS) {
                 System.out.println("multiple heros");
-                AlertHelper.showAlert(Alert.AlertType.ERROR , Client.getStage().getOwner() , "Error!" , "You have multiple heros!");
+                AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Error!", "You have multiple heros!");
             }
             if (constant == Constants.CORRECT_DECK) {
-                AlertHelper.showAlert(Alert.AlertType.INFORMATION , Client.getStage().getOwner() , "Deck created!" , "successful deck creation!");
+                AlertHelper.showAlert(Alert.AlertType.INFORMATION, Client.getStage().getOwner(), "Deck created!", "successful deck creation!");
                 System.out.println("successful deck");
                 loginAccount.addDeck(deck);
                 bottomContainer.getChildren().remove(0, bottomContainer.getChildren().size());
                 topContainer.getChildren().remove(0, topContainer.getChildren().size());
                 leftBar.getChildren().removeIf(node -> node.getId().equals("finishButtons"));
+                UpdateAccountRequest updateAccountRequest =  new UpdateAccountRequest(loginAccount);
+                String yaJson1 = yaGson.toJson(updateAccountRequest);
+                Client.getWriter().println(yaJson1);
+                Client.getWriter().flush();
             }
         });
     }
@@ -298,7 +305,10 @@ public class CollectionController implements Initializable {
     }
 
     public static void removeInfos(VBox infoBox) {
-        infoBox.getChildren().remove(1, infoBox.getChildren().size());
+        try {
+            infoBox.getChildren().remove(1, infoBox.getChildren().size());
+        } catch (Exception ignored) {
+        }
     }
 
     public static String addInfo(VBox infoBox, String title, String value) {
@@ -367,7 +377,7 @@ public class CollectionController implements Initializable {
                         assert outputStream != null;
                         Formatter formatter = new Formatter(outputStream);
                         formatter.format(json);
-                        System.out.println(json);
+//                        System.out.println(json);
                         formatter.flush();
                         formatter.close();
 
@@ -387,7 +397,7 @@ public class CollectionController implements Initializable {
         File importableDecksFile = new File(path.toString());
         for (File file : importableDecksFile.listFiles()) {
             if (file.getName().contains(".json")) {
-                String json =   "";
+                String json = "";
                 try {
                     Scanner scanner = new Scanner(file);
                     json = json.concat(scanner.nextLine());
@@ -408,7 +418,7 @@ public class CollectionController implements Initializable {
                         if (!loginAccount.hasDeck(deck)) {
                             loginAccount.addDeck(deck);
                         } else {
-                            AlertHelper.showAlert(Alert.AlertType.ERROR , Client.getStage().getOwner() , "Error!" , "you have a deck with this name error!");
+                            AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Error!", "you have a deck with this name error!");
                         }
                     });
             topContainer.getChildren().add(deckCard);

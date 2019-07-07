@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import models.*;
 import models.battle.*;
+import models.battle.board.Board;
 import models.deck.Deck;
 import models.deck.DeckMaker;
 import models.item.ItemType;
@@ -118,7 +119,7 @@ public class BattleMenu {
             }
             controller = fxmlLoader.getController();
         }
-
+        Board.setControllerNull();
         controller.update();
         return root;
     }

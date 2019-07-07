@@ -51,10 +51,8 @@ public class Deck implements Cloneable {
     }
 
     public Card giveArandomCard() {
-        Random random = new Random();
         if (cards.size() == 0) return null;
-        int i = random.nextInt(cards.size());
-        return giveCard(i);
+        return giveCard(0);
     }
 
     @Override

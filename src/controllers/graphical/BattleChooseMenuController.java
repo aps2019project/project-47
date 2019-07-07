@@ -17,6 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import models.Account;
 import models.battle.Battle;
+import models.battle.BattleHistory;
 import models.battle.Player;
 import models.battle.StoryGame;
 import models.battle.board.Board;
@@ -25,9 +26,12 @@ import network.Requests.battle.CancelNewBattleRequest;
 import network.Requests.battle.NewBattleRequest;
 import network.Requests.battle.OnlinePlayersRequest;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 public class BattleChooseMenuController extends MyController implements Initializable {
 
@@ -169,11 +173,30 @@ public class BattleChooseMenuController extends MyController implements Initiali
         doCancel();
     }
 
-    public void doCancel(){
+    public void doCancel() {
         cancelButton.setDisable(true);
         enableEveryThing();
         CancelNewBattleRequest cancelNewBattleRequest = new CancelNewBattleRequest(loginAccount.getAuthToken(), (String) otherPlayers.getSelectionModel().getSelectedItem());
         Client.getWriter().println(yaGson.toJson(cancelNewBattleRequest));
         Client.getWriter().flush();
+    }
+    public void reView(){
+        YaGson yaGson = new YaGson();
+        Scanner scanner = null;
+        try {
+            scanner = new Scanner(new FileInputStream("fileName.txt"));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        String scanned = scanner.nextLine();
+        System.out.println(scanned);
+        BattleHistory battleHistory = yaGson.fromJson(scanned,BattleHistory.class);
+        Battle battle =(battleHistory.getBattel());
+        Parent root=Board.getRoot();
+        System.out.println(battleHistory.battleActions.size());
+        BattleController controller = (BattleController) Board.getController();
+        controller.initializeBattle(battle,false,true);
+        controller.setHistory(battleHistory);
+        Client.getStage().getScene().setRoot(root);
     }
 }

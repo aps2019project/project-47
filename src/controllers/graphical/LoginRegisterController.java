@@ -30,6 +30,14 @@ import static controllers.Constants.*;
 
 public class LoginRegisterController extends MyController implements Initializable {
 
+    public static LoginRegisterController instance;
+
+
+    {
+        instance = this;
+    }
+
+
     public JFXTabPane mainPage;
     public JFXTextField userNameField;
     public JFXPasswordField passwordField;

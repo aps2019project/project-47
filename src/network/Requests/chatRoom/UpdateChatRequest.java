@@ -7,4 +7,5 @@ public class UpdateChatRequest extends Request {
     public UpdateChatRequest(String authToken){
         this.authToken = authToken;
     }
+
 }

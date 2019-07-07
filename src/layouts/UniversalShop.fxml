@@ -12,55 +12,84 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane fx:id="allParent" dividerPositions="0.25" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@stylesheets/shopStyles.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.graphical.UniversalShopController">
+<SplitPane fx:id="allParent" dividerPositions="0.25" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+           minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@stylesheets/shopStyles.css"
+           xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="controllers.graphical.UniversalShopController">
     <items>
         <AnchorPane minHeight="0.0" minWidth="0.0" styleClass="left-tab">
             <children>
-                <JFXButton fx:id="universalCollection" layoutX="128.0" layoutY="59.0" mnemonicParsing="false" onAction="#setUniversalCollectionMenu" opacity="0.9" prefHeight="60.0" prefWidth="62.0" style="-fx-font-weight: 900; -fx-background-radius: 60;" text="Universal Collection" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="170.0">
+                <JFXButton fx:id="universalCollection" layoutX="128.0" layoutY="59.0" mnemonicParsing="false"
+                           onAction="#setUniversalCollectionMenu" opacity="0.9" prefHeight="60.0" prefWidth="62.0"
+                           style="-fx-font-weight: 900; -fx-background-radius: 60;" text="Universal Collection"
+                           AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="170.0">
                     <font>
-                        <Font size="23.0" />
+                        <Font size="23.0"/>
                     </font>
                 </JFXButton>
-                <JFXButton fx:id="myCollection" layoutX="128.0" layoutY="197.0" mnemonicParsing="false" onAction="#setMyCollectionMenu" opacity="0.9" prefHeight="60.0" prefWidth="298.0" style="-fx-font-weight: 900; -fx-background-radius: 60;" text="My Collection" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="260.0">
+                <JFXButton fx:id="myCollection" layoutX="128.0" layoutY="197.0" mnemonicParsing="false"
+                           onAction="#setMyCollectionMenu" opacity="0.9" prefHeight="60.0" prefWidth="298.0"
+                           style="-fx-font-weight: 900; -fx-background-radius: 60;" text="My Collection"
+                           AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="260.0">
                     <font>
-                        <Font size="23.0" />
+                        <Font size="23.0"/>
                     </font>
                 </JFXButton>
-                <JFXButton fx:id="backButton" layoutX="10.0" layoutY="626.0" mnemonicParsing="false" onAction="#backButtonAction" opacity="0.9" prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 50%; -fx-font-weight: 900;" text="back" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
+                <JFXButton fx:id="backButton" layoutX="10.0" layoutY="626.0" mnemonicParsing="false"
+                           onAction="#backButtonAction" opacity="0.9" prefHeight="100.0" prefWidth="100.0"
+                           style="-fx-background-radius: 50%; -fx-font-weight: 900;" text="back"
+                           AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0">
                     <font>
-                        <Font size="18.0" />
+                        <Font size="18.0"/>
                     </font>
                 </JFXButton>
-                <TextField id="searchField" fx:id="searchField" layoutX="153.0" layoutY="36.0" prefHeight="50.0" prefWidth="333.0" promptText="Search" style="-fx-background-radius: 50;" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="60.0">
+                <TextField id="searchField" fx:id="searchField" layoutX="153.0" layoutY="36.0" prefHeight="50.0"
+                           prefWidth="333.0" promptText="Search" style="-fx-background-radius: 50;"
+                           AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="60.0">
                     <font>
-                        <Font name="System Bold" size="20.0" />
+                        <Font name="System Bold" size="20.0"/>
                     </font>
                 </TextField>
-                <Button fx:id="searchShowButton" layoutX="355.0" layoutY="66.0" mnemonicParsing="false" onAction="#showResult" prefHeight="50.0" style="-fx-background-radius: 50; -fx-background-color: #ce4534;" text="Show" AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="60.0" />
-            <Label fx:id="money" alignment="CENTER" layoutX="14.0" layoutY="364.0" prefHeight="60.0" prefWidth="456.0" style="-fx-background-color: #CE4534; -fx-font-weight: 900; -fx-background-radius: 60;" text="Money:" textFill="#323f46" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="350.0">
-               <font>
-                  <Font size="22.0" />
-               </font>
-            </Label>
-            <VBox fx:id="infoBox" layoutY="429.0" prefHeight="73.0" prefWidth="476.0" AnchorPane.bottomAnchor="576.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-               <padding>
-                  <Insets left="10.0" right="10.0" />
-               </padding>
-            </VBox>
-            <Label fx:id="info" alignment="CENTER" layoutX="11.0" layoutY="475.0" prefHeight="60.0" prefWidth="456.0" style="-fx-background-color: #CE4534; -fx-font-weight: 900; -fx-background-radius: 60;" text="Infos" textFill="#323f46">
-               <font>
-                  <Font size="22.0" />
-               </font>
-            </Label>
+                <Button fx:id="searchShowButton" layoutX="355.0" layoutY="66.0" mnemonicParsing="false"
+                        onAction="#showResult" prefHeight="50.0"
+                        style="-fx-background-radius: 50; -fx-background-color: #ce4534;" text="Show"
+                        AnchorPane.leftAnchor="350.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="60.0"/>
+                <Label fx:id="money" alignment="CENTER" layoutX="14.0" layoutY="364.0" prefHeight="60.0"
+                       prefWidth="456.0"
+                       style="-fx-background-color: #CE4534; -fx-font-weight: 900; -fx-background-radius: 60;"
+                       text="Money:" textFill="#323f46" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0"
+                       AnchorPane.topAnchor="350.0">
+                    <font>
+                        <Font size="22.0"/>
+                    </font>
+                </Label>
+                <VBox fx:id="infoBox" layoutY="429.0" prefHeight="73.0" prefWidth="476.0"
+                      AnchorPane.bottomAnchor="576.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                    <padding>
+                        <Insets left="10.0" right="10.0"/>
+                    </padding>
+                </VBox>
+                <Label fx:id="info" alignment="CENTER" layoutX="11.0" layoutY="475.0" prefHeight="60.0"
+                       prefWidth="456.0"
+                       style="-fx-background-color: #CE4534; -fx-font-weight: 900; -fx-background-radius: 60;"
+                       text="Infos" textFill="#323f46">
+                    <font>
+                        <Font size="22.0"/>
+                    </font>
+                </Label>
             </children>
         </AnchorPane>
         <AnchorPane fx:id="container" minHeight="0.0" minWidth="0.0">
             <children>
-                <SplitPane fx:id="heroesAndMinions" dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <SplitPane fx:id="heroesAndMinions" dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity"
+                           minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL"
+                           AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                           AnchorPane.topAnchor="0.0">
                     <items>
                         <ScrollPane fx:id="topScrollPane">
                             <content>
-                                <HBox fx:id="topContainer" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                                <HBox fx:id="topContainer" maxHeight="1.7976931348623157E308"
+                                      maxWidth="1.7976931348623157E308">
                                     <children>
                                     </children>
                                 </HBox>

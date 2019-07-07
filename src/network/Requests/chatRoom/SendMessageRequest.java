@@ -11,6 +11,7 @@ public class SendMessageRequest extends Request {
         this.message = message;
     }
 
+
     public Message getMessage() {
         return message;
     }

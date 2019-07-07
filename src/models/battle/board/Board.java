@@ -585,4 +585,7 @@ public class Board {
         return cloned;
     }
 
+    public static void setControllerNull(){
+        controller = null;
+    }
 }
