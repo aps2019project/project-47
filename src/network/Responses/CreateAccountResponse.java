@@ -22,12 +22,15 @@ public class CreateAccountResponse extends Response {
         String userName = ((CreateAccountRequest) request).getUserName();
         String password = ((CreateAccountRequest) request).getPassword();
         for (File accountFile : accounts.listFiles()){
-            if (accountFile.getName().startsWith(userName)){
+            if (accountFile.getName().startsWith(userName) && accountFile.getName().substring(userName.length()).charAt(0) == '.'){
                 requestResult = Constants.ACCOUNT_EXISTS;
                 break;
             }
         }
-
+        if (userName.toLowerCase().equals("pc")){
+            requestResult = Constants.PC_NOT_ALLOWED;
+            return;
+        }
         if (requestResult != Constants.ACCOUNT_EXISTS) {
             Account account = new Account(userName, password);
             AccountMenu.addAccount(account);
@@ -52,6 +55,6 @@ public class CreateAccountResponse extends Response {
 
     @Override
     public void handleResponse() {
-        ((LoginRegisterController) AccountMenu.getController()).createAccount(requestResult);
+        LoginRegisterController.instance.createAccount(requestResult);
     }
 }
