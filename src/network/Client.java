@@ -1,15 +1,27 @@
 package network;
 
+import com.gilecode.yagson.YaGson;
 import controllers.console.AccountMenu;
+import defentions.Defentions;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import models.Account;
+import models.Shop;
+import models.cards.hero.Hero;
+import models.cards.minion.Minion;
+import models.cards.spell.Spell;
+import models.deck.Deck;
+import models.item.Item;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.Scanner;
 
 public class Client extends Application {
@@ -34,14 +46,19 @@ public class Client extends Application {
     public void init() throws IOException {
 
         {
-            BufferedReader reader = new BufferedReader(new FileReader("src/network/config"));
-            int port = Integer.parseInt(reader.readLine());
-            reader.close();
-            Socket socket = new Socket("127.0.0.1", port);
-            writer = new PrintWriter(socket.getOutputStream());
-            DataInputStream serverResponse = new DataInputStream(socket.getInputStream());
-            serverScanner = new Scanner(serverResponse);
-            ResponseHandler.getInstance().start();
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader("src/network/config"));
+                int port = Integer.parseInt(reader.readLine());
+                reader.close();
+                Socket socket = new Socket("127.0.0.1", port);
+                writer = new PrintWriter(socket.getOutputStream());
+                DataInputStream serverResponse = new DataInputStream(socket.getInputStream());
+                serverScanner = new Scanner(serverResponse);
+                ResponseHandler.getInstance().start();
+            }catch (Exception e){
+                System.out.println("server dos'nt run yet!");
+                System.exit(999);
+            }
         }//phase3//
 
         {
@@ -66,7 +83,13 @@ public class Client extends Application {
 //            AccountMenu.setLoginAccount(Mmd);
 //            for (int i = 101; i < 500; i++) {
 //                shop.command_buy(i);
-//            }
+//           }
+//            YaGson yaGson = new YaGson();
+//            FileOutputStream fileOutputStream = new FileOutputStream("src/JSONs/Accounts/Mmd.json");
+//            Formatter formatter = new Formatter(fileOutputStream);
+//            formatter.format(yaGson.toJson(Mmd));
+//            formatter.flush();
+//            System.exit(1);
         }
     }
 
@@ -74,7 +97,7 @@ public class Client extends Application {
     public void start(Stage primaryStage) throws IOException {
         stage = primaryStage;
 
-        Parent root = AccountMenu.getRoot();
+        Parent root = FXMLLoader.load(getClass().getResource("../layouts/accountPage.fxml"));
 //        Parent root = MainMenu.getRoot();
 //        Parent root = Shop.getRoot();
 //        Parent root = BattleMenu.getRoot();

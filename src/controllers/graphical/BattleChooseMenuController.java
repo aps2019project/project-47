@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextField;
 import controllers.MyController;
 import controllers.console.AccountMenu;
+import controllers.console.MainMenu;
 import javafx.event.ActionEvent;
 import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
@@ -107,7 +108,10 @@ public class BattleChooseMenuController extends MyController {
     }
 
     public void back(ActionEvent event) {
-//        Client.getStage().getScene().setRoot(MainMenu.getRoot());
+        Client.getStage().getScene().setRoot(MainMenu.getRoot());
+    }
+
+    public void reView(){
         YaGson yaGson = new YaGson();
         Scanner scanner = null;
         try {

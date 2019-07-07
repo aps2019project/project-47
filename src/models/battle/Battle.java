@@ -63,8 +63,9 @@ public class Battle {
         action_item(find_item_minions_target(0, player0.getItem(), null), player0.getItem());
         action_item(find_item_minions_target(1, player1.getItem(), null), player1.getItem());
     }
-    public Battle(Player[] players,Board board,MatchType matchType){
-        this(players[0],players[1],matchType,0);
+
+    public Battle(Player[] players, Board board, MatchType matchType) {
+        this(players[0], players[1], matchType, 0);
         this.board = board;
     }
 
@@ -157,6 +158,9 @@ public class Battle {
         }
         if (winner == 999) return false;
         matchResult = new MatchResult(players[0].getUserName(), players[1].getUserName(), winner, age);
+        if (Board.getController() != null) {
+            ((BattleController) Board.getController()).battleFinish();
+        }
         return true;
     }
 
@@ -283,7 +287,7 @@ public class Battle {
 
     private void death(Minion minion) {
         if (minion.isDeath()) return;
-        MyPrinter.red(minion.getCardId()+" dead!");
+        MyPrinter.red(minion.getCardId() + " dead!");
         minion.death();
         Location location = minion.getLocation();
         ArrayList<Effect> effects = minion.getSpecialItem().getOnDeath();
@@ -295,8 +299,8 @@ public class Battle {
             players[minion.getPlyNum()].setSelectedMinion(null);
         }
         board.add_flags_to_aCell(minion.getFlags(), location);
-        if (Board.getController()!=null){
-            ((BattleController)Board.getController()).death(minion,location);
+        if (Board.getController() != null) {
+            ((BattleController) Board.getController()).death(minion, location);
         }
     }
 
@@ -347,6 +351,7 @@ public class Battle {
         }
         //check deaths
         check_death_of_all();
+        checkVictory();
     }
 
     public void move(Minion minion, Location target) {
@@ -357,15 +362,16 @@ public class Battle {
         collecting_flags_and_items_from_earth(minion, target);
         MyPrinter.green(minion.getCardId() + " moved to cell " + target.getX() + "," + target.getY() + " successfully!");
         check_death_of_all();
+        checkVictory();
     }
 
     public MatchResult logic() {
-        turn = 1;
+        turn = new Random().nextInt(2);
         while (true) {
 
             changeTurn();
 
-            if (checkVictory()){
+            if (checkVictory()) {
                 return matchResult;
             }
 
@@ -378,7 +384,7 @@ public class Battle {
             } else {
                 flag = ai_menu(player);
             }
-            if (flag){
+            if (flag) {
                 return matchResult;
             }
 
@@ -647,10 +653,11 @@ public class Battle {
         card.setInserted(true);
         MyPrinter.green(card.getCardId() + " inserted in cell " + location.getX() + "," + location.getY() + " successfully!");
         check_death_of_all();
+        checkVictory();
     }
 
     public boolean canInsert(Card card, Location location, boolean printError) {
-        if (card==null)return false;
+        if (card == null) return false;
         if (card.isInserted()) {
             if (printError) MyPrinter.red("this card inserted in past!");
             return false;
@@ -679,7 +686,7 @@ public class Battle {
     public boolean canUseSpecialPower(Hero hero, Location target, boolean printError) {
         HeroSpecialItemPack heroPack = hero.getSpecialItem().getHeroPack();
 
-        if (!specialPowerAvalable(hero,printError)){
+        if (!specialPowerAvalable(hero, printError)) {
             return false;
         }
 
@@ -692,10 +699,10 @@ public class Battle {
         return true;
     }
 
-    public boolean specialPowerAvalable(Hero hero, boolean printError){
+    public boolean specialPowerAvalable(Hero hero, boolean printError) {
         HeroSpecialItemPack heroPack = hero.getSpecialItem().getHeroPack();
 
-        if (!hero.canUseSpecialPower(printError)){
+        if (!hero.canUseSpecialPower(printError)) {
             return false;
         }
         if (heroPack.getMana() > players[hero.getPlyNum()].getMana()) {
@@ -717,6 +724,7 @@ public class Battle {
         players[hero.getPlyNum()].mana_use(mana);
         hero.setUsedSpecialItem(true);
         MyPrinter.green("specialPower of " + hero.getCardId() + " was used successfully!");
+        checkVictory();
     }
 
     private void combo(ArrayList<Minion> attackers, Minion defender) {
@@ -890,10 +898,10 @@ public class Battle {
         }
     }
 
-    public boolean isThereAnyCellToSpecialPower(int plaNum){
+    public boolean isThereAnyCellToSpecialPower(int plaNum) {
         for (int i = 0; i < Board.width; i++) {
             for (int j = 0; j < Board.height; j++) {
-                if (canUseSpecialPower(players[plaNum].getHero(),new Location(i,j),false)){
+                if (canUseSpecialPower(players[plaNum].getHero(), new Location(i, j), false)) {
                     return true;
                 }
             }
@@ -957,12 +965,12 @@ public class Battle {
         return numOfFlags;
     }
 
-    public Card getCardByIdFromHands(String cardId){
+    public Card getCardByIdFromHands(String cardId) {
         ArrayList<Card> cards = new ArrayList<>();
         cards.addAll(players[0].getHand().getCards());
         cards.addAll(players[1].getHand().getCards());
-        for (Card card:cards){
-            if (card.getCardId().equals(cardId)){
+        for (Card card : cards) {
+            if (card.getCardId().equals(cardId)) {
                 return card;
             }
         }

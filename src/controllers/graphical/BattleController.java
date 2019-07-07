@@ -42,9 +42,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.*;
+import java.util.logging.Handler;
+
+import static models.battle.BattleActionType.*;
 
 public class BattleController extends MyController implements Initializable {
-    Double hideAndRiseSpeed = 100.0;
+    Double hideAndRiseSpeed = 50.0;
     Double aiPlayerSpeed = 150.0;
     Double reviewSpeed = 150.0;
 
@@ -62,7 +65,6 @@ public class BattleController extends MyController implements Initializable {
     private int turn;
     private Player[] players;
     private AnimationTimer aiTimer;
-    private AnimationTimer checker;
     private AnimationTimer reviewTimer;
     private ImageView background;
     private MediaPlayer music;
@@ -97,8 +99,6 @@ public class BattleController extends MyController implements Initializable {
         players[0].mana_rise(2);
         players[1].mana_rise(2);
         turn = battle.getTurn();
-        graphicalHand.setHand(players[turn].getHand());
-        graphicalHand.updateHand();
         stateOfMouseClickeds = new StateOfMouseClicked[2];
         stateOfMouseClickeds[0] = StateOfMouseClicked.free;
         stateOfMouseClickeds[1] = StateOfMouseClicked.free;
@@ -106,17 +106,8 @@ public class BattleController extends MyController implements Initializable {
         manaViewers[0].update();
         manaViewers[1].update();
         update_specialPower_btn();
-        checkerRun();
-        if (onReview){
-            reviewTimer.start();
-        }else {
-            if (!players[turn].isHuman()){
-                if (!onServer){
-                    aiTimer.start();
-                }
-            }
-        }
 
+        updatesOfANewTurn();
     }
 
     private void setBackground() {
@@ -145,30 +136,9 @@ public class BattleController extends MyController implements Initializable {
             music.stop();
         }
         music = new MediaPlayer(media);
-        music.setVolume(0.5);
+        music.setVolume(0.2);
         music.play();
     }
-
-    private void checkerRun() {
-        int prerioty = 10;
-        checker = new AnimationTimer() {
-            int lastTime = 0;
-
-            @Override
-            public void handle(long now) {
-                if (lastTime % prerioty == 0) {
-                    battle.checkVictory();
-                    if (battle.getMatchResult() != null) {
-                        battleFinish();
-                    }
-                }
-                lastTime++;
-
-            }
-        };
-        checker.start();
-    }
-
 
     private void createButtons() {
 
@@ -372,22 +342,9 @@ public class BattleController extends MyController implements Initializable {
             }
 
             private void doNextOneAction() {
-                BattleAction lastOn = lastBattleHistory.get(historyActionCoiunter);
-                switch (lastOn.getType()){
-                    case attack:{
-                        attackRes(lastOn.getCardId1(),lastOn.getCardId2());
-                        break;
-                    }
-                    case move:{
-                        moveRes(lastOn.getCardId1(),lastOn.getLocation());
-                        break;
-                    }
-                    case endTurn:{
-                        endTurn();
-                    }
-                    case useSpecialPower:{
-                        useSpecialPowerRes(lastOn.getCardId1(),lastOn.getLocation());
-                    }
+                BattleAction lastOne = lastBattleHistory.get(historyActionCoiunter);
+                if (lastOne!=null){
+                    doOneAction(lastOne);
                 }
                 historyActionCoiunter++;
             }
@@ -423,6 +380,11 @@ public class BattleController extends MyController implements Initializable {
     }
 
     public void death(Minion minion, Location location) {
+
+//        if (!onReview){
+//            lastBattleHistory.add(new BattleAction(minion.getCardId(),null,null,BattleActionType.death));
+//        }
+
         int deathtime = 10;
 
         graphicalBoard.setMinionAtCell(minion, location, MinionImageViewType.death, false);
@@ -462,7 +424,7 @@ public class BattleController extends MyController implements Initializable {
         int attackTime = 60;
 
         if (!onReview){
-            lastBattleHistory.add(new BattleAction(attacker.getCardId(),defender.getCardId(),null,BattleActionType.attack));
+            lastBattleHistory.add(new BattleAction(attacker.getCardId(),defender.getCardId(),null, attack));
         }
 
         graphicalBoard.setMinionAtCell(attacker, attacker.getLocation(), MinionImageViewType.attacking, false);
@@ -531,7 +493,7 @@ public class BattleController extends MyController implements Initializable {
         Double moveTime = 1.0;
 
         if (!onReview){
-            lastBattleHistory.add(new BattleAction(minion.getCardId(),null,target,BattleActionType.move));
+            lastBattleHistory.add(new BattleAction(minion.getCardId(),null,target, move));
         }
 
         ImageView runningImageView = creatImageViewerOfMinion(minion, MinionImageViewType.running);
@@ -609,7 +571,7 @@ public class BattleController extends MyController implements Initializable {
         reviewTimer.stop();
 
         if (!onReview){
-            lastBattleHistory.add(new BattleAction(null,null,null,BattleActionType.endTurn));
+            lastBattleHistory.add(new BattleAction(null,null,null, endTurn));
         }
 
         battle.changeTurn();
@@ -622,24 +584,31 @@ public class BattleController extends MyController implements Initializable {
         string = string + " \njust a moment ...";
         MyAlert myAlert = new MyAlert(string);
         myAlert.setOnfinishEvent(event -> {
-            update_specialPower_btn();
 
-            if (onReview){
-                reviewTimer.start();
-            }else {
-                if (!players[turn].isHuman()){
-                    if (!onServer){
-                        aiTimer.start();
-                    }
-                }
-            }
+            updatesOfANewTurn();
 
-            graphicalHand.setHand(players[turn].getHand());
-            graphicalHand.updateHand();
-            graphicalHand.updateHand();
-            manaViewers[turn].update();
         });
         myAlert.start();
+
+    }
+
+    public void updatesOfANewTurn(){
+        update_specialPower_btn();
+
+        if (onReview){
+            reviewTimer.start();
+        }else {
+            if (!players[turn].isHuman()){
+                if (!onServer){
+                    aiTimer.start();
+                }
+            }
+        }
+
+        graphicalHand.setHand(players[turn].getHand());
+        graphicalHand.updateHand();
+        graphicalHand.updateHand();
+        manaViewers[turn].update();
     }
 
     private boolean ai_do_only_one_action() {
@@ -699,11 +668,48 @@ public class BattleController extends MyController implements Initializable {
         return false;
     }
 
-    private void battleFinish() {
+    public void doOneAction(BattleAction action){
+        switch (action.getType()){
+            case attack:{
+                attackRes(action.getCardId1(),action.getCardId2());
+                break;
+            }
+            case move:{
+                moveRes(action.getCardId1(),action.getLocation());
+                break;
+            }
+            case endTurn:{
+                endTurn();
+                break;
+            }
+            case useSpecialPower:{
+                useSpecialPowerRes(action.getCardId1(),action.getLocation());
+                break;
+            }
+            case death:{
+                Minion minion = board.getMinionById(action.getCardId1());
+                death(minion,minion.getLocation());
+                break;
+            }
+            case insert:{
+                insertRes(action.getCardId1(),action.getLocation());
+                break;
+            }
+            case finish:{
+                battleFinish();
+                break;
+            }
+        }
+    }
+
+    public void battleFinish() {
         aiTimer.stop();
         reviewTimer.stop();
-        checker.stop();
         music.stop();
+
+        if (!onReview){
+            lastBattleHistory.add(new BattleAction(null,null,null,BattleActionType.finish));
+        }
 
         if (onServer){
         //send finish battle requesta
@@ -713,7 +719,7 @@ public class BattleController extends MyController implements Initializable {
 
         Pane pane = new Pane();
         pane.setPrefSize(1920,1080);
-        pane.setStyle("-fx-background-color: #a56600");
+        pane.setStyle("-fx-background-color: black");
         pane.setOpacity(0);
         anchorPane.getChildren().add(pane);
         AnimationTimer hidenTimer = new AnimationTimer() {
@@ -751,19 +757,22 @@ public class BattleController extends MyController implements Initializable {
             Client.getStage().getScene().setRoot(BattleMenu.getRoot());
         });
         myAlert.setMiddleEventHandler(event -> {
-            rainShit();
+            //rainShit();
         });
         myAlert.start();
         hidenTimer.start();
 
-        YaGson yaGson = new YaGson();
-        try {
-            Formatter formatter = new Formatter("fileName.txt");
-            formatter.format(yaGson.toJson(lastBattleHistory));
-            formatter.flush();
-            formatter.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        if (!onReview){
+            YaGson yaGson = new YaGson();
+            try {
+                Formatter formatter = new Formatter("fileName.txt");
+                formatter.format(yaGson.toJson(lastBattleHistory));
+                formatter.flush();
+                formatter.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+
         }
 
 
@@ -2081,20 +2090,17 @@ public class BattleController extends MyController implements Initializable {
             typingSpeed = new Double(5.0);
 
             this.string = string;
-            Image leftImage = new Image(new File("src/resources/inBattle/Alert/leftImage.png").toURI().toString());
-            left = new ImageView(leftImage);
+            left = new ImageView(new Image(new File("src/resources/inBattle/buttons/close.png").toURI().toString()));
             left.relocate(-1920, 0);
             left.setFitWidth(1920);
             left.setFitHeight(1080);
 
-            Image rightImage = new Image(new File("src/resources/inBattle/Alert/rightImage.png").toURI().toString());
-            right = new ImageView(rightImage);
+            right = new ImageView(new Image(new File("src/resources/inBattle/buttons/close.png").toURI().toString()));
             right.relocate(1920, 0);
             right.setFitWidth(1920);
             right.setFitHeight(1080);
 
-            Image upImage = new Image(new File("src/resources/inBattle/Alert/upImage.png").toURI().toString());
-            up = new ImageView(upImage);
+            up = new ImageView(new Image(new File("src/resources/inBattle/buttons/close.png").toURI().toString()));
             up.relocate(0, -1080);
             up.setFitWidth(1920);
             up.setFitHeight(1080);
@@ -2111,6 +2117,7 @@ public class BattleController extends MyController implements Initializable {
         }
 
         public void start() {
+
             if (!nowInAlertt) {
                 comImages();
                 nowInAlertt = true;
@@ -2147,6 +2154,8 @@ public class BattleController extends MyController implements Initializable {
             upTT.play();
             leftTT.play();
             rightTT.play();
+
+
         }
 
         public void comImages() {
@@ -2167,7 +2176,7 @@ public class BattleController extends MyController implements Initializable {
             rightTT.setCycleCount(1);
 
             upTT.setOnFinished(event -> {
-                MediaPlayer impact = new MediaPlayer(new Media(new File("src/resources/inBattle/Alert/impact.m4a").toURI().toString()));
+                MediaPlayer impact = new MediaPlayer(new Media(new File("src/resources/Alert/impact.m4a").toURI().toString()));
                 impact.play();
                 showString();
             });
@@ -2184,7 +2193,7 @@ public class BattleController extends MyController implements Initializable {
             char[] chars = string.toCharArray();
             anchorPane.getChildren().remove(label);
             anchorPane.getChildren().add(label);
-            MediaPlayer typingSound = new MediaPlayer(new Media(new File("src/resources/inBattle/Alert/typingSound.mp3").toURI().toString()));
+            MediaPlayer typingSound = new MediaPlayer(new Media(new File("src/resources/Alert/typingSound.mp3").toURI().toString()));
             AnimationTimer stringShower = new AnimationTimer() {
                 int lastTime;
 

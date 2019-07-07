@@ -9,7 +9,7 @@ public class BattleHistory {
     Player[] players;
     Board board;
     MatchType matchType;
-    int numberOfFlags;
+
 
     public BattleHistory(Player[] players, Board board,MatchType matchType) {
         this.battleActions = new ArrayList<>();
@@ -25,7 +25,10 @@ public class BattleHistory {
     }
 
     public BattleAction get(int i){
-        return battleActions.get(i);
+        if (battleActions.size()>i){
+            return battleActions.get(i);
+        }
+        return null;
     }
 
     public Battle getBattel(){
