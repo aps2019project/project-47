@@ -1,5 +1,7 @@
 package controllers.graphical;
 
+import com.gilecode.yagson.YaGson;
+import com.gilecode.yagson.YaGsonBuilder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jfoenix.controls.JFXButton;
@@ -31,6 +33,7 @@ import models.cards.spell.effect.Effect;
 import models.deck.Deck;
 import models.item.Item;
 import network.Client;
+import network.Requests.account.UpdateAccountRequest;
 
 import java.io.*;
 import java.net.URL;
@@ -43,8 +46,8 @@ public class CollectionController implements Initializable {
     ArrayList<Deck> decks = loginAccount.getDecks();
     Deck currentDeck;
 
-    public static GsonBuilder gsonBuilder;
-    public static Gson gson;
+    public static YaGsonBuilder yaGsonBuilder = new YaGsonBuilder();
+    public static YaGson yaGson = yaGsonBuilder.create();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -269,6 +272,10 @@ public class CollectionController implements Initializable {
                 bottomContainer.getChildren().remove(0, bottomContainer.getChildren().size());
                 topContainer.getChildren().remove(0, topContainer.getChildren().size());
                 leftBar.getChildren().removeIf(node -> node.getId().equals("finishButtons"));
+                UpdateAccountRequest updateAccountRequest =  new UpdateAccountRequest(loginAccount);
+                String yaJson1 = yaGson.toJson(updateAccountRequest);
+                Client.getWriter().println(yaJson1);
+                Client.getWriter().flush();
             }
         });
     }

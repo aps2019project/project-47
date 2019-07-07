@@ -8,6 +8,7 @@ import network.Requests.*;
 import network.Requests.account.CreateAccountRequest;
 import network.Requests.account.LoginRequest;
 import network.Requests.account.LogoutRequest;
+import network.Requests.account.UpdateAccountRequest;
 import network.Requests.chatRoom.LeaveChatRequest;
 import network.Requests.chatRoom.SendMessageRequest;
 import network.Requests.chatRoom.UpdateChatRequest;
@@ -70,7 +71,7 @@ public class ClientHandler extends Thread {
                 out.flush();
                 continue;
             }
-            if (request instanceof CreateAccountRequest){
+            if (request instanceof CreateAccountRequest) {
                 CreateAccountResponse createAccountResponse = new CreateAccountResponse((CreateAccountRequest) request);
                 createAccountResponse.handleRequest();
                 responseStr = gson.toJson(createAccountResponse);
@@ -78,23 +79,32 @@ public class ClientHandler extends Thread {
                 out.flush();
                 continue;
             }
-            if (request instanceof LoginRequest){
+            if (request instanceof LoginRequest) {
                 LoginResponse loginResponse = new LoginResponse((LoginRequest) request);
                 loginResponse.handleRequest();
                 responseStr = gson.toJson(loginResponse);
                 out.println(responseStr);
                 out.flush();
+                System.out.println("online Accounts:");
+                Account.getAccountsMapper().values().forEach(account ->
+                        System.out.println(account.getUserName()));
                 continue;
             }
-            if (request instanceof LogoutRequest){
+            if (request instanceof LogoutRequest) {
                 LogoutResponse logoutResponse = new LogoutResponse((LogoutRequest) request);
                 logoutResponse.handleRequest();
                 responseStr = gson.toJson(logoutResponse);
+                System.out.println("online Accounts:");
+                Account.getAccountsMapper().values().forEach(account ->
+                        System.out.println(account.getUserName()));
                 out.println(responseStr);
                 out.flush();
                 continue;
             }
-            if (request instanceof UpdateChatRequest){
+            if (request instanceof UpdateAccountRequest){
+                new UpdateAccountResponse((UpdateAccountRequest) request);
+            }
+            if (request instanceof UpdateChatRequest) {
                 UpdateChatResponse updateChatResponse = new UpdateChatResponse((UpdateChatRequest) request);
                 updateChatResponse.handleRequest();
                 responseStr = gson.toJson(updateChatResponse);
@@ -102,18 +112,18 @@ public class ClientHandler extends Thread {
                 out.flush();
                 continue;
             }
-            if (request instanceof SendMessageRequest){
+            if (request instanceof SendMessageRequest) {
                 SendMessageResponse sendMessageResponse = new SendMessageResponse((SendMessageRequest) request);
                 sendMessageResponse.handleRequest();
-                ReceiveMessageResponse receiveMessageResponse = new ReceiveMessageResponse(((SendMessageRequest)request).getMessage());
+                ReceiveMessageResponse receiveMessageResponse = new ReceiveMessageResponse(((SendMessageRequest) request).getMessage());
                 String receiveMessageResponseStr = gson.toJson(receiveMessageResponse);
-                for (ClientHandler clientHandler : Server.clientHandlers){
+                for (ClientHandler clientHandler : Server.clientHandlers) {
                     clientHandler.getOut().println(receiveMessageResponseStr);
                     clientHandler.getOut().flush();
                 }
                 continue;
             }
-            if (request instanceof LeaveChatRequest){
+            if (request instanceof LeaveChatRequest) {
                 LeaveChatResponse leaveChatResponse = new LeaveChatResponse((LeaveChatRequest) request);
                 leaveChatResponse.handleRequest();
                 responseStr = gson.toJson(leaveChatResponse);
