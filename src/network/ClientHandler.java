@@ -9,6 +9,7 @@ import network.Requests.*;
 import network.Requests.account.CreateAccountRequest;
 import network.Requests.account.LoginRequest;
 import network.Requests.account.LogoutRequest;
+import network.Requests.account.UpdateAccountRequest;
 import network.Requests.battle.CancelNewBattleRequest;
 import network.Requests.battle.NewBattleRequest;
 import network.Requests.battle.OnlinePlayersRequest;

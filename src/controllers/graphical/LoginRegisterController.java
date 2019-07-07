@@ -50,11 +50,6 @@ public class LoginRegisterController extends MyController implements Initializab
 
     public static YaGson yaGson = new YaGson();
 
-    public static LoginRegisterController instance;
-    {
-        instance = this;
-    }
-
     public void loginButtonAction(){
         if (checkFreeBoxes(userNameField, passwordField, messageLabelLogin)) return;
         LoginRequest request = new LoginRequest(userNameField.getText(), passwordField.getText());
