@@ -49,7 +49,7 @@ public class Server extends Application {
     }
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         Thread serverThread = new Thread(() -> {
             try {
                 BufferedReader reader = new BufferedReader(new FileReader("src/network/config"));
@@ -69,9 +69,8 @@ public class Server extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("../layouts/serverGraphics.fxml"));
         Scene scene = new Scene(root);
+        stage.setTitle("Shop Inventory");
         stage.setScene(scene);
-        stage.setMaximized(true);
-        stage.setFullScreen(true);
         stage.show();
     }
 }

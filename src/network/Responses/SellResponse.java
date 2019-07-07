@@ -2,6 +2,7 @@ package network.Responses;
 
 import controllers.Constants;
 import controllers.console.AccountMenu;
+import controllers.graphical.ServerShopController;
 import controllers.graphical.UniversalShopController;
 import models.Account;
 import models.Shop;
@@ -23,6 +24,7 @@ public class SellResponse extends Response {
             Shop.getInstance().command_sell(((SellRequest) request).getCode());
         shop = Shop.getInstance();
         account = Account.getAccountsMapper().get(request.getAuthToken());
+        ServerShopController.instance.updateTable();
         AccountMenu.setLoginAccount(null);
     }
 

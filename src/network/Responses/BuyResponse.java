@@ -2,6 +2,7 @@ package network.Responses;
 
 import controllers.Constants;
 import controllers.console.AccountMenu;
+import controllers.graphical.ServerShopController;
 import controllers.graphical.UniversalShopController;
 import models.Account;
 import models.Shop;
@@ -25,6 +26,7 @@ public class BuyResponse extends Response {
         if (request != null) {
             int code = ((BuyRequest) request).getCode();
             requestResult = Server.getShop().command_buy(code);
+            ServerShopController.instance.updateTable();
         } else {
             requestResult = Constants.NULL_REQUEST;
         }
