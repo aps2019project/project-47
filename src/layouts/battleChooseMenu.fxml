@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTabPane?>
 <?import com.jfoenix.controls.JFXTextField?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <VBox fx:id="mainContainer" alignment="center" prefHeight="1080" prefWidth="1920" spacing="20" styleClass="underBackGround" stylesheets="@stylesheets/battleChoosePage.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.graphical.BattleChooseMenuController">
 
@@ -18,9 +19,9 @@
     <JFXTabPane fx:id="mainPage" styleClass="tabContainer">
         <Tab styleClass="duelystTabName" text="Single player">
             <VBox fx:id="SingleGameTab" spacing="20" styleClass="duelystTab">
-                <ComboBox fx:id="mode" prefHeight="80" prefWidth="400" promptText="mode" styleClass="regular-textBox">
+                <JFXComboBox fx:id="mode" prefHeight="80" prefWidth="400" promptText="mode" styleClass="regular-textBox">
 
-                </ComboBox>
+                </JFXComboBox>
                 <JFXTextField fx:id="numberOfFlags" prefHeight="80" prefWidth="400" promptText="number of flags" styleClass="regular-textBox">
                 </JFXTextField>
                 <JFXButton fx:id="startSinglePlayer" onAction="#startSinglePlayer" prefHeight="80" prefWidth="440" styleClass="regularButton" text="Start">
@@ -37,15 +38,20 @@
                 </JFXButton>
             </VBox>
         </Tab>
-        <Tab styleClass="duelystTabName" text="Multi player">
+        <Tab onSelectionChanged="#getOnlinePlayers" styleClass="duelystTabName" text="Multi player">
             <VBox fx:id="multiPlayerGameTab" spacing="20" styleClass="duelystTab">
-                <ComboBox fx:id="otherPlayers" prefHeight="80" prefWidth="400" promptText="opponent" styleClass="regular-textBox">
+                <JFXComboBox fx:id="otherPlayers" prefHeight="80" prefWidth="400" promptText="opponent" styleClass="regular-textBox">
 
-                </ComboBox>
-                <JFXButton fx:id="StartMultiPlayerGame" onAction="#startMultiPlayerGame" prefHeight="80" prefWidth="440" styleClass="regularButton" text="Start">
+                </JFXComboBox>
+                <JFXButton fx:id="startMultiPlayerGame" onAction="#startMultiPlayerGame" prefHeight="80" prefWidth="440" styleClass="regularButton" text="Start">
                 </JFXButton>
             </VBox>
         </Tab>
     </JFXTabPane>
-    <JFXButton fx:id="btn_back" onAction="#back" styleClass="backButton"  text="back"/>
+    <JFXButton fx:id="btn_back" onAction="#back" prefHeight="70.0" prefWidth="700.0" text="back" />
+   <JFXButton fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" onAction="#cancelRequest" prefHeight="70.0" prefWidth="700.0" style="-fx-background-radius: 10px; -fx-background-color: #D73521;" text="cancel">
+      <font>
+         <Font name="Ubuntu Bold Italic" size="19.0" />
+      </font>
+   </JFXButton>
 </VBox>

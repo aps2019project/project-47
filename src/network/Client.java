@@ -92,6 +92,8 @@ public class Client extends Application {
         stage = primaryStage;
 
         Parent root = AccountMenu.getRoot();
+//        Parent root = FXMLLoader.load(getClass().getResource("/layouts/accountPage.fxml"));
+//        Parent root = FXMLLoader.load(getClass().getResource("/layouts/newBattleReq.fxml"));
 //        Parent root = MainMenu.getRoot();
 //        Parent root = Shop.getRoot();
 //        Parent root = BattleMenu.getRoot();

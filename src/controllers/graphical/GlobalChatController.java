@@ -10,15 +10,16 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import models.Account;
 import models.Message;
 import network.Client;
-import network.ClientHandler;
 import network.Requests.chatRoom.LeaveChatRequest;
 import network.Requests.chatRoom.SendMessageRequest;
 import network.Requests.chatRoom.UpdateChatRequest;
-import network.Responses.UpdateChatResponse;
+
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -28,6 +29,7 @@ public class GlobalChatController implements Initializable {
     YaGson yaGson = new YaGson();
 
     public static GlobalChatController instance;
+
     {
         instance = this;
     }
@@ -39,9 +41,14 @@ public class GlobalChatController implements Initializable {
                 BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, new BackgroundSize(
                 100, 100, true, true, true, true)));
         sendButton.setBackground(background);
+
+        chatText.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if (event.getCode() == KeyCode.ENTER)
+                sendMessage();
+        });
         update();
     }
-    @FXML
+
     private void update() {
         UpdateChatRequest request = new UpdateChatRequest(loginAccount.getAuthToken());
         Client.getWriter().println(yaGson.toJson(request));
@@ -91,13 +98,13 @@ public class GlobalChatController implements Initializable {
     }
 
     @FXML
-    private void back(){
+    private void back() {
         LeaveChatRequest leaveChatRequest = new LeaveChatRequest(loginAccount.getAuthToken());
         Client.getWriter().println(yaGson.toJson(leaveChatRequest));
         Client.getWriter().flush();
     }
 
-    public void goToMainMenu(){
+    public void goToMainMenu() {
         Client.getStage().getScene().setRoot(MainMenu.getRoot());
     }
 }
