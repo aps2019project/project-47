@@ -2,14 +2,17 @@ package network;
 
 import com.gilecode.yagson.YaGson;
 import com.gilecode.yagson.YaGsonBuilder;
+import controllers.Constants;
 import models.Account;
 import models.Shop;
 import network.Requests.*;
 import network.Requests.account.CreateAccountRequest;
 import network.Requests.account.LoginRequest;
 import network.Requests.account.LogoutRequest;
+import network.Requests.battle.CancelNewBattleRequest;
 import network.Requests.battle.NewBattleRequest;
 import network.Requests.battle.OnlinePlayersRequest;
+import network.Requests.battle.RejectNewGameRequest;
 import network.Requests.chatRoom.LeaveChatRequest;
 import network.Requests.chatRoom.SendMessageRequest;
 import network.Requests.chatRoom.UpdateChatRequest;
@@ -17,7 +20,10 @@ import network.Requests.shop.BuyRequest;
 import network.Requests.shop.FindRequest;
 import network.Requests.shop.SellRequest;
 import network.Responses.*;
+import network.Responses.battle.AcceptancePageResponse;
+import network.Responses.battle.CancelNewBattleResponse;
 import network.Responses.battle.OnlinePlayersResponse;
+import network.Responses.battle.RejectNewBattleResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -93,10 +99,14 @@ public class ClientHandler extends Thread {
                 responseStr = gson.toJson(loginResponse);
                 out.println(responseStr);
                 out.flush();
+                if (loginResponse.getRequestResult() == Constants.SUCCESSFUL_LOGIN) {
+                    Server.clientHandlers.put(loginResponse.getAccount().getUserName(), this);
+                }
                 continue;
             }
             if (request instanceof LogoutRequest){
                 LogoutResponse logoutResponse = new LogoutResponse((LogoutRequest) request);
+                Server.clientHandlers.remove(Account.getAccountsMapper().get(request.getAuthToken()).getUserName());
                 logoutResponse.handleRequest();
                 responseStr = gson.toJson(logoutResponse);
                 out.println(responseStr);
@@ -142,13 +152,33 @@ public class ClientHandler extends Thread {
                 continue;
             }
             if (request instanceof NewBattleRequest){
-
+                AcceptancePageResponse acceptancePageResponse = new AcceptancePageResponse((NewBattleRequest) request);
+                ClientHandler clientHandler = Server.clientHandlers.get(((NewBattleRequest) request).getOpponentUserName());
+                responseStr = gson.toJson(acceptancePageResponse);
+                clientHandler.out.println(responseStr);
+                clientHandler.out.flush();
+                continue;
+            }
+            if (request instanceof CancelNewBattleRequest){
+                CancelNewBattleResponse cancelNewBattleResponse = new CancelNewBattleResponse((CancelNewBattleRequest) request);
+                responseStr = gson.toJson(cancelNewBattleResponse);
+                ClientHandler clientHandler = Server.clientHandlers.get(((CancelNewBattleRequest) request).getOpponentUserName());
+                clientHandler.out.println(responseStr);
+                clientHandler.out.flush();
+                continue;
+            }
+            if (request instanceof RejectNewGameRequest){
+                RejectNewBattleResponse rejectNewBattleResponse = new RejectNewBattleResponse();
+                responseStr = gson.toJson(rejectNewBattleResponse);
+                ClientHandler clientHandler = Server.clientHandlers.get(((RejectNewGameRequest) request).getUserName());
+                clientHandler.out.println(responseStr);
+                clientHandler.out.flush();
             }
         }
     }
 
     private void broadcastMessage(String receiveMessageResponseStr) {
-        for (ClientHandler clientHandler : Server.clientHandlers){
+        for (ClientHandler clientHandler : Server.clientHandlers.values()){
             clientHandler.getOut().println(receiveMessageResponseStr);
             clientHandler.getOut().flush();
         }

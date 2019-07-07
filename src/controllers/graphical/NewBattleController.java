@@ -1,23 +1,34 @@
 package controllers.graphical;
 
+import com.gilecode.yagson.YaGson;
+import controllers.console.AccountMenu;
 import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
 import javafx.animation.Interpolator;
 import javafx.animation.Transition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
+import models.Account;
+import network.Client;
+import network.Requests.battle.CancelNewBattleRequest;
+import network.Requests.battle.RejectNewGameRequest;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class NewBattleController implements Initializable {
 
     public static NewBattleController instance;
+
     {
         instance = this;
     }
@@ -35,6 +46,27 @@ public class NewBattleController implements Initializable {
 
     @FXML
     private Button acceptButton;
+
+    @FXML
+    private Label text;
+
+    private Account loginAccount = AccountMenu.getLoginAccount();
+
+    private YaGson yaGson = new YaGson();
+
+    private String userNameOfRequest;
+
+    public String getUserNameOfRequest() {
+        return userNameOfRequest;
+    }
+
+    public void setUserNameOfRequest(String userNameOfRequest) {
+        this.userNameOfRequest = userNameOfRequest;
+    }
+
+    public void setText(String userName){
+        text.setText("Player " + userName + " wants to start new battle with you");
+    }
 
     AnimationTimer alarmer = new AnimationTimer() {
         @Override
@@ -73,7 +105,20 @@ public class NewBattleController implements Initializable {
 
     @FXML
     private void reject(){
+        RejectNewGameRequest rejectNewGameRequest = new RejectNewGameRequest(loginAccount.getAuthToken(), userNameOfRequest);
+        Client.getWriter().println(yaGson.toJson(rejectNewGameRequest));
+        Client.getWriter().flush();
+    }
 
+    public void showAcceptancePage(String string){
+        Parent root;
+        try {
+            root = FXMLLoader.load(getClass().getResource("/layouts/newBattleReq.fxml"));
+            Client.getStage().getScene().setRoot(root);
+            setText(string);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

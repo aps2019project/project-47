@@ -21,7 +21,7 @@ public class Server {
 
     public static HashMap<String, Integer> userLastMessageReceivedIndex = new HashMap<>();
 
-    public static ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
+    public static HashMap<String, ClientHandler> clientHandlers = new HashMap<>();
 
     public static void increamentMessageIndex(String authToken){
         Server.userLastMessageReceivedIndex.put(authToken, Server.userLastMessageReceivedIndex.get(authToken) + 1);
@@ -37,7 +37,6 @@ public class Server {
                 System.out.println("Client accepted");
                 ClientHandler clientHandler = new ClientHandler(socket);
                 clientHandler.setName("cHandler");
-                clientHandlers.add(clientHandler);
                 clientHandler.start();
             } catch (IOException ignored) {
             }

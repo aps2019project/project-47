@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTabPane?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
@@ -8,14 +9,14 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<?import com.jfoenix.controls.JFXComboBox?>
 <VBox fx:id="mainContainer" alignment="center" prefHeight="1080" prefWidth="1920" spacing="20" styleClass="underBackGround" stylesheets="@stylesheets/battleChoosePage.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.graphical.BattleChooseMenuController">
 
     <ImageView fitHeight="108" fitWidth="500">
         <Image url="/resources/buttons/logo.png" />
     </ImageView>
-    <JFXTabPane fx:id="mainPage" styleClass="tabContainer" >
+    <JFXTabPane fx:id="mainPage" styleClass="tabContainer">
         <Tab styleClass="duelystTabName" text="Single player">
             <VBox fx:id="SingleGameTab" spacing="20" styleClass="duelystTab">
                 <JFXComboBox fx:id="mode" prefHeight="80" prefWidth="400" promptText="mode" styleClass="regular-textBox">
@@ -37,15 +38,20 @@
                 </JFXButton>
             </VBox>
         </Tab>
-        <Tab styleClass="duelystTabName" text="Multi player" onSelectionChanged="#getOnlinePlayers">
+        <Tab onSelectionChanged="#getOnlinePlayers" styleClass="duelystTabName" text="Multi player">
             <VBox fx:id="multiPlayerGameTab" spacing="20" styleClass="duelystTab">
                 <JFXComboBox fx:id="otherPlayers" prefHeight="80" prefWidth="400" promptText="opponent" styleClass="regular-textBox">
 
                 </JFXComboBox>
-                <JFXButton fx:id="StartMultiPlayerGame" onAction="#startMultiPlayerGame" prefHeight="80" prefWidth="440" styleClass="regularButton" text="Start">
+                <JFXButton fx:id="startMultiPlayerGame" onAction="#startMultiPlayerGame" prefHeight="80" prefWidth="440" styleClass="regularButton" text="Start">
                 </JFXButton>
             </VBox>
         </Tab>
     </JFXTabPane>
-    <JFXButton fx:id="btn_back" onAction="#back" styleClass="backButton"  text="back"/>
+    <JFXButton fx:id="btn_back" onAction="#back" prefHeight="70.0" prefWidth="700.0" text="back" />
+   <JFXButton fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" onAction="#cancelRequest" prefHeight="70.0" prefWidth="700.0" style="-fx-background-radius: 10px; -fx-background-color: #D73521;" text="cancel">
+      <font>
+         <Font name="Ubuntu Bold Italic" size="19.0" />
+      </font>
+   </JFXButton>
 </VBox>

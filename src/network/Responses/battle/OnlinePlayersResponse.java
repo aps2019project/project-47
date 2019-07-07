@@ -9,15 +9,17 @@ import network.Responses.Response;
 import java.util.ArrayList;
 
 public class OnlinePlayersResponse extends Response {
-    private ArrayList<String > onlineUserNames = new ArrayList<>();
-    public OnlinePlayersResponse(OnlinePlayersRequest request){
+    private ArrayList<String> onlineUserNames = new ArrayList<>();
+
+    public OnlinePlayersResponse(OnlinePlayersRequest request) {
         this.request = request;
     }
 
     @Override
     public void handleRequest() {
-        for (String authToken : Account.getAccountsMapper().keySet()){
-            onlineUserNames.add(Account.getAccountsMapper().get(authToken).getUserName());
+        for (String authToken : Account.getAccountsMapper().keySet()) {
+            if (!authToken.equals(request.getAuthToken()))
+                onlineUserNames.add(Account.getAccountsMapper().get(authToken).getUserName());
         }
     }
 

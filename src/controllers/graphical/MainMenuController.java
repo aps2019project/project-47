@@ -4,6 +4,7 @@ import com.gilecode.yagson.YaGson;
 import controllers.MyController;
 import controllers.console.AccountMenu;
 import controllers.console.BattleMenu;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
@@ -32,7 +33,12 @@ public class MainMenuController extends MyController {
     }
 
     public void goToPlayMenu() {
-        Client.getStage().getScene().setRoot(BattleMenu.getRoot());
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("../../layouts/battleChooseMenu.fxml"));
+        } catch (IOException ignored) {
+        }
+        Client.getStage().getScene().setRoot(root);
     }
 
     public void goToCollectionMenu() throws IOException {

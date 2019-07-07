@@ -10,10 +10,9 @@ import controllers.console.AccountMenu;
 import controllers.console.MainMenu;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import models.Account;
@@ -22,17 +21,23 @@ import models.battle.Player;
 import models.battle.StoryGame;
 import models.battle.board.Board;
 import network.Client;
+import network.Requests.battle.CancelNewBattleRequest;
 import network.Requests.battle.NewBattleRequest;
 import network.Requests.battle.OnlinePlayersRequest;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class BattleChooseMenuController extends MyController{
+public class BattleChooseMenuController extends MyController implements Initializable {
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        cancelButton.setDisable(true);
+    }
 
     public static BattleChooseMenuController instance;
+
     {
         instance = this;
     }
@@ -50,10 +55,13 @@ public class BattleChooseMenuController extends MyController{
     public Label levelOfStoryGame;
     public JFXButton startStoryGame;
     public VBox multiPlayerGameTab;
-    public JFXButton StartMultiPlayerGame;
+    public JFXButton startMultiPlayerGame;
+    @FXML
+    public JFXButton cancelButton;
 
 
     public static YaGson yaGson = new YaGson();
+
     public void startSinglePlayer(ActionEvent event) {
 
     }
@@ -64,69 +72,84 @@ public class BattleChooseMenuController extends MyController{
         Player player0 = account.makePlayer(0);
         StoryGame storyGame = new StoryGame();
         Battle battle = storyGame.story(player0, account.getStoryLvl());
-        Parent root=Board.getRoot();
+        Parent root = Board.getRoot();
         BattleController controller = (BattleController) Board.getController();
-        controller.initializeBattle(battle,false,false);
+        controller.initializeBattle(battle, false, false);
         Client.getStage().getScene().setRoot(root);
     }
 
     public void startMultiPlayerGame(ActionEvent event) {
-        String opponentUserName = (String)(otherPlayers.getSelectionModel().getSelectedItem());
+        String opponentUserName = (String) (otherPlayers.getSelectionModel().getSelectedItem());
         NewBattleRequest newBattleRequest = new NewBattleRequest(loginAccount.getAuthToken(), opponentUserName);
         Client.getWriter().println(yaGson.toJson(newBattleRequest));
         Client.getWriter().flush();
+        cancelButton.setDisable(false);
+        disableEveryThing();
     }
+
+    private void disableEveryThing() {
+        otherPlayers.setDisable(true);
+        btn_back.setDisable(true);
+        mainPage.setDisable(true);
+        startMultiPlayerGame.setDisable(true);
+    }
+
+    private void enableEveryThing() {
+        otherPlayers.setDisable(false);
+        btn_back.setDisable(false);
+        mainPage.setDisable(false);
+        startMultiPlayerGame.setDisable(false);
+    }
+
     @Override
-    public void update(){
-        loginAccount=AccountMenu.getLoginAccount();
+    public void update() {
+        loginAccount = AccountMenu.getLoginAccount();
         setStoryGame();
         setSingleGame();
     }
 
-    public void setSingleGame(){
+    public void setSingleGame() {
         mode.getItems().removeAll(mode.getItems());
-        mode.getItems().addAll("KILL","COLLECTING","KEEPING");
+        mode.getItems().addAll("KILL", "COLLECTING", "KEEPING");
     }
-    public void setMultiPlayerGame(){
+
+    public void setMultiPlayerGame() {
         otherPlayers.getItems().removeAll(otherPlayers.getItems());
-        for (Account account:AccountMenu.getAccounts()){
+        for (Account account : AccountMenu.getAccounts()) {
             otherPlayers.getItems().add(account.getUserName());
         }
     }
-    private void setStoryGame(){
-        int lvl=loginAccount.getStoryLvl();
-        if (lvl==4){
+
+    private void setStoryGame() {
+        int lvl = loginAccount.getStoryLvl();
+        if (lvl == 4) {
             storyGameTab.getChildren().remove(startStoryGame);
             levelOfStoryGame.setText("You have finished story game!");
             return;
         }
-        String number="";
-        switch (lvl){
-            case 1:{
-                number="one";
+        String number = "";
+        switch (lvl) {
+            case 1: {
+                number = "one";
                 break;
             }
-            case 2:{
-                number="two";
+            case 2: {
+                number = "two";
                 break;
             }
-            case 3:{
-                number="three";
+            case 3: {
+                number = "three";
                 break;
             }
         }
-        levelOfStoryGame.setText("Are you sure to start mission "+number+" ?");
-    }
-
-    public void setLoginAccount(Account loginAccount) {
-        this.loginAccount = loginAccount;
+        levelOfStoryGame.setText("Are you sure to start mission " + number + " ?");
     }
 
     public void back(ActionEvent event) {
         Client.getStage().getScene().setRoot(MainMenu.getRoot());
     }
 
-    public void getOnlinePlayers(){
+    public void getOnlinePlayers() {
         otherPlayers.getItems().remove(0, otherPlayers.getItems().size());
         OnlinePlayersRequest onlinePlayersRequest = new OnlinePlayersRequest(
                 loginAccount.
@@ -135,9 +158,22 @@ public class BattleChooseMenuController extends MyController{
         Client.getWriter().flush();
     }
 
-    public void addOtherPlayersUserNames(ArrayList<String> userNames){
-        for (String userName : userNames){
+    public void addOtherPlayersUserNames(ArrayList<String> userNames) {
+        for (String userName : userNames) {
             otherPlayers.getItems().add(userName);
         }
+    }
+
+    @FXML
+    private void cancelRequest(ActionEvent actionEvent) {
+        doCancel();
+    }
+
+    public void doCancel(){
+        cancelButton.setDisable(true);
+        enableEveryThing();
+        CancelNewBattleRequest cancelNewBattleRequest = new CancelNewBattleRequest(loginAccount.getAuthToken(), (String) otherPlayers.getSelectionModel().getSelectedItem());
+        Client.getWriter().println(yaGson.toJson(cancelNewBattleRequest));
+        Client.getWriter().flush();
     }
 }
