@@ -377,7 +377,7 @@ public class CollectionController implements Initializable {
                         assert outputStream != null;
                         Formatter formatter = new Formatter(outputStream);
                         formatter.format(json);
-                        System.out.println(json);
+//                        System.out.println(json);
                         formatter.flush();
                         formatter.close();
 

@@ -20,7 +20,7 @@ public class Account implements Cloneable {
     private String userName;
     private int money;
     private String password;
-    private String authToken;
+    private transient String authToken;
 
     private ArrayList<MatchResult> matchHistory;
 
@@ -41,7 +41,7 @@ public class Account implements Cloneable {
         this.password = password;
     }
 
-    private static HashMap<String, Account> accountsMapper = new HashMap<>(); //token --> account
+    private transient static HashMap<String, Account> accountsMapper = new HashMap<>(); //token --> account
 
     public static synchronized void putAccount(String authToken, Account account) {
         accountsMapper.put(authToken, account);
@@ -198,7 +198,12 @@ public class Account implements Cloneable {
             if (card.getCode() == code) {
                 cards.remove(card);
                 moneyRise(card.getPrice());
-                Shop.getInstance().getCards().replace(card, Shop.getInstance().getCards().get(card) + 1);
+                for (Card card1 : Shop.getInstance().getCards().keySet()) {
+                    if (card1.getName().equals(card.getName())){
+                        Shop.getInstance().getCards().replace(card1, Shop.getInstance().getCards().get(card1) + 1);
+                        break;
+                    }
+                }
                 try {
                     UniversalShopController.instance.setUniversalCollectionMenu();
                 } catch (NullPointerException ignored) {

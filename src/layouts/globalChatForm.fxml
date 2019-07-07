@@ -41,10 +41,5 @@
             <Font name="System Bold" size="19.0" />
          </font>
       </Button>
-      <Button fx:id="updateButton" mnemonicParsing="false" onAction="#update" prefHeight="100.0" prefWidth="100.0" style="-fx-background-radius: 50%;" text="Update" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="120.0">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
-      </Button>
    </children>
 </AnchorPane>
