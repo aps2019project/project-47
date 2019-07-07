@@ -8,6 +8,8 @@ import network.Requests.*;
 import network.Requests.account.CreateAccountRequest;
 import network.Requests.account.LoginRequest;
 import network.Requests.account.LogoutRequest;
+import network.Requests.battle.NewBattleRequest;
+import network.Requests.battle.OnlinePlayersRequest;
 import network.Requests.chatRoom.LeaveChatRequest;
 import network.Requests.chatRoom.SendMessageRequest;
 import network.Requests.chatRoom.UpdateChatRequest;
@@ -15,6 +17,7 @@ import network.Requests.shop.BuyRequest;
 import network.Requests.shop.FindRequest;
 import network.Requests.shop.SellRequest;
 import network.Responses.*;
+import network.Responses.battle.OnlinePlayersResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -128,6 +131,18 @@ public class ClientHandler extends Thread {
                 out.println(responseStr);
                 out.flush();
                 continue;
+            }
+
+            if (request instanceof OnlinePlayersRequest){
+                OnlinePlayersResponse onlinePlayersResponse = new OnlinePlayersResponse((OnlinePlayersRequest) request);
+                onlinePlayersResponse.handleRequest();
+                responseStr = gson.toJson(onlinePlayersResponse);
+                out.println(responseStr);
+                out.flush();
+                continue;
+            }
+            if (request instanceof NewBattleRequest){
+
             }
         }
     }

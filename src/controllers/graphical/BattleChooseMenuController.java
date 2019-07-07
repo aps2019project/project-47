@@ -1,13 +1,17 @@
 package controllers.graphical;
 
+import com.gilecode.yagson.YaGson;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextField;
 import controllers.MyController;
 import controllers.console.AccountMenu;
 import controllers.console.MainMenu;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -18,14 +22,25 @@ import models.battle.Player;
 import models.battle.StoryGame;
 import models.battle.board.Board;
 import network.Client;
+import network.Requests.battle.NewBattleRequest;
+import network.Requests.battle.OnlinePlayersRequest;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
 
-public class BattleChooseMenuController extends MyController {
-    public ComboBox mode;
-    public ComboBox otherPlayers;
+public class BattleChooseMenuController extends MyController{
+
+    public static BattleChooseMenuController instance;
+    {
+        instance = this;
+    }
+
+    public JFXComboBox mode;
+    public JFXComboBox otherPlayers;
     public JFXButton btn_back;
-    private Account loginAccount;
+    private Account loginAccount = AccountMenu.getLoginAccount();
 
     public JFXTabPane mainPage;
     public VBox SingleGameTab;
@@ -35,9 +50,10 @@ public class BattleChooseMenuController extends MyController {
     public Label levelOfStoryGame;
     public JFXButton startStoryGame;
     public VBox multiPlayerGameTab;
-    public JFXTextField opponentName;
     public JFXButton StartMultiPlayerGame;
 
+
+    public static YaGson yaGson = new YaGson();
     public void startSinglePlayer(ActionEvent event) {
 
     }
@@ -55,15 +71,16 @@ public class BattleChooseMenuController extends MyController {
     }
 
     public void startMultiPlayerGame(ActionEvent event) {
-
+        String opponentUserName = (String)(otherPlayers.getSelectionModel().getSelectedItem());
+        NewBattleRequest newBattleRequest = new NewBattleRequest(loginAccount.getAuthToken(), opponentUserName);
+        Client.getWriter().println(yaGson.toJson(newBattleRequest));
+        Client.getWriter().flush();
     }
     @Override
     public void update(){
         loginAccount=AccountMenu.getLoginAccount();
         setStoryGame();
         setSingleGame();
-        setMultiPlayerGame();
-
     }
 
     public void setSingleGame(){
@@ -107,6 +124,20 @@ public class BattleChooseMenuController extends MyController {
 
     public void back(ActionEvent event) {
         Client.getStage().getScene().setRoot(MainMenu.getRoot());
+    }
 
+    public void getOnlinePlayers(){
+        otherPlayers.getItems().remove(0, otherPlayers.getItems().size());
+        OnlinePlayersRequest onlinePlayersRequest = new OnlinePlayersRequest(
+                loginAccount.
+                        getAuthToken());
+        Client.getWriter().println(yaGson.toJson(onlinePlayersRequest));
+        Client.getWriter().flush();
+    }
+
+    public void addOtherPlayersUserNames(ArrayList<String> userNames){
+        for (String userName : userNames){
+            otherPlayers.getItems().add(userName);
+        }
     }
 }
