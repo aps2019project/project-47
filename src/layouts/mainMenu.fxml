@@ -4,110 +4,108 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.layout.AnchorPane?>
-<AnchorPane prefHeight="1080.0" prefWidth="1920.0" styleClass="underBackGround"
-            stylesheets="@stylesheets/mainMenuStyles.css" xmlns="http://javafx.com/javafx/8.0.172-ea"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.graphical.MainMenuController">
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" styleClass="underBackGround" stylesheets="@stylesheets/mainMenuStyles.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.graphical.MainMenuController">
     <VBox spacing="30">
         <ImageView fitHeight="86" fitWidth="400">
             <VBox.margin>
-                <Insets left="70" top="100"/>
+                <Insets left="70" top="100" />
             </VBox.margin>
-            <Image url="/resources/buttons/logo.png"/>
+            <Image url="/resources/buttons/logo.png" />
         </ImageView>
         <HBox>
             <ImageView fitHeight="60" fitWidth="60" styleClass="menuButton">
                 <HBox.margin>
-                    <Insets left="100.0" top="20.0"/>
+                    <Insets left="100.0" top="20.0" />
                 </HBox.margin>
-                <Image url="/resources/buttons/bullet.png"/>
+                <Image url="/resources/buttons/bullet.png" />
             </ImageView>
-            <Label onMouseClicked="#goToPlayMenu"
-                   prefHeight="40.0" prefWidth="170.0" styleClass="menuName" text="PLAY">
+            <Label onMouseClicked="#goToPlayMenu" prefHeight="40.0" prefWidth="170.0" styleClass="menuName" text="PLAY">
             </Label>
         </HBox>
         <HBox>
             <ImageView fitHeight="60" fitWidth="60" styleClass="menuButton">
                 <HBox.margin>
-                    <Insets left="100.0" top="20.0"/>
+                    <Insets left="100.0" top="20.0" />
                 </HBox.margin>
-                <Image url="/resources/buttons/bullet.png"/>
+                <Image url="/resources/buttons/bullet.png" />
             </ImageView>
-            <Label onMouseClicked="#goToCollectionMenu"
-                   prefHeight="40.0" prefWidth="400.0" styleClass="menuName" text="COLLECTION">
+            <Label onMouseClicked="#goToCollectionMenu" prefHeight="40.0" prefWidth="400.0" styleClass="menuName" text="COLLECTION">
             </Label>
         </HBox>
         <HBox>
             <ImageView fitHeight="60" fitWidth="60" styleClass="menuButton">
                 <HBox.margin>
-                    <Insets left="100.0" top="20.0"/>
+                    <Insets left="100.0" top="20.0" />
                 </HBox.margin>
-                <Image url="/resources/buttons/bullet.png"/>
+                <Image url="/resources/buttons/bullet.png" />
             </ImageView>
-            <Label onMouseClicked="#goToCustomCardMenu"
-                   prefHeight="40.0" prefWidth="500.0" styleClass="menuName" text="CUSTOM CARD">
+            <Label onMouseClicked="#goToCustomCardMenu" prefHeight="40.0" prefWidth="500.0" styleClass="menuName" text="CUSTOM CARD">
             </Label>
         </HBox>
         <HBox>
             <ImageView fitHeight="60" fitWidth="60" styleClass="menuButton">
                 <HBox.margin>
-                    <Insets left="100.0" top="20.0"/>
+                    <Insets left="100.0" top="20.0" />
                 </HBox.margin>
-                <Image url="/resources/buttons/bullet.png"/>
+                <Image url="/resources/buttons/bullet.png" />
             </ImageView>
-            <Label onMouseClicked="#saveAccount"
-                   prefHeight="40.0" prefWidth="500.0" styleClass="menuName" text="SAVE ACCOUNT">
+            <Label onMouseClicked="#saveAccount" prefHeight="40.0" prefWidth="500.0" styleClass="menuName" text="SAVE ACCOUNT">
             </Label>
         </HBox>
         <HBox>
             <ImageView fitHeight="60" fitWidth="60" styleClass="menuButton">
                 <HBox.margin>
-                    <Insets left="100.0" top="20.0"/>
+                    <Insets left="100.0" top="20.0" />
                 </HBox.margin>
-                <Image url="/resources/buttons/bullet.png"/>
+                <Image url="/resources/buttons/bullet.png" />
             </ImageView>
-            <Label onMouseClicked="#goToGlobalChatForm"
-                   prefHeight="40.0" prefWidth="500.0" styleClass="menuName" text="GLOBAL CHAT">
+            <Label onMouseClicked="#goToGlobalChatForm" prefHeight="40.0" prefWidth="500.0" styleClass="menuName" text="GLOBAL CHAT">
             </Label>
         </HBox>
         <HBox>
             <ImageView fitHeight="60" fitWidth="60" styleClass="menuButton">
                 <HBox.margin>
-                    <Insets left="100.0" top="20.0"/>
+                    <Insets left="100.0" top="20.0" />
                 </HBox.margin>
-                <Image url="/resources/buttons/bullet.png"/>
+                <Image url="/resources/buttons/bullet.png" />
             </ImageView>
-            <Label onMouseClicked="#exit"
-                   prefHeight="40.0" prefWidth="170.0" styleClass="menuName" text="EXIT">
+            <Label onMouseClicked="#exit" prefHeight="40.0" prefWidth="170.0" styleClass="menuName" text="EXIT">
             </Label>
         </HBox>
         <HBox spacing="30">
             <VBox.margin>
-                <Insets left="1500" top="20"/>
+                <Insets left="1400" top="20" />
             </VBox.margin>
             <VBox spacing="5">
-                <ImageView fitHeight="96" fitWidth="96" styleClass="menuButton" onMouseClicked="#goToShop">
-                    <Image url="/resources/buttons/shop.png"/>
+                <ImageView fitHeight="96" fitWidth="96" onMouseClicked="#goToScoreBoard" styleClass="menuButton">
+                    <Image url="/resources/buttons/scoreBoard.png" />
                 </ImageView>
-                <Label prefWidth="90" prefHeight="10" text=" SHOP" styleClass="buttonName" onMouseClicked="#goToShop">
+                <Label onMouseClicked="#goToScoreBoard" prefHeight="16.0" prefWidth="102.0" styleClass="scoreBoardButtonName" text=" SCORE BOARD">
                 </Label>
             </VBox>
             <VBox spacing="5">
-                <ImageView fitHeight="96" fitWidth="96" styleClass="menuButton" onMouseClicked="#goToHistoryMenu">
-                    <Image url="/resources/buttons/scoreBoard.png"/>
+                <ImageView fitHeight="96" fitWidth="96" onMouseClicked="#goToShop" styleClass="menuButton">
+                    <Image url="/resources/buttons/shop.png" />
                 </ImageView>
-                <Label prefWidth="90" prefHeight="10" text=" HISTORY" styleClass="buttonName"
-                       onMouseClicked="#goToHistoryMenu">
+                <Label onMouseClicked="#goToShop" prefHeight="10" prefWidth="90" styleClass="buttonName" text=" SHOP">
                 </Label>
             </VBox>
             <VBox spacing="5">
-                <ImageView fitHeight="96" fitWidth="96" styleClass="menuButton" onMouseClicked="#logOut">
-                    <Image url="/resources/buttons/logout.png"/>
+                <ImageView fitHeight="96" fitWidth="96" onMouseClicked="#goToHistoryMenu" styleClass="menuButton">
+                    <Image url="/resources/buttons/scoreBoard.png" />
                 </ImageView>
-                <Label prefWidth="90" prefHeight="10" text=" LOGOUT" styleClass="buttonName" onMouseClicked="#logOut">
+                <Label onMouseClicked="#goToHistoryMenu" prefHeight="25.0" prefWidth="97.0" styleClass="buttonName" text=" HISTORY">
+                </Label>
+            </VBox>
+            <VBox spacing="5">
+                <ImageView fitHeight="96" fitWidth="96" onMouseClicked="#logOut" styleClass="menuButton">
+                    <Image url="/resources/buttons/logout.png" />
+                </ImageView>
+                <Label onMouseClicked="#logOut" prefHeight="25.0" prefWidth="97.0" styleClass="buttonName" text=" LOGOUT">
                 </Label>
             </VBox>
         </HBox>

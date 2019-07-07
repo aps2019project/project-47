@@ -1,0 +1,11 @@
+.container{
+    -fx-padding: 20px;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+}
+
+.title-label{
+    -fx-font-size: 20px;
+    -fx-text-fill: blue;
+    -fx-font-weight: bold;
+}

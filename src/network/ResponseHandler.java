@@ -22,12 +22,7 @@ public class ResponseHandler {
             while (responseScanner.hasNextLine()) {
                 currentResponseStr = responseScanner.nextLine();
                 currentResponse = yaGson.fromJson(currentResponseStr, Response.class);
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        currentResponse.handleResponse();
-                    }
-                });
+                Platform.runLater(() -> currentResponse.handleResponse());
             }
         });
         listener.setPriority(1);

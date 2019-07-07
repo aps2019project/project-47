@@ -1,5 +1,11 @@
 package network;
 
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import models.Message;
 import models.Shop;
 
@@ -9,9 +15,9 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Server {
+public class Server extends Application {
 
-    private static Shop shop = Shop.getInstance();
+    public static Shop shop = Shop.getInstance();
 
     public static Shop getShop() {
         return shop;
@@ -23,12 +29,11 @@ public class Server {
 
     public static ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
 
-    public static HashMap<Integer,Integer> battleConections = new HashMap<>();
+    public static HashMap<Integer, Integer> battleConections = new HashMap<>();
 
-    public Server(int port) throws IOException {
+    public static void runServer(int port) throws IOException {
         ServerSocket serverSocket = new ServerSocket(port);
         System.out.println("Server started");
-        ClientHandler.setServer(this);
         while (true) {
             try {
                 System.out.println("Waiting for a client ...");
@@ -43,11 +48,29 @@ public class Server {
         }
     }
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader("src/network/config"));
-        int port = Integer.parseInt(reader.readLine());
-        reader.close();
-        new Server(port);
+
+    public static void main(String[] args) {
+        Thread serverThread = new Thread(() -> {
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader("src/network/config"));
+                int port = Integer.parseInt(reader.readLine());
+                reader.close();
+                runServer(port);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        serverThread.setDaemon(true);
+        serverThread.start();
+        launch(args);
     }
 
+    @Override
+    public void start(Stage stage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("../layouts/serverGraphics.fxml"));
+        Scene scene = new Scene(root);
+        stage.setTitle("Shop Inventory");
+        stage.setScene(scene);
+        stage.show();
+    }
 }

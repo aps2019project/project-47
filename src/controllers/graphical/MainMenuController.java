@@ -7,6 +7,7 @@ import controllers.console.BattleMenu;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
+import javafx.scene.input.MouseEvent;
 import layouts.AlertHelper;
 import models.Account;
 import models.Shop;
@@ -98,5 +99,8 @@ public class MainMenuController extends MyController {
 
     public void goToGlobalChatForm() throws IOException {
         Client.getStage().getScene().setRoot(FXMLLoader.load(getClass().getResource("../../layouts/globalChatForm.fxml")));
+    }
+
+    public void goToScoreBoard(MouseEvent mouseEvent) {
     }
 }

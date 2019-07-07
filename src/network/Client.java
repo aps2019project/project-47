@@ -83,13 +83,7 @@ public class Client extends Application {
 //            AccountMenu.setLoginAccount(Mmd);
 //            for (int i = 101; i < 500; i++) {
 //                shop.command_buy(i);
-//           }
-//            YaGson yaGson = new YaGson();
-//            FileOutputStream fileOutputStream = new FileOutputStream("src/JSONs/Accounts/Mmd.json");
-//            Formatter formatter = new Formatter(fileOutputStream);
-//            formatter.format(yaGson.toJson(Mmd));
-//            formatter.flush();
-//            System.exit(1);
+//            }
         }
     }
 
@@ -97,7 +91,7 @@ public class Client extends Application {
     public void start(Stage primaryStage) throws IOException {
         stage = primaryStage;
 
-        Parent root = FXMLLoader.load(getClass().getResource("../layouts/accountPage.fxml"));
+        Parent root = AccountMenu.getRoot();
 //        Parent root = MainMenu.getRoot();
 //        Parent root = Shop.getRoot();
 //        Parent root = BattleMenu.getRoot();
