@@ -31,7 +31,7 @@ public class MatchHistoryController implements Initializable {
     private VBox board;
 
     @FXML
-    void back(ActionEvent event) {
+    void back() {
         Client.getStage().getScene().setRoot(MainMenu.getRoot());
     }
 

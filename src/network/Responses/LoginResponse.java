@@ -71,6 +71,7 @@ public class LoginResponse extends Response {
 
     @Override
     public void handleResponse() {
+        AccountMenu.setLoginAccount(account);
         LoginRegisterController.instance.login(this);
     }
 }
