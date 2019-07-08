@@ -69,6 +69,7 @@ public class BattleController extends MyController implements Initializable {
     private boolean nowInAlertt;
     private GraphicButton specialPower;
     private ManaViewer[] manaViewers;
+    private GraveYard graveYard;
 
 
     @Override
@@ -81,6 +82,7 @@ public class BattleController extends MyController implements Initializable {
         creatAiPlayer();
         createReviewTimer();
         creatManaViewers();
+        creatGraveYard();
     }
 
     public void initializeBattle(Battle battle,boolean onServer,boolean onReview) {
@@ -348,6 +350,11 @@ public class BattleController extends MyController implements Initializable {
                 historyActionCoiunter++;
             }
         };
+    }
+
+    private void creatGraveYard(){
+        graveYard = new GraveYard();
+        anchorPane.getChildren().add(graveYard.parentPane);
     }
 
 
@@ -1989,6 +1996,160 @@ public class BattleController extends MyController implements Initializable {
         public void show() {
             hide();
             anchorPane.getChildren().add(parentPane);
+        }
+    }
+
+    public class GraveYard{
+        int column = 5;
+        int row = 4;
+        int x=-1600;
+        int y= 100;
+        Double oppeningTime = 0.5;
+        ImageView frame;
+        ImageView arrow;
+        Pane parentPane;
+        GridPane leftGrid;
+        GridPane rightgrid;
+        int cardWidth;
+        int cardHeight;
+        int width = 1600;
+        int height = 800;
+        int gridWidth;
+        int gridHeight;
+        int space = 50;
+        Location lastLeftLocation;
+        Location lastRightLocation;
+        boolean open;
+
+
+
+        public GraveYard() {
+            gridWidth = (width-3*space)/2;
+            gridHeight = height-2*space;
+            parentPane = new Pane();
+            parentPane.relocate(x,y);
+            parentPane.setStyle("-fx-background-color: #05001a");
+            parentPane.setPrefSize(width,height);
+
+            leftGrid = new GridPane();
+            leftGrid.setPrefSize(gridWidth,gridHeight);
+            leftGrid.relocate(space,space);
+            parentPane.getChildren().add(leftGrid);
+
+            rightgrid = new GridPane();
+            rightgrid.setPrefSize(gridWidth,gridHeight);
+            rightgrid.relocate(space*2+gridWidth,space);
+            parentPane.getChildren().add(rightgrid);
+
+            frame = new ImageView(new Image(new File("src/resources/inBattle/graveYard/frame.png").toURI().toString()));
+            frame.setFitHeight(height);
+            frame.setFitWidth(width/7);
+            frame.relocate(width,0);
+            parentPane.getChildren().add(frame);
+
+            arrow = new ImageView(new Image(new File("src/resources/inBattle/graveYard/leftArrow.png").toURI().toString()));
+            arrow.setFitWidth(50);
+            arrow.setFitHeight(50);
+            arrow.relocate(width,height/1.5);
+            arrow.setOnMouseClicked(event -> {
+                clickArrow();
+            });
+            parentPane.getChildren().add(arrow);
+        }
+
+        public void clickArrow(){
+            movePane();
+            changeArrow();
+
+            if (!open){
+                update();
+            }else {
+                clean();
+            }
+
+            System.out.println(open);
+            open = !open;
+
+
+
+        }
+
+        public void movePane(){
+            int movement = -x;
+            if (open){
+                movement = x;
+            }
+            TranslateTransition transition = new TranslateTransition();
+            transition.setNode(parentPane);
+            transition.setByX(x);
+            transition.setDuration(Duration.seconds(oppeningTime));
+            transition.setCycleCount(1);
+            transition.play();
+
+        }
+
+        public void changeArrow(){
+            if (open){
+                arrow.setImage(new Image(new File("src/resources/inBattle/graveYard/leftArrow.png").toURI().toString()));
+            }else {
+                arrow.setImage(new Image(new File("src/resources/inBattle/graveYard/rightArrow.png").toURI().toString()));
+
+            }
+        }
+
+        public void clean(){
+            leftGrid.getChildren().clear();
+            rightgrid.getChildren().clear();
+        }
+
+        public void update(){
+
+            ArrayList<Card> leftCards = players[0].getGraveYard().getCards();
+            ArrayList<Card> rightCards = players[1].getGraveYard().getCards();
+
+            leftGrid.setPrefSize(Math.min(leftCards.size()+1,column)*cardWidth,
+                    Math.floor(leftCards.size()/column));
+
+            rightgrid.setPrefSize(Math.min(rightCards.size()+1,column)*cardWidth,
+                    Math.floor(rightCards.size()/column));
+
+            for (Card card:leftCards){
+                addACard(card,true);
+            }
+
+            for(Card card:rightCards){
+                addACard(card,false);
+            }
+        }
+
+        public void addACard(Card card,boolean left){
+            GridPane grid;
+            if (left){
+                grid = leftGrid;
+            }else {
+                grid = rightgrid;
+            }
+            Location lastLocation;
+            if (left){
+                lastLocation = lastLeftLocation;
+            }else {
+                lastLocation = lastRightLocation;
+            }
+            if (lastLocation == null){
+                lastLocation = new Location(0,0);
+            }else {
+                int x = lastLocation.getX();
+                int y = lastLocation.getY();
+                x=(x+1)%column;
+                y=(y+1)%row;
+                lastLocation = new Location(x,y);
+            }
+            Image cardImage = new Image(new File(card.getGraphicPack().getShopPhotoAddress()).toURI().toString());
+            ImageView imageView = new ImageView(cardImage);
+            imageView.relocate(0,0);
+            imageView.setFitHeight(cardHeight);
+            imageView.setFitWidth(cardWidth);
+            grid.add(imageView,lastLocation.getX(),lastLocation.getY());
         }
     }
 
