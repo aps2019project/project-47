@@ -14,6 +14,7 @@ import models.Account;
 import models.Shop;
 import network.Client;
 import network.Requests.account.LogoutRequest;
+import network.Requests.shop.BuyRequest;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -49,12 +50,13 @@ public class MainMenuController extends MyController {
     }
 
     public void goToShop() {
+        Client.getStage().getScene().setRoot(Shop.getRoot());
         try {
+            UniversalShopController.instance.buyID("000");
             UniversalShopController.instance.topContainer.getChildren().remove(0, UniversalShopController.instance.topContainer.getChildren().size());
             UniversalShopController.instance.bottomContainer.getChildren().remove(0, UniversalShopController.instance.bottomContainer.getChildren().size());
         } catch (NullPointerException ignored) {
         }
-        Client.getStage().getScene().setRoot(Shop.getRoot());
     }
 
     public void goToHistoryMenu() {
@@ -113,6 +115,7 @@ public class MainMenuController extends MyController {
         Client.getStage().getScene().setRoot(FXMLLoader.load(getClass().getResource("../../layouts/globalChatForm.fxml")));
     }
 
-    public void goToScoreBoard(MouseEvent mouseEvent) {
+    public void goToScoreBoard() throws IOException {
+        Client.getStage().getScene().setRoot(FXMLLoader.load(getClass().getResource("../../layouts/scoreBoard.fxml")));
     }
 }
