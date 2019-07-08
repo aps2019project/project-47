@@ -123,6 +123,11 @@ public class LoginRegisterController extends MyController implements Initializab
             messageLabelRegister.getStyleClass().removeIf(style -> !style.equals("badMessage"));
             messageLabelRegister.getStyleClass().add("badMessage");
             messageLabelRegister.setText("The account with name " + newUserNameField.getText() + " existed.");
+        } else if (requestResult == PC_NOT_ALLOWED){
+            newUserNameField.getStyleClass().add("wrong");
+            messageLabelRegister.getStyleClass().removeIf(style -> !style.equals("badMessage"));
+            messageLabelRegister.getStyleClass().add("badMessage");
+            messageLabelRegister.setText("PC not allowed for name of account.");
         }
     }
 

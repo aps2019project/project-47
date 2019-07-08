@@ -17,7 +17,6 @@ public class ResponseHandler {
     private ResponseHandler() {
         Scanner responseScanner = Client.getServerScanner();
         YaGson yaGson = new YaGson();
-
         listener = new Thread(() -> {
             while (responseScanner.hasNextLine()) {
                 currentResponseStr = responseScanner.nextLine();

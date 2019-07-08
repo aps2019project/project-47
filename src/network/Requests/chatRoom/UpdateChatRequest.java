@@ -1,6 +1,5 @@
 package network.Requests.chatRoom;
 
-import network.ReqResType;
 import network.Requests.Request;
 
 public class UpdateChatRequest extends Request {

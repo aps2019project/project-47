@@ -4,6 +4,7 @@ import com.gilecode.yagson.YaGson;
 import controllers.MyController;
 import controllers.console.AccountMenu;
 import controllers.console.BattleMenu;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
@@ -28,12 +29,18 @@ public class MainMenuController extends MyController {
     public static YaGson yaGson;
 
     public static MainMenuController instance;
+
     {
         instance = this;
     }
 
     public void goToPlayMenu() {
-        Client.getStage().getScene().setRoot(BattleMenu.getRoot());
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(getClass().getResource("../../layouts/battleChooseMenu.fxml"));
+        } catch (IOException ignored) {
+        }
+        Client.getStage().getScene().setRoot(root);
     }
 
     public void goToCollectionMenu() throws IOException {
@@ -42,12 +49,17 @@ public class MainMenuController extends MyController {
     }
 
     public void goToShop() {
+        try {
+            UniversalShopController.instance.topContainer.getChildren().remove(0, UniversalShopController.instance.topContainer.getChildren().size());
+            UniversalShopController.instance.bottomContainer.getChildren().remove(0, UniversalShopController.instance.bottomContainer.getChildren().size());
+        } catch (NullPointerException ignored) {
+        }
         Client.getStage().getScene().setRoot(Shop.getRoot());
     }
 
     public void goToHistoryMenu() {
         try {
-           Client.getStage().getScene().setRoot(FXMLLoader.load(getClass().getResource("/layouts/MatchHistory.fxml")));
+            Client.getStage().getScene().setRoot(FXMLLoader.load(getClass().getResource("/layouts/MatchHistory.fxml")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -60,7 +72,7 @@ public class MainMenuController extends MyController {
         Client.getWriter().flush();
     }
 
-    public void doLogOut(){
+    public void doLogOut() {
         AccountMenu.setLoginAccount(null);
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/layouts/accountPage.fxml"));

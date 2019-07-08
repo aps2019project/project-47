@@ -14,20 +14,20 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Properties;
+import java.util.regex.Pattern;
 
 public class Server extends Application {
-
-    public static Shop shop = Shop.getInstance();
-
-    public static Shop getShop() {
-        return shop;
-    }
 
     public static ArrayList<Message> messages = new ArrayList<>();
 
     public static HashMap<String, Integer> userLastMessageReceivedIndex = new HashMap<>();
 
-    public static ArrayList<ClientHandler> clientHandlers = new ArrayList<>();
+    public static HashMap<String, ClientHandler> clientHandlers = new HashMap<>();
+
+    public static void increamentMessageIndex(String authToken){
+        Server.userLastMessageReceivedIndex.put(authToken, Server.userLastMessageReceivedIndex.get(authToken) + 1);
+    }
 
     public static HashMap<Integer, Integer> battleConections = new HashMap<>();
 
@@ -36,12 +36,12 @@ public class Server extends Application {
         System.out.println("Server started");
         while (true) {
             try {
+                System.out.print("\u001B[1000m" + "" + "\u001B[1000m");//resetting color
                 System.out.println("Waiting for a client ...");
                 Socket socket = serverSocket.accept();
                 System.out.println("Client accepted");
                 ClientHandler clientHandler = new ClientHandler(socket);
                 clientHandler.setName("cHandler");
-                clientHandlers.add(clientHandler);
                 clientHandler.start();
             } catch (IOException ignored) {
             }
@@ -52,17 +52,23 @@ public class Server extends Application {
     public static void main(String[] args) {
         Thread serverThread = new Thread(() -> {
             try {
-                BufferedReader reader = new BufferedReader(new FileReader("src/network/config"));
-                int port = Integer.parseInt(reader.readLine());
-                reader.close();
+                int port = getPort();
                 runServer(port);
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException ignored) {
             }
         });
         serverThread.setDaemon(true);
         serverThread.start();
         launch(args);
+    }
+
+    public static int getPort() throws IOException {
+        FileReader fileReader = new FileReader("src/network/Config.properties");
+        Properties properties = new Properties();
+        properties.load(fileReader);
+        int port = Integer.parseInt(properties.getProperty("Port"));
+        fileReader.close();
+        return port;
     }
 
     @Override

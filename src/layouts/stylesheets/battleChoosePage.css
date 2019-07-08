@@ -105,8 +105,8 @@
 }
 
 .backButton {
-    -fx-pref-width: 200;
-    -fx-max-width: 100;
+    -fx-pref-width: 300;
+    -fx-max-width: 300;
     -fx-font-weight: bold;
     -fx-background-radius: 8;
     -fx-background-color: #d73521;

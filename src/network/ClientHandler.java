@@ -2,6 +2,7 @@ package network;
 
 import com.gilecode.yagson.YaGson;
 import com.gilecode.yagson.YaGsonBuilder;
+import controllers.Constants;
 import models.Account;
 import models.Shop;
 import network.Requests.*;
@@ -9,6 +10,10 @@ import network.Requests.account.CreateAccountRequest;
 import network.Requests.account.LoginRequest;
 import network.Requests.account.LogoutRequest;
 import network.Requests.account.UpdateAccountRequest;
+import network.Requests.battle.CancelNewBattleRequest;
+import network.Requests.battle.NewBattleRequest;
+import network.Requests.battle.OnlinePlayersRequest;
+import network.Requests.battle.RejectNewGameRequest;
 import network.Requests.chatRoom.LeaveChatRequest;
 import network.Requests.chatRoom.SendMessageRequest;
 import network.Requests.chatRoom.UpdateChatRequest;
@@ -16,6 +21,10 @@ import network.Requests.shop.BuyRequest;
 import network.Requests.shop.FindRequest;
 import network.Requests.shop.SellRequest;
 import network.Responses.*;
+import network.Responses.battle.AcceptancePageResponse;
+import network.Responses.battle.CancelNewBattleResponse;
+import network.Responses.battle.OnlinePlayersResponse;
+import network.Responses.battle.RejectNewBattleResponse;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -85,18 +94,18 @@ public class ClientHandler extends Thread {
                 responseStr = gson.toJson(loginResponse);
                 out.println(responseStr);
                 out.flush();
-                System.out.println("online Accounts:");
-                Account.getAccountsMapper().values().forEach(account ->
-                        System.out.println(account.getUserName()));
+                if (loginResponse.getRequestResult() == Constants.SUCCESSFUL_LOGIN) {
+                    Server.clientHandlers.put(loginResponse.getAccount().getUserName(), this);
+                }
+                showOnlineAccounts();
                 continue;
             }
             if (request instanceof LogoutRequest) {
                 LogoutResponse logoutResponse = new LogoutResponse((LogoutRequest) request);
+                Server.clientHandlers.remove(Account.getAccountsMapper().get(request.getAuthToken()).getUserName());
                 logoutResponse.handleRequest();
                 responseStr = gson.toJson(logoutResponse);
-                System.out.println("online Accounts:");
-                Account.getAccountsMapper().values().forEach(account ->
-                        System.out.println(account.getUserName()));
+                showOnlineAccounts();
                 out.println(responseStr);
                 out.flush();
                 continue;
@@ -117,9 +126,11 @@ public class ClientHandler extends Thread {
                 sendMessageResponse.handleRequest();
                 ReceiveMessageResponse receiveMessageResponse = new ReceiveMessageResponse(((SendMessageRequest) request).getMessage());
                 String receiveMessageResponseStr = gson.toJson(receiveMessageResponse);
-                for (ClientHandler clientHandler : Server.clientHandlers) {
-                    clientHandler.getOut().println(receiveMessageResponseStr);
-                    clientHandler.getOut().flush();
+
+                broadcastMessage(receiveMessageResponseStr);
+
+                for(String authToken : Server.userLastMessageReceivedIndex.keySet()){
+                    Server.increamentMessageIndex(authToken);
                 }
                 continue;
             }
@@ -131,6 +142,52 @@ public class ClientHandler extends Thread {
                 out.flush();
                 continue;
             }
+
+            if (request instanceof OnlinePlayersRequest){
+                OnlinePlayersResponse onlinePlayersResponse = new OnlinePlayersResponse((OnlinePlayersRequest) request);
+                onlinePlayersResponse.handleRequest();
+                responseStr = gson.toJson(onlinePlayersResponse);
+                out.println(responseStr);
+                out.flush();
+                continue;
+            }
+            if (request instanceof NewBattleRequest){
+                AcceptancePageResponse acceptancePageResponse = new AcceptancePageResponse((NewBattleRequest) request);
+                ClientHandler clientHandler = Server.clientHandlers.get(((NewBattleRequest) request).getOpponentUserName());
+                responseStr = gson.toJson(acceptancePageResponse);
+                clientHandler.out.println(responseStr);
+                clientHandler.out.flush();
+                continue;
+            }
+            if (request instanceof CancelNewBattleRequest){
+                CancelNewBattleResponse cancelNewBattleResponse = new CancelNewBattleResponse((CancelNewBattleRequest) request);
+                responseStr = gson.toJson(cancelNewBattleResponse);
+                ClientHandler clientHandler = Server.clientHandlers.get(((CancelNewBattleRequest) request).getOpponentUserName());
+                clientHandler.out.println(responseStr);
+                clientHandler.out.flush();
+                continue;
+            }
+            if (request instanceof RejectNewGameRequest){
+                RejectNewBattleResponse rejectNewBattleResponse = new RejectNewBattleResponse();
+                responseStr = gson.toJson(rejectNewBattleResponse);
+                ClientHandler clientHandler = Server.clientHandlers.get(((RejectNewGameRequest) request).getUserName());
+                clientHandler.out.println(responseStr);
+                clientHandler.out.flush();
+            }
+        }
+    }
+
+    private void showOnlineAccounts() {
+        System.out.print("\u001B[1000m" + "" + "\u001B[1000m");//resetting color
+        System.out.println("Online Accounts:");
+        Account.getAccountsMapper().values().forEach(account ->
+                System.out.println(account.getUserName()));
+    }
+
+    private void broadcastMessage(String receiveMessageResponseStr) {
+        for (ClientHandler clientHandler : Server.clientHandlers.values()){
+            clientHandler.getOut().println(receiveMessageResponseStr);
+            clientHandler.getOut().flush();
         }
     }
 }

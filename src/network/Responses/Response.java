@@ -1,7 +1,6 @@
 package network.Responses;
 
 import controllers.Constants;
-import network.ReqResType;
 import network.Requests.Request;
 
 public abstract class Response{
