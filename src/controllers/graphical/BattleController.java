@@ -23,7 +23,6 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import models.battle.*;
 import models.battle.board.Board;
@@ -42,7 +41,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.*;
-import java.util.logging.Handler;
 
 import static models.battle.BattleActionType.*;
 
@@ -106,8 +104,9 @@ public class BattleController extends MyController implements Initializable {
         manaViewers[0].update();
         manaViewers[1].update();
         update_specialPower_btn();
-
+        graphicalBoard.updateFlagAndItem();
         updatesOfANewTurn();
+
     }
 
     private void setBackground() {
@@ -399,10 +398,12 @@ public class BattleController extends MyController implements Initializable {
 
             public void end() {
                 graphicalBoard.removeImageViewFromCell(location, true);
+                graphicalBoard.updateFlagAndItem();
                 this.stop();
             }
         };
         deathTimer.start();
+
     }
 
     private void insert(Card card, Location location) {
@@ -417,6 +418,7 @@ public class BattleController extends MyController implements Initializable {
         battle.insert(card, location);
         manaViewers[turn].update();
         graphicalBoard.updateAllCellsNumbers();
+        graphicalBoard.updateFlagAndItem();
         freeClick(turn);
     }
 
@@ -483,6 +485,7 @@ public class BattleController extends MyController implements Initializable {
             defenderAnimation.start();
         }
 
+        graphicalBoard.updateFlagAndItem();
 
         freeClick(turn);
 
@@ -522,13 +525,13 @@ public class BattleController extends MyController implements Initializable {
             public void handle(ActionEvent event) {
                 graphicalBoard.parentPane.getChildren().remove(runningImageView);
                 graphicalBoard.setMinionAtCell(minion, target, MinionImageViewType.breathing, false);
+                graphicalBoard.updateFlagAndItem();
             }
         });
         graphicalBoard.removeImageViewFromCell(minion.getLocation(), false);
         transition.play();
         MyMediaPlayer.playEffectSoundOfACard(minion, soundType.run);
         battle.move(minion, target);
-
 
 
         freeClick(turn);
@@ -543,6 +546,8 @@ public class BattleController extends MyController implements Initializable {
         graphicalBoard.lighting(graphicalBoard.getLocateOfAnImage_inParentPane(target));
         battle.use_special_power(hero, target);
         manaViewers[turn].update();
+
+        graphicalBoard.updateFlagAndItem();
         graphicalBoard.updateAllCellsNumbers();
         graphicalBoard.allCellsNormal();
     }
@@ -1098,8 +1103,14 @@ public class BattleController extends MyController implements Initializable {
         private Label lbl_attackPower;
         private Minion minion;
         private Label lbl_name;
+        private ImageView flagImage;
+        private ImageView itemImage;
+        int iCell;
+        int jCell;
 
         public CellPane(int cellHeight, int cellWidth, int i, int j) {
+            this.iCell = i;
+            this.jCell = j;
 
             parentPane = new Pane();
             parentPane.getStylesheets().add("layouts/stylesheets/battle/cellPane.css");
@@ -1386,6 +1397,50 @@ public class BattleController extends MyController implements Initializable {
                 }
             };
             hidenAnimation.start();
+        }
+
+        public void updateFlagAndItem() {
+            updateFlag();
+            updateItem();
+        }
+
+        private void updateFlag(){
+            if (board.getCells()[iCell][jCell].getFlags().size()>0){
+                if (flagImage==null){
+                    flagImage = new ImageView(new Image(new File("src/resources/inBattle/flag.png").toURI().toString()));
+                    flagImage.relocate(0,0);
+                    flagImage.setFitWidth(50);
+                    flagImage.setFitHeight(50);
+                    parentPane.getChildren().remove(upperLabel);
+                    parentPane.getChildren().add(flagImage);
+                    parentPane.getChildren().add(upperLabel);
+                }
+            }else {
+                if (flagImage!=null){
+                    parentPane.getChildren().remove(flagImage);
+                    flagImage = null;
+                }
+            }
+
+        }
+
+        private void updateItem(){
+            if (board.getCells()[iCell][jCell].getItem()!=null){
+                if (itemImage==null){
+                    itemImage = new ImageView(new Image(new File("src/resources/inBattle/box.png").toURI().toString()));
+                    itemImage.relocate(0,0);
+                    itemImage.setFitWidth(70);
+                    itemImage.setFitHeight(70);
+                    parentPane.getChildren().remove(upperLabel);
+                    parentPane.getChildren().add(itemImage);
+                    parentPane.getChildren().add(upperLabel);
+                }
+            }else {
+                if (itemImage!=null){
+                    parentPane.getChildren().remove(itemImage);
+                    itemImage = null;
+                }
+            }
         }
 
     }
@@ -1708,6 +1763,14 @@ public class BattleController extends MyController implements Initializable {
         public void setMinionAtCell(Minion minion, Location location, MinionImageViewType type, boolean delay) {
             CellPane cellPane = cellPanes[location.getX()][location.getY()];
             cellPane.setMinion(minion, type, delay);
+        }
+
+        public void updateFlagAndItem(){
+            for (int i = 0; i <Board.width ; i++) {
+                for (int j = 0; j <Board.height ; j++) {
+                    cellPanes[i][j].updateFlagAndItem();
+                }
+            }
         }
     }
 
