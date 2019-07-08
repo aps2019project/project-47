@@ -3,8 +3,6 @@ package network.Responses;
 import controllers.Constants;
 import controllers.graphical.GlobalChatController;
 import models.Account;
-import network.ReqResType;
-import network.Requests.Request;
 import network.Requests.chatRoom.LeaveChatRequest;
 import network.Server;
 

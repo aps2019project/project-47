@@ -29,6 +29,7 @@ public class MainMenuController extends MyController {
     public static YaGson yaGson;
 
     public static MainMenuController instance;
+
     {
         instance = this;
     }
@@ -48,12 +49,17 @@ public class MainMenuController extends MyController {
     }
 
     public void goToShop() {
+        try {
+            UniversalShopController.instance.topContainer.getChildren().remove(0, UniversalShopController.instance.topContainer.getChildren().size());
+            UniversalShopController.instance.bottomContainer.getChildren().remove(0, UniversalShopController.instance.bottomContainer.getChildren().size());
+        } catch (NullPointerException ignored) {
+        }
         Client.getStage().getScene().setRoot(Shop.getRoot());
     }
 
     public void goToHistoryMenu() {
         try {
-           Client.getStage().getScene().setRoot(FXMLLoader.load(getClass().getResource("/layouts/MatchHistory.fxml")));
+            Client.getStage().getScene().setRoot(FXMLLoader.load(getClass().getResource("/layouts/MatchHistory.fxml")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -66,7 +72,7 @@ public class MainMenuController extends MyController {
         Client.getWriter().flush();
     }
 
-    public void doLogOut(){
+    public void doLogOut() {
         AccountMenu.setLoginAccount(null);
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/layouts/accountPage.fxml"));

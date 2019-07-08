@@ -1,6 +1,5 @@
 package network.Requests.account;
 
-import network.ReqResType;
 import network.Requests.Request;
 
 public class LoginRequest extends Request {

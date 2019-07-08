@@ -1,7 +1,5 @@
 package controllers;
 
-import network.ReqResType;
-
 public enum Constants {
     EXIT ,
     ACCOUNT_EXISTS , ACCOUNT_CREATE_SUCCESSFULLY, INVALID_USERNAME , SUCCESSFUL_LOGIN  , WRONG_PASSWORD, NO_ACCOUNT_LOGGED_IN, NOT_EXISTS,

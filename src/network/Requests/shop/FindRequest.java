@@ -1,6 +1,5 @@
 package network.Requests.shop;
 
-import network.ReqResType;
 import network.Requests.Request;
 
 public class FindRequest extends Request {

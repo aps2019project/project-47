@@ -1,7 +1,6 @@
 package network.Requests.chatRoom;
 
 import models.Message;
-import network.ReqResType;
 import network.Requests.Request;
 
 public class SendMessageRequest extends Request {
