@@ -17,9 +17,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import models.Account;
+import models.battle.MatchType;
 import network.Client;
 import network.Requests.battle.CancelNewBattleRequest;
 import network.Requests.battle.RejectNewGameRequest;
+import network.Requests.battle.StartNewBattleRequest;
 
 import java.io.IOException;
 import java.net.URL;
@@ -55,6 +57,8 @@ public class NewBattleController implements Initializable {
     private YaGson yaGson = new YaGson();
 
     private String userNameOfRequest;
+    private MatchType matchType;
+    private int numberOfFlags;
 
     public String getUserNameOfRequest() {
         return userNameOfRequest;
@@ -62,6 +66,14 @@ public class NewBattleController implements Initializable {
 
     public void setUserNameOfRequest(String userNameOfRequest) {
         this.userNameOfRequest = userNameOfRequest;
+    }
+
+    public void setMatchType(MatchType matchType) {
+        this.matchType = matchType;
+    }
+
+    public void setNumberOfFlags(int numberOfFlags) {
+        this.numberOfFlags = numberOfFlags;
     }
 
     public void setText(){
@@ -100,7 +112,13 @@ public class NewBattleController implements Initializable {
 
     @FXML
     private void accept(){
-
+        if (!loginAccount.checkCorrectyDeck()){
+            reject();
+            return;
+        }
+        StartNewBattleRequest startNewBattleRequest = new StartNewBattleRequest(loginAccount.getAuthToken(), userNameOfRequest, matchType, numberOfFlags);
+        Client.getWriter().println(yaGson.toJson(startNewBattleRequest));
+        Client.getWriter().flush();
     }
 
     @FXML
