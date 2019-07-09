@@ -136,9 +136,22 @@ public class Account implements Cloneable {
         return count;
     }
 
+    public int numOfLose(){
+        int count = 0;
+        for (MatchResult matchResult : this.matchHistorys) {
+            if (matchResult.getUser1().equals(userName)) {
+                if (matchResult.getWinner() == 0) count++;
+            }
+            if (matchResult.getUser0().equals(userName)) {
+                if (matchResult.getWinner() == 1) count++;
+            }
+        }
+        return count;
+    }
+
     public boolean compare(Account account) {
         if (this.numOfWin() > account.numOfWin()) return true;
-        if (this.numOfWin() < account.numOfWin()) return false;
+        if (this.numOfLose() < account.numOfWin()) return false;
         if (this.userName.compareTo(account.userName) < 0) return true;
         return false;
     }
