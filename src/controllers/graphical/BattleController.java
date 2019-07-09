@@ -794,13 +794,12 @@ public class BattleController {
         reviewTimer.stop();
         if (music != null)
             music.stop();
-
         if (!onReview) {
             lastBattleHistory.add(new BattleAction(null, null, null, BattleActionType.finish));
         }
 
         if (onServer) {
-            //send finish battle requesta
+            //send finish battle requesta//todo
         }
 
         Double hidenTime = 200.0;
