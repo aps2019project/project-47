@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import models.Message;
 import models.Shop;
+import models.battle.MatchResult;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -24,6 +25,8 @@ public class Server extends Application {
     public static HashMap<String, Integer> userLastMessageReceivedIndex = new HashMap<>();
 
     public static HashMap<String, ClientHandler> clientHandlers = new HashMap<>();
+
+    public static ArrayList<MatchResult> matchResults = new ArrayList<>();
 
     public static void increamentMessageIndex(String authToken){
         Server.userLastMessageReceivedIndex.put(authToken, Server.userLastMessageReceivedIndex.get(authToken) + 1);

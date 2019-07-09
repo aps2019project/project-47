@@ -39,6 +39,7 @@ import models.cards.spell.TargetForm;
 import network.Client;
 import network.Requests.account.UpdateAccountRequest;
 import network.Requests.battle.BattleActionRequest;
+import network.Requests.battle.MatchResultRequest;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -803,13 +804,12 @@ public class BattleController {
         reviewTimer.stop();
         if (music != null)
             music.stop();
-
         if (!onReview) {
             lastBattleHistory.add(new BattleAction(null, null, null, BattleActionType.finish));
         }
 
         if (onServer) {
-            //send finish battle requesta
+            //send finish battle requesta//todo
         }
 
         Double hidenTime = 200.0;
@@ -860,22 +860,27 @@ public class BattleController {
         hidenTimer.start();
 
         if (!onReview) {
-            sendBattleHistory();
+            sendMatchResult();
         }
-
-
     }
 
-    private void sendBattleHistory() {
+    private void sendMatchResult() {
+        MatchResult result = battle.getMatchResult();
+        result.setBattleHistory(lastBattleHistory);
+        loginAccount.getMatchHistory().add(result);
         YaGson yaGson = new YaGson();
         try {
             Formatter formatter = new Formatter("fileName.txt");
             formatter.format(yaGson.toJson(lastBattleHistory));
             formatter.flush();
             formatter.close();
+            MatchResultRequest matchResultRequest = new MatchResultRequest(loginAccount.getAuthToken(), result);
+            Client.getWriter().println(yaGson.toJson(matchResultRequest));
+            Client.getWriter().flush();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        AccountMenu.updateAccount();
     }
 
     private void rainShit() {

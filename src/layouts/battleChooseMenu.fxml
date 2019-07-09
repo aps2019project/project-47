@@ -37,7 +37,7 @@
         <Tab styleClass="duelystTabName" text="Story">
             <VBox fx:id="storyGameTab" spacing="20" styleClass="duelystTab">
 
-                <Label fx:id="levelOfStoryGame" prefHeight="30" prefWidth="400" styleClass="message, regularMessage">
+                <Label fx:id="levelOfStoryGame" prefHeight="30" prefWidth="500" styleClass="message, regularMessage">
                 </Label>
 
                 <JFXButton fx:id="startStoryGame" onAction="#startStoryGame" prefHeight="80" prefWidth="440"

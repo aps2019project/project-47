@@ -30,4 +30,14 @@ public class BattleAction {
     public Location getLocation() {
         return location;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof BattleAction))
+            return false;
+        BattleAction battleAction = (BattleAction) obj;
+        if (!cardId1.equals(battleAction.cardId1) || !cardId2.equals(battleAction.cardId2))
+            return false;
+        return true;
+    }
 }
