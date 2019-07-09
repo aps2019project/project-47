@@ -593,15 +593,13 @@ public class BattleController {
         freeClick(0);
         freeClick(1);
 
-        updatesOfANewTurn();
-
-//        String string = "It's turn of " + players[turn].getUserName() + " .";
-//        string = string + " \njust a moment ...";
-//        MyAlert myAlert = new MyAlert(string);
-//        myAlert.setOnfinishEvent(event -> {
-//            updatesOfANewTurn();
-//        });
-//        myAlert.start();
+        String string = "It's turn of " + players[turn].getUserName() + " .";
+        string = string + " \njust a moment ...";
+        MyAlert myAlert = new MyAlert(string);
+        myAlert.setOnfinishEvent(event -> {
+            updatesOfANewTurn();
+        });
+        myAlert.start();
 
     }
 
@@ -2424,11 +2422,11 @@ public class BattleController {
 
         public void start() {
 
-            if (!nowInAlertt) {
-                comImages();
-                nowInAlertt = true;
+            if (nowInAlertt) {
+                return;
             }
-
+            comImages();
+            nowInAlertt = true;
         }
 
         public void setSpeeds(Double moveSpeed, Double typingSpeed) {
@@ -2482,9 +2480,9 @@ public class BattleController {
             rightTT.setCycleCount(1);
 
             upTT.setOnFinished(event -> {
-//                MediaPlayer impact = new MediaPlayer(new Media(new File("src/resources/Alert/impact.m4a").toURI().toString()));
-//                impact.play();
-//                showString();
+                MediaPlayer impact = new MediaPlayer(new Media(new File("src/resources/Alert/impact.m4a").toURI().toString()));
+                impact.play();
+                showString();
             });
 
             leftTT.setOnFinished(middleEventHandler);
