@@ -5,6 +5,7 @@ import controllers.console.AccountMenu;
 import controllers.console.MainMenu;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -35,5 +36,9 @@ public class ScoreBoardController implements Initializable {
 
     public void back(MouseEvent mouseEvent) {
         Client.getStage().getScene().setRoot(MainMenu.getRoot());
+    }
+    public void addDetails(Account account, int row){
+        gridPane.add(new Label(account.getUserName()), 0, row);
+        gridPane.add(new Label(Integer.toString(account.ge)));
     }
 }

@@ -24,10 +24,9 @@
             <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
         </rowConstraints>
         <children>
-            <Label styleClass="title-label" text="Thing Name" GridPane.halignment="CENTER" />
-            <Label styleClass="title-label" text="Price" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
-            <Label styleClass="title-label" text="Type" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
-            <Label styleClass="title-label" text="Inventory" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
+            <Label styleClass="title-label" text="Player name" GridPane.halignment="CENTER" />
+            <Label styleClass="title-label" text="wins" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+            <Label styleClass="title-label" text="loses" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
         </children>
       <opaqueInsets>
          <Insets />
