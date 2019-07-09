@@ -157,8 +157,8 @@ public class CustomCardCreateFormController implements Initializable {
                 case "Hero":
                     newCard = new Hero(code, newCardName, newCardMp, newCardHp, newCardPrice, newCardAp, newCardMinionTargetsType, newCardAttackRange, specialItem);
                     newCard.setGraphicPack(new GraphicPack());
-//                    newCard.getGraphicPack().setIdlePhotoAddress();
-//                    newCard.getGraphicPack().setAttackPhotoAddress();
+                    newCard.getGraphicPack().setMovePhotoAddress("src/resources/cards/Mmd_test/Avalanche_run.gif");
+
 //                    newCard.getGraphicPack().setBreathingPhotoAddress();
 //                    newCard.getGraphicPack().setDeathPhotoAddress();
 //                    newCard.getGraphicPack().setMovePhotoAddress();

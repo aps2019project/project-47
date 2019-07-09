@@ -1129,7 +1129,7 @@ public class Defentions {
             if (file.exists())
                 card.getGraphicPack().setAttackPhotoAddress(filePath);
             else
-                card.getGraphicPack().setAttackPhotoAddress("src/resources/cards/Mmd_test/Avalanche_attack.gif");
+                    card.getGraphicPack().setAttackPhotoAddress("src/resources/cards/Mmd_test/Avalanche_attack.gif");
         }
         if (card.getGraphicPack().getBreathingPhotoAddress() == null) {
             String filePath = "src/resources/gifs/" + card.getName() + "_breathing.gif";
