@@ -1,5 +1,6 @@
 package models.battle;
 
+import com.gilecode.yagson.YaGson;
 import controllers.graphical.BattleController;
 import defentions.Defentions;
 import models.battle.board.Board;
@@ -53,11 +54,11 @@ public class Battle {
         player0.getHero().setLocation(Board.hero0);
         board.selectCell(Board.hero1).setMinion(player1.getHero());
         player1.getHero().setLocation(Board.hero1);
-        //setting flags on board
+        //setting flags on battle
         if (matchType != MatchType.kill) {
             board.set_flags_for_random(numOfFlags);
         }
-        //setting items on board
+        //setting items on battle
         set_items_on_the_board();
         //do items first of each battle
         action_item(find_item_minions_target(0, player0.getItem(), null), player0.getItem());
@@ -584,7 +585,7 @@ public class Battle {
                 helpMenu();
                 continue;
             }
-            if (commandTxt.equals("board") || commandTxt.equals("16")) {
+            if (commandTxt.equals("battle") || commandTxt.equals("16")) {
                 board.showBoard();
                 continue;
             }
@@ -596,11 +597,11 @@ public class Battle {
                 if (all_available_works(playerNum, false, true)) return true;
                 continue;
             }
-            if (commandTxt.equals("board +")) {
+            if (commandTxt.equals("battle +")) {
                 board.board_size_up();
                 continue;
             }
-            if (commandTxt.equals("board -") || commandTxt.equals("18")) {
+            if (commandTxt.equals("battle -") || commandTxt.equals("18")) {
                 board.board_size_down();
                 continue;
             }
@@ -625,9 +626,9 @@ public class Battle {
         MyPrinter.blue("13. end turn");
         MyPrinter.blue("14. help in game");
         MyPrinter.blue("15. help");
-        MyPrinter.blue("16. board");
+        MyPrinter.blue("16. battle");
         MyPrinter.blue("17. play");
-        MyPrinter.blue("18. board <+|->");
+        MyPrinter.blue("18. battle <+|->");
     }
 
     public void insert(Card card, Location location) {
@@ -770,7 +771,7 @@ public class Battle {
         int x = Integer.valueOf(str1);
         int y = Integer.valueOf(str2);
         if (x > 8 || y > 4) {
-            MyPrinter.red("your coordinate isn't in the board!");
+            MyPrinter.red("your coordinate isn't in the battle!");
             return null;
         }
         return new Location(x, y);
@@ -976,5 +977,16 @@ public class Battle {
             }
         }
         return null;
+    }
+
+    public void setPlayers(Player[] players) {
+        this.players = players;
+    }
+
+    public Battle clone(){
+        YaGson yaGson = new YaGson();
+        String clonedStr = yaGson.toJson(this);
+        Battle battle = yaGson.fromJson(clonedStr,Battle.class);
+        return battle;
     }
 }

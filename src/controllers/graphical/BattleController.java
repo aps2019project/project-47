@@ -94,7 +94,7 @@ public class BattleController extends MyController implements Initializable {
         playerSelectedCard = new Card[2];
         players = battle.getPlayers();
         if (!onReview){
-            lastBattleHistory = new BattleHistory(players,board,battle.getMatchType());
+            lastBattleHistory = new BattleHistory(battle);
         }
         players[0].mana_rise(2);
         players[1].mana_rise(2);
