@@ -12,14 +12,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import models.Account;
-import models.battle.Battle;
-import models.battle.BattleHistory;
-import models.battle.Player;
-import models.battle.StoryGame;
+import models.battle.*;
 import models.battle.board.Board;
 import network.Client;
 import network.Requests.battle.CancelNewBattleRequest;
@@ -37,6 +33,10 @@ public class BattleChooseMenuController extends MyController implements Initiali
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        modeOfBattle.getItems().remove(0, modeOfBattle.getItems().size());
+        modeOfBattle.getItems().addAll(MatchType.kill, MatchType.collectFlag, MatchType.keepFlag);
+        mode.getItems().remove(0, mode.getItems().size());
+        mode.getItems().addAll(MatchType.kill, MatchType.collectFlag, MatchType.keepFlag);
         cancelButton.setDisable(true);
     }
 
@@ -63,7 +63,9 @@ public class BattleChooseMenuController extends MyController implements Initiali
     @FXML
     public JFXButton cancelButton;
 
+    public JFXComboBox modeOfBattle;
 
+    public JFXTextField numOfFlags;
     public static YaGson yaGson = new YaGson();
 
     public void startSinglePlayer(ActionEvent event) {
@@ -83,8 +85,16 @@ public class BattleChooseMenuController extends MyController implements Initiali
     }
 
     public void startMultiPlayerGame(ActionEvent event) {
+        if (otherPlayers.getSelectionModel().getSelectedItem() == null || modeOfBattle.getSelectionModel().getSelectedItem() == null)
+            return;
         String opponentUserName = (String) (otherPlayers.getSelectionModel().getSelectedItem());
-        NewBattleRequest newBattleRequest = new NewBattleRequest(loginAccount.getAuthToken(), opponentUserName);
+        MatchType matchType = (MatchType) (modeOfBattle.getSelectionModel().getSelectedItem());
+        int numOfFlags = 0;
+        if (!this.numberOfFlags.getText().equals(""))
+            numOfFlags = Integer.valueOf(numberOfFlags.getText());
+        if (matchType != MatchType.kill && numOfFlags != 0)
+            return;
+        NewBattleRequest newBattleRequest = new NewBattleRequest(loginAccount.getAuthToken(), opponentUserName, matchType, numOfFlags);
         Client.getWriter().println(yaGson.toJson(newBattleRequest));
         Client.getWriter().flush();
         cancelButton.setDisable(false);
@@ -107,7 +117,6 @@ public class BattleChooseMenuController extends MyController implements Initiali
 
     @Override
     public void update() {
-        loginAccount = AccountMenu.getLoginAccount();
         setStoryGame();
         setSingleGame();
     }
@@ -155,9 +164,7 @@ public class BattleChooseMenuController extends MyController implements Initiali
 
     public void getOnlinePlayers() {
         otherPlayers.getItems().remove(0, otherPlayers.getItems().size());
-        OnlinePlayersRequest onlinePlayersRequest = new OnlinePlayersRequest(
-                loginAccount.
-                        getAuthToken());
+        OnlinePlayersRequest onlinePlayersRequest = new OnlinePlayersRequest(loginAccount.getAuthToken());
         Client.getWriter().println(yaGson.toJson(onlinePlayersRequest));
         Client.getWriter().flush();
     }
@@ -180,7 +187,8 @@ public class BattleChooseMenuController extends MyController implements Initiali
         Client.getWriter().println(yaGson.toJson(cancelNewBattleRequest));
         Client.getWriter().flush();
     }
-    public void reView(){
+
+    public void reView() {
         YaGson yaGson = new YaGson();
         Scanner scanner = null;
         try {
@@ -190,12 +198,12 @@ public class BattleChooseMenuController extends MyController implements Initiali
         }
         String scanned = scanner.nextLine();
         System.out.println(scanned);
-        BattleHistory battleHistory = yaGson.fromJson(scanned,BattleHistory.class);
-        Battle battle =(battleHistory.getBattel());
-        Parent root=Board.getRoot();
+        BattleHistory battleHistory = yaGson.fromJson(scanned, BattleHistory.class);
+        Battle battle = (battleHistory.getBattel());
+        Parent root = Board.getRoot();
         System.out.println(battleHistory.battleActions.size());
         BattleController controller = (BattleController) Board.getController();
-        controller.initializeBattle(battle,false,true);
+        controller.initializeBattle(battle, false, true);
         controller.setHistory(battleHistory);
         Client.getStage().getScene().setRoot(root);
     }

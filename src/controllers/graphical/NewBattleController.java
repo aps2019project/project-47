@@ -17,9 +17,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import models.Account;
+import models.battle.MatchType;
 import network.Client;
 import network.Requests.battle.CancelNewBattleRequest;
 import network.Requests.battle.RejectNewGameRequest;
+import network.Requests.battle.StartNewBattleRequest;
 
 import java.io.IOException;
 import java.net.URL;
@@ -55,6 +57,8 @@ public class NewBattleController implements Initializable {
     private YaGson yaGson = new YaGson();
 
     private String userNameOfRequest;
+    private MatchType matchType;
+    private int numberOfFlags;
 
     public String getUserNameOfRequest() {
         return userNameOfRequest;
@@ -64,8 +68,16 @@ public class NewBattleController implements Initializable {
         this.userNameOfRequest = userNameOfRequest;
     }
 
-    public void setText(String userName){
-        text.setText("Player " + userName + " wants to start new battle with you");
+    public void setMatchType(MatchType matchType) {
+        this.matchType = matchType;
+    }
+
+    public void setNumberOfFlags(int numberOfFlags) {
+        this.numberOfFlags = numberOfFlags;
+    }
+
+    public void setText(){
+        text.setText("Player " + userNameOfRequest + " wants to start new battle with you");
     }
 
     AnimationTimer alarmer = new AnimationTimer() {
@@ -100,7 +112,13 @@ public class NewBattleController implements Initializable {
 
     @FXML
     private void accept(){
-
+        if (!loginAccount.checkCorrectyDeck()){
+            reject();
+            return;
+        }
+        StartNewBattleRequest startNewBattleRequest = new StartNewBattleRequest(loginAccount.getAuthToken(), userNameOfRequest, matchType, numberOfFlags);
+        Client.getWriter().println(yaGson.toJson(startNewBattleRequest));
+        Client.getWriter().flush();
     }
 
     @FXML
@@ -109,16 +127,4 @@ public class NewBattleController implements Initializable {
         Client.getWriter().println(yaGson.toJson(rejectNewGameRequest));
         Client.getWriter().flush();
     }
-
-    public void showAcceptancePage(String string){
-        Parent root;
-        try {
-            root = FXMLLoader.load(getClass().getResource("/layouts/newBattleReq.fxml"));
-            Client.getStage().getScene().setRoot(root);
-            setText(string);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 }

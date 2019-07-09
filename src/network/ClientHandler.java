@@ -10,10 +10,7 @@ import network.Requests.account.CreateAccountRequest;
 import network.Requests.account.LoginRequest;
 import network.Requests.account.LogoutRequest;
 import network.Requests.account.UpdateAccountRequest;
-import network.Requests.battle.CancelNewBattleRequest;
-import network.Requests.battle.NewBattleRequest;
-import network.Requests.battle.OnlinePlayersRequest;
-import network.Requests.battle.RejectNewGameRequest;
+import network.Requests.battle.*;
 import network.Requests.chatRoom.LeaveChatRequest;
 import network.Requests.chatRoom.SendMessageRequest;
 import network.Requests.chatRoom.UpdateChatRequest;
@@ -21,10 +18,7 @@ import network.Requests.shop.BuyRequest;
 import network.Requests.shop.FindRequest;
 import network.Requests.shop.SellRequest;
 import network.Responses.*;
-import network.Responses.battle.AcceptancePageResponse;
-import network.Responses.battle.CancelNewBattleResponse;
-import network.Responses.battle.OnlinePlayersResponse;
-import network.Responses.battle.RejectNewBattleResponse;
+import network.Responses.battle.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -153,6 +147,7 @@ public class ClientHandler extends Thread {
             }
             if (request instanceof NewBattleRequest){
                 AcceptancePageResponse acceptancePageResponse = new AcceptancePageResponse((NewBattleRequest) request);
+                acceptancePageResponse.handleRequest();
                 ClientHandler clientHandler = Server.clientHandlers.get(((NewBattleRequest) request).getOpponentUserName());
                 responseStr = gson.toJson(acceptancePageResponse);
                 clientHandler.out.println(responseStr);
@@ -173,6 +168,20 @@ public class ClientHandler extends Thread {
                 ClientHandler clientHandler = Server.clientHandlers.get(((RejectNewGameRequest) request).getUserName());
                 clientHandler.out.println(responseStr);
                 clientHandler.out.flush();
+                continue;
+            }
+            if(request instanceof StartNewBattleRequest){
+                StartNewBattleResponse startNewBattleResponse = new StartNewBattleResponse((StartNewBattleRequest) request);
+                startNewBattleResponse.handleRequest();
+                responseStr = gson.toJson(startNewBattleResponse);
+                ClientHandler clientHandler1 = Server.clientHandlers.get(((StartNewBattleRequest) request).getUserNameOfOpponent());
+                String player2UserName = Account.getAccountsMapper().get(request.getAuthToken()).getUserName();
+                ClientHandler clientHandler2 = Server.clientHandlers.get(player2UserName);
+                clientHandler1.out.println(responseStr);
+                clientHandler1.out.flush();
+                clientHandler2.out.println(responseStr);
+                clientHandler2.out.flush();
+                continue;
             }
         }
     }
