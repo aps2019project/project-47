@@ -871,14 +871,10 @@ public class BattleController {
         loginAccount.getMatchHistory().add(result);
         YaGson yaGson = new YaGson();
         try {
-            Formatter formatter = new Formatter("fileName.txt");
-            formatter.format(yaGson.toJson(lastBattleHistory));
-            formatter.flush();
-            formatter.close();
             MatchResultRequest matchResultRequest = new MatchResultRequest(loginAccount.getAuthToken(), result);
             Client.getWriter().println(yaGson.toJson(matchResultRequest));
             Client.getWriter().flush();
-        } catch (FileNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         AccountMenu.updateAccount();
