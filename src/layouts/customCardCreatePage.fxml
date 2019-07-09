@@ -18,7 +18,7 @@
             <HBox spacing="20">
                 <Label prefHeight="50.0" prefWidth="600" text="Effects:"/>
                 <JFXButton fx:id="addEffect" text="+" styleClass="regularButton" prefWidth="40" prefHeight="50"
-                           onAction="#addEffect"/>
+                           onAction="#addEffectSpecialPower"/>
             </HBox>
             <HBox spacing="20">
                 <JFXComboBox prefHeight="51.0" prefWidth="600" promptText="Activation Time"
@@ -29,7 +29,7 @@
                 <HBox spacing="20">
                     <Label prefHeight="50.0" prefWidth="500" text="Buffs:"/>
                     <JFXButton fx:id="addBuff" text="+" styleClass="regularButton" prefWidth="40" prefHeight="50"
-                               onAction="#addBuff"/>
+                               onAction="#addBuffspecialPower"/>
                 </HBox>
                 <JFXTextField prefHeight="51.0" promptText="Power" fx:id="power" styleClass="regular-textBox"/>
                 <JFXTextField prefHeight="51.0" promptText="Delay time" fx:id="delay" styleClass="regular-textBox"/>

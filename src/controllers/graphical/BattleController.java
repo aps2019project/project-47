@@ -568,6 +568,42 @@ public class BattleController {
     }
 
 
+    public void moveRequest(Minion minion, Location target){
+        if (!onServer){
+            move(minion,target);
+            return;
+        }
+        BattleAction battleAction =  new BattleAction(minion.getCardId(),null,target,move);
+        //todo send to server
+    }
+
+    public void attackRequest(Minion attacker, Minion defender){
+        if (!onServer){
+            attack(attacker,defender);
+            return;
+        }
+        BattleAction battleAction =  new BattleAction(attacker.getCardId(),defender.getCardId(),null,attack);
+        //todo send to server
+    }
+
+    public void insertRequest(Card card, Location target){
+        if (!onServer){
+            insert(card,target);
+            return;
+        }
+        BattleAction battleAction =  new BattleAction(card.getCardId(),null,target,insert);
+        //todo send to server
+    }
+
+    public void useSpecialPowerRequest(Hero hero, Location target){
+        if (!onServer){
+            useSpecialPower(hero,target);
+            return;
+        }
+        BattleAction battleAction =  new BattleAction(hero.getCardId(),null,target,useSpecialPower);
+        //todo send to server
+    }
+
     public void btn_specialPowerClicked() {
         if (!players[turn].isHuman()) {
             return;
@@ -1212,7 +1248,7 @@ public class BattleController {
 
         private void inStateOf_specialPower_clicked(Location location) {
             if (battle.canUseSpecialPower(players[turn].getHero(), location, false)) {
-                useSpecialPower(players[turn].getHero(), location);
+                useSpecialPowerRequest(players[turn].getHero(), location);
             } else {
                 freeClick(turn);
             }
@@ -1221,7 +1257,7 @@ public class BattleController {
 
         private void inStateOf_insertingCard_clicked(Location location) {
             if (battle.canInsert(playerSelectedCard[turn], location, false)) {
-                insert(playerSelectedCard[turn], location);
+                insertRequest(playerSelectedCard[turn], location);
             } else {
                 freeClick(turn);
             }
@@ -1231,13 +1267,13 @@ public class BattleController {
             Minion selectedMinion = board.getMinionByLocation(location);
             if (selectedMinion == null) {
                 if (battle.canMove((Minion) playerSelectedCard[turn], location, false)) {
-                    move((Minion) playerSelectedCard[turn], location);
+                    moveRequest((Minion) playerSelectedCard[turn], location);
                 } else {
                     freeClick(turn);
                 }
             } else {
                 if (battle.canAttack((Minion) playerSelectedCard[turn], selectedMinion, false)) {
-                    attack((Minion) playerSelectedCard[turn], selectedMinion);
+                    attackRequest((Minion) playerSelectedCard[turn], selectedMinion);
                 } else {
                     freeClick(turn);
                 }
