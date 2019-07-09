@@ -163,7 +163,7 @@ public class CollectionController implements Initializable {
         }
         for (Deck deck : loginAccount.getDecks()) {
             if (deck.getName().equals(nameOfDeck)) {
-                AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Error", "Choose an other name for your deck error!");
+                AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Error", "Choose an other name for your decks error!");
                 return;
             }
         }
@@ -266,8 +266,8 @@ public class CollectionController implements Initializable {
                 AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Error!", "You have multiple heros!");
             }
             if (constant == Constants.CORRECT_DECK) {
-                AlertHelper.showAlert(Alert.AlertType.INFORMATION, Client.getStage().getOwner(), "Deck created!", "successful deck creation!");
-                System.out.println("successful deck");
+                AlertHelper.showAlert(Alert.AlertType.INFORMATION, Client.getStage().getOwner(), "Deck created!", "successful decks creation!");
+                System.out.println("successful decks");
                 loginAccount.addDeck(deck);
                 bottomContainer.getChildren().remove(0, bottomContainer.getChildren().size());
                 topContainer.getChildren().remove(0, topContainer.getChildren().size());
@@ -418,7 +418,7 @@ public class CollectionController implements Initializable {
                         if (!loginAccount.hasDeck(deck)) {
                             loginAccount.addDeck(deck);
                         } else {
-                            AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Error!", "you have a deck with this name error!");
+                            AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Error!", "you have a decks with this name error!");
                         }
                     });
             topContainer.getChildren().add(deckCard);

@@ -13,6 +13,7 @@ import javafx.scene.layout.VBox;
 import layouts.AlertHelper;
 import models.cards.Card;
 import models.cards.CardType;
+import models.cards.GraphicPack;
 import models.cards.buff.Buff;
 import models.cards.buff.BuffType;
 import models.cards.hero.Hero;
@@ -139,8 +140,6 @@ public class CustomCardCreateFormController implements Initializable {
             int newCardPrice = Integer.parseInt(cost.getText());
             int newCardAttackRange = Integer.parseInt(range.getText());
             MinionTargetsType newCardMinionTargetsType = null;
-
-
             switch (typeOfAttackType.getSelectionModel().getSelectedItem()) {
                 case "Melee":
                     newCardMinionTargetsType = MinionTargetsType.melee;
@@ -153,32 +152,43 @@ public class CustomCardCreateFormController implements Initializable {
                     break;
             }
             int code = 1000 + new Random().nextInt(1000);
-            Card newCard;
+            Card newCard = null;
             switch (typeOfCard.getSelectionModel().getSelectedItem()) {
                 case "Hero":
                     newCard = new Hero(code, newCardName, newCardMp, newCardHp, newCardPrice, newCardAp, newCardMinionTargetsType, newCardAttackRange, specialItem);
+                    newCard.setGraphicPack(new GraphicPack());
+//                    newCard.getGraphicPack().setIdlePhotoAddress();
+//                    newCard.getGraphicPack().setAttackPhotoAddress();
+//                    newCard.getGraphicPack().setBreathingPhotoAddress();
+//                    newCard.getGraphicPack().setDeathPhotoAddress();
+//                    newCard.getGraphicPack().setMovePhotoAddress();
                     break;
                 case "Minion":
                     newCard = new Minion(code, newCardName, newCardMp, newCardHp, newCardAttackRange, newCardPrice, CardType.minion, newCardMinionTargetsType, newCardAp, specialItem);
                     break;
                 case "Spell": {
                     TargetForm targetForm = getTargetFormSpell();
-                    newCard = new Spell(code,newCardName,newCardMp,newCardPrice,spellEffectsNormal,null);
+                    newCard = new Spell(code, newCardName, newCardMp, newCardPrice, spellEffectsNormal, null);
                     break;
                 }
             }
+            assert newCard != null;
+            newCard.getGraphicPack().setAttackSoundAddress("src/resources/cards/Mmd_test/attackSound.m4a");
+            newCard.getGraphicPack().setDeathSoundAddress("src/resources/cards/Mmd_test/deathSound.m4a");
+            newCard.getGraphicPack().setMoveSoundAddress("src/resources/cards/Mmd_test/runSound.m4a");
+            newCard.getGraphicPack().setSpawnSoundAddress("src/resources/cards/Mmd_test/spawnSound.m4a");
+            newCard.getGraphicPack().setImpactSoundAddress("src/resources/cards/Mmd_test/impactSound.m4a");
+            newCard.getGraphicPack().setHitSoundAddress("src/resources/cards/Mmd_test/hitSound.m4a");
             specialItem = new SpecialItem(null);
-
-
-            //newCard
+            mp.setText("");
+            ap.setText("");
+            hp.setText("");
+            cost.setText("");
             //todo add start helper
         } catch (Exception e) {
             AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "ERROR", e.getMessage());
         }
     }
-
-
-
 
     private Buff createBuff(JFXTextField startDelay, JFXTextField power, JFXTextField time, JFXComboBox<String> buffType) {
         try {
@@ -251,7 +261,7 @@ public class CustomCardCreateFormController implements Initializable {
         return sideType1;
     }
 
-    public ForceType getForceType(JFXComboBox<String> forceTypeSpell){
+    public ForceType getForceType(JFXComboBox<String> forceTypeSpell) {
         ForceType forceType1 = null;
         switch (forceTypeSpell.getSelectionModel().getSelectedItem()) {
             case "Hero":
@@ -270,10 +280,7 @@ public class CustomCardCreateFormController implements Initializable {
         return forceType1;
     }
 
-
-
-
-    private TargetForm getTargetFormSpecialPower(){
+    private TargetForm getTargetFormSpecialPower() {
         SideType sideType1 = getSideType(sideType);
         ForceType forceType1 = getForceType(forceType);
         MinionType minionType1 = getMinionType(minionType);
@@ -328,12 +335,8 @@ public class CustomCardCreateFormController implements Initializable {
         }
     }
 
-
-
-
-
     public void addEffectSpell(ActionEvent actionEvent) {
-        if (isHouseEffectSpell.isSelected()){
+        if (isHouseEffectSpell.isSelected()) {
             HouseEffectType type = null;
             switch (buffType.getSelectionModel().getSelectedItem()) {
                 case "Holy":
@@ -347,28 +350,28 @@ public class CustomCardCreateFormController implements Initializable {
                     type = HouseEffectType.fire;
                     break;
             }
-            HouseEffect houseEffect =  new HouseEffect(type,
+            HouseEffect houseEffect = new HouseEffect(type,
                     Integer.valueOf(powerSpell.getText()),
                     Integer.valueOf(delaySpell.getText()),
                     Integer.valueOf(startSpell.getText()));
             spellEffectsHouse.add(houseEffect);
             ArrayList<HouseEffect> houseEffects = new ArrayList<>();
             houseEffects.add(houseEffect);
-            spellEffectsNormal.add(new Effect(null,houseEffects,getTargetFormSpell()));
+            spellEffectsNormal.add(new Effect(null, houseEffects, getTargetFormSpell()));
             powerSpell.setText("");
             delaySpell.setText("");
             startSpell.setText("");
             buffType.getSelectionModel().clearSelection();
-        }else {
-            ArrayList<Buff> buffs =new ArrayList<>();
+        } else {
+            ArrayList<Buff> buffs = new ArrayList<>();
             Buff buff = createBuff(startSpell, powerSpell, delaySpell, buffTypeSpell);
             buffs.add(buff);
-            spellEffectsNormal.add(new Effect(buffs,null,getTargetFormSpell()));
+            spellEffectsNormal.add(new Effect(buffs, null, getTargetFormSpell()));
         }
 
     }
 
-    private TargetForm getTargetFormSpell(){
+    private TargetForm getTargetFormSpell() {
         SideType sideType1 = getSideType(sideTypeSpell);
         ForceType forceType1 = getForceType(forceTypeSpell);
         MinionType minionType1 = getMinionType(minionTypeSpell);

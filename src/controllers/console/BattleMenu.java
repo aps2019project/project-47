@@ -43,7 +43,7 @@ public class BattleMenu {
             return null;
         }
         if (account.getMainDeck() == null) {
-            MyPrinter.red("no main deck!");
+            MyPrinter.red("no main decks!");
             return null;
         }
         if (account.getMainDeck().check_deck_correct() != Constants.CORRECT_DECK) return null;

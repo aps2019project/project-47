@@ -34,6 +34,32 @@ import java.util.Scanner;
 
 public class BattleChooseMenuController extends MyController implements Initializable {
 
+    public static BattleChooseMenuController instance;
+
+    {
+        instance = this;
+    }
+
+    public JFXTabPane mainPage;
+    public VBox storyGameTab;
+    public VBox SingleGameTab;
+    public VBox multiPlayerGameTab;
+    public Label levelOfStoryGame;
+    public JFXButton btn_back;
+    public JFXButton startSinglePlayer;
+    public JFXButton startStoryGame;
+    public JFXButton startMultiPlayerGame;
+    public JFXButton cancelButton;
+    public JFXComboBox<MatchType> modeOfBattle;
+    public JFXComboBox<String> decks;
+    public JFXComboBox<MatchType> mode;
+    public JFXComboBox<String> otherPlayers;
+    public JFXTextField numOfFlags;
+    public JFXTextField numberOfFlags;
+
+    private Account loginAccount = AccountMenu.getLoginAccount();
+    public static YaGson yaGson = new YaGson();
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         modeOfBattle.getItems().remove(0, modeOfBattle.getItems().size());
@@ -41,35 +67,11 @@ public class BattleChooseMenuController extends MyController implements Initiali
         mode.getItems().remove(0, mode.getItems().size());
         mode.getItems().addAll(MatchType.kill, MatchType.collectFlag, MatchType.keepFlag);
         cancelButton.setDisable(true);
+        AccountMenu.getLoginAccount().getDecks().forEach(deck1 -> {
+            if (!deck1.getName().equals(AccountMenu.getLoginAccount().getMainDeck().getName()))
+                decks.getItems().add(deck1.getName());
+        });
     }
-
-    public static BattleChooseMenuController instance;
-
-    {
-        instance = this;
-    }
-
-    public JFXComboBox mode;
-    public JFXComboBox otherPlayers;
-    public JFXButton btn_back;
-    private Account loginAccount = AccountMenu.getLoginAccount();
-
-    public JFXTabPane mainPage;
-    public VBox SingleGameTab;
-    public JFXTextField numberOfFlags;
-    public JFXButton startSinglePlayer;
-    public VBox storyGameTab;
-    public Label levelOfStoryGame;
-    public JFXButton startStoryGame;
-    public VBox multiPlayerGameTab;
-    public JFXButton startMultiPlayerGame;
-    @FXML
-    public JFXButton cancelButton;
-
-    public JFXComboBox modeOfBattle;
-
-    public JFXTextField numOfFlags;
-    public static YaGson yaGson = new YaGson();
 
     public void startSinglePlayer(ActionEvent event) {
 
@@ -85,17 +87,17 @@ public class BattleChooseMenuController extends MyController implements Initiali
             BattleController controller = (BattleController) Board.getController();
             controller.initializeBattle(battle, false, false);
             Client.getStage().getScene().setRoot(root);
-        } catch (NullPointerException e){
-            AlertHelper.showAlert(Alert.AlertType.ERROR , Client.getStage().getOwner() ,"Deck is not complete!" , "Deck is not complete!");
-            AlertHelper.showAlert(Alert.AlertType.ERROR , Client.getStage().getOwner() ,"Deck is not complete!" , Arrays.toString(e.getStackTrace()));
+        } catch (NullPointerException e) {
+            AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Deck is not complete!", "Deck is not complete!");
+            AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Deck is not complete!", Arrays.toString(e.getStackTrace()));
         }
     }
 
     public void startMultiPlayerGame(ActionEvent event) {
         if (otherPlayers.getSelectionModel().getSelectedItem() == null || modeOfBattle.getSelectionModel().getSelectedItem() == null)
             return;
-        String opponentUserName = (String) (otherPlayers.getSelectionModel().getSelectedItem());
-        MatchType matchType = (MatchType) (modeOfBattle.getSelectionModel().getSelectedItem());
+        String opponentUserName = (otherPlayers.getSelectionModel().getSelectedItem());
+        MatchType matchType = (modeOfBattle.getSelectionModel().getSelectedItem());
         int numOfFlags = 0;
         if (!this.numberOfFlags.getText().equals(""))
             numOfFlags = Integer.valueOf(numberOfFlags.getText());
@@ -130,7 +132,7 @@ public class BattleChooseMenuController extends MyController implements Initiali
 
     public void setSingleGame() {
         mode.getItems().removeAll(mode.getItems());
-        mode.getItems().addAll("KILL", "COLLECTING", "KEEPING");
+        mode.getItems().addAll(MatchType.kill, MatchType.collectFlag, MatchType.keepFlag);
     }
 
     public void setMultiPlayerGame() {
@@ -190,7 +192,7 @@ public class BattleChooseMenuController extends MyController implements Initiali
     public void doCancel() {
         cancelButton.setDisable(true);
         enableEveryThing();
-        CancelNewBattleRequest cancelNewBattleRequest = new CancelNewBattleRequest(loginAccount.getAuthToken(), (String) otherPlayers.getSelectionModel().getSelectedItem());
+        CancelNewBattleRequest cancelNewBattleRequest = new CancelNewBattleRequest(loginAccount.getAuthToken(), otherPlayers.getSelectionModel().getSelectedItem());
         Client.getWriter().println(yaGson.toJson(cancelNewBattleRequest));
         Client.getWriter().flush();
     }
