@@ -37,6 +37,7 @@ import models.cards.minion.SideType;
 import models.cards.spell.Spell;
 import models.cards.spell.TargetForm;
 import network.Client;
+import network.Requests.account.UpdateAccountRequest;
 import network.Requests.battle.BattleActionRequest;
 import network.Requests.battle.MatchResultRequest;
 
@@ -80,6 +81,7 @@ public class BattleController {
     private GraveYard graveYard;
     private Account loginAccount = AccountMenu.getLoginAccount();
     private YaGson yaGson = new YaGson();
+    private boolean storyMod;
 
     public BattleController() {
         anchorPane = new AnchorPane();
@@ -88,6 +90,10 @@ public class BattleController {
 
     public Parent getRoot() {
         return anchorPane;
+    }
+
+    public void setOnStoryMod(){
+        storyMod = true;
     }
 
 
@@ -104,6 +110,7 @@ public class BattleController {
     }
 
     public void initializeBattle(Battle battle, boolean onServer, boolean onReview) {
+        storyMod = false;
         this.battle = battle;
         this.onServer = onServer;
         this.onReview = onReview;
@@ -194,6 +201,9 @@ public class BattleController {
         help.creat();
         help.setOnClick(event -> {
             if (!players[turn].isHuman()) {
+                return;
+            }
+            if (onServer){
                 return;
             }
             ai_do_only_one_action();
@@ -903,7 +913,25 @@ public class BattleController {
     }
 
     private void analyseMatchResult() {
-
+        if (storyMod){
+            MatchResult result = battle.getMatchResult();
+            int winner = result.getWinner();
+            String myName = AccountMenu.getLoginAccount().getUserName();
+            boolean win = false;
+            if (winner==0 && result.getUser0().equals(myName)){
+                win=true;
+            }
+            if (winner==1 && result.getUser1().equals(myName)){
+                win = true;
+            }
+            if (win) {
+                AccountMenu.getLoginAccount().addStoryLvl();
+                UpdateAccountRequest updateAccountRequest =  new UpdateAccountRequest(loginAccount);
+                String yaJson1 = yaGson.toJson(updateAccountRequest);
+                Client.getWriter().println(yaJson1);
+                Client.getWriter().flush();
+            }
+        }
     }
 
 
@@ -919,14 +947,16 @@ public class BattleController {
         private Label lbl_attackPower;
         private Label lbl_manaNumber;
         private Label lbl_name;
-        private int paneWidth = 200;
-        private int paneHeight = 200;
+        private int paneWidth;
+        private int paneHeight;
         private Circle downerCircle;
         private Circle upperCircle;
         private Card card;
         int numberOfCardScene;
 
-        public CardScene(int numberOfCardScene) {
+        public CardScene(int numberOfCardScene,int width,int height) {
+            paneWidth = width;
+            paneHeight = height;
 
             this.numberOfCardScene = numberOfCardScene;
 
@@ -1023,6 +1053,12 @@ public class BattleController {
             });
             parentPane.getChildren().add(upperCircle);
 
+        }
+
+        public void setNullClick(){
+            upperCircle.setOnMouseClicked(event -> {
+
+            });
         }
 
         public void ring_rotate(int degree) {
@@ -1537,6 +1573,8 @@ public class BattleController {
     }
 
     private class GraphicalHand {
+        int cardSceneWidth = 200;
+        int cardSceneHeight = 200;
         private int x = 50, y = 800;
         int spaceBetween_nextCard_and_hand = 250;
         private Pane parentPane;
@@ -1563,7 +1601,7 @@ public class BattleController {
 
             cardScenes = new CardScene[Hand.number_of_cards];
             for (int i = 0; i < Hand.number_of_cards; i++) {
-                cardScenes[i] = new CardScene(i);
+                cardScenes[i] = new CardScene(i,cardSceneWidth,cardSceneHeight);
                 hbox.getChildren().add(cardScenes[i].parentPane);
             }
 
@@ -2086,47 +2124,49 @@ public class BattleController {
     public class GraveYard {
         int column = 5;
         int row = 4;
-        int x = -1600;
-        int y = 100;
+        int x = -300;
+        int y = 0;
         Double oppeningTime = 0.5;
         ImageView frame;
         ImageView arrow;
         Pane parentPane;
-        GridPane leftGrid;
-        GridPane rightgrid;
+        VBox leftVBox;
+        VBox rightVBox;
         int cardWidth;
         int cardHeight;
-        int width = 1600;
-        int height = 800;
-        int gridWidth;
-        int gridHeight;
+        int width = 300;
+        int height = 1000;
+        int vBoxWidth;
+        int vBoxHeight;
         int space = 50;
-        Location lastLeftLocation;
-        Location lastRightLocation;
         boolean open;
 
 
         public GraveYard() {
-            gridWidth = (width - 3 * space) / 2;
-            gridHeight = height - 2 * space;
+            cardWidth = vBoxWidth /column;
+            cardHeight = vBoxHeight /row;
+            vBoxWidth = (width - 3 * space) / 2;
+            vBoxHeight = height - 2 * space;
             parentPane = new Pane();
             parentPane.relocate(x, y);
             parentPane.setStyle("-fx-background-color: #05001a");
             parentPane.setPrefSize(width, height);
 
-            leftGrid = new GridPane();
-            leftGrid.setPrefSize(gridWidth, gridHeight);
-            leftGrid.relocate(space, space);
-            parentPane.getChildren().add(leftGrid);
+            leftVBox = new VBox();
+            leftVBox.setPrefSize(vBoxWidth, vBoxHeight);
+            leftVBox.relocate(space, space);
+            leftVBox.setStyle("-fx-background-color: red");
+            parentPane.getChildren().add(leftVBox);
 
-            rightgrid = new GridPane();
-            rightgrid.setPrefSize(gridWidth, gridHeight);
-            rightgrid.relocate(space * 2 + gridWidth, space);
-            parentPane.getChildren().add(rightgrid);
+            rightVBox = new VBox();
+            rightVBox.setPrefSize(vBoxWidth, vBoxHeight);
+            rightVBox.relocate(space * 2 + vBoxWidth, space);
+            rightVBox.setStyle("-fx-background-color: blue");
+            parentPane.getChildren().add(rightVBox);
 
             frame = new ImageView(new Image(new File("src/resources/inBattle/graveYard/frame.png").toURI().toString()));
             frame.setFitHeight(height);
-            frame.setFitWidth(width / 7);
+            frame.setFitWidth(width/3 );
             frame.relocate(width, 0);
             parentPane.getChildren().add(frame);
 
@@ -2163,7 +2203,7 @@ public class BattleController {
             }
             TranslateTransition transition = new TranslateTransition();
             transition.setNode(parentPane);
-            transition.setByX(x);
+            transition.setByX(movement);
             transition.setDuration(Duration.seconds(oppeningTime));
             transition.setCycleCount(1);
             transition.play();
@@ -2180,20 +2220,14 @@ public class BattleController {
         }
 
         public void clean() {
-            leftGrid.getChildren().clear();
-            rightgrid.getChildren().clear();
+            leftVBox.getChildren().clear();
+            rightVBox.getChildren().clear();
         }
 
         public void update() {
 
             ArrayList<Card> leftCards = players[0].getGraveYard().getCards();
             ArrayList<Card> rightCards = players[1].getGraveYard().getCards();
-
-            leftGrid.setPrefSize(Math.min(leftCards.size() + 1, column) * cardWidth,
-                    Math.floor(leftCards.size() / column));
-
-            rightgrid.setPrefSize(Math.min(rightCards.size() + 1, column) * cardWidth,
-                    Math.floor(rightCards.size() / column));
 
             for (Card card : leftCards) {
                 addACard(card, true);
@@ -2205,33 +2239,16 @@ public class BattleController {
         }
 
         public void addACard(Card card, boolean left) {
-            GridPane grid;
+            VBox vBox;
             if (left) {
-                grid = leftGrid;
+                vBox = leftVBox;
             } else {
-                grid = rightgrid;
+                vBox = rightVBox;
             }
-            Location lastLocation;
-            if (left) {
-                lastLocation = lastLeftLocation;
-            } else {
-                lastLocation = lastRightLocation;
-            }
-            if (lastLocation == null) {
-                lastLocation = new Location(0, 0);
-            } else {
-                int x = lastLocation.getX();
-                int y = lastLocation.getY();
-                x = (x + 1) % column;
-                y = (y + 1) % row;
-                lastLocation = new Location(x, y);
-            }
-            Image cardImage = new Image(new File(card.getGraphicPack().getShopPhotoAddress()).toURI().toString());
-            ImageView imageView = new ImageView(cardImage);
-            imageView.relocate(0, 0);
-            imageView.setFitHeight(cardHeight);
-            imageView.setFitWidth(cardWidth);
-            grid.add(imageView, lastLocation.getX(), lastLocation.getY());
+            CardScene cardScene = new CardScene(0,vBoxHeight/20,vBoxHeight/20);
+            cardScene.addCard(card,false);
+            cardScene.setNullClick();
+            vBox.getChildren().add(cardScene.parentPane);
         }
     }
 
@@ -2607,7 +2624,6 @@ public class BattleController {
         Hero hero = (Hero) board.getMinionById(heroId);
         useSpecialPower(hero, target);
     }
-
 
     public void setHistory(BattleHistory battleHistory) {
         this.lastBattleHistory = battleHistory;
