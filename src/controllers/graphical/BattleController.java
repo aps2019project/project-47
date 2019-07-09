@@ -12,6 +12,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.effect.PerspectiveTransform;
 import javafx.scene.image.Image;
@@ -44,7 +45,7 @@ import java.util.*;
 
 import static models.battle.BattleActionType.*;
 
-public class BattleController extends MyController implements Initializable {
+public class BattleController {
     Double hideAndRiseSpeed = 50.0;
     Double aiPlayerSpeed = 150.0;
     Double reviewSpeed = 150.0;
@@ -71,9 +72,17 @@ public class BattleController extends MyController implements Initializable {
     private ManaViewer[] manaViewers;
     private GraveYard graveYard;
 
+    public BattleController(){
+        anchorPane = new AnchorPane();
+        initialize();
+    }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public Parent getRoot(){
+        return anchorPane;
+    }
+
+
+    public void initialize() {
         setBackground();
         setMusic();
         creatBoardCells();
