@@ -1,20 +1,28 @@
 package controllers.graphical;
 
+import com.gilecode.yagson.YaGson;
 import com.jfoenix.controls.JFXButton;
 import controllers.console.AccountMenu;
 import controllers.console.MainMenu;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import models.Account;
+import models.battle.Battle;
+import models.battle.BattleHistory;
 import models.battle.MatchResult;
+import models.battle.board.Board;
 import network.Client;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.Scanner;
 
 public class MatchHistoryController implements Initializable {
     Account loginAccount = AccountMenu.getLoginAccount();
@@ -23,7 +31,6 @@ public class MatchHistoryController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("loaded");
         ArrayList<MatchResult> matchResults = loginAccount.getMatchHistory();
         int i = 1;
         for (MatchResult matchResult : matchResults){
@@ -36,7 +43,7 @@ public class MatchHistoryController implements Initializable {
                 winner = userName2;
             JFXButton reviewButton = new JFXButton("Review");
             reviewButton.setOnMouseClicked(event -> {
-                //todo add on click for reviewing battle
+                review(matchResult.getBattleHistory());
             });
             gridPane.add(new Label(userName1), 0, i);
             gridPane.add(new Label(userName2), 1, i);
@@ -47,5 +54,15 @@ public class MatchHistoryController implements Initializable {
 
     public void back(MouseEvent mouseEvent) {
         Client.getStage().getScene().setRoot(MainMenu.getRoot());
+    }
+
+    public void review(BattleHistory battleHistory){
+        Battle battle = (battleHistory.getBattel());
+        Parent root = Board.getRoot();
+        System.out.println(battleHistory.battleActions.size());
+        BattleController controller = (BattleController) Board.getController();
+        controller.initializeBattle(battle, false, true);
+        controller.setHistory(battleHistory);
+        Client.getStage().getScene().setRoot(root);
     }
 }

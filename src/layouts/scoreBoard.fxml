@@ -1,25 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.image.Image?>
-<?import javafx.scene.control.ScrollPane?>
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controllers.graphical.ScoreBoardController"
-            prefHeight="1080.0" prefWidth="1920">
-    <ScrollPane layoutX="860.0" layoutY="92.0" prefHeight="200.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0"
-                AnchorPane.topAnchor="0.0">
-        <content>
-            <VBox fx:id="battle" prefWidth="600.0">
-                <children>
-                    <HBox prefHeight="100.0" prefWidth="600.0"/>
-                </children>
-            </VBox>
-        </content>
-    </ScrollPane>
+<AnchorPane prefHeight="1080.0" prefWidth="1920.0" stylesheets="@stylesheets/serverGraphics.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.graphical.ScoreBoardController">
     <ImageView fitHeight="150.0" fitWidth="150.0" onMouseClicked="#back">
-        <Image url="/resources/buttons/back-button.png"/>
+        <Image url="/resources/buttons/back-button.png" />
     </ImageView>
+    <GridPane fx:id="gridPane" alignment="TOP_CENTER" gridLinesVisible="true" layoutX="14.0" layoutY="214.0" prefWidth="1000.0" styleClass="container" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="-14.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="250.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="0.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="300.0" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="50.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+        <children>
+            <Label styleClass="title-label" text="Thing Name" GridPane.halignment="CENTER" />
+            <Label styleClass="title-label" text="Price" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+            <Label styleClass="title-label" text="Type" GridPane.columnIndex="2" GridPane.halignment="CENTER" />
+            <Label styleClass="title-label" text="Inventory" GridPane.columnIndex="3" GridPane.halignment="CENTER" />
+        </children>
+      <opaqueInsets>
+         <Insets />
+      </opaqueInsets>
+    </GridPane>
 </AnchorPane>

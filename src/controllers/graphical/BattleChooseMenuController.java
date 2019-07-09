@@ -86,7 +86,7 @@ public class BattleChooseMenuController extends MyController implements Initiali
             }
         }
         Player player0 = AccountMenu.getLoginAccount().makePlayer(0);
-        Player player1= new Player(1,"pc",selectedDeck,false);
+        Player player1= new Player(1,"pc",selectedDeck.clone(),false);
         int numOfFlags = Integer.valueOf(numberOfFlags.getText());
         Battle battle = new Battle(player0,player1,type,numOfFlags);
         Parent root = Board.getRoot();
@@ -117,12 +117,10 @@ public class BattleChooseMenuController extends MyController implements Initiali
             return;
         String opponentUserName = (otherPlayers.getSelectionModel().getSelectedItem());
         MatchType matchType = (modeOfBattle.getSelectionModel().getSelectedItem());
-        int numOfFlags = 0;
-        if (!this.numberOfFlags.getText().equals(""))
-            numOfFlags = Integer.valueOf(numberOfFlags.getText());
-        if (matchType != MatchType.kill && numOfFlags != 0)
-            return;
-        NewBattleRequest newBattleRequest = new NewBattleRequest(loginAccount.getAuthToken(), opponentUserName, matchType, numOfFlags);
+        if (numOfFlags.getText().equals("") && matchType!=MatchType.kill)return;
+        int nmf = Integer.valueOf(numOfFlags.getText());
+
+        NewBattleRequest newBattleRequest = new NewBattleRequest(loginAccount.getAuthToken(), opponentUserName, matchType, nmf);
         Client.getWriter().println(yaGson.toJson(newBattleRequest));
         Client.getWriter().flush();
         cancelButton.setDisable(false);

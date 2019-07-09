@@ -171,7 +171,7 @@ public class AccountMenu {
         }
     }
 
-    private static void sortAccounts() {
+    public static void sortAccounts() {
         for (int i = 0; i < accounts.size(); i++) {
             for (int j = i + 1; j < accounts.size(); j++) {
                 if (!accounts.get(i).compare(accounts.get(j))) {
