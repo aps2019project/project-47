@@ -84,7 +84,7 @@ public class BattleController {
 
     public void initialize() {
         setBackground();
-        setMusic();
+//        setMusic();
         creatBoardCells();
         creatHandScene();
         createButtons();
