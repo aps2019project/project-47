@@ -1,7 +1,6 @@
 package network.Responses;
 
 import controllers.Constants;
-import controllers.console.AccountMenu;
 import models.Account;
 import network.Requests.account.UpdateAccountRequest;
 

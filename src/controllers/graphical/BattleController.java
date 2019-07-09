@@ -23,7 +23,6 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import models.battle.*;
 import models.battle.board.Board;
@@ -42,7 +41,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.*;
-import java.util.logging.Handler;
 
 import static models.battle.BattleActionType.*;
 
@@ -71,6 +69,7 @@ public class BattleController extends MyController implements Initializable {
     private boolean nowInAlertt;
     private GraphicButton specialPower;
     private ManaViewer[] manaViewers;
+    private GraveYard graveYard;
 
 
     @Override
@@ -83,6 +82,7 @@ public class BattleController extends MyController implements Initializable {
         creatAiPlayer();
         createReviewTimer();
         creatManaViewers();
+        creatGraveYard();
     }
 
     public void initializeBattle(Battle battle,boolean onServer,boolean onReview) {
@@ -106,8 +106,9 @@ public class BattleController extends MyController implements Initializable {
         manaViewers[0].update();
         manaViewers[1].update();
         update_specialPower_btn();
-
+        graphicalBoard.updateFlagAndItem();
         updatesOfANewTurn();
+
     }
 
     private void setBackground() {
@@ -351,6 +352,11 @@ public class BattleController extends MyController implements Initializable {
         };
     }
 
+    private void creatGraveYard(){
+        graveYard = new GraveYard();
+        anchorPane.getChildren().add(graveYard.parentPane);
+    }
+
 
     private ImageView creatImageViewerOfMinion(Minion minion, MinionImageViewType minionImageViewType) {
         switch (minionImageViewType) {
@@ -399,10 +405,12 @@ public class BattleController extends MyController implements Initializable {
 
             public void end() {
                 graphicalBoard.removeImageViewFromCell(location, true);
+                graphicalBoard.updateFlagAndItem();
                 this.stop();
             }
         };
         deathTimer.start();
+
     }
 
     private void insert(Card card, Location location) {
@@ -417,6 +425,7 @@ public class BattleController extends MyController implements Initializable {
         battle.insert(card, location);
         manaViewers[turn].update();
         graphicalBoard.updateAllCellsNumbers();
+        graphicalBoard.updateFlagAndItem();
         freeClick(turn);
     }
 
@@ -483,6 +492,7 @@ public class BattleController extends MyController implements Initializable {
             defenderAnimation.start();
         }
 
+        graphicalBoard.updateFlagAndItem();
 
         freeClick(turn);
 
@@ -522,13 +532,13 @@ public class BattleController extends MyController implements Initializable {
             public void handle(ActionEvent event) {
                 graphicalBoard.parentPane.getChildren().remove(runningImageView);
                 graphicalBoard.setMinionAtCell(minion, target, MinionImageViewType.breathing, false);
+                graphicalBoard.updateFlagAndItem();
             }
         });
         graphicalBoard.removeImageViewFromCell(minion.getLocation(), false);
         transition.play();
         MyMediaPlayer.playEffectSoundOfACard(minion, soundType.run);
         battle.move(minion, target);
-
 
 
         freeClick(turn);
@@ -543,6 +553,8 @@ public class BattleController extends MyController implements Initializable {
         graphicalBoard.lighting(graphicalBoard.getLocateOfAnImage_inParentPane(target));
         battle.use_special_power(hero, target);
         manaViewers[turn].update();
+
+        graphicalBoard.updateFlagAndItem();
         graphicalBoard.updateAllCellsNumbers();
         graphicalBoard.allCellsNormal();
     }
@@ -1098,8 +1110,14 @@ public class BattleController extends MyController implements Initializable {
         private Label lbl_attackPower;
         private Minion minion;
         private Label lbl_name;
+        private ImageView flagImage;
+        private ImageView itemImage;
+        int iCell;
+        int jCell;
 
         public CellPane(int cellHeight, int cellWidth, int i, int j) {
+            this.iCell = i;
+            this.jCell = j;
 
             parentPane = new Pane();
             parentPane.getStylesheets().add("layouts/stylesheets/battle/cellPane.css");
@@ -1386,6 +1404,50 @@ public class BattleController extends MyController implements Initializable {
                 }
             };
             hidenAnimation.start();
+        }
+
+        public void updateFlagAndItem() {
+            updateFlag();
+            updateItem();
+        }
+
+        private void updateFlag(){
+            if (board.getCells()[iCell][jCell].getFlags().size()>0){
+                if (flagImage==null){
+                    flagImage = new ImageView(new Image(new File("src/resources/inBattle/flag.png").toURI().toString()));
+                    flagImage.relocate(0,0);
+                    flagImage.setFitWidth(50);
+                    flagImage.setFitHeight(50);
+                    parentPane.getChildren().remove(upperLabel);
+                    parentPane.getChildren().add(flagImage);
+                    parentPane.getChildren().add(upperLabel);
+                }
+            }else {
+                if (flagImage!=null){
+                    parentPane.getChildren().remove(flagImage);
+                    flagImage = null;
+                }
+            }
+
+        }
+
+        private void updateItem(){
+            if (board.getCells()[iCell][jCell].getItem()!=null){
+                if (itemImage==null){
+                    itemImage = new ImageView(new Image(new File("src/resources/inBattle/box.png").toURI().toString()));
+                    itemImage.relocate(0,0);
+                    itemImage.setFitWidth(70);
+                    itemImage.setFitHeight(70);
+                    parentPane.getChildren().remove(upperLabel);
+                    parentPane.getChildren().add(itemImage);
+                    parentPane.getChildren().add(upperLabel);
+                }
+            }else {
+                if (itemImage!=null){
+                    parentPane.getChildren().remove(itemImage);
+                    itemImage = null;
+                }
+            }
         }
 
     }
@@ -1709,6 +1771,14 @@ public class BattleController extends MyController implements Initializable {
             CellPane cellPane = cellPanes[location.getX()][location.getY()];
             cellPane.setMinion(minion, type, delay);
         }
+
+        public void updateFlagAndItem(){
+            for (int i = 0; i <Board.width ; i++) {
+                for (int j = 0; j <Board.height ; j++) {
+                    cellPanes[i][j].updateFlagAndItem();
+                }
+            }
+        }
     }
 
     private class GraphicNextCard {
@@ -1926,6 +1996,160 @@ public class BattleController extends MyController implements Initializable {
         public void show() {
             hide();
             anchorPane.getChildren().add(parentPane);
+        }
+    }
+
+    public class GraveYard{
+        int column = 5;
+        int row = 4;
+        int x=-1600;
+        int y= 100;
+        Double oppeningTime = 0.5;
+        ImageView frame;
+        ImageView arrow;
+        Pane parentPane;
+        GridPane leftGrid;
+        GridPane rightgrid;
+        int cardWidth;
+        int cardHeight;
+        int width = 1600;
+        int height = 800;
+        int gridWidth;
+        int gridHeight;
+        int space = 50;
+        Location lastLeftLocation;
+        Location lastRightLocation;
+        boolean open;
+
+
+
+        public GraveYard() {
+            gridWidth = (width-3*space)/2;
+            gridHeight = height-2*space;
+            parentPane = new Pane();
+            parentPane.relocate(x,y);
+            parentPane.setStyle("-fx-background-color: #05001a");
+            parentPane.setPrefSize(width,height);
+
+            leftGrid = new GridPane();
+            leftGrid.setPrefSize(gridWidth,gridHeight);
+            leftGrid.relocate(space,space);
+            parentPane.getChildren().add(leftGrid);
+
+            rightgrid = new GridPane();
+            rightgrid.setPrefSize(gridWidth,gridHeight);
+            rightgrid.relocate(space*2+gridWidth,space);
+            parentPane.getChildren().add(rightgrid);
+
+            frame = new ImageView(new Image(new File("src/resources/inBattle/graveYard/frame.png").toURI().toString()));
+            frame.setFitHeight(height);
+            frame.setFitWidth(width/7);
+            frame.relocate(width,0);
+            parentPane.getChildren().add(frame);
+
+            arrow = new ImageView(new Image(new File("src/resources/inBattle/graveYard/leftArrow.png").toURI().toString()));
+            arrow.setFitWidth(50);
+            arrow.setFitHeight(50);
+            arrow.relocate(width,height/1.5);
+            arrow.setOnMouseClicked(event -> {
+                clickArrow();
+            });
+            parentPane.getChildren().add(arrow);
+        }
+
+        public void clickArrow(){
+            movePane();
+            changeArrow();
+
+            if (!open){
+                update();
+            }else {
+                clean();
+            }
+
+            System.out.println(open);
+            open = !open;
+
+
+
+        }
+
+        public void movePane(){
+            int movement = -x;
+            if (open){
+                movement = x;
+            }
+            TranslateTransition transition = new TranslateTransition();
+            transition.setNode(parentPane);
+            transition.setByX(x);
+            transition.setDuration(Duration.seconds(oppeningTime));
+            transition.setCycleCount(1);
+            transition.play();
+
+        }
+
+        public void changeArrow(){
+            if (open){
+                arrow.setImage(new Image(new File("src/resources/inBattle/graveYard/leftArrow.png").toURI().toString()));
+            }else {
+                arrow.setImage(new Image(new File("src/resources/inBattle/graveYard/rightArrow.png").toURI().toString()));
+
+            }
+        }
+
+        public void clean(){
+            leftGrid.getChildren().clear();
+            rightgrid.getChildren().clear();
+        }
+
+        public void update(){
+
+            ArrayList<Card> leftCards = players[0].getGraveYard().getCards();
+            ArrayList<Card> rightCards = players[1].getGraveYard().getCards();
+
+            leftGrid.setPrefSize(Math.min(leftCards.size()+1,column)*cardWidth,
+                    Math.floor(leftCards.size()/column));
+
+            rightgrid.setPrefSize(Math.min(rightCards.size()+1,column)*cardWidth,
+                    Math.floor(rightCards.size()/column));
+
+            for (Card card:leftCards){
+                addACard(card,true);
+            }
+
+            for(Card card:rightCards){
+                addACard(card,false);
+            }
+        }
+
+        public void addACard(Card card,boolean left){
+            GridPane grid;
+            if (left){
+                grid = leftGrid;
+            }else {
+                grid = rightgrid;
+            }
+            Location lastLocation;
+            if (left){
+                lastLocation = lastLeftLocation;
+            }else {
+                lastLocation = lastRightLocation;
+            }
+            if (lastLocation == null){
+                lastLocation = new Location(0,0);
+            }else {
+                int x = lastLocation.getX();
+                int y = lastLocation.getY();
+                x=(x+1)%column;
+                y=(y+1)%row;
+                lastLocation = new Location(x,y);
+            }
+            Image cardImage = new Image(new File(card.getGraphicPack().getShopPhotoAddress()).toURI().toString());
+            ImageView imageView = new ImageView(cardImage);
+            imageView.relocate(0,0);
+            imageView.setFitHeight(cardHeight);
+            imageView.setFitWidth(cardWidth);
+            grid.add(imageView,lastLocation.getX(),lastLocation.getY());
         }
     }
 

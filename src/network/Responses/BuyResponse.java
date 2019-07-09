@@ -25,7 +25,7 @@ public class BuyResponse extends Response {
         AccountMenu.setLoginAccount(Account.getAccountsMapper().get(request.getAuthToken()));
         if (request != null) {
             int code = ((BuyRequest) request).getCode();
-            requestResult = Server.getShop().command_buy(code);
+            requestResult = Shop.getInstance().command_buy(code);
             ServerShopController.instance.updateTable();
         } else {
             requestResult = Constants.NULL_REQUEST;

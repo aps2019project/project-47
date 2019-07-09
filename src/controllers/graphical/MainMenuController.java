@@ -14,6 +14,7 @@ import models.Account;
 import models.Shop;
 import network.Client;
 import network.Requests.account.LogoutRequest;
+import network.Requests.shop.BuyRequest;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -29,6 +30,7 @@ public class MainMenuController extends MyController {
     public static YaGson yaGson;
 
     public static MainMenuController instance;
+
     {
         instance = this;
     }
@@ -52,11 +54,17 @@ public class MainMenuController extends MyController {
 
     public void goToShop() {
         Client.getStage().getScene().setRoot(Shop.getRoot());
+        try {
+            UniversalShopController.instance.buyID("000");
+            UniversalShopController.instance.topContainer.getChildren().remove(0, UniversalShopController.instance.topContainer.getChildren().size());
+            UniversalShopController.instance.bottomContainer.getChildren().remove(0, UniversalShopController.instance.bottomContainer.getChildren().size());
+        } catch (NullPointerException ignored) {
+        }
     }
 
     public void goToHistoryMenu() {
         try {
-           Client.getStage().getScene().setRoot(FXMLLoader.load(getClass().getResource("/layouts/MatchHistory.fxml")));
+            Client.getStage().getScene().setRoot(FXMLLoader.load(getClass().getResource("/layouts/MatchHistory.fxml")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -69,7 +77,7 @@ public class MainMenuController extends MyController {
         Client.getWriter().flush();
     }
 
-    public void doLogOut(){
+    public void doLogOut() {
         AccountMenu.setLoginAccount(null);
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/layouts/accountPage.fxml"));
@@ -110,6 +118,7 @@ public class MainMenuController extends MyController {
         Client.getStage().getScene().setRoot(FXMLLoader.load(getClass().getResource("../../layouts/globalChatForm.fxml")));
     }
 
-    public void goToScoreBoard(MouseEvent mouseEvent) {
+    public void goToScoreBoard() throws IOException {
+        Client.getStage().getScene().setRoot(FXMLLoader.load(getClass().getResource("../../layouts/scoreBoard.fxml")));
     }
 }

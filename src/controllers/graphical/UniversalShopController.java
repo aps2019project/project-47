@@ -89,13 +89,13 @@ public class UniversalShopController implements Initializable {
     private ScrollPane topScrollPane;
 
     @FXML
-    private HBox topContainer;
+    HBox topContainer;
 
     @FXML
     private ScrollPane bottomScrollPane;
 
     @FXML
-    private HBox bottomContainer;
+    HBox bottomContainer;
 
     @FXML
     private TextField searchField;
@@ -276,7 +276,7 @@ public class UniversalShopController implements Initializable {
         }
     }
 
-    private void buyID(String id) {
+    public void buyID(String id) {
         BuyRequest buyRequest = new BuyRequest(AccountMenu.getLoginAccount().getAuthToken(), Integer.parseInt(id.substring(1)));
         String yaJson1 = yaGson.toJson(buyRequest);
         Client.getWriter().println(yaJson1);

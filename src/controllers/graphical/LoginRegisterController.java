@@ -90,7 +90,7 @@ public class LoginRegisterController extends MyController implements Initializab
                     passwordField.setText("");
                     userNameField.getStyleClass().removeIf(style -> style.equals("wrong"));
                     passwordField.getStyleClass().removeIf(style -> style.equals("wrong"));
-//                messageLabelLogin.setText("You are logged in successfully!");
+//                  messageLabelLogin.setText("You are logged in successfully!");
                     messageLabelLogin.getStyleClass().removeIf(style -> !style.equals("goodMessage"));
                     messageLabelLogin.getStyleClass().add("goodMessage");
                     Parent root = null;
@@ -123,6 +123,11 @@ public class LoginRegisterController extends MyController implements Initializab
             messageLabelRegister.getStyleClass().removeIf(style -> !style.equals("badMessage"));
             messageLabelRegister.getStyleClass().add("badMessage");
             messageLabelRegister.setText("The account with name " + newUserNameField.getText() + " existed.");
+        } else if (requestResult == PC_NOT_ALLOWED){
+            newUserNameField.getStyleClass().add("wrong");
+            messageLabelRegister.getStyleClass().removeIf(style -> !style.equals("badMessage"));
+            messageLabelRegister.getStyleClass().add("badMessage");
+            messageLabelRegister.setText("PC not allowed for name of account.");
         }
     }
 

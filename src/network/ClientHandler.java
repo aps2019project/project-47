@@ -91,9 +91,7 @@ public class ClientHandler extends Thread {
                 if (loginResponse.getRequestResult() == Constants.SUCCESSFUL_LOGIN) {
                     Server.clientHandlers.put(loginResponse.getAccount().getUserName(), this);
                 }
-                System.out.println("online Accounts:");
-                Account.getAccountsMapper().values().forEach(account ->
-                        System.out.println(account.getUserName()));
+                showOnlineAccounts();
                 continue;
             }
             if (request instanceof LogoutRequest) {
@@ -101,9 +99,7 @@ public class ClientHandler extends Thread {
                 Server.clientHandlers.remove(Account.getAccountsMapper().get(request.getAuthToken()).getUserName());
                 logoutResponse.handleRequest();
                 responseStr = gson.toJson(logoutResponse);
-                System.out.println("online Accounts:");
-                Account.getAccountsMapper().values().forEach(account ->
-                        System.out.println(account.getUserName()));
+                showOnlineAccounts();
                 out.println(responseStr);
                 out.flush();
                 continue;
@@ -188,6 +184,13 @@ public class ClientHandler extends Thread {
                 continue;
             }
         }
+    }
+
+    private void showOnlineAccounts() {
+        System.out.print("\u001B[1000m" + "" + "\u001B[1000m");//resetting color
+        System.out.println("Online Accounts:");
+        Account.getAccountsMapper().values().forEach(account ->
+                System.out.println(account.getUserName()));
     }
 
     private void broadcastMessage(String receiveMessageResponseStr) {

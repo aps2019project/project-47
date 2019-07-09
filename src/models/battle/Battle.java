@@ -72,6 +72,7 @@ public class Battle {
     public void set_items_on_the_board() {
         Random random = new Random();
         int b = random.nextInt(boundOfItems);
+        b=20;
         for (int i = 0; i < b; i++) {
             int x = random.nextInt(Board.width);
             int y = random.nextInt(Board.height);

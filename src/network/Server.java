@@ -14,14 +14,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Properties;
+import java.util.regex.Pattern;
 
 public class Server extends Application {
-
-    public static Shop shop = Shop.getInstance();
-
-    public static Shop getShop() {
-        return shop;
-    }
 
     public static ArrayList<Message> messages = new ArrayList<>();
 
@@ -40,6 +36,7 @@ public class Server extends Application {
         System.out.println("Server started");
         while (true) {
             try {
+                System.out.print("\u001B[1000m" + "" + "\u001B[1000m");//resetting color
                 System.out.println("Waiting for a client ...");
                 Socket socket = serverSocket.accept();
                 System.out.println("Client accepted");
@@ -55,17 +52,23 @@ public class Server extends Application {
     public static void main(String[] args) {
         Thread serverThread = new Thread(() -> {
             try {
-                BufferedReader reader = new BufferedReader(new FileReader("src/network/config"));
-                int port = Integer.parseInt(reader.readLine());
-                reader.close();
+                int port = getPort();
                 runServer(port);
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException ignored) {
             }
         });
         serverThread.setDaemon(true);
         serverThread.start();
         launch(args);
+    }
+
+    public static int getPort() throws IOException {
+        FileReader fileReader = new FileReader("src/network/Config.properties");
+        Properties properties = new Properties();
+        properties.load(fileReader);
+        int port = Integer.parseInt(properties.getProperty("Port"));
+        fileReader.close();
+        return port;
     }
 
     @Override
