@@ -2,17 +2,13 @@ package network.Responses.battle;
 
 import controllers.Constants;
 import controllers.graphical.BattleController;
-import models.battle.board.Board;
-import network.Requests.account.LogoutRequest;
+import models.Account;
+import network.Requests.battle.BattleActionRequest;
 import network.Responses.Response;
 
-public class AttackRes extends Response {
-    String attackerId;
-    String defenerId;
-
-    public AttackRes(LogoutRequest logoutRequest) {
-
-
+public class BattleActionResponse extends Response {
+    public BattleActionResponse(BattleActionRequest request) {
+        this.request = request;
     }
 
     @Override
@@ -22,7 +18,7 @@ public class AttackRes extends Response {
 
     @Override
     public void handleResponse() {
-        ((BattleController)Board.getController()).attackRes(attackerId,defenerId);
+        BattleController.instance.doOneAction(((BattleActionRequest) request).getBattleAction());
     }
 
     @Override

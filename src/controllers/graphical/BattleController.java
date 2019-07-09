@@ -2,6 +2,7 @@ package controllers.graphical;
 
 import com.gilecode.yagson.YaGson;
 import controllers.MyController;
+import controllers.console.AccountMenu;
 import controllers.console.BattleMenu;
 import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
@@ -25,6 +26,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
+import models.Account;
 import models.battle.*;
 import models.battle.board.Board;
 import models.battle.board.Location;
@@ -37,6 +39,7 @@ import models.cards.minion.SideType;
 import models.cards.spell.Spell;
 import models.cards.spell.TargetForm;
 import network.Client;
+import network.Requests.battle.BattleActionRequest;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -46,6 +49,12 @@ import java.util.*;
 import static models.battle.BattleActionType.*;
 
 public class BattleController {
+
+    public static BattleController instance;
+    {
+        instance = this;
+    }
+
     Double hideAndRiseSpeed = 50.0;
     Double aiPlayerSpeed = 150.0;
     Double reviewSpeed = 150.0;
@@ -71,6 +80,8 @@ public class BattleController {
     private GraphicButton specialPower;
     private ManaViewer[] manaViewers;
     private GraveYard graveYard;
+    private Account loginAccount = AccountMenu.getLoginAccount();
+    private YaGson yaGson = new YaGson();
 
     public BattleController() {
         anchorPane = new AnchorPane();
@@ -162,7 +173,7 @@ public class BattleController {
             if (!players[turn].isHuman()) {
                 return;
             }
-            endTurn();
+            endTurnRequest();
         });
         anchorPane.getChildren().add(endTurn.getParentPane());
 
@@ -567,24 +578,6 @@ public class BattleController {
         graphicalBoard.allCellsNormal();
     }
 
-
-    public void btn_specialPowerClicked() {
-        if (!players[turn].isHuman()) {
-            return;
-        }
-        stateOfMouseClickeds[turn] = StateOfMouseClicked.specialPowerClicked;
-        graphicalBoard.show_available_cells_for_specialPower(players[turn].getHero());
-    }
-
-    private void update_specialPower_btn() {
-        specialPower.hide();
-        if (players[0].isHuman()) {
-            if (battle.specialPowerAvalable(players[turn].getHero(), false)) {
-                specialPower.show();
-            }
-        }
-    }
-
     private void endTurn() {
 
         aiTimer.stop();
@@ -604,12 +597,88 @@ public class BattleController {
         string = string + " \njust a moment ...";
         MyAlert myAlert = new MyAlert(string);
         myAlert.setOnfinishEvent(event -> {
-
             updatesOfANewTurn();
-
         });
         myAlert.start();
 
+    }
+
+
+
+    public void moveRequest(Minion minion, Location target){
+        if (!onServer){
+            move(minion,target);
+            return;
+        }
+        BattleAction battleAction =  new BattleAction(minion.getCardId(),null,target,move);
+        doAndSendBattleAction(battleAction);
+    }
+
+    public void attackRequest(Minion attacker, Minion defender){
+        if (!onServer){
+            attack(attacker,defender);
+            return;
+        }
+        BattleAction battleAction =  new BattleAction(attacker.getCardId(),defender.getCardId(),null,attack);
+        doAndSendBattleAction(battleAction);
+    }
+
+    public void insertRequest(Card card, Location target){
+        if (!onServer){
+            insert(card,target);
+            return;
+        }
+        BattleAction battleAction =  new BattleAction(card.getCardId(),null,target,insert);
+        doAndSendBattleAction(battleAction);
+    }
+
+    public void useSpecialPowerRequest(Hero hero, Location target){
+        if (!onServer){
+            useSpecialPower(hero,target);
+            return;
+        }
+        BattleAction battleAction =  new BattleAction(hero.getCardId(),null,target,useSpecialPower);
+        doAndSendBattleAction(battleAction);
+    }
+
+    public void endTurnRequest(){
+        if (!onServer){
+            endTurn();
+            return;
+        }
+        BattleAction battleAction = new BattleAction(null, null, null, endTurn);
+        doAndSendBattleAction(battleAction);
+    }
+
+    private void doAndSendBattleAction(BattleAction battleAction) {
+        doOneAction(battleAction);
+        BattleActionRequest battleActionRequest = new BattleActionRequest(loginAccount.getAuthToken(), getUserNameOfOpponent(), battleAction);
+        Client.getWriter().println(yaGson.toJson(battleActionRequest));
+        Client.getWriter().flush();
+    }
+
+    public String getUserNameOfOpponent(){
+        if (battle.getPlayers()[0].isHuman()){
+            return battle.getPlayers()[1].getUserName();
+        }
+        return battle.getPlayers()[0].getUserName();
+    }
+
+    public void btn_specialPowerClicked() {
+        if (!players[turn].isHuman()) {
+            return;
+        }
+        stateOfMouseClickeds[turn] = StateOfMouseClicked.specialPowerClicked;
+        graphicalBoard.show_available_cells_for_specialPower(players[turn].getHero());
+    }
+
+    private void update_specialPower_btn() {
+        specialPower.hide();
+        if (players[0].isHuman()) {
+            if (battle.specialPowerAvalable(players[turn].getHero(), false)) {
+                specialPower.show();
+            }
+        }
     }
 
     public void updatesOfANewTurn() {
@@ -794,8 +863,6 @@ public class BattleController {
             }
 
         }
-
-
     }
 
     private void rainShit() {
@@ -1211,7 +1278,7 @@ public class BattleController {
 
         private void inStateOf_specialPower_clicked(Location location) {
             if (battle.canUseSpecialPower(players[turn].getHero(), location, false)) {
-                useSpecialPower(players[turn].getHero(), location);
+                useSpecialPowerRequest(players[turn].getHero(), location);
             } else {
                 freeClick(turn);
             }
@@ -1220,7 +1287,7 @@ public class BattleController {
 
         private void inStateOf_insertingCard_clicked(Location location) {
             if (battle.canInsert(playerSelectedCard[turn], location, false)) {
-                insert(playerSelectedCard[turn], location);
+                insertRequest(playerSelectedCard[turn], location);
             } else {
                 freeClick(turn);
             }
@@ -1230,13 +1297,13 @@ public class BattleController {
             Minion selectedMinion = board.getMinionByLocation(location);
             if (selectedMinion == null) {
                 if (battle.canMove((Minion) playerSelectedCard[turn], location, false)) {
-                    move((Minion) playerSelectedCard[turn], location);
+                    moveRequest((Minion) playerSelectedCard[turn], location);
                 } else {
                     freeClick(turn);
                 }
             } else {
                 if (battle.canAttack((Minion) playerSelectedCard[turn], selectedMinion, false)) {
-                    attack((Minion) playerSelectedCard[turn], selectedMinion);
+                    attackRequest((Minion) playerSelectedCard[turn], selectedMinion);
                 } else {
                     freeClick(turn);
                 }
@@ -1510,7 +1577,7 @@ public class BattleController {
 
                 @Override
                 public void handle(long now) {
-                    if (lastTime > 2 * hideAndRiseSpeed) end();
+                    if (lastTime > 1.2 * hideAndRiseSpeed) end();
                     lastTime++;
                 }
 
@@ -2349,11 +2416,11 @@ public class BattleController {
 
         public void start() {
 
-            if (!nowInAlertt) {
-                comImages();
-                nowInAlertt = true;
+            if (nowInAlertt) {
+                return;
             }
-
+            comImages();
+            nowInAlertt = true;
         }
 
         public void setSpeeds(Double moveSpeed, Double typingSpeed) {
@@ -2495,10 +2562,10 @@ public class BattleController {
                     break;
                 }
             }
-            Media media = new Media(new File(address).toURI().toString());
-            MediaPlayer mediaPlayer = new MediaPlayer(media);
-            mediaPlayer.setStopTime(Duration.seconds(effectTime));
-            mediaPlayer.play();
+//            Media media = new Media(new File(address).toURI().toString());
+//            MediaPlayer mediaPlayer = new MediaPlayer(media);
+//            mediaPlayer.setStopTime(Duration.seconds(effectTime));
+//            mediaPlayer.play();
         }
     }
 

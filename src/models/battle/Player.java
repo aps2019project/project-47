@@ -54,6 +54,8 @@ public class Player {
         this.num_of_turns_with_flags = 0;
     }
 
+
+
     public ArrayList<Minion> getAllMinions() {
         return allMinions;
     }

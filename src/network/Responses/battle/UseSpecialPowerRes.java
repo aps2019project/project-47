@@ -25,7 +25,5 @@ public class UseSpecialPowerRes extends Response {
         return null;
     }
 
-    @Override
-    public void handle(){
-    }
+
 }

@@ -5,7 +5,6 @@ import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import controllers.console.MainMenu;
-import defentions.Defentions;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
@@ -49,10 +48,14 @@ public class CustomCardCreateFormController implements Initializable {
     public JFXTextField start;
     public JFXTextField delay;
     public JFXButton addBuff;
-    public JFXTextField X0;
-    public JFXTextField Y0;
-    public JFXTextField X1;
-    public JFXTextField Y1;
+    public JFXTextField X0SpecialPower;
+    public JFXTextField Y0SpecialPower;
+    public JFXTextField X1SpecialPower;
+    public JFXTextField Y1SpecialPower;
+    public JFXTextField X0Spell;
+    public JFXTextField Y0Spell;
+    public JFXTextField Y1Spell;
+    public JFXTextField X1Spell;
     public VBox spellBox;
     public JFXComboBox<String> sideType;
     public JFXComboBox<String> minionType;
@@ -63,21 +66,17 @@ public class CustomCardCreateFormController implements Initializable {
     public JFXTextField delaySpell;
     public JFXTextField startSpell;
     public JFXComboBox<String> buffTypeSpell;
-    public JFXTextField X0Spell;
-    public JFXTextField Y0Spell;
-    public JFXTextField Y1Spell;
-    public JFXTextField X1Spell;
     public JFXComboBox<String> sideTypeSpell;
     public JFXComboBox<String> minionTypeSpell;
     public JFXComboBox<String> forceTypeSpell;
     public JFXCheckBox allOfThemeSpell;
     public JFXCheckBox allOfTheme;
     public JFXCheckBox isHouseEffectSpell;
-    public ArrayList<Effect> spellEffects = new ArrayList<>();
-    public ArrayList<Buff> buffs = new ArrayList<>();
-    public ArrayList<Buff> spellBuffs = new ArrayList<>();
+    public ArrayList<Effect> spellEffectsNormal = new ArrayList<>();
+    public ArrayList<HouseEffect> spellEffectsHouse = new ArrayList<>();
+    public ArrayList<Buff> buffsSpecialPower = new ArrayList<>();
     public SpecialItem specialItem = new SpecialItem(null);
-    public SelectionCellPack selectionCellPack = null;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -94,6 +93,10 @@ public class CustomCardCreateFormController implements Initializable {
         minionTypeSpell.getItems().addAll("Melee", "Ranged", "Hybrid");
         specialPowerBox.setVisible(false);
         spellBox.setVisible(false);
+    }
+
+    public void back(ActionEvent actionEvent) {
+        Client.getStage().getScene().setRoot(MainMenu.getRoot());
     }
 
     public void changeActiveHomes(ActionEvent actionEvent) {
@@ -269,8 +272,7 @@ public class CustomCardCreateFormController implements Initializable {
             int newCardPrice = Integer.parseInt(cost.getText());
             int newCardAttackRange = Integer.parseInt(range.getText());
             MinionTargetsType newCardMinionTargetsType = null;
-            SpecialItem newCardSpecialItem = specialItem;
-            ArrayList<Effect> newCardEffectArrayList = spellEffects;
+
 
             switch (typeOfAttackType.getSelectionModel().getSelectedItem()) {
                 case "Melee":
@@ -287,45 +289,29 @@ public class CustomCardCreateFormController implements Initializable {
             Card newCard;
             switch (typeOfCard.getSelectionModel().getSelectedItem()) {
                 case "Hero":
-                    newCard = new Hero(code, newCardName, newCardMp, newCardHp, newCardPrice, newCardAp, newCardMinionTargetsType, newCardAttackRange, newCardSpecialItem);
-//                    Hero hero = new Hero();
-//                    Defentions.customHeros.add(hero);//todo add define hero
+                    newCard = new Hero(code, newCardName, newCardMp, newCardHp, newCardPrice, newCardAp, newCardMinionTargetsType, newCardAttackRange, specialItem);
                     break;
                 case "Minion":
-                    newCard = new Minion(code, newCardName, newCardMp, newCardHp, newCardAttackRange, newCardPrice, CardType.minion, newCardMinionTargetsType, newCardAp, newCardSpecialItem);
-//                    Minion minion = new Minion() //todo add define minion
-//                    Defentions.customMinions.add(minion);
+                    newCard = new Minion(code, newCardName, newCardMp, newCardHp, newCardAttackRange, newCardPrice, CardType.minion, newCardMinionTargetsType, newCardAp, specialItem);
                     break;
                 case "Spell": {
-//                    TargetForm targetForm = new ()
-//                    newCard = new Spell(code,newCardName,newCardMp,newCardPrice,newCardEffectArrayList)
+                    TargetForm targetForm = getTargetFormSpell();
+                    newCard = new Spell(code,newCardName,newCardMp,newCardPrice,spellEffectsNormal,null);
+                    break;
                 }
-//
-                break;
             }
+            specialItem = new SpecialItem(null);
+
+
+            //newCard
             //todo add start helper
         } catch (Exception e) {
             AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "ERROR", e.getMessage());
         }
     }
 
-    public TargetForm creatTargetFormForSpell() {
 
 
-        return null;
-    }
-
-    public SpecialItem creatSpecialPowerForHeroOrMinion() {
-
-
-        return null;
-    }
-
-
-    public void addBuffSpell() {
-        Buff buff = createBuff(startSpell, powerSpell, delaySpell, buffTypeSpell);
-        spellBuffs.add(buff);
-    }
 
     private Buff createBuff(JFXTextField startDelay, JFXTextField power, JFXTextField time, JFXComboBox<String> buffType) {
         try {
@@ -366,7 +352,112 @@ public class CustomCardCreateFormController implements Initializable {
         return null;
     }
 
-    public void back(ActionEvent actionEvent) {
-        Client.getStage().getScene().setRoot(MainMenu.getRoot());
+    public MinionType getMinionType(JFXComboBox<String> minionType) {
+        MinionType minionType1 = null;
+        switch (minionType.getSelectionModel().getSelectedItem()) {
+            case "Melee":
+                minionType1 = new MinionType(true, false, false);
+                break;
+            case "Ranged":
+                minionType1 = new MinionType(false, true, false);
+                break;
+            case "Hybrid":
+                minionType1 = new MinionType(false, false, true);
+                break;
+        }
+        return minionType1;
+    }
+
+    public SideType getSideType(JFXComboBox<String> sideType) {
+        SideType sideType1 = null;
+        switch (sideType.getSelectionModel().getSelectedItem()) {
+            case "Insider":
+                sideType1 = SideType.insider;
+                break;
+            case "Enemy":
+                sideType1 = SideType.enemy;
+                break;
+            case "Both":
+                sideType1 = SideType.both;
+                break;
+        }
+        return sideType1;
+    }
+
+    public ForceType getForceType(JFXComboBox<String> forceTypeSpell){
+        ForceType forceType1 = null;
+        switch (forceTypeSpell.getSelectionModel().getSelectedItem()) {
+            case "Hero":
+                forceType1 = ForceType.hero;
+                break;
+            case "Minion":
+                forceType1 = ForceType.minion;
+                break;
+            case "Both":
+                forceType1 = ForceType.both;
+                break;
+            case "All Cell":
+                forceType1 = ForceType.allCell;
+                break;
+        }
+        return forceType1;
+    }
+
+
+
+
+    private TargetForm getTargetFormSpecialPower(){
+        SideType sideType1 = getSideType(sideType);
+        ForceType forceType1 = getForceType(forceType);
+        MinionType minionType1 = getMinionType(minionType);
+        boolean allOfTheme1 = allOfTheme.isSelected();
+        X0SpecialPower.setText("");
+        X1SpecialPower.setText("");
+        Y0SpecialPower.setText("");
+        Y1SpecialPower.setText("");
+        return getTargetFormSpecialPower(sideType1, forceType1, minionType1, allOfTheme1, X0SpecialPower, Y0SpecialPower, X1SpecialPower, Y1SpecialPower);
+    }
+
+    private TargetForm getTargetFormSpecialPower(SideType sideType1, ForceType forceType1, MinionType minionType1, boolean allOfTheme, JFXTextField x0Spell, JFXTextField y0Spell, JFXTextField x1Spell, JFXTextField y1Spell) {
+        return new TargetForm(Integer.parseInt(x0Spell.getText()), Integer.parseInt(y0Spell.getText()),
+                Integer.parseInt(x1Spell.getText()), Integer.parseInt(y1Spell.getText()),
+                sideType1, forceType1, minionType1, allOfTheme);
+    }
+
+    public void addEffectSpecialPower(ActionEvent actionEvent) {
+        try {
+            TargetForm targetForm = getTargetFormSpecialPower();
+            ArrayList<Buff> buffs = new ArrayList<>();
+            Buff buff = createBuff(start, power, delay, buffType);
+            buffs.add(buff);
+
+            Effect effect = new Effect(buffs, null, targetForm);
+
+            buffsSpecialPower = new ArrayList<>();
+            sideType.getSelectionModel().clearSelection();
+            forceType.getSelectionModel().clearSelection();
+            minionType.getSelectionModel().clearSelection();
+            AlertHelper.showAlert(Alert.AlertType.INFORMATION, Client.getStage().getOwner(), "Effect Of Special Power Created and Added!", "Effect Of Special Power Created and Added!");
+            switch (activationTimeOfSpecialPower.getSelectionModel().getSelectedItem()) {
+                case "On Death":
+                    specialItem.addDeath(effect);
+                    break;
+                case "On Attack":
+                    specialItem.addAttack(effect);
+                    break;
+                case "On Defend":
+                    specialItem.addDefend(effect);
+                    break;
+                case "On Spawn":
+                    specialItem.addSpawn(effect);
+                    break;
+                case "Passive":
+                    specialItem.addPassive(effect);
+                    break;
+            }
+            activationTimeOfSpecialPower.getSelectionModel().clearSelection();
+        } catch (Exception e) {
+            AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "ERROR", Arrays.toString(e.getStackTrace()));
+        }
     }
 }

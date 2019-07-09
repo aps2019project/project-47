@@ -25,8 +25,5 @@ public class MoveRes extends Response {
         return null;
     }
 
-    @Override
-    public void handle(){
 
-    }
 }

@@ -14,15 +14,18 @@
         <VBox alignment="center" maxHeight="346.0" maxWidth="500.0" spacing="20" styleClass="innerContainer">
             <HBox spacing="20">
                 <Label prefHeight="50.0" prefWidth="600" text="Effects:" />
-                <JFXButton fx:id="addEffect" onAction="#addEffect" prefHeight="50" prefWidth="40" styleClass="regularButton" text="+" />
+                <JFXButton fx:id="addEffect" onAction="#addEffectSpecialPower" prefHeight="50" prefWidth="40" styleClass="regularButton" text="+" />
             </HBox>
             <HBox spacing="20">
-                <JFXComboBox fx:id="activationTimeOfSpecialPower" prefHeight="51.0" prefWidth="600" promptText="Activation Time" styleClass="regular-textBox" />
+                <JFXComboBox prefHeight="51.0" prefWidth="600" promptText="Activation Time"
+                             styleClass="regular-textBox"
+                             fx:id="activationTimeOfSpecialPower"/>
             </HBox>
             <VBox alignment="center" maxHeight="346.0" maxWidth="400.0" spacing="20" styleClass="in-innerContainer">
                 <HBox spacing="20">
-                    <Label prefHeight="50.0" prefWidth="500" text="Buffs:" />
-                    <JFXButton fx:id="addBuff" onAction="#addBuff" prefHeight="50" prefWidth="40" styleClass="regularButton" text="+" />
+                    <Label prefHeight="50.0" prefWidth="500" text="Buffs:"/>
+                    <JFXButton fx:id="addBuff" text="+" styleClass="regularButton" prefWidth="40" prefHeight="50"
+                               onAction="#addBuffspecialPower"/>
                 </HBox>
                 <JFXTextField fx:id="power" prefHeight="51.0" promptText="Power" styleClass="regular-textBox" />
                 <JFXTextField fx:id="delay" prefHeight="51.0" promptText="Delay time" styleClass="regular-textBox" />
@@ -32,10 +35,10 @@
             <VBox alignment="center" maxHeight="346.0" maxWidth="400.0" spacing="20" styleClass="in-innerContainer">
                 <Label prefHeight="50.0" prefWidth="500" text="Target Form:" />
                 <HBox spacing="20">
-                    <JFXTextField fx:id="X0" prefHeight="51.0" promptText="X0" styleClass="regular-textBox" />
-                    <JFXTextField fx:id="Y0" prefHeight="51.0" promptText="Y0" styleClass="regular-textBox" />
-                    <JFXTextField fx:id="X1" prefHeight="51.0" promptText="X1" styleClass="regular-textBox" />
-                    <JFXTextField fx:id="Y1" prefHeight="51.0" promptText="Y1" styleClass="regular-textBox" />
+                    <JFXTextField prefHeight="51.0" promptText="X0" fx:id="X0SpecialPower" styleClass="regular-textBox"/>
+                    <JFXTextField prefHeight="51.0" promptText="Y0" fx:id="Y0SpecialPower" styleClass="regular-textBox"/>
+                    <JFXTextField prefHeight="51.0" promptText="X1" fx:id="X1SpecialPower" styleClass="regular-textBox"/>
+                    <JFXTextField prefHeight="51.0" promptText="Y1" fx:id="Y1SpecialPower" styleClass="regular-textBox"/>
                 </HBox>
                 <JFXComboBox fx:id="sideType" prefHeight="51.0" prefWidth="500" promptText="Side Type" styleClass="regular-textBox" />
                 <JFXComboBox fx:id="minionType" prefHeight="51.0" prefWidth="500" promptText="Minion Type" styleClass="regular-textBox" />

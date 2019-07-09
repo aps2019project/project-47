@@ -25,7 +25,5 @@ public class InsertRes extends Response {
         return null;
     }
 
-    @Override
-    public void handle(){
-    }
+
 }

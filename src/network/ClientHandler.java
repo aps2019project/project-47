@@ -186,6 +186,14 @@ public class ClientHandler extends Thread {
                 clientHandler2.out.flush();
                 continue;
             }
+            if (request instanceof BattleActionRequest){
+                BattleActionResponse battleActionResponse = new BattleActionResponse((BattleActionRequest) request);
+                ClientHandler clientHandler = Server.clientHandlers.get(((BattleActionRequest)request).getOpponentUserName());
+                responseStr = gson.toJson(battleActionResponse);
+                clientHandler.out.println(responseStr);
+                clientHandler.out.flush();
+                continue;
+            }
         }
     }
 
