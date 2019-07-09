@@ -21,6 +21,8 @@ import models.cards.minion.*;
 import models.cards.spell.Spell;
 import models.cards.spell.TargetForm;
 import models.cards.spell.effect.Effect;
+import models.cards.spell.effect.HouseEffect;
+import models.cards.spell.effect.HouseEffectType;
 import network.Client;
 
 import java.net.URL;
@@ -70,6 +72,7 @@ public class CustomCardCreateFormController implements Initializable {
     public JFXComboBox<String> forceTypeSpell;
     public JFXCheckBox allOfThemeSpell;
     public JFXCheckBox allOfTheme;
+    public JFXCheckBox isHouseEffectSpell;
     public ArrayList<Effect> spellEffects = new ArrayList<>();
     public ArrayList<Buff> buffs = new ArrayList<>();
     public ArrayList<Buff> spellBuffs = new ArrayList<>();
@@ -81,8 +84,8 @@ public class CustomCardCreateFormController implements Initializable {
         typeOfCard.getItems().addAll("Minion", "Hero", "Spell");
         typeOfAttackType.getItems().addAll("Melee", "Ranged", "Hybrid");
         activationTimeOfSpecialPower.getItems().addAll("On Death", "On Attack", "On Defend", "On Spawn", "Passive");
-        buffType.getItems().addAll("Holy", "Power", "Poison", "Weakness", "Stun", "Disarm");
-        buffTypeSpell.getItems().addAll("Holy", "Power", "Poison", "Weakness", "Stun", "Disarm");
+        buffType.getItems().addAll("Holy", "Power", "Poison", "Weakness", "Stun", "Disarm", "House Poison", "House Fire", "House Holy");
+        buffTypeSpell.getItems().addAll("Holy", "Power", "Poison", "Weakness", "Stun", "Disarm", "House Poison", "House Fire", "House Holy");
         sideType.getItems().addAll("Insider", "Enemy", "Both");
         sideTypeSpell.getItems().addAll("Insider", "Enemy", "Both");
         forceType.getItems().addAll("Hero", "Minion", "Both", "All Cell");
@@ -158,12 +161,7 @@ public class CustomCardCreateFormController implements Initializable {
 
     public void addEffectSpell(ActionEvent actionEvent) {
         try {
-            SideType sideType1 = getSideType(sideTypeSpell);
-            ForceType forceType1 = getForceType(forceTypeSpell);
-            MinionType minionType1 = getMinionType(minionTypeSpell);
-            boolean allOfTheme = allOfThemeSpell.isSelected();
-            System.out.println(allOfTheme);
-            TargetForm targetForm = getTargetForm(sideType1, forceType1, minionType1, allOfTheme, X0Spell, Y0Spell, X1Spell, Y1Spell);
+            TargetForm targetForm = getTargetFormSpell();
             Effect effect = new Effect(spellBuffs, new ArrayList<>(), targetForm);
             spellBuffs = new ArrayList<>();
             sideTypeSpell.getSelectionModel().clearSelection();
@@ -175,10 +173,25 @@ public class CustomCardCreateFormController implements Initializable {
             Y1Spell.setText("");
             AlertHelper.showAlert(Alert.AlertType.INFORMATION, Client.getStage().getOwner(), "Effect Created!", "Effect Created!");
             spellEffects.add(effect);
-
         } catch (Exception e) {
             AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "ERROR", e.getMessage());
         }
+    }
+
+    private TargetForm getTargetFormSpecialPower() throws Exception {
+        SideType sideType1 = getSideType(sideType);
+        ForceType forceType1 = getForceType(forceType);
+        MinionType minionType1 = getMinionType(minionType);
+        boolean allOfTheme1 = allOfTheme.isSelected();
+        return getTargetForm(sideType1, forceType1, minionType1, allOfTheme1, X0, Y0, X1, Y1);
+    }
+
+    private TargetForm getTargetFormSpell() throws Exception {
+        SideType sideType1 = getSideType(sideTypeSpell);
+        ForceType forceType1 = getForceType(forceTypeSpell);
+        MinionType minionType1 = getMinionType(minionTypeSpell);
+        boolean allOfTheme = allOfThemeSpell.isSelected();
+        return getTargetForm(sideType1, forceType1, minionType1, allOfTheme, X0Spell, Y0Spell, X1Spell, Y1Spell);
     }
 
     private TargetForm getTargetForm(SideType sideType1, ForceType forceType1, MinionType minionType1, boolean allOfTheme, JFXTextField x0Spell, JFXTextField y0Spell, JFXTextField x1Spell, JFXTextField y1Spell) {
@@ -189,11 +202,7 @@ public class CustomCardCreateFormController implements Initializable {
 
     public void addEffect(ActionEvent actionEvent) {
         try {
-            SideType sideType1 = getSideType(sideType);
-            ForceType forceType1 = getForceType(forceType);
-            MinionType minionType1 = getMinionType(minionType);
-            boolean allOfTheme1 = allOfTheme.isSelected();
-            TargetForm targetForm = getTargetForm(sideType1, forceType1, minionType1, allOfTheme1, X0, Y0, X1, Y1);
+            TargetForm targetForm = getTargetFormSpecialPower();
             Effect effect = new Effect(buffs, new ArrayList<>(), targetForm);
             buffs = new ArrayList<>();
             sideType.getSelectionModel().clearSelection();
@@ -313,12 +322,12 @@ public class CustomCardCreateFormController implements Initializable {
     }
 
 
-    public void addBuffSpell(ActionEvent actionEvent) {
+    public void addBuffSpell() {
         Buff buff = createBuff(startSpell, powerSpell, delaySpell, buffTypeSpell);
         spellBuffs.add(buff);
     }
 
-    public Buff createBuff(JFXTextField startDelay, JFXTextField power, JFXTextField time, JFXComboBox<String> buffType) {
+    private Buff createBuff(JFXTextField startDelay, JFXTextField power, JFXTextField time, JFXComboBox<String> buffType) {
         try {
             int startDelayNum = Integer.parseInt(startDelay.getText());
             int powerNum = Integer.parseInt(power.getText());

@@ -26,7 +26,7 @@ public class Defentions {
     public static HashMap<Minion, Integer> customMinions = new HashMap<>();
     public static HashMap<Hero, Integer> customHeros = new HashMap<>();
 
-    public static HashMap<Spell , Integer> defineSpell() {
+    public static HashMap<Spell, Integer> defineSpell() {
         HashMap<Spell, Integer> spellCards = new HashMap<>();
 
         {
@@ -828,8 +828,8 @@ public class Defentions {
         return minions;
     }
 
-    public static HashMap<Item , Integer> defineItem() {
-        HashMap<Item , Integer> items = new HashMap<>();
+    public static HashMap<Item, Integer> defineItem() {
+        HashMap<Item, Integer> items = new HashMap<>();
 
         {
             ArrayList<Buff> buffs = new ArrayList<>();
@@ -838,7 +838,7 @@ public class Defentions {
             effects.add(new Effect(buffs, null, null));
             Item item = new Item(401, ItemType.usable, 300, "CrownOfWisdom", effects
                     , true, false, null, null);
-            items.put(item , 3);
+            items.put(item, 3);
 
         }//1
 
@@ -850,7 +850,7 @@ public class Defentions {
             Item item = new Item(402, ItemType.usable, 4000, "namoosSepar", effects
                     , true, false, null, null);
 
-            items.put(item , 3);
+            items.put(item, 3);
         }//2
 
         {
@@ -863,7 +863,7 @@ public class Defentions {
             effects.add(new Effect(buffs, null, targetForm));
             Item item = new Item(403, ItemType.usable, 30000, "kamanDamol", effects
                     , false, false, ItemActivateTime.onAttack, null);
-            items.put(item , 3);
+            items.put(item, 3);
         }//3
 
         {
@@ -874,7 +874,7 @@ public class Defentions {
             effects.add(new Effect(buffs, null, targetForm));
             Item item = new Item(412, ItemType.collectable, 0, "nooshdaroo", effects
                     , true, false, null, null);
-            items.put(item , 3);
+            items.put(item, 3);
         }//4
 
         {
@@ -886,7 +886,7 @@ public class Defentions {
             effects.add(new Effect(buffs, null, targetForm));
             Item item = new Item(413, ItemType.collectable, 0, "TirDoShakh", effects
                     , true, false, null, null);
-            items.put(item , 3);
+            items.put(item, 3);
         }//5
 
         {
@@ -898,7 +898,7 @@ public class Defentions {
             effects.add(new Effect(buffs, null, targetForm));
             Item item = new Item(414, ItemType.usable, 3500, "parSimorgh", effects
                     , true, false, null, null);
-            items.put(item , 3);
+            items.put(item, 3);
         }//6
 
         {
@@ -914,7 +914,7 @@ public class Defentions {
             effects.add(new Effect(buffs2, null, null));
             Item item = new Item(415, ItemType.collectable, 0, "exir", effects
                     , true, false, null, null);
-            items.put(item , 3);
+            items.put(item, 3);
         }//7
 
         {
@@ -924,7 +924,7 @@ public class Defentions {
             effects.add(new Effect(buffs, null, null));
             Item item = new Item(416, ItemType.collectable, 0, "manaPotion", effects
                     , true, false, null, null);
-            items.put(item , 3);
+            items.put(item, 3);
         }//8
 
         {
@@ -935,7 +935,7 @@ public class Defentions {
             effects.add(new Effect(buffs, null, targetForm));
             Item item = new Item(417, ItemType.collectable, 0, "growthPotion", effects
                     , true, false, null, null);
-            items.put(item , 3);
+            items.put(item, 3);
         }//9
 
         {
@@ -947,7 +947,7 @@ public class Defentions {
             TargetForm randomForce = new TargetForm(-9, -5, 9, 5, SideType.both, ForceType.both, null, false);
             Item item = new Item(418, ItemType.collectable, 0, "nefrinMarg", effects
                     , false, false, ItemActivateTime.onDeath, randomForce);
-            items.put(item , 3);
+            items.put(item, 3);
         }//10
 
         {
@@ -958,7 +958,7 @@ public class Defentions {
             effects.add(new Effect(buffs, null, targetForm));
             Item item = new Item(419, ItemType.collectable, 0, "RandomDamage", effects
                     , true, false, null, null);
-            items.put(item , 3);
+            items.put(item, 3);
         }//11
 
         {
@@ -969,7 +969,7 @@ public class Defentions {
             effects.add(new Effect(buffs, null, targetForm));
             Item item = new Item(405, ItemType.usable, 5000, "TerrorHood", effects
                     , false, false, ItemActivateTime.onAttack, null);
-            items.put(item , 3);
+            items.put(item, 3);
         }//12
 
         {
@@ -980,7 +980,7 @@ public class Defentions {
             effects.add(new Effect(buffs, null, targetForm));
             Item item = new Item(420, ItemType.collectable, 0, "BladesOFAgility", effects
                     , true, false, null, null);
-            items.put(item , 3);
+            items.put(item, 3);
         }//13
 
         {
@@ -991,7 +991,7 @@ public class Defentions {
             effects.add(new Effect(buffs, null, null));
             Item item = new Item(406, ItemType.usable, 9000, "kingWisdom", effects
                     , true, false, null, null);
-            items.put(item , 3);
+            items.put(item, 3);
         }//14
 
         {
@@ -1002,7 +1002,7 @@ public class Defentions {
             effects.add(new Effect(buffs, null, targetForm));
             Item item = new Item(407, ItemType.usable, 15000, "AssassinationDagger", effects
                     , false, true, ItemActivateTime.onSpawn, null);
-            items.put(item , 3);
+            items.put(item, 3);
         }//15
 
         {
@@ -1013,7 +1013,7 @@ public class Defentions {
             effects.add(new Effect(buffs, null, targetForm));
             Item item = new Item(408, ItemType.usable, 7000, "poisonousDagger", effects
                     , false, true, ItemActivateTime.onAttack, null);
-            items.put(item , 3);
+            items.put(item, 3);
         }//16
 
         {
@@ -1023,7 +1023,7 @@ public class Defentions {
             effects.add(new Effect(buffs, null, null));
             Item item = new Item(409, ItemType.usable, 15000, "shockHammer", effects
                     , false, false, ItemActivateTime.onAttack, null);
-            items.put(item , 3);
+            items.put(item, 3);
         }//17
 
         {
@@ -1034,7 +1034,7 @@ public class Defentions {
             effects.add(new Effect(buffs, null, targetForm));
             Item item = new Item(410, ItemType.usable, 25000, "soulEater", effects
                     , false, true, ItemActivateTime.onDeath, null);
-            items.put(item , 3);
+            items.put(item, 3);
         }//18
 
         {
@@ -1044,7 +1044,7 @@ public class Defentions {
             effects.add(new Effect(buffs, null, null));
             Item item = new Item(411, ItemType.usable, 20000, "ghoslTamid", effects
                     , false, true, ItemActivateTime.onSpawn, null);
-            items.put(item , 3);
+            items.put(item, 3);
         }//19
 
         {
@@ -1056,14 +1056,14 @@ public class Defentions {
             effects.add(new Effect(buffs, null, targetForm));
             Item item = new Item(420, ItemType.collectable, 0, "shamshirChini", effects
                     , true, false, null, null);
-            items.put(item , 3);
+            items.put(item, 3);
         }//20
 
         return items;
     }
 
-    public static HashMap<Card , Integer> defineCard() {
-        HashMap<Card , Integer> cards = new HashMap<>();
+    public static HashMap<Card, Integer> defineCard() {
+        HashMap<Card, Integer> cards = new HashMap<>();
         cards.putAll(defineHero());
         cards.putAll(defineMinion());
         cards.putAll(defineSpell());
@@ -1075,11 +1075,11 @@ public class Defentions {
         return cards;
     }
 
-    public static HashMap<Item , Integer> all_item_by_type(ItemType type) {
-        HashMap<Item , Integer> items = new HashMap<>();
-        HashMap<Item , Integer> allItems = defineItem();
+    public static HashMap<Item, Integer> all_item_by_type(ItemType type) {
+        HashMap<Item, Integer> items = new HashMap<>();
+        HashMap<Item, Integer> allItems = defineItem();
         for (Item item : allItems.keySet()) {
-            if (item.getItemType() == type) items.put(item , 3);
+            if (item.getItemType() == type) items.put(item, 3);
         }
         return items;
     }
@@ -1113,19 +1113,29 @@ public class Defentions {
         return new Deck("pcDeck", myCards, myItem);
     }
 
-    public static void defineDefultFileAdresses(Card card){
-        card.getGraphicPack().setMovePhotoAddress("src/resources/cards/Mmd_test/Avalanche_run.gif");
-        card.getGraphicPack().setAttackPhotoAddress("src/resources/cards/Mmd_test/Avalanche_attack.gif");
-        card.getGraphicPack().setBreathingPhotoAddress("src/resources/cards/Mmd_test/Avalanche_breathing.gif");
-        card.getGraphicPack().setDeathPhotoAddress("src/resources/cards/Mmd_test/Avalanche_death.gif");
-        card.getGraphicPack().setIdlePhotoAddress("src/resources/cards/Mmd_test/Avalanche_idle.gif");
-
-        card.getGraphicPack().setAttackSoundAddress("src/resources/cards/Mmd_test/attackSound.m4a");
-        card.getGraphicPack().setDeathSoundAddress("src/resources/cards/Mmd_test/deathSound.m4a");
-        card.getGraphicPack().setMoveSoundAddress("src/resources/cards/Mmd_test/runSound.m4a");
-        card.getGraphicPack().setSpawnSoundAddress("src/resources/cards/Mmd_test/spawnSound.m4a");
-        card.getGraphicPack().setImpactSoundAddress("src/resources/cards/Mmd_test/impactSound.m4a");
-        card.getGraphicPack().setHitSoundAddress("src/resources/cards/Mmd_test/hitSound.m4a");
+    public static void defineDefultFileAdresses(Card card) {
+        if (card.getGraphicPack().getMovePhotoAddress() == null)
+            card.getGraphicPack().setMovePhotoAddress("src/resources/cards/Mmd_test/Avalanche_run.gif");
+        if (card.getGraphicPack().getAttackPhotoAddress() == null)
+            card.getGraphicPack().setAttackPhotoAddress("src/resources/cards/Mmd_test/Avalanche_attack.gif");
+        if (card.getGraphicPack().getBreathingPhotoAddress() == null)
+            card.getGraphicPack().setBreathingPhotoAddress("src/resources/cards/Mmd_test/Avalanche_breathing.gif");
+        if (card.getGraphicPack().getDeathPhotoAddress() == null)
+            card.getGraphicPack().setDeathPhotoAddress("src/resources/cards/Mmd_test/Avalanche_death.gif");
+        if (card.getGraphicPack().getIdlePhotoAddress() == null)
+            card.getGraphicPack().setIdlePhotoAddress("src/resources/cards/Mmd_test/Avalanche_idle.gif");
+        if (card.getGraphicPack().getAttackSoundAddress() == null)
+            card.getGraphicPack().setAttackSoundAddress("src/resources/cards/Mmd_test/attackSound.m4a");
+        if (card.getGraphicPack().getDeathSoundAddress() == null)
+            card.getGraphicPack().setDeathSoundAddress("src/resources/cards/Mmd_test/deathSound.m4a");
+        if (card.getGraphicPack().getMoveSoundAddress() == null)
+            card.getGraphicPack().setMoveSoundAddress("src/resources/cards/Mmd_test/runSound.m4a");
+        if (card.getGraphicPack().getSpawnSoundAddress() == null)
+            card.getGraphicPack().setSpawnSoundAddress("src/resources/cards/Mmd_test/spawnSound.m4a");
+        if (card.getGraphicPack().getImpactSoundAddress() == null)
+            card.getGraphicPack().setImpactSoundAddress("src/resources/cards/Mmd_test/impactSound.m4a");
+        if (card.getGraphicPack().getHitSoundAddress() == null)
+            card.getGraphicPack().setHitSoundAddress("src/resources/cards/Mmd_test/hitSound.m4a");
 
     }
 

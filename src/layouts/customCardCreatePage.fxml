@@ -79,6 +79,8 @@
             <Label prefHeight="50.0" prefWidth="600" text="Effects:"/>
             <JFXButton fx:id="addEffectSpell" text="+" styleClass="regularButton" prefWidth="40" prefHeight="50"
                        onAction="#addEffectSpell"/>
+            <JFXCheckBox prefHeight="51.0" prefWidth="500" text="Is House Effect?" fx:id="isHouseEffectSpell"
+                         styleClass="regular-textBox"/>
         </HBox>
         <VBox alignment="center" maxHeight="346.0" maxWidth="400.0" spacing="20" styleClass="in-innerContainer">
             <HBox spacing="20">
