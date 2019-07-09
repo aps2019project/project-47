@@ -140,7 +140,7 @@ public class BattleChooseMenuController extends MyController implements Initiali
         }
     }
 
-    private void setStoryGame() {
+    public void setStoryGame() {
         int lvl = loginAccount.getStoryLvl();
         if (lvl == 4) {
             storyGameTab.getChildren().remove(startStoryGame);
