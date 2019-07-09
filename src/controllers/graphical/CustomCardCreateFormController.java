@@ -130,139 +130,6 @@ public class CustomCardCreateFormController implements Initializable {
         }
     }
 
-    public MinionType getMinionType(JFXComboBox<String> minionType) {
-        MinionType minionType1 = null;
-        switch (minionType.getSelectionModel().getSelectedItem()) {
-            case "Melee":
-                minionType1 = new MinionType(true, false, false);
-                break;
-            case "Ranged":
-                minionType1 = new MinionType(false, true, false);
-                break;
-            case "Hybrid":
-                minionType1 = new MinionType(false, false, true);
-                break;
-        }
-        return minionType1;
-    }
-
-    public SideType getSideType(JFXComboBox<String> sideType) {
-        SideType sideType1 = null;
-        switch (sideType.getSelectionModel().getSelectedItem()) {
-            case "Insider":
-                sideType1 = SideType.insider;
-                break;
-            case "Enemy":
-                sideType1 = SideType.enemy;
-                break;
-            case "Both":
-                sideType1 = SideType.both;
-                break;
-        }
-        return sideType1;
-    }
-
-    public void addEffectSpell() {
-        try {
-            TargetForm targetForm = getTargetFormSpell();
-            Effect effect = new Effect(spellBuffs, new ArrayList<>(), targetForm);
-            spellBuffs = new ArrayList<>();
-            sideTypeSpell.getSelectionModel().clearSelection();
-            forceTypeSpell.getSelectionModel().clearSelection();
-            minionTypeSpell.getSelectionModel().clearSelection();
-            X0Spell.setText("");
-            X1Spell.setText("");
-            Y0Spell.setText("");
-            Y1Spell.setText("");
-            AlertHelper.showAlert(Alert.AlertType.INFORMATION, Client.getStage().getOwner(), "Effect Created!", "Effect Created!");
-            spellEffects.add(effect);
-        } catch (Exception e) {
-            AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "ERROR", e.getMessage());
-        }
-    }
-
-    private TargetForm getTargetFormSpecialPower() throws Exception {
-        SideType sideType1 = getSideType(sideType);
-        ForceType forceType1 = getForceType(forceType);
-        MinionType minionType1 = getMinionType(minionType);
-        boolean allOfTheme1 = allOfTheme.isSelected();
-        return getTargetForm(sideType1, forceType1, minionType1, allOfTheme1, X0, Y0, X1, Y1);
-    }
-
-    private TargetForm getTargetFormSpell() throws Exception {
-        SideType sideType1 = getSideType(sideTypeSpell);
-        ForceType forceType1 = getForceType(forceTypeSpell);
-        MinionType minionType1 = getMinionType(minionTypeSpell);
-        boolean allOfTheme = allOfThemeSpell.isSelected();
-        return getTargetForm(sideType1, forceType1, minionType1, allOfTheme, X0Spell, Y0Spell, X1Spell, Y1Spell);
-    }
-
-    private TargetForm getTargetForm(SideType sideType1, ForceType forceType1, MinionType minionType1, boolean allOfTheme, JFXTextField x0Spell, JFXTextField y0Spell, JFXTextField x1Spell, JFXTextField y1Spell) {
-        return new TargetForm(Integer.parseInt(x0Spell.getText()), Integer.parseInt(y0Spell.getText()),
-                Integer.parseInt(x1Spell.getText()), Integer.parseInt(y1Spell.getText()),
-                sideType1, forceType1, minionType1, allOfTheme);
-    }
-
-    public void addEffect(ActionEvent actionEvent) {
-        try {
-            TargetForm targetForm = getTargetFormSpecialPower();
-            Effect effect = new Effect(buffs, new ArrayList<>(), targetForm);
-            buffs = new ArrayList<>();
-            sideType.getSelectionModel().clearSelection();
-            forceType.getSelectionModel().clearSelection();
-            minionType.getSelectionModel().clearSelection();
-            X0.setText("");
-            X1.setText("");
-            Y0.setText("");
-            Y1.setText("");
-            AlertHelper.showAlert(Alert.AlertType.INFORMATION, Client.getStage().getOwner(), "Effect Of Special Power Created and Added!", "Effect Of Special Power Created and Added!");
-            switch (activationTimeOfSpecialPower.getSelectionModel().getSelectedItem()) {
-                case "On Death":
-                    specialItem.addDeath(effect);
-                    break;
-                case "On Attack":
-                    specialItem.addAttack(effect);
-                    break;
-                case "On Defend":
-                    specialItem.addDefend(effect);
-                    break;
-                case "On Spawn":
-                    specialItem.addSpawn(effect);
-                    break;
-                case "Passive":
-                    specialItem.addPassive(effect);
-                    break;
-            }
-            activationTimeOfSpecialPower.getSelectionModel().clearSelection();
-        } catch (Exception e) {
-            AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "ERROR", Arrays.toString(e.getStackTrace()));
-        }
-    }
-
-    public ForceType getForceType(JFXComboBox<String> forceTypeSpell) throws Exception {
-        ForceType forceType1 = null;
-        switch (forceTypeSpell.getSelectionModel().getSelectedItem()) {
-            case "Hero":
-                forceType1 = ForceType.hero;
-                break;
-            case "Minion":
-                forceType1 = ForceType.minion;
-                break;
-            case "Both":
-                forceType1 = ForceType.both;
-                break;
-            case "All Cell":
-                forceType1 = ForceType.allCell;
-                break;
-        }
-        return forceType1;
-    }
-
-    public void addBuff(ActionEvent actionEvent) {
-        Buff buff = createBuff(start, power, delay, buffType);
-        buffs.add(buff);
-    }
-
     public void createCustomCard(ActionEvent actionEvent) {
         try {
             String newCardName = cardName.getText();
@@ -460,4 +327,58 @@ public class CustomCardCreateFormController implements Initializable {
             AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "ERROR", Arrays.toString(e.getStackTrace()));
         }
     }
+
+
+
+
+
+    public void addEffectSpell(ActionEvent actionEvent) {
+        if (isHouseEffectSpell.isSelected()){
+            HouseEffectType type = null;
+            switch (buffType.getSelectionModel().getSelectedItem()) {
+                case "Holy":
+                    type = HouseEffectType.holly;
+                    break;
+                case "Poison":
+                    type = HouseEffectType.poison;
+                    break;
+
+                case "House Fire":
+                    type = HouseEffectType.fire;
+                    break;
+            }
+            HouseEffect houseEffect =  new HouseEffect(type,
+                    Integer.valueOf(powerSpell.getText()),
+                    Integer.valueOf(delaySpell.getText()),
+                    Integer.valueOf(startSpell.getText()));
+            spellEffectsHouse.add(houseEffect);
+            ArrayList<HouseEffect> houseEffects = new ArrayList<>();
+            houseEffects.add(houseEffect);
+            spellEffectsNormal.add(new Effect(null,houseEffects,getTargetFormSpell()));
+            powerSpell.setText("");
+            delaySpell.setText("");
+            startSpell.setText("");
+            buffType.getSelectionModel().clearSelection();
+        }else {
+            ArrayList<Buff> buffs =new ArrayList<>();
+            Buff buff = createBuff(startSpell, powerSpell, delaySpell, buffTypeSpell);
+            buffs.add(buff);
+            spellEffectsNormal.add(new Effect(buffs,null,getTargetFormSpell()));
+        }
+
+    }
+
+    private TargetForm getTargetFormSpell(){
+        SideType sideType1 = getSideType(sideTypeSpell);
+        ForceType forceType1 = getForceType(forceTypeSpell);
+        MinionType minionType1 = getMinionType(minionTypeSpell);
+        boolean allOfTheme = allOfThemeSpell.isSelected();
+        X0Spell.setText("");
+        X1Spell.setText("");
+        Y0Spell.setText("");
+        Y1Spell.setText("");
+        return getTargetFormSpecialPower(sideType1, forceType1, minionType1, allOfTheme, X0Spell, Y0Spell, X1Spell, Y1Spell);
+    }
+
+
 }
