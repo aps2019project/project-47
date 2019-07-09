@@ -7,10 +7,7 @@ import models.Account;
 import models.Shop;
 import models.battle.MatchResult;
 import network.Requests.*;
-import network.Requests.account.CreateAccountRequest;
-import network.Requests.account.LoginRequest;
-import network.Requests.account.LogoutRequest;
-import network.Requests.account.UpdateAccountRequest;
+import network.Requests.account.*;
 import network.Requests.battle.*;
 import network.Requests.chatRoom.LeaveChatRequest;
 import network.Requests.chatRoom.SendMessageRequest;
@@ -208,6 +205,14 @@ public class ClientHandler extends Thread {
                     Server.matchResults.add(matchResult);
                 continue;
             }
+            if (request instanceof ScoreBoardRequest){
+                ScoreBoardResponse scoreBoardResponse = new ScoreBoardResponse((ScoreBoardRequest) request);
+                scoreBoardResponse.handleRequest();
+                responseStr = gson.toJson(scoreBoardResponse);
+                out.println(responseStr);
+                out.flush();
+                continue;
+            }
         }
     }
 
@@ -225,3 +230,30 @@ public class ClientHandler extends Thread {
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
