@@ -12,7 +12,7 @@
     <ScrollPane layoutX="860.0" layoutY="92.0" prefHeight="200.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0"
                 AnchorPane.topAnchor="0.0">
         <content>
-            <VBox fx:id="board" prefWidth="600.0">
+            <VBox fx:id="battle" prefWidth="600.0">
                 <children>
                     <HBox prefHeight="100.0" prefWidth="600.0"/>
                 </children>

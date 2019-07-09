@@ -6,18 +6,12 @@ import java.util.ArrayList;
 
 public class BattleHistory {
     public ArrayList<BattleAction> battleActions;
-    Player[] players;
-    Board board;
-    MatchType matchType;
+    Battle battle;
 
 
-    public BattleHistory(Player[] players, Board board,MatchType matchType) {
+    public BattleHistory(Battle battle) {
         this.battleActions = new ArrayList<>();
-        this.matchType = matchType;
-        this.players = new Player[2];
-        this.players[0] = players[0].clone();
-        this.players[1] = players[1].clone();
-        this.board = board.clone();
+        this.battle = battle.clone();
     }
 
     public void add(BattleAction battleAction){
@@ -32,9 +26,7 @@ public class BattleHistory {
     }
 
     public Battle getBattel(){
-        players[0].setHuman(false);
-        players[1].setHuman(false);
-        return new Battle(players,board,matchType);
+        return battle;
     }
 
 }
