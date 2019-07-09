@@ -1,7 +1,6 @@
 package controllers.graphical;
 
 import com.gilecode.yagson.YaGson;
-import controllers.MyController;
 import controllers.console.AccountMenu;
 import controllers.console.BattleMenu;
 import javafx.animation.Animation;
@@ -10,7 +9,6 @@ import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
@@ -40,10 +38,10 @@ import models.cards.spell.Spell;
 import models.cards.spell.TargetForm;
 import network.Client;
 import network.Requests.battle.BattleActionRequest;
+import network.Requests.battle.MatchResultRequest;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.net.URL;
 import java.util.*;
 
 import static models.battle.BattleActionType.*;
@@ -853,22 +851,27 @@ public class BattleController {
         hidenTimer.start();
 
         if (!onReview) {
-            sendBattleHistory();
+            sendMatchResult();
         }
-
-
     }
 
-    private void sendBattleHistory() {
+    private void sendMatchResult() {
+        MatchResult result = battle.getMatchResult();
+        result.setBattleHistory(lastBattleHistory);
+        loginAccount.getMatchHistory().add(result);
         YaGson yaGson = new YaGson();
         try {
             Formatter formatter = new Formatter("fileName.txt");
             formatter.format(yaGson.toJson(lastBattleHistory));
             formatter.flush();
             formatter.close();
+            MatchResultRequest matchResultRequest = new MatchResultRequest(loginAccount.getAuthToken(), result);
+            Client.getWriter().println(yaGson.toJson(matchResultRequest));
+            Client.getWriter().flush();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        AccountMenu.updateAccount();
     }
 
     private void rainShit() {

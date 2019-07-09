@@ -29,4 +29,17 @@ public class BattleHistory {
         return battle;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof BattleHistory))
+            return false;
+        BattleHistory battleHistory = (BattleHistory) obj;
+        if (battleActions.size() != battleHistory.battleActions.size())
+            return false;
+        for (int i = 0; i < battleActions.size(); i++) {
+            if (!battleActions.get(i).equals(battleHistory.battleActions.get(i)))
+                return false;
+        }
+        return true;
+    }
 }

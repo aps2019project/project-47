@@ -1,11 +1,14 @@
 package controllers.console;
 
 
+import com.gilecode.yagson.YaGson;
 import controllers.Constants;
 import controllers.MyController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import models.Account;
+import network.Client;
+import network.Requests.account.UpdateAccountRequest;
 import views.MyPrinter;
 
 import java.io.IOException;
@@ -37,6 +40,7 @@ public class AccountMenu {
     private static String logoutSTR = "logout";
     private static String helpSTR = "help";
     private static String saveSTR = "save";
+    private static YaGson yaGson = new YaGson();
 
     public AccountMenu() {
         this.accounts = new ArrayList<>();
@@ -231,6 +235,13 @@ public class AccountMenu {
             controller = fxmlLoader.getController();
         }
         return root;
+    }
+
+    public static void updateAccount() {
+        UpdateAccountRequest updateAccountRequest =  new UpdateAccountRequest(loginAccount);
+        String yaJson1 = yaGson.toJson(updateAccountRequest);
+        Client.getWriter().println(yaJson1);
+        Client.getWriter().flush();
     }
 
     public static MyController getController() {
