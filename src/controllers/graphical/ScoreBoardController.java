@@ -39,6 +39,7 @@ public class ScoreBoardController implements Initializable {
     }
     public void addDetails(Account account, int row){
         gridPane.add(new Label(account.getUserName()), 0, row);
-        gridPane.add(new Label(Integer.toString(account.ge)));
+        gridPane.add(new Label(Integer.toString(account.getWins())), 1, row);
+        gridPane.add(new Label(Integer.toString(account.getLoses())), 2, row);
     }
 }

@@ -37,7 +37,7 @@ public class ScoreBoardResponse extends Response{
     @Override
     public void handleResponse() {
         for (int i = 0; i < accounts.size(); i++) {
-            ScoreBoardController.instance.
+            ScoreBoardController.instance.addDetails(accounts.get(i), i+1);
         }
     }
 
