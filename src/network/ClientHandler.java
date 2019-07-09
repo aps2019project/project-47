@@ -7,15 +7,13 @@ import models.Account;
 import models.Shop;
 import models.battle.MatchResult;
 import network.Requests.*;
-import network.Requests.account.CreateAccountRequest;
-import network.Requests.account.LoginRequest;
-import network.Requests.account.LogoutRequest;
-import network.Requests.account.UpdateAccountRequest;
+import network.Requests.account.*;
 import network.Requests.battle.*;
 import network.Requests.chatRoom.LeaveChatRequest;
 import network.Requests.chatRoom.SendMessageRequest;
 import network.Requests.chatRoom.UpdateChatRequest;
 import network.Requests.shop.BuyRequest;
+import network.Requests.shop.CreateCardRequest;
 import network.Requests.shop.FindRequest;
 import network.Requests.shop.SellRequest;
 import network.Responses.*;
@@ -195,6 +193,11 @@ public class ClientHandler extends Thread {
                 clientHandler.out.flush();
                 continue;
             }
+            if (request instanceof CreateCardRequest){
+                CreateCardResponse createCardResponse = new CreateCardResponse(request);
+                createCardResponse.handleRequest();
+                continue;
+            }
             if (request instanceof MatchResultRequest){
                 MatchResult matchResult = ((MatchResultRequest) request).getMatchResult();
                 boolean contains = false;
@@ -206,6 +209,14 @@ public class ClientHandler extends Thread {
                 }
                 if (!contains)
                     Server.matchResults.add(matchResult);
+                continue;
+            }
+            if (request instanceof ScoreBoardRequest){
+                ScoreBoardResponse scoreBoardResponse = new ScoreBoardResponse((ScoreBoardRequest) request);
+                scoreBoardResponse.handleRequest();
+                responseStr = gson.toJson(scoreBoardResponse);
+                out.println(responseStr);
+                out.flush();
                 continue;
             }
         }
@@ -225,3 +236,30 @@ public class ClientHandler extends Thread {
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

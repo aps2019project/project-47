@@ -1,5 +1,6 @@
 package controllers.graphical;
 
+import com.gilecode.yagson.YaGson;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
@@ -24,6 +25,8 @@ import models.cards.spell.effect.Effect;
 import models.cards.spell.effect.HouseEffect;
 import models.cards.spell.effect.HouseEffectType;
 import network.Client;
+import network.Requests.shop.CreateCardRequest;
+import network.Responses.CreateCardResponse;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -157,18 +160,28 @@ public class CustomCardCreateFormController implements Initializable {
                 case "Hero":
                     newCard = new Hero(code, newCardName, newCardMp, newCardHp, newCardPrice, newCardAp, newCardMinionTargetsType, newCardAttackRange, specialItem);
                     newCard.setGraphicPack(new GraphicPack());
+                    newCard.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_archonis_portrait_hex@2x.png");
                     newCard.getGraphicPack().setMovePhotoAddress("src/resources/cards/Mmd_test/Avalanche_run.gif");
-
-//                    newCard.getGraphicPack().setBreathingPhotoAddress();
-//                    newCard.getGraphicPack().setDeathPhotoAddress();
-//                    newCard.getGraphicPack().setMovePhotoAddress();
+                    newCard.getGraphicPack().setAttackPhotoAddress("src/resources/cards/Mmd_test/Avalanche_attack.gif");
+                    newCard.getGraphicPack().setBreathingPhotoAddress("src/resources/cards/Mmd_test/Avalanche_breathing.gif");
+                    newCard.getGraphicPack().setDeathPhotoAddress("src/resources/cards/Mmd_test/Avalanche_death.gif");
+                    newCard.getGraphicPack().setIdlePhotoAddress("src/resources/cards/Mmd_test/Avalanche_idle.gif");
                     break;
                 case "Minion":
                     newCard = new Minion(code, newCardName, newCardMp, newCardHp, newCardAttackRange, newCardPrice, CardType.minion, newCardMinionTargetsType, newCardAp, specialItem);
+                    newCard.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_archonis_portrait_hex@2x.png");
+                    newCard.getGraphicPack().setMovePhotoAddress("src/resources/cards/Mmd_test/Avalanche_run.gif");
+                    newCard.getGraphicPack().setAttackPhotoAddress("src/resources/cards/Mmd_test/Avalanche_attack.gif");
+                    newCard.getGraphicPack().setBreathingPhotoAddress("src/resources/cards/Mmd_test/Avalanche_breathing.gif");
+                    newCard.getGraphicPack().setDeathPhotoAddress("src/resources/cards/Mmd_test/Avalanche_death.gif");
+                    newCard.getGraphicPack().setIdlePhotoAddress("src/resources/cards/Mmd_test/Avalanche_idle.gif");
                     break;
                 case "Spell": {
                     TargetForm targetForm = getTargetFormSpell();
                     newCard = new Spell(code, newCardName, newCardMp, newCardPrice, spellEffectsNormal, null);
+                    newCard.getGraphicPack().setShopPhotoAddress("/resources/cards/CloneCard.png");
+                    newCard.getGraphicPack().setIdlePhotoAddress("src/resources/gifs/allAttack.gif");
+                    newCard.getGraphicPack().setSpawnPhotoAddress("src/resources/gifs/allAttack_active.gif");
                     break;
                 }
             }
@@ -179,14 +192,20 @@ public class CustomCardCreateFormController implements Initializable {
             newCard.getGraphicPack().setSpawnSoundAddress("src/resources/cards/Mmd_test/spawnSound.m4a");
             newCard.getGraphicPack().setImpactSoundAddress("src/resources/cards/Mmd_test/impactSound.m4a");
             newCard.getGraphicPack().setHitSoundAddress("src/resources/cards/Mmd_test/hitSound.m4a");
+            CreateCardRequest createCardRequest = new CreateCardRequest(newCard);
+            YaGson yaGson = new YaGson();
+            String yaJson1 = yaGson.toJson(createCardRequest);
+            Client.getWriter().println(yaJson1);
+            Client.getWriter().flush();
             specialItem = new SpecialItem(null);
             mp.setText("");
             ap.setText("");
             hp.setText("");
             cost.setText("");
-            //todo add start helper
+            AlertHelper.showAlert(Alert.AlertType.INFORMATION , Client.getStage().getOwner() , "WOW!" , "Custom Card Created!");
         } catch (Exception e) {
-            AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "ERROR", e.getMessage());
+            //AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "ERROR", e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -224,7 +243,8 @@ public class CustomCardCreateFormController implements Initializable {
             AlertHelper.showAlert(Alert.AlertType.INFORMATION, Client.getStage().getOwner(), "Buff Added!", "Buff Added!");
             return buff;
         } catch (Exception e) {
-            AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "ERROR", e.getMessage());
+           // AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "ERROR", e.getMessage());
+            e.printStackTrace();
         }
         return null;
     }
@@ -285,10 +305,6 @@ public class CustomCardCreateFormController implements Initializable {
         ForceType forceType1 = getForceType(forceType);
         MinionType minionType1 = getMinionType(minionType);
         boolean allOfTheme1 = allOfTheme.isSelected();
-        X0SpecialPower.setText("");
-        X1SpecialPower.setText("");
-        Y0SpecialPower.setText("");
-        Y1SpecialPower.setText("");
         return getTargetFormSpecialPower(sideType1, forceType1, minionType1, allOfTheme1, X0SpecialPower, Y0SpecialPower, X1SpecialPower, Y1SpecialPower);
     }
 
@@ -308,6 +324,10 @@ public class CustomCardCreateFormController implements Initializable {
             Effect effect = new Effect(buffs, null, targetForm);
 
             buffsSpecialPower = new ArrayList<>();
+            X0SpecialPower.setText("");
+            X1SpecialPower.setText("");
+            Y0SpecialPower.setText("");
+            Y1SpecialPower.setText("");
             sideType.getSelectionModel().clearSelection();
             forceType.getSelectionModel().clearSelection();
             minionType.getSelectionModel().clearSelection();
@@ -331,7 +351,8 @@ public class CustomCardCreateFormController implements Initializable {
             }
             activationTimeOfSpecialPower.getSelectionModel().clearSelection();
         } catch (Exception e) {
-            AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "ERROR", Arrays.toString(e.getStackTrace()));
+           // AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "ERROR", Arrays.toString(e.getStackTrace()));
+            e.printStackTrace();
         }
     }
 

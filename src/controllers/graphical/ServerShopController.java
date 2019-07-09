@@ -1,13 +1,16 @@
 package controllers.graphical;
 
+import controllers.console.MainMenu;
 import javafx.application.Platform;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import models.Shop;
 import models.cards.Card;
 import models.item.Item;
+import network.Client;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -108,4 +111,9 @@ public class ServerShopController implements Initializable {
         for (Item item : Shop.getInstance().getItems().keySet())
             Platform.runLater(() -> itemLabelHashMap.get(item).setText(String.valueOf(Shop.getInstance().getItems().get(item))));
     }
+
+    public void back(MouseEvent mouseEvent) {
+        Client.getStage().getScene().setRoot(MainMenu.getRoot());
+    }
+
 }

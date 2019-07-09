@@ -168,6 +168,8 @@ public class UniversalShopController implements Initializable {
         }
     }
 
+    //public//todo
+
     public void initializeCards() {
         for (String id : minionIds)
             addNewCard(id, true);

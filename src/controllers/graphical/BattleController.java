@@ -2500,7 +2500,7 @@ public class BattleController {
 
             upTT.setOnFinished(event -> {
                 MediaPlayer impact = new MediaPlayer(new Media(new File("src/resources/Alert/impact.m4a").toURI().toString()));
-                impact.play();
+                //impact.play();
                 showString();
             });
 
