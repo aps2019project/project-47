@@ -1547,7 +1547,7 @@ public class BattleController {
 
                 @Override
                 public void handle(long now) {
-                    if (lastTime > 2 * hideAndRiseSpeed) end();
+                    if (lastTime > 1.2 * hideAndRiseSpeed) end();
                     lastTime++;
                 }
 

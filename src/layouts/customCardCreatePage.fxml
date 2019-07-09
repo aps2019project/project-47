@@ -40,10 +40,10 @@
             <VBox alignment="center" maxHeight="346.0" maxWidth="400.0" spacing="20" styleClass="in-innerContainer">
                 <Label prefHeight="50.0" prefWidth="500" text="Target Form:"/>
                 <HBox spacing="20">
-                    <JFXTextField prefHeight="51.0" promptText="X0" fx:id="X0" styleClass="regular-textBox"/>
-                    <JFXTextField prefHeight="51.0" promptText="Y0" fx:id="Y0" styleClass="regular-textBox"/>
-                    <JFXTextField prefHeight="51.0" promptText="X1" fx:id="X1" styleClass="regular-textBox"/>
-                    <JFXTextField prefHeight="51.0" promptText="Y1" fx:id="Y1" styleClass="regular-textBox"/>
+                    <JFXTextField prefHeight="51.0" promptText="X0" fx:id="X0SpecialPower" styleClass="regular-textBox"/>
+                    <JFXTextField prefHeight="51.0" promptText="Y0" fx:id="Y0SpecialPower" styleClass="regular-textBox"/>
+                    <JFXTextField prefHeight="51.0" promptText="X1" fx:id="X1SpecialPower" styleClass="regular-textBox"/>
+                    <JFXTextField prefHeight="51.0" promptText="Y1" fx:id="Y1SpecialPower" styleClass="regular-textBox"/>
                 </HBox>
                 <JFXComboBox prefHeight="51.0" prefWidth="500" promptText="Side Type" fx:id="sideType"
                              styleClass="regular-textBox"/>
