@@ -5,6 +5,7 @@ import com.gilecode.yagson.YaGsonBuilder;
 import controllers.Constants;
 import models.Account;
 import models.Shop;
+import models.battle.MatchResult;
 import network.Requests.*;
 import network.Requests.account.CreateAccountRequest;
 import network.Requests.account.LoginRequest;
@@ -192,6 +193,19 @@ public class ClientHandler extends Thread {
                 responseStr = gson.toJson(battleActionResponse);
                 clientHandler.out.println(responseStr);
                 clientHandler.out.flush();
+                continue;
+            }
+            if (request instanceof MatchResultRequest){
+                MatchResult matchResult = ((MatchResultRequest) request).getMatchResult();
+                boolean contains = false;
+                for (int i = 0; i < Server.matchResults.size(); i++) {
+                    if (Server.matchResults.get(i).equals(matchResult)){
+                        contains = true;
+                        break;
+                    }
+                }
+                if (!contains)
+                    Server.matchResults.add(matchResult);
                 continue;
             }
         }

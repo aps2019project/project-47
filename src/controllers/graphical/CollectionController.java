@@ -272,12 +272,16 @@ public class CollectionController implements Initializable {
                 bottomContainer.getChildren().remove(0, bottomContainer.getChildren().size());
                 topContainer.getChildren().remove(0, topContainer.getChildren().size());
                 leftBar.getChildren().removeIf(node -> node.getId().equals("finishButtons"));
-                UpdateAccountRequest updateAccountRequest =  new UpdateAccountRequest(loginAccount);
-                String yaJson1 = yaGson.toJson(updateAccountRequest);
-                Client.getWriter().println(yaJson1);
-                Client.getWriter().flush();
+                updateAccount();
             }
         });
+    }
+
+    private void updateAccount() {
+        UpdateAccountRequest updateAccountRequest =  new UpdateAccountRequest(loginAccount);
+        String yaJson1 = yaGson.toJson(updateAccountRequest);
+        Client.getWriter().println(yaJson1);
+        Client.getWriter().flush();
     }
 
     public SplitPane createCard(String titleOfButton, String name, Image image, EventHandler<ActionEvent> handler) {

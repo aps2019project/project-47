@@ -86,6 +86,7 @@ public class BattleChooseMenuController extends MyController implements Initiali
             Parent root = Board.getRoot();
             BattleController controller = (BattleController) Board.getController();
             controller.initializeBattle(battle, false, false);
+            controller.setOnStoryMod();
             Client.getStage().getScene().setRoot(root);
         } catch (NullPointerException e) {
             AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Deck is not complete!", "Deck is not complete!");
