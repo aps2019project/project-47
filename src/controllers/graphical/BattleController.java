@@ -578,6 +578,32 @@ public class BattleController {
         graphicalBoard.allCellsNormal();
     }
 
+    private void endTurn() {
+
+        aiTimer.stop();
+        reviewTimer.stop();
+
+        if (!onReview) {
+            lastBattleHistory.add(new BattleAction(null, null, null, endTurn));
+        }
+
+        battle.changeTurn();
+        turn = 1 - turn;
+
+        freeClick(0);
+        freeClick(1);
+
+        String string = "It's turn of " + players[turn].getUserName() + " .";
+        string = string + " \njust a moment ...";
+        MyAlert myAlert = new MyAlert(string);
+        myAlert.setOnfinishEvent(event -> {
+            updatesOfANewTurn();
+        });
+        myAlert.start();
+
+    }
+
+
 
     public void moveRequest(Minion minion, Location target){
         if (!onServer){
@@ -623,6 +649,7 @@ public class BattleController {
         BattleAction battleAction = new BattleAction(null, null, null, endTurn);
         doAndSendBattleAction(battleAction);
     }
+
     private void doAndSendBattleAction(BattleAction battleAction) {
         doOneAction(battleAction);
         BattleActionRequest battleActionRequest = new BattleActionRequest(loginAccount.getAuthToken(), getUserNameOfOpponent(), battleAction);
@@ -652,33 +679,6 @@ public class BattleController {
                 specialPower.show();
             }
         }
-    }
-
-    private void endTurn() {
-
-        aiTimer.stop();
-        reviewTimer.stop();
-
-        if (!onReview) {
-            lastBattleHistory.add(new BattleAction(null, null, null, endTurn));
-        }
-
-        battle.changeTurn();
-        turn = 1 - turn;
-
-        freeClick(0);
-        freeClick(1);
-
-        String string = "It's turn of " + players[turn].getUserName() + " .";
-        string = string + " \njust a moment ...";
-        MyAlert myAlert = new MyAlert(string);
-        myAlert.setOnfinishEvent(event -> {
-
-            updatesOfANewTurn();
-
-        });
-        myAlert.start();
-
     }
 
     public void updatesOfANewTurn() {
@@ -853,15 +853,21 @@ public class BattleController {
         hidenTimer.start();
 
         if (!onReview) {
-            YaGson yaGson = new YaGson();
-            try {
-                Formatter formatter = new Formatter("fileName.txt");
-                formatter.format(yaGson.toJson(lastBattleHistory));
-                formatter.flush();
-                formatter.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+            sendBattleHistory();
+        }
+
+
+    }
+
+    private void sendBattleHistory() {
+        YaGson yaGson = new YaGson();
+        try {
+            Formatter formatter = new Formatter("fileName.txt");
+            formatter.format(yaGson.toJson(lastBattleHistory));
+            formatter.flush();
+            formatter.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
@@ -1577,7 +1583,7 @@ public class BattleController {
 
                 @Override
                 public void handle(long now) {
-                    if (lastTime > 2 * hideAndRiseSpeed) end();
+                    if (lastTime > 1.2 * hideAndRiseSpeed) end();
                     lastTime++;
                 }
 
@@ -2416,11 +2422,11 @@ public class BattleController {
 
         public void start() {
 
-            if (!nowInAlertt) {
-                comImages();
-                nowInAlertt = true;
+            if (nowInAlertt) {
+                return;
             }
-
+            comImages();
+            nowInAlertt = true;
         }
 
         public void setSpeeds(Double moveSpeed, Double typingSpeed) {
@@ -2474,9 +2480,9 @@ public class BattleController {
             rightTT.setCycleCount(1);
 
             upTT.setOnFinished(event -> {
-//                MediaPlayer impact = new MediaPlayer(new Media(new File("src/resources/Alert/impact.m4a").toURI().toString()));
-//                impact.play();
-//                showString();
+                MediaPlayer impact = new MediaPlayer(new Media(new File("src/resources/Alert/impact.m4a").toURI().toString()));
+                impact.play();
+                showString();
             });
 
             leftTT.setOnFinished(middleEventHandler);
