@@ -33,7 +33,10 @@ public class BattleChooseMenuController extends MyController implements Initiali
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        modeOfBattle.getItems().remove(0, modeOfBattle.getItems().size());
         modeOfBattle.getItems().addAll(MatchType.kill, MatchType.collectFlag, MatchType.keepFlag);
+        mode.getItems().remove(0, mode.getItems().size());
+        mode.getItems().addAll(MatchType.kill, MatchType.collectFlag, MatchType.keepFlag);
         cancelButton.setDisable(true);
     }
 
