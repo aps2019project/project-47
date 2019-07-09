@@ -178,7 +178,6 @@ public class UniversalShopController implements Initializable {
             minionIds.add("m" + card.getCardId());
     }
 
-
     public void initializeCards() {
         for (String id : minionIds)
             addNewCard(id, true);

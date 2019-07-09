@@ -10,11 +10,9 @@ import models.deck.Deck;
 import models.item.Item;
 import views.MyPrinter;
 
-import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 
 public class Account implements Cloneable {
     private String userName;
@@ -22,7 +20,7 @@ public class Account implements Cloneable {
     private String password;
     private transient String authToken;
 
-    private ArrayList<MatchResult> matchHistory;
+    private ArrayList<MatchResult> matchHistorys;
 
     private ArrayList<Card> cards;
     private ArrayList<Item> items;
@@ -34,7 +32,7 @@ public class Account implements Cloneable {
         this.userName = new String(userName);
         this.money = 300_000;
         storyLvl = 1;
-        this.matchHistory = new ArrayList<MatchResult>();
+        this.matchHistorys = new ArrayList<MatchResult>();
         cards = new ArrayList<>();
         items = new ArrayList<>();
         this.decks = new ArrayList<Deck>();
@@ -94,8 +92,11 @@ public class Account implements Cloneable {
         return storyLvl;
     }
 
-    public ArrayList<MatchResult> getMatchHistory() {
-        return matchHistory;
+    public ArrayList<MatchResult> getMatchHistorys() {
+        if (matchHistorys==null){
+            matchHistorys= new ArrayList<>();
+        }
+        return matchHistorys;
     }
 
     public Deck getMainDeck() {
@@ -127,12 +128,12 @@ public class Account implements Cloneable {
     }
 
     public void addMatchResult(MatchResult matchResult) {
-        this.matchHistory.add(matchResult);
+        this.matchHistorys.add(matchResult);
     }
 
     public int numOfWin() {
         int count = 0;
-        for (MatchResult matchResult : this.matchHistory) {
+        for (MatchResult matchResult : this.matchHistorys) {
             if (matchResult.getUser0().equals(userName)) {
                 if (matchResult.getWinner() == 0) count++;
             }

@@ -1,6 +1,5 @@
 package controllers.graphical;
 
-import com.gilecode.yagson.YaGson;
 import com.jfoenix.controls.JFXButton;
 import controllers.console.AccountMenu;
 import controllers.console.MainMenu;
@@ -17,12 +16,9 @@ import models.battle.MatchResult;
 import models.battle.board.Board;
 import network.Client;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 
 public class MatchHistoryController implements Initializable {
     Account loginAccount = AccountMenu.getLoginAccount();
@@ -31,7 +27,7 @@ public class MatchHistoryController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ArrayList<MatchResult> matchResults = loginAccount.getMatchHistory();
+        ArrayList<MatchResult> matchResults = loginAccount.getMatchHistorys();
         int i = 1;
         for (MatchResult matchResult : matchResults){
             String userName1 = matchResult.getUser0();
@@ -49,6 +45,7 @@ public class MatchHistoryController implements Initializable {
             gridPane.add(new Label(userName2), 1, i);
             gridPane.add(new Label(winner), 2, i);
             gridPane.add(reviewButton, 3, i);
+            i++;
         }
     }
 
