@@ -19,6 +19,7 @@ import layouts.AlertHelper;
 import models.Account;
 import models.battle.*;
 import models.battle.board.Board;
+import models.deck.Deck;
 import network.Client;
 import network.Requests.battle.CancelNewBattleRequest;
 import network.Requests.battle.NewBattleRequest;
@@ -74,7 +75,24 @@ public class BattleChooseMenuController extends MyController implements Initiali
     }
 
     public void startSinglePlayer(ActionEvent event) {
-
+        MatchType type = mode.getSelectionModel().getSelectedItem();
+        String deckName = decks.getSelectionModel().getSelectedItem();
+        Deck selectedDeck = null;
+        ArrayList<Deck> decks = AccountMenu.getLoginAccount().getDecks();
+        for (Deck deck:decks){
+            if (deck.getName().equals(deckName)){
+                selectedDeck = deck;
+                break;
+            }
+        }
+        Player player0 = AccountMenu.getLoginAccount().makePlayer(0);
+        Player player1= new Player(1,"pc",selectedDeck,false);
+        int numOfFlags = Integer.valueOf(numberOfFlags.getText());
+        Battle battle = new Battle(player0,player1,type,numOfFlags);
+        Parent root = Board.getRoot();
+        BattleController controller = (BattleController) Board.getController();
+        controller.initializeBattle(battle, false, false);
+        Client.getStage().getScene().setRoot(root);
     }
 
     public void startStoryGame(ActionEvent event) {
