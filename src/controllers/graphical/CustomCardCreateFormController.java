@@ -1,5 +1,6 @@
 package controllers.graphical;
 
+import com.gilecode.yagson.YaGson;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
@@ -13,6 +14,7 @@ import javafx.scene.layout.VBox;
 import layouts.AlertHelper;
 import models.cards.Card;
 import models.cards.CardType;
+import models.cards.GraphicPack;
 import models.cards.buff.Buff;
 import models.cards.buff.BuffType;
 import models.cards.hero.Hero;
@@ -23,6 +25,8 @@ import models.cards.spell.effect.Effect;
 import models.cards.spell.effect.HouseEffect;
 import models.cards.spell.effect.HouseEffectType;
 import network.Client;
+import network.Requests.shop.CreateCardRequest;
+import network.Responses.CreateCardResponse;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -139,8 +143,6 @@ public class CustomCardCreateFormController implements Initializable {
             int newCardPrice = Integer.parseInt(cost.getText());
             int newCardAttackRange = Integer.parseInt(range.getText());
             MinionTargetsType newCardMinionTargetsType = null;
-
-
             switch (typeOfAttackType.getSelectionModel().getSelectedItem()) {
                 case "Melee":
                     newCardMinionTargetsType = MinionTargetsType.melee;
@@ -153,32 +155,59 @@ public class CustomCardCreateFormController implements Initializable {
                     break;
             }
             int code = 1000 + new Random().nextInt(1000);
-            Card newCard;
+            Card newCard = null;
             switch (typeOfCard.getSelectionModel().getSelectedItem()) {
                 case "Hero":
                     newCard = new Hero(code, newCardName, newCardMp, newCardHp, newCardPrice, newCardAp, newCardMinionTargetsType, newCardAttackRange, specialItem);
+                    newCard.setGraphicPack(new GraphicPack());
+                    newCard.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_archonis_portrait_hex@2x.png");
+                    newCard.getGraphicPack().setMovePhotoAddress("src/resources/cards/Mmd_test/Avalanche_run.gif");
+                    newCard.getGraphicPack().setAttackPhotoAddress("src/resources/cards/Mmd_test/Avalanche_attack.gif");
+                    newCard.getGraphicPack().setBreathingPhotoAddress("src/resources/cards/Mmd_test/Avalanche_breathing.gif");
+                    newCard.getGraphicPack().setDeathPhotoAddress("src/resources/cards/Mmd_test/Avalanche_death.gif");
+                    newCard.getGraphicPack().setIdlePhotoAddress("src/resources/cards/Mmd_test/Avalanche_idle.gif");
                     break;
                 case "Minion":
                     newCard = new Minion(code, newCardName, newCardMp, newCardHp, newCardAttackRange, newCardPrice, CardType.minion, newCardMinionTargetsType, newCardAp, specialItem);
+                    newCard.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_archonis_portrait_hex@2x.png");
+                    newCard.getGraphicPack().setMovePhotoAddress("src/resources/cards/Mmd_test/Avalanche_run.gif");
+                    newCard.getGraphicPack().setAttackPhotoAddress("src/resources/cards/Mmd_test/Avalanche_attack.gif");
+                    newCard.getGraphicPack().setBreathingPhotoAddress("src/resources/cards/Mmd_test/Avalanche_breathing.gif");
+                    newCard.getGraphicPack().setDeathPhotoAddress("src/resources/cards/Mmd_test/Avalanche_death.gif");
+                    newCard.getGraphicPack().setIdlePhotoAddress("src/resources/cards/Mmd_test/Avalanche_idle.gif");
                     break;
                 case "Spell": {
                     TargetForm targetForm = getTargetFormSpell();
-                    newCard = new Spell(code,newCardName,newCardMp,newCardPrice,spellEffectsNormal,null);
+                    newCard = new Spell(code, newCardName, newCardMp, newCardPrice, spellEffectsNormal, null);
+                    newCard.getGraphicPack().setShopPhotoAddress("/resources/cards/CloneCard.png");
+                    newCard.getGraphicPack().setIdlePhotoAddress("src/resources/gifs/allAttack.gif");
+                    newCard.getGraphicPack().setSpawnPhotoAddress("src/resources/gifs/allAttack_active.gif");
                     break;
                 }
             }
+            assert newCard != null;
+            newCard.getGraphicPack().setAttackSoundAddress("src/resources/cards/Mmd_test/attackSound.m4a");
+            newCard.getGraphicPack().setDeathSoundAddress("src/resources/cards/Mmd_test/deathSound.m4a");
+            newCard.getGraphicPack().setMoveSoundAddress("src/resources/cards/Mmd_test/runSound.m4a");
+            newCard.getGraphicPack().setSpawnSoundAddress("src/resources/cards/Mmd_test/spawnSound.m4a");
+            newCard.getGraphicPack().setImpactSoundAddress("src/resources/cards/Mmd_test/impactSound.m4a");
+            newCard.getGraphicPack().setHitSoundAddress("src/resources/cards/Mmd_test/hitSound.m4a");
+            CreateCardRequest createCardRequest = new CreateCardRequest(newCard);
+            YaGson yaGson = new YaGson();
+            String yaJson1 = yaGson.toJson(createCardRequest);
+            Client.getWriter().println(yaJson1);
+            Client.getWriter().flush();
             specialItem = new SpecialItem(null);
-
-
-            //newCard
-            //todo add start helper
+            mp.setText("");
+            ap.setText("");
+            hp.setText("");
+            cost.setText("");
+            AlertHelper.showAlert(Alert.AlertType.INFORMATION , Client.getStage().getOwner() , "WOW!" , "Custom Card Created!");
         } catch (Exception e) {
-            AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "ERROR", e.getMessage());
+            //AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "ERROR", e.getMessage());
+            e.printStackTrace();
         }
     }
-
-
-
 
     private Buff createBuff(JFXTextField startDelay, JFXTextField power, JFXTextField time, JFXComboBox<String> buffType) {
         try {
@@ -214,7 +243,8 @@ public class CustomCardCreateFormController implements Initializable {
             AlertHelper.showAlert(Alert.AlertType.INFORMATION, Client.getStage().getOwner(), "Buff Added!", "Buff Added!");
             return buff;
         } catch (Exception e) {
-            AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "ERROR", e.getMessage());
+           // AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "ERROR", e.getMessage());
+            e.printStackTrace();
         }
         return null;
     }
@@ -251,7 +281,7 @@ public class CustomCardCreateFormController implements Initializable {
         return sideType1;
     }
 
-    public ForceType getForceType(JFXComboBox<String> forceTypeSpell){
+    public ForceType getForceType(JFXComboBox<String> forceTypeSpell) {
         ForceType forceType1 = null;
         switch (forceTypeSpell.getSelectionModel().getSelectedItem()) {
             case "Hero":
@@ -270,18 +300,11 @@ public class CustomCardCreateFormController implements Initializable {
         return forceType1;
     }
 
-
-
-
-    private TargetForm getTargetFormSpecialPower(){
+    private TargetForm getTargetFormSpecialPower() {
         SideType sideType1 = getSideType(sideType);
         ForceType forceType1 = getForceType(forceType);
         MinionType minionType1 = getMinionType(minionType);
         boolean allOfTheme1 = allOfTheme.isSelected();
-        X0SpecialPower.setText("");
-        X1SpecialPower.setText("");
-        Y0SpecialPower.setText("");
-        Y1SpecialPower.setText("");
         return getTargetFormSpecialPower(sideType1, forceType1, minionType1, allOfTheme1, X0SpecialPower, Y0SpecialPower, X1SpecialPower, Y1SpecialPower);
     }
 
@@ -301,6 +324,10 @@ public class CustomCardCreateFormController implements Initializable {
             Effect effect = new Effect(buffs, null, targetForm);
 
             buffsSpecialPower = new ArrayList<>();
+            X0SpecialPower.setText("");
+            X1SpecialPower.setText("");
+            Y0SpecialPower.setText("");
+            Y1SpecialPower.setText("");
             sideType.getSelectionModel().clearSelection();
             forceType.getSelectionModel().clearSelection();
             minionType.getSelectionModel().clearSelection();
@@ -324,16 +351,13 @@ public class CustomCardCreateFormController implements Initializable {
             }
             activationTimeOfSpecialPower.getSelectionModel().clearSelection();
         } catch (Exception e) {
-            AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "ERROR", Arrays.toString(e.getStackTrace()));
+           // AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "ERROR", Arrays.toString(e.getStackTrace()));
+            e.printStackTrace();
         }
     }
 
-
-
-
-
     public void addEffectSpell(ActionEvent actionEvent) {
-        if (isHouseEffectSpell.isSelected()){
+        if (isHouseEffectSpell.isSelected()) {
             HouseEffectType type = null;
             switch (buffType.getSelectionModel().getSelectedItem()) {
                 case "Holy":
@@ -347,28 +371,28 @@ public class CustomCardCreateFormController implements Initializable {
                     type = HouseEffectType.fire;
                     break;
             }
-            HouseEffect houseEffect =  new HouseEffect(type,
+            HouseEffect houseEffect = new HouseEffect(type,
                     Integer.valueOf(powerSpell.getText()),
                     Integer.valueOf(delaySpell.getText()),
                     Integer.valueOf(startSpell.getText()));
             spellEffectsHouse.add(houseEffect);
             ArrayList<HouseEffect> houseEffects = new ArrayList<>();
             houseEffects.add(houseEffect);
-            spellEffectsNormal.add(new Effect(null,houseEffects,getTargetFormSpell()));
+            spellEffectsNormal.add(new Effect(null, houseEffects, getTargetFormSpell()));
             powerSpell.setText("");
             delaySpell.setText("");
             startSpell.setText("");
             buffType.getSelectionModel().clearSelection();
-        }else {
-            ArrayList<Buff> buffs =new ArrayList<>();
+        } else {
+            ArrayList<Buff> buffs = new ArrayList<>();
             Buff buff = createBuff(startSpell, powerSpell, delaySpell, buffTypeSpell);
             buffs.add(buff);
-            spellEffectsNormal.add(new Effect(buffs,null,getTargetFormSpell()));
+            spellEffectsNormal.add(new Effect(buffs, null, getTargetFormSpell()));
         }
 
     }
 
-    private TargetForm getTargetFormSpell(){
+    private TargetForm getTargetFormSpell() {
         SideType sideType1 = getSideType(sideTypeSpell);
         ForceType forceType1 = getForceType(forceTypeSpell);
         MinionType minionType1 = getMinionType(minionTypeSpell);

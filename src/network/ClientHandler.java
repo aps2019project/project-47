@@ -13,6 +13,7 @@ import network.Requests.chatRoom.LeaveChatRequest;
 import network.Requests.chatRoom.SendMessageRequest;
 import network.Requests.chatRoom.UpdateChatRequest;
 import network.Requests.shop.BuyRequest;
+import network.Requests.shop.CreateCardRequest;
 import network.Requests.shop.FindRequest;
 import network.Requests.shop.SellRequest;
 import network.Responses.*;
@@ -190,6 +191,11 @@ public class ClientHandler extends Thread {
                 responseStr = gson.toJson(battleActionResponse);
                 clientHandler.out.println(responseStr);
                 clientHandler.out.flush();
+                continue;
+            }
+            if (request instanceof CreateCardRequest){
+                CreateCardResponse createCardResponse = new CreateCardResponse(request);
+                createCardResponse.handleRequest();
                 continue;
             }
             if (request instanceof MatchResultRequest){

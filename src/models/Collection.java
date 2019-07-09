@@ -48,13 +48,13 @@ public class Collection {
                 for (Deck deck:account.getDecks()){
                     if (deck.getName().equals(name)){
                         account.getDecks().remove(deck);
-                        MyPrinter.green("deck deleted successfully!");
+                        MyPrinter.green("decks deleted successfully!");
                         flag=true;
                         break;
                     }
                 }
                 if (!flag){
-                    MyPrinter.red("there isn't any deck by this name!");
+                    MyPrinter.red("there isn't any decks by this name!");
                 }
                 continue;
             }
@@ -88,13 +88,13 @@ public class Collection {
                 for (Deck deck:account.getDecks()){
                     if (deck.getName().equals(name)){
                         account.setMainDeck(deck);
-                        MyPrinter.green(name+" is main deck.");
+                        MyPrinter.green(name+" is main decks.");
                         flag=true;
                         break;
                     }
                 }
                 if (!flag){
-                    MyPrinter.red("there isn't any deck by this name!");
+                    MyPrinter.red("there isn't any decks by this name!");
                 }
                 continue;
             }
@@ -110,7 +110,7 @@ public class Collection {
                     }
                 }
                 if (flag)continue;
-                MyPrinter.red("there isn't any deck by this name!");
+                MyPrinter.red("there isn't any decks by this name!");
                 continue;
             }
             if (commandTxt.equals("help") || commandTxt.equals("7")){
@@ -126,10 +126,10 @@ public class Collection {
     public void help(){
         MyPrinter.blue("1. show all cards and items");
         System.out.println("2. decks");
-        System.out.println("3. delete <deck name>");
-        System.out.println("4. new deck <deck name>");
-        System.out.println("5. set main <deck name>");
-        System.out.println("6. show <deck name>");
+        System.out.println("3. delete <decks name>");
+        System.out.println("4. new decks <decks name>");
+        System.out.println("5. set main <decks name>");
+        System.out.println("6. show <decks name>");
         System.out.println("7. help");
         System.out.println("8. exit");
     }

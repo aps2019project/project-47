@@ -234,11 +234,11 @@ public class Account implements Cloneable {
 
     public boolean checkCorrectyDeck() {
         if (this.getMainDeck() == null) {
-            System.out.println("main deck there not exist");
+            System.out.println("main decks there not exist");
             return false;
         }
         if (this.getMainDeck().check_deck_correct() != Constants.CORRECT_DECK) {
-            System.out.println("main deck is not correct!");
+            System.out.println("main decks is not correct!");
             return false;
         }
         return true;

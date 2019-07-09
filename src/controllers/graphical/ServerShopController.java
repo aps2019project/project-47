@@ -30,12 +30,14 @@ public class ServerShopController implements Initializable {
         instance = this;
     }
 
+    public int num;
     public static HashMap<Card, Label> cardLabelsHashMap = new HashMap<>();
     public static HashMap<Item, Label> itemLabelHashMap = new HashMap<>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeShop();
+        num = 71;
     }
 
     private void initializeShop() {
@@ -54,10 +56,7 @@ public class ServerShopController implements Initializable {
             inventoryLabel.setStyle(CONTENT_STYLE);
             GridPane.setHalignment(inventoryLabel, HPos.CENTER);
             cardLabelsHashMap.put(card, inventoryLabel);
-            gridPane.add(nameLabel, 0, i);
-            gridPane.add(typeLabel, 1, i);
-            gridPane.add(priceLabel, 2, i);
-            gridPane.add(inventoryLabel, 3, i);
+            addElementsToGridPane(i, nameLabel, typeLabel, priceLabel, inventoryLabel);
             i++;
         }
         for (Item item : Shop.getInstance().getItems().keySet()) {
@@ -69,17 +68,41 @@ public class ServerShopController implements Initializable {
             nameLabel.setStyle(CONTENT_STYLE);
             priceLabel.setStyle(CONTENT_STYLE);
             inventoryLabel.setStyle(CONTENT_STYLE);
-            GridPane.setHalignment(nameLabel, HPos.CENTER);
-            GridPane.setHalignment(typeLabel, HPos.CENTER);
-            GridPane.setHalignment(priceLabel, HPos.CENTER);
-            GridPane.setHalignment(inventoryLabel, HPos.CENTER);
-            gridPane.add(nameLabel, 0, i);
-            gridPane.add(typeLabel, 1, i);
-            gridPane.add(priceLabel, 2, i);
-            gridPane.add(inventoryLabel, 3, i);
+            setLabelsCenter(nameLabel, typeLabel, priceLabel, inventoryLabel);
+            addElementsToGridPane(i, nameLabel, typeLabel, priceLabel, inventoryLabel);
             itemLabelHashMap.put(item, inventoryLabel);
             i++;
         }
+    }
+
+    public void addCard(Card card) {
+        Platform.runLater(() -> {
+            Label nameLabel = new Label(card.getName());
+            Label typeLabel = new Label(card.getCardType().toString());
+            Label priceLabel = new Label(String.valueOf(card.getPrice()));
+            Label inventoryLabel = new Label("1");
+            setLabelsCenter(nameLabel, typeLabel, priceLabel, inventoryLabel);
+            nameLabel.setStyle(CONTENT_STYLE);
+            typeLabel.setStyle(CONTENT_STYLE);
+            priceLabel.setStyle(CONTENT_STYLE);
+            inventoryLabel.setStyle(CONTENT_STYLE);
+            num++;
+            addElementsToGridPane(num, nameLabel, typeLabel, priceLabel, inventoryLabel);
+        });
+    }
+
+    private void addElementsToGridPane(int i, Label nameLabel, Label typeLabel, Label priceLabel, Label inventoryLabel) {
+        gridPane.add(nameLabel, 0, i);
+        gridPane.add(typeLabel, 1, i);
+        gridPane.add(priceLabel, 2, i);
+        gridPane.add(inventoryLabel, 3, i);
+    }
+
+    private void setLabelsCenter(Label nameLabel, Label typeLabel, Label priceLabel, Label inventoryLabel) {
+        GridPane.setHalignment(nameLabel, HPos.CENTER);
+        GridPane.setHalignment(typeLabel, HPos.CENTER);
+        GridPane.setHalignment(priceLabel, HPos.CENTER);
+        GridPane.setHalignment(inventoryLabel, HPos.CENTER);
     }
 
     public void updateTable() {

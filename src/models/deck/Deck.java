@@ -124,7 +124,7 @@ public class Deck implements Cloneable {
             if (card.getCardType() == CardType.hero) hero++;
         }
         if (hero < 1) {
-            MyPrinter.red("there isn't any hero in this deck");
+            MyPrinter.red("there isn't any hero in this decks");
             return Constants.NO_HERO;
         }
         if (hero > 1){
