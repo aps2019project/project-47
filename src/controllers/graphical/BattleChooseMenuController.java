@@ -12,8 +12,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import layouts.AlertHelper;
 import models.Account;
 import models.battle.*;
 import models.battle.board.Board;
@@ -73,15 +75,18 @@ public class BattleChooseMenuController extends MyController implements Initiali
     }
 
     public void startStoryGame(ActionEvent event) {
-
-        Account account = AccountMenu.getLoginAccount();
-        Player player0 = account.makePlayer(0);
-        StoryGame storyGame = new StoryGame();
-        Battle battle = storyGame.story(player0, account.getStoryLvl());
-        Parent root = Board.getRoot();
-        BattleController controller = (BattleController) Board.getController();
-        controller.initializeBattle(battle, false, false);
-        Client.getStage().getScene().setRoot(root);
+        try {
+            Account account = AccountMenu.getLoginAccount();
+            Player player0 = account.makePlayer(0);
+            StoryGame storyGame = new StoryGame();
+            Battle battle = storyGame.story(player0, account.getStoryLvl());
+            Parent root = Board.getRoot();
+            BattleController controller = (BattleController) Board.getController();
+            controller.initializeBattle(battle, false, false);
+            Client.getStage().getScene().setRoot(root);
+        } catch (NullPointerException e){
+            AlertHelper.showAlert(Alert.AlertType.ERROR , Client.getStage().getOwner() ,"Deck is not complete!" , "Deck is not complete!");
+        }
     }
 
     public void startMultiPlayerGame(ActionEvent event) {

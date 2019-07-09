@@ -163,9 +163,7 @@ public class CustomCardCreateFormController implements Initializable {
             MinionType minionType1 = getMinionType(minionTypeSpell);
             boolean allOfTheme = allOfThemeSpell.isSelected();
             System.out.println(allOfTheme);
-            TargetForm targetForm = new TargetForm(Integer.parseInt(X0Spell.getText()), Integer.parseInt(Y0Spell.getText()),
-                    Integer.parseInt(X1Spell.getText()), Integer.parseInt(Y1Spell.getText()),
-                    sideType1, forceType1, minionType1, allOfTheme);
+            TargetForm targetForm = getTargetForm(sideType1, forceType1, minionType1, allOfTheme, X0Spell, Y0Spell, X1Spell, Y1Spell);
             Effect effect = new Effect(spellBuffs, new ArrayList<>(), targetForm);
             spellBuffs = new ArrayList<>();
             sideTypeSpell.getSelectionModel().clearSelection();
@@ -183,15 +181,19 @@ public class CustomCardCreateFormController implements Initializable {
         }
     }
 
+    private TargetForm getTargetForm(SideType sideType1, ForceType forceType1, MinionType minionType1, boolean allOfTheme, JFXTextField x0Spell, JFXTextField y0Spell, JFXTextField x1Spell, JFXTextField y1Spell) {
+        return new TargetForm(Integer.parseInt(x0Spell.getText()), Integer.parseInt(y0Spell.getText()),
+                Integer.parseInt(x1Spell.getText()), Integer.parseInt(y1Spell.getText()),
+                sideType1, forceType1, minionType1, allOfTheme);
+    }
+
     public void addEffect(ActionEvent actionEvent) {
         try {
             SideType sideType1 = getSideType(sideType);
             ForceType forceType1 = getForceType(forceType);
             MinionType minionType1 = getMinionType(minionType);
             boolean allOfTheme1 = allOfTheme.isSelected();
-            TargetForm targetForm = new TargetForm(Integer.parseInt(X0.getText()), Integer.parseInt(Y0.getText()),
-                    Integer.parseInt(X1.getText()), Integer.parseInt(Y1.getText()),
-                    sideType1, forceType1, minionType1, allOfTheme1);
+            TargetForm targetForm = getTargetForm(sideType1, forceType1, minionType1, allOfTheme1, X0, Y0, X1, Y1);
             Effect effect = new Effect(buffs, new ArrayList<>(), targetForm);
             buffs = new ArrayList<>();
             sideType.getSelectionModel().clearSelection();
@@ -272,27 +274,25 @@ public class CustomCardCreateFormController implements Initializable {
                     newCardMinionTargetsType = MinionTargetsType.hybird;
                     break;
             }
-            int code = 1000+new Random().nextInt(1000);
+            int code = 1000 + new Random().nextInt(1000);
             Card newCard;
             switch (typeOfCard.getSelectionModel().getSelectedItem()) {
-                case "Hero":{
-                    newCard = new Hero(code,newCardName,newCardMp,newCardHp,newCardPrice,newCardAp,newCardMinionTargetsType,newCardAttackRange,newCardSpecialItem);
-                }
+                case "Hero":
+                    newCard = new Hero(code, newCardName, newCardMp, newCardHp, newCardPrice, newCardAp, newCardMinionTargetsType, newCardAttackRange, newCardSpecialItem);
 //                    Hero hero = new Hero();
 //                    Defentions.customHeros.add(hero);//todo add define hero
                     break;
-                case "Minion":{
-                    newCard = new Minion(code,newCardName,newCardMp,newCardHp,newCardAttackRange,newCardPrice, CardType.minion,newCardMinionTargetsType,newCardAp,newCardSpecialItem);
-                }
+                case "Minion":
+                    newCard = new Minion(code, newCardName, newCardMp, newCardHp, newCardAttackRange, newCardPrice, CardType.minion, newCardMinionTargetsType, newCardAp, newCardSpecialItem);
 //                    Minion minion = new Minion() //todo add define minion
 //                    Defentions.customMinions.add(minion);
                     break;
-                case "Spell":{
+                case "Spell": {
 //                    TargetForm targetForm = new ()
 //                    newCard = new Spell(code,newCardName,newCardMp,newCardPrice,newCardEffectArrayList)
                 }
 //
-                    break;
+                break;
             }
             //todo add start helper
         } catch (Exception e) {
@@ -300,18 +300,17 @@ public class CustomCardCreateFormController implements Initializable {
         }
     }
 
-    public TargetForm creatTargetFormForSpell(){
+    public TargetForm creatTargetFormForSpell() {
 
 
         return null;
     }
 
-    public SpecialItem creatSpecialPowerForHeroOrMinion(){
+    public SpecialItem creatSpecialPowerForHeroOrMinion() {
 
 
         return null;
     }
-
 
 
     public void addBuffSpell(ActionEvent actionEvent) {
