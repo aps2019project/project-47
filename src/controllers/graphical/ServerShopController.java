@@ -37,7 +37,7 @@ public class ServerShopController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         initializeShop();
-        num = 71;
+        num = 81;
     }
 
     private void initializeShop() {
@@ -88,6 +88,7 @@ public class ServerShopController implements Initializable {
             inventoryLabel.setStyle(CONTENT_STYLE);
             num++;
             addElementsToGridPane(num, nameLabel, typeLabel, priceLabel, inventoryLabel);
+            cardLabelsHashMap.put(card , inventoryLabel);
         });
     }
 
