@@ -73,11 +73,29 @@ public class Account implements Cloneable {
     }
 
     public int getWins() {
-        return 0;
+        int count = 0;
+        for (MatchResult matchResult : this.matchHistorys) {
+            if (matchResult.getUser0().equals(userName)) {
+                if (matchResult.getWinner() == 0) count++;
+            }
+            if (matchResult.getUser1().equals(userName)) {
+                if (matchResult.getWinner() == 1) count++;
+            }
+        }
+        return count;
     }
 
     public int getLoses(){
-        return 0;
+        int count = 0;
+        for (MatchResult matchResult : this.matchHistorys) {
+            if (matchResult.getUser1().equals(userName)) {
+                if (matchResult.getWinner() == 0) count++;
+            }
+            if (matchResult.getUser0().equals(userName)) {
+                if (matchResult.getWinner() == 1) count++;
+            }
+        }
+        return count;
     }
 
     public void setAuthToken(String authToken) {
@@ -131,35 +149,9 @@ public class Account implements Cloneable {
         this.matchHistorys.add(matchResult);
     }
 
-    public int numOfWin() {
-        int count = 0;
-        for (MatchResult matchResult : this.matchHistorys) {
-            if (matchResult.getUser0().equals(userName)) {
-                if (matchResult.getWinner() == 0) count++;
-            }
-            if (matchResult.getUser1().equals(userName)) {
-                if (matchResult.getWinner() == 1) count++;
-            }
-        }
-        return count;
-    }
-
-    public int numOfLose(){
-        int count = 0;
-        for (MatchResult matchResult : this.matchHistorys) {
-            if (matchResult.getUser1().equals(userName)) {
-                if (matchResult.getWinner() == 0) count++;
-            }
-            if (matchResult.getUser0().equals(userName)) {
-                if (matchResult.getWinner() == 1) count++;
-            }
-        }
-        return count;
-    }
-
     public boolean compare(Account account) {
-        if (this.numOfWin() > account.numOfWin()) return true;
-        if (this.numOfLose() < account.numOfWin()) return false;
+        if (this.getWins() > account.getWins()) return true;
+        if (this.getLoses() < account.getLoses()) return false;
         if (this.userName.compareTo(account.userName) < 0) return true;
         return false;
     }
