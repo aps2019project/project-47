@@ -9,8 +9,8 @@ public class StartNewBattleRequest extends Request {
     private int numberOfFlags;
 
     public StartNewBattleRequest(String authToken, String userNameOfOpponent, MatchType matchType, int numberOfFlags) {
-        this.authToken = authToken;
-        this.userNameOfOpponent = userNameOfOpponent;
+        this.authToken = authToken;// dovomi
+        this.userNameOfOpponent = userNameOfOpponent; //avali
         this.matchType = matchType;
         this.numberOfFlags = numberOfFlags;
     }

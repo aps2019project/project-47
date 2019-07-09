@@ -173,12 +173,15 @@ public class ClientHandler extends Thread {
             if(request instanceof StartNewBattleRequest){
                 StartNewBattleResponse startNewBattleResponse = new StartNewBattleResponse((StartNewBattleRequest) request);
                 startNewBattleResponse.handleRequest();
-                responseStr = gson.toJson(startNewBattleResponse);
                 ClientHandler clientHandler1 = Server.clientHandlers.get(((StartNewBattleRequest) request).getUserNameOfOpponent());
                 String player2UserName = Account.getAccountsMapper().get(request.getAuthToken()).getUserName();
                 ClientHandler clientHandler2 = Server.clientHandlers.get(player2UserName);
+                startNewBattleResponse.setWhoIsUnHuman(false);
+                responseStr = gson.toJson(startNewBattleResponse);
                 clientHandler1.out.println(responseStr);
                 clientHandler1.out.flush();
+                startNewBattleResponse.setWhoIsUnHuman(true);
+                responseStr = gson.toJson(startNewBattleResponse);
                 clientHandler2.out.println(responseStr);
                 clientHandler2.out.flush();
                 continue;
