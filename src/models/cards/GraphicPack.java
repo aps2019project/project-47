@@ -9,12 +9,12 @@ public class GraphicPack {
     private String attackPhotoAddress;
     private String movePhotoAddress;
     private String breathingPhotoAddress;
-    private String idlePhotoAddress;
+    private String idlePhotoAddress;//idle
     private String spawnPhotoAddress;
     private String deathSoundAddress;
     private String attackSoundAddress;
     private String moveSoundAddress;
-    private String spawnSoundAddress;
+    private String spawnSoundAddress;//spell
     private String hitSoundAddress;
     private String impactSoundAddress;
 

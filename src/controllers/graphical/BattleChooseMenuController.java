@@ -28,6 +28,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
@@ -86,6 +87,7 @@ public class BattleChooseMenuController extends MyController implements Initiali
             Client.getStage().getScene().setRoot(root);
         } catch (NullPointerException e){
             AlertHelper.showAlert(Alert.AlertType.ERROR , Client.getStage().getOwner() ,"Deck is not complete!" , "Deck is not complete!");
+            AlertHelper.showAlert(Alert.AlertType.ERROR , Client.getStage().getOwner() ,"Deck is not complete!" , Arrays.toString(e.getStackTrace()));
         }
     }
 

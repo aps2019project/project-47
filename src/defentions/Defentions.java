@@ -18,6 +18,7 @@ import models.item.Item;
 import models.item.ItemActivateTime;
 import models.item.ItemType;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -348,7 +349,7 @@ public class Defentions {
             SpecialItem specialItem = new SpecialItem(null);
             specialItem.addCoolDown(new Effect(null, houseEffects, null));
             specialItem.setHeroPack(heroPack);
-            Hero hero = new Hero(306, "Kave", 0, 50, 8000, 4, MinionTargetsType.melee, 20, specialItem);
+            Hero hero = new Hero(306, "Kaveh", 0, 50, 8000, 4, MinionTargetsType.melee, 20, specialItem);
             hero.getGraphicPack().setShopPhotoAddress("/resources/cards/Kaveh_logo.png");
             heroes.put(hero, 3);
         }//6
@@ -461,7 +462,7 @@ public class Defentions {
         }//6
 
         {
-            Minion minion = new Minion(207, "ToraniArcher", 1, 3, 20, 500, CardType.minion,
+                Minion minion = new Minion(207, "ToraniArcher", 1, 3, 20, 500, CardType.minion,
                     MinionTargetsType.ranged, 4, null);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_christmas_portrait_hex@2x.png");
             minions.put(minion, 3);
@@ -511,7 +512,7 @@ public class Defentions {
         }//12
 
         {
-            Minion minion = new Minion(213, "blackDamn", 9, 14, 7, 300, CardType.minion,
+            Minion minion = new Minion(213, "BlackDemon", 9, 14, 7, 300, CardType.minion,
                     MinionTargetsType.hybird, 10, null);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_christmas_portrait_hex@2x.png");
             minions.put(minion, 3);
@@ -1114,29 +1115,66 @@ public class Defentions {
     }
 
     public static void defineDefultFileAdresses(Card card) {
-        if (card.getGraphicPack().getMovePhotoAddress() == null)
-            card.getGraphicPack().setMovePhotoAddress("src/resources/cards/Mmd_test/Avalanche_run.gif");
-        if (card.getGraphicPack().getAttackPhotoAddress() == null)
-            card.getGraphicPack().setAttackPhotoAddress("src/resources/cards/Mmd_test/Avalanche_attack.gif");
-        if (card.getGraphicPack().getBreathingPhotoAddress() == null)
-            card.getGraphicPack().setBreathingPhotoAddress("src/resources/cards/Mmd_test/Avalanche_breathing.gif");
-        if (card.getGraphicPack().getDeathPhotoAddress() == null)
-            card.getGraphicPack().setDeathPhotoAddress("src/resources/cards/Mmd_test/Avalanche_death.gif");
-        if (card.getGraphicPack().getIdlePhotoAddress() == null)
-            card.getGraphicPack().setIdlePhotoAddress("src/resources/cards/Mmd_test/Avalanche_idle.gif");
-        if (card.getGraphicPack().getAttackSoundAddress() == null)
-            card.getGraphicPack().setAttackSoundAddress("src/resources/cards/Mmd_test/attackSound.m4a");
-        if (card.getGraphicPack().getDeathSoundAddress() == null)
-            card.getGraphicPack().setDeathSoundAddress("src/resources/cards/Mmd_test/deathSound.m4a");
-        if (card.getGraphicPack().getMoveSoundAddress() == null)
-            card.getGraphicPack().setMoveSoundAddress("src/resources/cards/Mmd_test/runSound.m4a");
-        if (card.getGraphicPack().getSpawnSoundAddress() == null)
-            card.getGraphicPack().setSpawnSoundAddress("src/resources/cards/Mmd_test/spawnSound.m4a");
-        if (card.getGraphicPack().getImpactSoundAddress() == null)
-            card.getGraphicPack().setImpactSoundAddress("src/resources/cards/Mmd_test/impactSound.m4a");
-        if (card.getGraphicPack().getHitSoundAddress() == null)
-            card.getGraphicPack().setHitSoundAddress("src/resources/cards/Mmd_test/hitSound.m4a");
-
+        if (card.getGraphicPack().getMovePhotoAddress() == null) {
+            String filePath = "src/resources/gifs/" + card.getName() + "_run.gif";
+            File file = new File(filePath);
+            if (file.exists())
+                card.getGraphicPack().setMovePhotoAddress(filePath);
+            else
+                card.getGraphicPack().setMovePhotoAddress("src/resources/cards/Mmd_test/Avalanche_run.gif");
+        }
+        if (card.getGraphicPack().getAttackPhotoAddress() == null) {
+            String filePath = "src/resources/gifs/" + card.getName() + "_attack.gif";
+            File file = new File(filePath);
+            if (file.exists())
+                card.getGraphicPack().setAttackPhotoAddress(filePath);
+            else
+                card.getGraphicPack().setAttackPhotoAddress("src/resources/cards/Mmd_test/Avalanche_attack.gif");
+        }
+        if (card.getGraphicPack().getBreathingPhotoAddress() == null) {
+            String filePath = "src/resources/gifs/" + card.getName() + "_breathing.gif";
+            File file = new File(filePath);
+            if (file.exists())
+                card.getGraphicPack().setBreathingPhotoAddress(filePath);
+            else
+                card.getGraphicPack().setBreathingPhotoAddress("src/resources/cards/Mmd_test/Avalanche_breathing.gif");
+        }
+        if (card.getGraphicPack().getDeathPhotoAddress() == null) {
+            String filePath = "src/resources/gifs/" + card.getName() + "_death.gif";
+            File file = new File(filePath);
+            if (file.exists())
+                card.getGraphicPack().setDeathPhotoAddress(filePath);
+            else
+                card.getGraphicPack().setDeathPhotoAddress("src/resources/cards/Mmd_test/Avalanche_death.gif");
+        }
+        if (card.getGraphicPack().getIdlePhotoAddress() == null) {
+            String filePath = "src/resources/gifs/" + card.getName() + "_idle.gif";
+            File file = new File(filePath);
+            if (file.exists())
+                card.getGraphicPack().setIdlePhotoAddress(filePath);
+            else
+                card.getGraphicPack().setIdlePhotoAddress("src/resources/cards/Mmd_test/Avalanche_idle.gif");
+        }
+        if (card instanceof Spell){
+            String filePath = "src/resources/gifs/" + card.getName() + ".gif";
+            File file = new File(filePath);
+            if (file.exists())
+                card.getGraphicPack().setIdlePhotoAddress(filePath);
+            else
+                card.getGraphicPack().setIdlePhotoAddress("src/resources/gifs/allAttack.gif");
+            filePath =  "src/resources/gifs/" + card.getName() + "_active.gif";
+            file = new File(filePath);
+            if (file.exists())
+                card.getGraphicPack().setSpawnPhotoAddress(filePath);
+            else
+                card.getGraphicPack().setSpawnPhotoAddress("src/resources/gifs/allAttack_active.gif");
+        }
+        card.getGraphicPack().setAttackSoundAddress("src/resources/cards/Mmd_test/attackSound.m4a");
+        card.getGraphicPack().setDeathSoundAddress("src/resources/cards/Mmd_test/deathSound.m4a");
+        card.getGraphicPack().setMoveSoundAddress("src/resources/cards/Mmd_test/runSound.m4a");
+        card.getGraphicPack().setSpawnSoundAddress("src/resources/cards/Mmd_test/spawnSound.m4a");
+        card.getGraphicPack().setImpactSoundAddress("src/resources/cards/Mmd_test/impactSound.m4a");
+        card.getGraphicPack().setHitSoundAddress("src/resources/cards/Mmd_test/hitSound.m4a");
     }
 
 }

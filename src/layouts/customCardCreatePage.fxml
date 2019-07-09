@@ -1,116 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.layout.HBox?>
-<?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXCheckBox?>
-<HBox alignment="center" prefHeight="1080.0" prefWidth="1920.0" spacing="20" styleClass="underBackGround"
-      stylesheets="@stylesheets/customCardCreatePage.css" xmlns="http://javafx.com/javafx/8.0.172-ea"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.graphical.CustomCardCreateFormController">
-    <VBox alignment="center" maxHeight="346.0" maxWidth="599.0" spacing="20" styleClass="container"
-          fx:id="specialPowerBox">
-        <Label prefHeight="50.0" fx:id="titleLabelOfSpecialPowerBox"/>
+<HBox alignment="center" prefHeight="1080.0" prefWidth="1920.0" spacing="20" styleClass="underBackGround" stylesheets="@stylesheets/customCardCreatePage.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.graphical.CustomCardCreateFormController">
+    <VBox fx:id="specialPowerBox" alignment="center" maxHeight="346.0" maxWidth="599.0" spacing="20" styleClass="container">
+        <Label fx:id="titleLabelOfSpecialPowerBox" prefHeight="50.0" />
         <VBox alignment="center" maxHeight="346.0" maxWidth="500.0" spacing="20" styleClass="innerContainer">
             <HBox spacing="20">
-                <Label prefHeight="50.0" prefWidth="600" text="Effects:"/>
-                <JFXButton fx:id="addEffect" text="+" styleClass="regularButton" prefWidth="40" prefHeight="50"
-                           onAction="#addEffect"/>
+                <Label prefHeight="50.0" prefWidth="600" text="Effects:" />
+                <JFXButton fx:id="addEffect" onAction="#addEffect" prefHeight="50" prefWidth="40" styleClass="regularButton" text="+" />
             </HBox>
             <HBox spacing="20">
-                <JFXComboBox prefHeight="51.0" prefWidth="600" promptText="Activation Time"
-                             styleClass="regular-textBox"
-                             fx:id="activationTimeOfSpecialPower"/>
+                <JFXComboBox fx:id="activationTimeOfSpecialPower" prefHeight="51.0" prefWidth="600" promptText="Activation Time" styleClass="regular-textBox" />
             </HBox>
             <VBox alignment="center" maxHeight="346.0" maxWidth="400.0" spacing="20" styleClass="in-innerContainer">
                 <HBox spacing="20">
-                    <Label prefHeight="50.0" prefWidth="500" text="Buffs:"/>
-                    <JFXButton fx:id="addBuff" text="+" styleClass="regularButton" prefWidth="40" prefHeight="50"
-                               onAction="#addBuff"/>
+                    <Label prefHeight="50.0" prefWidth="500" text="Buffs:" />
+                    <JFXButton fx:id="addBuff" onAction="#addBuff" prefHeight="50" prefWidth="40" styleClass="regularButton" text="+" />
                 </HBox>
-                <JFXTextField prefHeight="51.0" promptText="Power" fx:id="power" styleClass="regular-textBox"/>
-                <JFXTextField prefHeight="51.0" promptText="Delay time" fx:id="delay" styleClass="regular-textBox"/>
-                <JFXTextField prefHeight="51.0" promptText="Start" fx:id="start" styleClass="regular-textBox"/>
-                <JFXComboBox prefHeight="51.0" prefWidth="500" promptText="Type" fx:id="buffType"
-                             styleClass="regular-textBox"/>
+                <JFXTextField fx:id="power" prefHeight="51.0" promptText="Power" styleClass="regular-textBox" />
+                <JFXTextField fx:id="delay" prefHeight="51.0" promptText="Delay time" styleClass="regular-textBox" />
+                <JFXTextField fx:id="start" prefHeight="51.0" promptText="Start" styleClass="regular-textBox" />
+                <JFXComboBox fx:id="buffType" prefHeight="51.0" prefWidth="500" promptText="Type" styleClass="regular-textBox" />
             </VBox>
             <VBox alignment="center" maxHeight="346.0" maxWidth="400.0" spacing="20" styleClass="in-innerContainer">
-                <Label prefHeight="50.0" prefWidth="500" text="Target Form:"/>
+                <Label prefHeight="50.0" prefWidth="500" text="Target Form:" />
                 <HBox spacing="20">
-                    <JFXTextField prefHeight="51.0" promptText="X0" fx:id="X0" styleClass="regular-textBox"/>
-                    <JFXTextField prefHeight="51.0" promptText="Y0" fx:id="Y0" styleClass="regular-textBox"/>
-                    <JFXTextField prefHeight="51.0" promptText="X1" fx:id="X1" styleClass="regular-textBox"/>
-                    <JFXTextField prefHeight="51.0" promptText="Y1" fx:id="Y1" styleClass="regular-textBox"/>
+                    <JFXTextField fx:id="X0" prefHeight="51.0" promptText="X0" styleClass="regular-textBox" />
+                    <JFXTextField fx:id="Y0" prefHeight="51.0" promptText="Y0" styleClass="regular-textBox" />
+                    <JFXTextField fx:id="X1" prefHeight="51.0" promptText="X1" styleClass="regular-textBox" />
+                    <JFXTextField fx:id="Y1" prefHeight="51.0" promptText="Y1" styleClass="regular-textBox" />
                 </HBox>
-                <JFXComboBox prefHeight="51.0" prefWidth="500" promptText="Side Type" fx:id="sideType"
-                             styleClass="regular-textBox"/>
-                <JFXComboBox prefHeight="51.0" prefWidth="500" promptText="Minion Type" fx:id="minionType"
-                             styleClass="regular-textBox"/>
-                <JFXComboBox prefHeight="51.0" prefWidth="500" promptText="Force Type" fx:id="forceType"
-                             styleClass="regular-textBox"/>
-                <JFXCheckBox prefHeight="51.0" prefWidth="500" text="All Of Theme" fx:id="allOfTheme"
-                             styleClass="regular-textBox"/>
+                <JFXComboBox fx:id="sideType" prefHeight="51.0" prefWidth="500" promptText="Side Type" styleClass="regular-textBox" />
+                <JFXComboBox fx:id="minionType" prefHeight="51.0" prefWidth="500" promptText="Minion Type" styleClass="regular-textBox" />
+                <JFXComboBox fx:id="forceType" prefHeight="51.0" prefWidth="500" promptText="Force Type" styleClass="regular-textBox" />
+                <JFXCheckBox fx:id="allOfTheme" prefHeight="51.0" prefWidth="500" styleClass="regular-textBox" text="All Of Theme" />
             </VBox>
         </VBox>
     </VBox>
     <VBox alignment="center" maxHeight="346.0" maxWidth="599.0" spacing="20" styleClass="container">
-        <Label prefHeight="50.0" text="CREATE CUSTOM CARD"/>
-        <JFXTextField prefHeight="51.0" promptText="Name" styleClass="regular-textBox" fx:id="cardName"/>
-        <JFXComboBox prefHeight="51.0" prefWidth="500" promptText="Type" styleClass="regular-textBox"
-                     fx:id="typeOfCard"
-                     onAction="#changeActiveHomes"/>
-        <JFXTextField prefHeight="51.0" promptText="Attack Point" fx:id="ap" styleClass="regular-textBox"/>
-        <JFXTextField prefHeight="51.0" promptText="Health Point" fx:id="hp" styleClass="regular-textBox"/>
-        <JFXTextField prefHeight="51.0" promptText="Manas Point" fx:id="mp" styleClass="regular-textBox"/>
-        <JFXComboBox prefHeight="51.0" prefWidth="500" promptText="Type" fx:id="typeOfAttackType"
-                     styleClass="regular-textBox"/>
-        <JFXTextField prefHeight="51.0" promptText="Range" fx:id="range" styleClass="regular-textBox"/>
-        <JFXTextField prefHeight="51.0" promptText="Cost" fx:id="cost" styleClass="regular-textBox"/>
-        <JFXButton text="Create Custom Card" styleClass="regularButton" onAction="#createCustomCard"/>
-        <JFXButton text="Back" styleClass="regularButton" onAction="#back"/>
+        <Label prefHeight="50.0" text="CREATE CUSTOM CARD" />
+        <JFXTextField fx:id="cardName" prefHeight="51.0" promptText="Name" styleClass="regular-textBox" />
+        <JFXComboBox fx:id="typeOfCard" onAction="#changeActiveHomes" prefHeight="51.0" prefWidth="500" promptText="Type" styleClass="regular-textBox" />
+        <JFXTextField fx:id="ap" prefHeight="51.0" promptText="Attack Point" styleClass="regular-textBox" />
+        <JFXTextField fx:id="hp" prefHeight="51.0" promptText="Health Point" styleClass="regular-textBox" />
+        <JFXTextField fx:id="mp" prefHeight="51.0" promptText="Manas Point" styleClass="regular-textBox" />
+        <JFXComboBox fx:id="typeOfAttackType" prefHeight="51.0" prefWidth="500" promptText="Type" styleClass="regular-textBox" />
+        <JFXTextField fx:id="range" prefHeight="51.0" promptText="Range" styleClass="regular-textBox" />
+        <JFXTextField fx:id="cost" prefHeight="51.0" promptText="Cost" styleClass="regular-textBox" />
+        <JFXButton onAction="#createCustomCard" styleClass="regularButton" text="Create Custom Card" />
+        <JFXButton onAction="#back" styleClass="regularButton" text="Back" />
     </VBox>
-    <VBox alignment="center" maxHeight="346.0" maxWidth="599.0" spacing="20" styleClass="container"
-          fx:id="spellBox">
-        <Label prefHeight="50.0" text="Create buffs of spell"/>
+    <VBox fx:id="spellBox" alignment="center" maxHeight="346.0" maxWidth="599.0" spacing="20" styleClass="container">
+        <Label prefHeight="50.0" text="Create buffs of spell" />
         <HBox spacing="20">
-            <Label prefHeight="50.0" prefWidth="600" text="Effects:"/>
-            <JFXButton fx:id="addEffectSpell" text="+" styleClass="regularButton" prefWidth="40" prefHeight="50"
-                       onAction="#addEffectSpell"/>
-            <JFXCheckBox prefHeight="51.0" prefWidth="500" text="Is House Effect?" fx:id="isHouseEffectSpell"
-                         styleClass="regular-textBox"/>
+            <Label prefHeight="50.0" prefWidth="600" text="Effects:" />
+            <JFXButton fx:id="addEffectSpell" onAction="#addEffectSpell" prefHeight="50" prefWidth="40" styleClass="regularButton" text="+" />
+            <JFXCheckBox fx:id="isHouseEffectSpell" prefHeight="33.0" prefWidth="173.0" styleClass="regular-textBox" text="Is House Effect?" />
         </HBox>
         <VBox alignment="center" maxHeight="346.0" maxWidth="400.0" spacing="20" styleClass="in-innerContainer">
             <HBox spacing="20">
-                <Label prefHeight="50.0" prefWidth="500" text="Buffs:"/>
-                <JFXButton fx:id="addBuffSpell" text="+" styleClass="regularButton" prefWidth="40" prefHeight="50"
-                           onAction="#addBuffSpell"/>
+                <Label prefHeight="50.0" prefWidth="500" text="Buffs:" />
+                <JFXButton fx:id="addBuffSpell" onAction="#addBuffSpell" prefHeight="50" prefWidth="40" styleClass="regularButton" text="+" />
             </HBox>
-            <JFXTextField prefHeight="51.0" promptText="Power" fx:id="powerSpell" styleClass="regular-textBox"/>
-            <JFXTextField prefHeight="51.0" promptText="Delay time" fx:id="delaySpell"
-                          styleClass="regular-textBox"/>
-            <JFXTextField prefHeight="51.0" promptText="Start" fx:id="startSpell" styleClass="regular-textBox"/>
-            <JFXComboBox prefHeight="51.0" prefWidth="500" promptText="Type" fx:id="buffTypeSpell"
-                         styleClass="regular-textBox"/>
+            <JFXTextField fx:id="powerSpell" prefHeight="51.0" promptText="Power" styleClass="regular-textBox" />
+            <JFXTextField fx:id="delaySpell" prefHeight="51.0" promptText="Delay time" styleClass="regular-textBox" />
+            <JFXTextField fx:id="startSpell" prefHeight="51.0" promptText="Start" styleClass="regular-textBox" />
+            <JFXComboBox fx:id="buffTypeSpell" prefHeight="51.0" prefWidth="500" promptText="Type" styleClass="regular-textBox" />
         </VBox>
         <VBox alignment="center" maxHeight="346.0" maxWidth="400.0" spacing="20" styleClass="in-innerContainer">
-            <Label prefHeight="50.0" prefWidth="500" text="Target Form:"/>
+            <Label prefHeight="50.0" prefWidth="500" text="Target Form:" />
             <HBox spacing="20">
-                <JFXTextField prefHeight="51.0" promptText="X0" fx:id="X0Spell" styleClass="regular-textBox"/>
-                <JFXTextField prefHeight="51.0" promptText="Y0" fx:id="Y0Spell" styleClass="regular-textBox"/>
-                <JFXTextField prefHeight="51.0" promptText="X1" fx:id="X1Spell" styleClass="regular-textBox"/>
-                <JFXTextField prefHeight="51.0" promptText="Y1" fx:id="Y1Spell" styleClass="regular-textBox"/>
+                <JFXTextField fx:id="X0Spell" prefHeight="51.0" promptText="X0" styleClass="regular-textBox" />
+                <JFXTextField fx:id="Y0Spell" prefHeight="51.0" promptText="Y0" styleClass="regular-textBox" />
+                <JFXTextField fx:id="X1Spell" prefHeight="51.0" promptText="X1" styleClass="regular-textBox" />
+                <JFXTextField fx:id="Y1Spell" prefHeight="51.0" promptText="Y1" styleClass="regular-textBox" />
             </HBox>
-            <JFXComboBox prefHeight="51.0" prefWidth="500" promptText="Side Type" fx:id="sideTypeSpell"
-                         styleClass="regular-textBox"/>
-            <JFXComboBox prefHeight="51.0" prefWidth="500" promptText="Minion Type" fx:id="minionTypeSpell"
-                         styleClass="regular-textBox"/>
-            <JFXComboBox prefHeight="51.0" prefWidth="500" promptText="Force Type" fx:id="forceTypeSpell"
-                         styleClass="regular-textBox"/>
-            <JFXCheckBox prefHeight="51.0" prefWidth="500" text="All Of Theme" fx:id="allOfThemeSpell"
-                         styleClass="regular-textBox"/>
+            <JFXComboBox fx:id="sideTypeSpell" prefHeight="51.0" prefWidth="500" promptText="Side Type" styleClass="regular-textBox" />
+            <JFXComboBox fx:id="minionTypeSpell" prefHeight="51.0" prefWidth="500" promptText="Minion Type" styleClass="regular-textBox" />
+            <JFXComboBox fx:id="forceTypeSpell" prefHeight="51.0" prefWidth="500" promptText="Force Type" styleClass="regular-textBox" />
+            <JFXCheckBox fx:id="allOfThemeSpell" prefHeight="51.0" prefWidth="500" styleClass="regular-textBox" text="All Of Theme" />
         </VBox>
     </VBox>
 </HBox>

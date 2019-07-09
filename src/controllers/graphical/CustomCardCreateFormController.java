@@ -159,7 +159,7 @@ public class CustomCardCreateFormController implements Initializable {
         return sideType1;
     }
 
-    public void addEffectSpell(ActionEvent actionEvent) {
+    public void addEffectSpell() {
         try {
             TargetForm targetForm = getTargetFormSpell();
             Effect effect = new Effect(spellBuffs, new ArrayList<>(), targetForm);
