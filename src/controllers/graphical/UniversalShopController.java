@@ -169,13 +169,19 @@ public class UniversalShopController implements Initializable {
     }
 
 
-    public void addId(Card card){
-        if (card instanceof Spell)
-            spellIds.add("s" + card.getCardId());
-        if (card instanceof Hero)
-            heroIds.add("h" + card.getCardId());
-        if (card instanceof Minion)
-            minionIds.add("m" + card.getCardId());
+    public void addId(Card card) {
+        if (card instanceof Spell) {
+            spellIds.add("s" + card.getCode());
+            card.setCardId("s" + card.getCode());
+        }
+        if (card instanceof Hero) {
+            heroIds.add("h" + card.getCode());
+            card.setCardId("h" + card.getCode());
+        }
+        if (card instanceof Minion) {
+            minionIds.add("m" + card.getCode());
+            card.setCardId("m" + card.getCode());
+        }
     }
 
     public void initializeCards() {
