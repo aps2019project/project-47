@@ -862,10 +862,7 @@ public class BattleController {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-
         }
-
-
     }
 
     private void rainShit() {
