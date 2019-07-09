@@ -44,13 +44,6 @@ public class StartNewBattleResponse extends Response {
         matchType = ((StartNewBattleRequest) request).getMatchType();
         numberOfFlags = ((StartNewBattleRequest) request).getNumberOfFlags();
         battle = new Battle(player1, player2, matchType, numberOfFlags);
-        if (whoIsUnHuman) {//vase nafare dovom
-            battle.getPlayers()[0].setHuman(false);
-            battle.getPlayers()[1].setHuman(true);
-        } else {//vase nafare aval
-            battle.getPlayers()[1].setHuman(false);
-            battle.getPlayers()[0].setHuman(true);
-        }
     }
 
     @Override
@@ -59,6 +52,13 @@ public class StartNewBattleResponse extends Response {
         BattleController controller = (BattleController) Board.getController();
         controller.initializeBattle(battle, true, false);
         Client.getStage().getScene().setRoot(root);
+        if (whoIsUnHuman) {//vase nafare dovom
+            battle.getPlayers()[0].setHuman(false);
+            battle.getPlayers()[1].setHuman(true);
+        } else {//vase nafare aval
+            battle.getPlayers()[1].setHuman(false);
+            battle.getPlayers()[0].setHuman(true);
+        }
     }
 
     @Override

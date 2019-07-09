@@ -72,12 +72,12 @@ public class BattleController {
     private ManaViewer[] manaViewers;
     private GraveYard graveYard;
 
-    public BattleController(){
+    public BattleController() {
         anchorPane = new AnchorPane();
         initialize();
     }
 
-    public Parent getRoot(){
+    public Parent getRoot() {
         return anchorPane;
     }
 
@@ -94,7 +94,7 @@ public class BattleController {
         creatGraveYard();
     }
 
-    public void initializeBattle(Battle battle,boolean onServer,boolean onReview) {
+    public void initializeBattle(Battle battle, boolean onServer, boolean onReview) {
         this.battle = battle;
         this.onServer = onServer;
         this.onReview = onReview;
@@ -102,7 +102,7 @@ public class BattleController {
         graphicalBoard.setBoard(board);
         playerSelectedCard = new Card[2];
         players = battle.getPlayers();
-        if (!onReview){
+        if (!onReview) {
             lastBattleHistory = new BattleHistory(battle);
         }
         players[0].mana_rise(2);
@@ -241,7 +241,6 @@ public class BattleController {
         anchorPane.getChildren().add(closeButton.getParentPane());
 
 
-
         GraphicButton info = new GraphicButton("INFO");
         info.setSize(200, 100);
         info.reLocate(1600, 750);
@@ -337,7 +336,7 @@ public class BattleController {
         anchorPane.getChildren().add(manaViewers[1].parentPane);
     }
 
-    private void createReviewTimer(){
+    private void createReviewTimer() {
         reviewTimer = new AnimationTimer() {
             int historyActionCoiunter = 0;
             int lastTime = 1;
@@ -353,7 +352,7 @@ public class BattleController {
 
             private void doNextOneAction() {
                 BattleAction lastOne = lastBattleHistory.get(historyActionCoiunter);
-                if (lastOne!=null){
+                if (lastOne != null) {
                     doOneAction(lastOne);
                 }
                 historyActionCoiunter++;
@@ -361,7 +360,7 @@ public class BattleController {
         };
     }
 
-    private void creatGraveYard(){
+    private void creatGraveYard() {
         graveYard = new GraveYard();
         anchorPane.getChildren().add(graveYard.parentPane);
     }
@@ -424,8 +423,8 @@ public class BattleController {
 
     private void insert(Card card, Location location) {
 
-        if (!onReview){
-            lastBattleHistory.add(new BattleAction(card.getCardId(),null,location,BattleActionType.insert));
+        if (!onReview) {
+            lastBattleHistory.add(new BattleAction(card.getCardId(), null, location, BattleActionType.insert));
         }
 
         graphicalHand.insertCard(card);
@@ -441,8 +440,8 @@ public class BattleController {
     private void attack(Minion attacker, Minion defender) {
         int attackTime = 60;
 
-        if (!onReview){
-            lastBattleHistory.add(new BattleAction(attacker.getCardId(),defender.getCardId(),null, attack));
+        if (!onReview) {
+            lastBattleHistory.add(new BattleAction(attacker.getCardId(), defender.getCardId(), null, attack));
         }
 
         graphicalBoard.setMinionAtCell(attacker, attacker.getLocation(), MinionImageViewType.attacking, false);
@@ -511,8 +510,8 @@ public class BattleController {
 
         Double moveTime = 1.0;
 
-        if (!onReview){
-            lastBattleHistory.add(new BattleAction(minion.getCardId(),null,target, move));
+        if (!onReview) {
+            lastBattleHistory.add(new BattleAction(minion.getCardId(), null, target, move));
         }
 
         ImageView runningImageView = creatImageViewerOfMinion(minion, MinionImageViewType.running);
@@ -555,8 +554,8 @@ public class BattleController {
 
     private void useSpecialPower(Hero hero, Location target) {
 
-        if (!onReview){
-            lastBattleHistory.add(new BattleAction(hero.getCardId(),null,target,BattleActionType.useSpecialPower));
+        if (!onReview) {
+            lastBattleHistory.add(new BattleAction(hero.getCardId(), null, target, BattleActionType.useSpecialPower));
         }
 
         graphicalBoard.lighting(graphicalBoard.getLocateOfAnImage_inParentPane(target));
@@ -591,8 +590,8 @@ public class BattleController {
         aiTimer.stop();
         reviewTimer.stop();
 
-        if (!onReview){
-            lastBattleHistory.add(new BattleAction(null,null,null, endTurn));
+        if (!onReview) {
+            lastBattleHistory.add(new BattleAction(null, null, null, endTurn));
         }
 
         battle.changeTurn();
@@ -613,14 +612,14 @@ public class BattleController {
 
     }
 
-    public void updatesOfANewTurn(){
+    public void updatesOfANewTurn() {
         update_specialPower_btn();
 
-        if (onReview){
+        if (onReview) {
             reviewTimer.start();
-        }else {
-            if (!players[turn].isHuman()){
-                if (!onServer){
+        } else {
+            if (!players[turn].isHuman()) {
+                if (!onServer) {
                     aiTimer.start();
                 }
             }
@@ -689,34 +688,34 @@ public class BattleController {
         return false;
     }
 
-    public void doOneAction(BattleAction action){
-        switch (action.getType()){
-            case attack:{
-                attackRes(action.getCardId1(),action.getCardId2());
+    public void doOneAction(BattleAction action) {
+        switch (action.getType()) {
+            case attack: {
+                attackRes(action.getCardId1(), action.getCardId2());
                 break;
             }
-            case move:{
-                moveRes(action.getCardId1(),action.getLocation());
+            case move: {
+                moveRes(action.getCardId1(), action.getLocation());
                 break;
             }
-            case endTurn:{
+            case endTurn: {
                 endTurn();
                 break;
             }
-            case useSpecialPower:{
-                useSpecialPowerRes(action.getCardId1(),action.getLocation());
+            case useSpecialPower: {
+                useSpecialPowerRes(action.getCardId1(), action.getLocation());
                 break;
             }
-            case death:{
+            case death: {
                 Minion minion = board.getMinionById(action.getCardId1());
-                death(minion,minion.getLocation());
+                death(minion, minion.getLocation());
                 break;
             }
-            case insert:{
-                insertRes(action.getCardId1(),action.getLocation());
+            case insert: {
+                insertRes(action.getCardId1(), action.getLocation());
                 break;
             }
-            case finish:{
+            case finish: {
                 battleFinish();
                 break;
             }
@@ -726,20 +725,21 @@ public class BattleController {
     public void battleFinish() {
         aiTimer.stop();
         reviewTimer.stop();
-        music.stop();
+        if (music != null)
+            music.stop();
 
-        if (!onReview){
-            lastBattleHistory.add(new BattleAction(null,null,null,BattleActionType.finish));
+        if (!onReview) {
+            lastBattleHistory.add(new BattleAction(null, null, null, BattleActionType.finish));
         }
 
-        if (onServer){
-        //send finish battle requesta
+        if (onServer) {
+            //send finish battle requesta
         }
 
         Double hidenTime = 200.0;
 
         Pane pane = new Pane();
-        pane.setPrefSize(1920,1080);
+        pane.setPrefSize(1920, 1080);
         pane.setStyle("-fx-background-color: black");
         pane.setOpacity(0);
         anchorPane.getChildren().add(pane);
@@ -765,7 +765,7 @@ public class BattleController {
         };
 
         String string = "riidiiii!\n";
-        if (battle.getMatchResult()!=null){
+        if (battle.getMatchResult() != null) {
             string = string + players[battle.getMatchResult().getWinner()].getUserName();
             string = string + " win!";
             string = string + "\n--------";
@@ -783,7 +783,7 @@ public class BattleController {
         myAlert.start();
         hidenTimer.start();
 
-        if (!onReview){
+        if (!onReview) {
             YaGson yaGson = new YaGson();
             try {
                 Formatter formatter = new Formatter("fileName.txt");
@@ -799,27 +799,28 @@ public class BattleController {
 
     }
 
-    private void rainShit(){
+    private void rainShit() {
         int speed = 2;
         ImageView imageView = new ImageView(new Image(new File("src/resources/inBattle/finish/shit.png").toURI().toString()));
         imageView.setFitWidth(1920);
         imageView.setFitHeight(1080);
-        imageView.relocate(0,0);
-        imageView.setViewport(new Rectangle2D(0,1080-108,192,108));
+        imageView.relocate(0, 0);
+        imageView.setViewport(new Rectangle2D(0, 1080 - 108, 192, 108));
         anchorPane.getChildren().add(imageView);
         AnimationTimer timer = new AnimationTimer() {
-            int y=1080-108;
+            int y = 1080 - 108;
 
             @Override
             public void handle(long now) {
-                imageView.setViewport(new Rectangle2D(0,y,192,108));
-                    y-=speed;
+                imageView.setViewport(new Rectangle2D(0, y, 192, 108));
+                y -= speed;
 
-                if (y<=0){
+                if (y <= 0) {
                     end();
                 }
             }
-            public void end(){
+
+            public void end() {
                 anchorPane.getChildren().remove(imageView);
                 stop();
             }
@@ -827,7 +828,7 @@ public class BattleController {
         timer.start();
     }
 
-    private void analyseMatchResult(){
+    private void analyseMatchResult() {
 
     }
 
@@ -1420,19 +1421,19 @@ public class BattleController {
             updateItem();
         }
 
-        private void updateFlag(){
-            if (board.getCells()[iCell][jCell].getFlags().size()>0){
-                if (flagImage==null){
+        private void updateFlag() {
+            if (board.getCells()[iCell][jCell].getFlags().size() > 0) {
+                if (flagImage == null) {
                     flagImage = new ImageView(new Image(new File("src/resources/inBattle/flag.png").toURI().toString()));
-                    flagImage.relocate(0,0);
+                    flagImage.relocate(0, 0);
                     flagImage.setFitWidth(50);
                     flagImage.setFitHeight(50);
                     parentPane.getChildren().remove(upperLabel);
                     parentPane.getChildren().add(flagImage);
                     parentPane.getChildren().add(upperLabel);
                 }
-            }else {
-                if (flagImage!=null){
+            } else {
+                if (flagImage != null) {
                     parentPane.getChildren().remove(flagImage);
                     flagImage = null;
                 }
@@ -1440,19 +1441,19 @@ public class BattleController {
 
         }
 
-        private void updateItem(){
-            if (board.getCells()[iCell][jCell].getItem()!=null){
-                if (itemImage==null){
+        private void updateItem() {
+            if (board.getCells()[iCell][jCell].getItem() != null) {
+                if (itemImage == null) {
                     itemImage = new ImageView(new Image(new File("src/resources/inBattle/box.png").toURI().toString()));
-                    itemImage.relocate(0,0);
+                    itemImage.relocate(0, 0);
                     itemImage.setFitWidth(70);
                     itemImage.setFitHeight(70);
                     parentPane.getChildren().remove(upperLabel);
                     parentPane.getChildren().add(itemImage);
                     parentPane.getChildren().add(upperLabel);
                 }
-            }else {
-                if (itemImage!=null){
+            } else {
+                if (itemImage != null) {
                     parentPane.getChildren().remove(itemImage);
                     itemImage = null;
                 }
@@ -1781,9 +1782,9 @@ public class BattleController {
             cellPane.setMinion(minion, type, delay);
         }
 
-        public void updateFlagAndItem(){
-            for (int i = 0; i <Board.width ; i++) {
-                for (int j = 0; j <Board.height ; j++) {
+        public void updateFlagAndItem() {
+            for (int i = 0; i < Board.width; i++) {
+                for (int j = 0; j < Board.height; j++) {
                     cellPanes[i][j].updateFlagAndItem();
                 }
             }
@@ -1815,7 +1816,7 @@ public class BattleController {
             label.setStyle("-fx-text-fill: blue;" +
                     "-fx-font-size: 40;" +
                     "-fx-font-weight: bold");
-            label.relocate(width/10,-height/5);
+            label.relocate(width / 10, -height / 5);
             parentPane.getChildren().add(label);
 
             creatRing();
@@ -2008,11 +2009,11 @@ public class BattleController {
         }
     }
 
-    public class GraveYard{
+    public class GraveYard {
         int column = 5;
         int row = 4;
-        int x=-1600;
-        int y= 100;
+        int x = -1600;
+        int y = 100;
         Double oppeningTime = 0.5;
         ImageView frame;
         ImageView arrow;
@@ -2031,48 +2032,47 @@ public class BattleController {
         boolean open;
 
 
-
         public GraveYard() {
-            gridWidth = (width-3*space)/2;
-            gridHeight = height-2*space;
+            gridWidth = (width - 3 * space) / 2;
+            gridHeight = height - 2 * space;
             parentPane = new Pane();
-            parentPane.relocate(x,y);
+            parentPane.relocate(x, y);
             parentPane.setStyle("-fx-background-color: #05001a");
-            parentPane.setPrefSize(width,height);
+            parentPane.setPrefSize(width, height);
 
             leftGrid = new GridPane();
-            leftGrid.setPrefSize(gridWidth,gridHeight);
-            leftGrid.relocate(space,space);
+            leftGrid.setPrefSize(gridWidth, gridHeight);
+            leftGrid.relocate(space, space);
             parentPane.getChildren().add(leftGrid);
 
             rightgrid = new GridPane();
-            rightgrid.setPrefSize(gridWidth,gridHeight);
-            rightgrid.relocate(space*2+gridWidth,space);
+            rightgrid.setPrefSize(gridWidth, gridHeight);
+            rightgrid.relocate(space * 2 + gridWidth, space);
             parentPane.getChildren().add(rightgrid);
 
             frame = new ImageView(new Image(new File("src/resources/inBattle/graveYard/frame.png").toURI().toString()));
             frame.setFitHeight(height);
-            frame.setFitWidth(width/7);
-            frame.relocate(width,0);
+            frame.setFitWidth(width / 7);
+            frame.relocate(width, 0);
             parentPane.getChildren().add(frame);
 
             arrow = new ImageView(new Image(new File("src/resources/inBattle/graveYard/leftArrow.png").toURI().toString()));
             arrow.setFitWidth(50);
             arrow.setFitHeight(50);
-            arrow.relocate(width,height/1.5);
+            arrow.relocate(width, height / 1.5);
             arrow.setOnMouseClicked(event -> {
                 clickArrow();
             });
             parentPane.getChildren().add(arrow);
         }
 
-        public void clickArrow(){
+        public void clickArrow() {
             movePane();
             changeArrow();
 
-            if (!open){
+            if (!open) {
                 update();
-            }else {
+            } else {
                 clean();
             }
 
@@ -2080,12 +2080,11 @@ public class BattleController {
             open = !open;
 
 
-
         }
 
-        public void movePane(){
+        public void movePane() {
             int movement = -x;
-            if (open){
+            if (open) {
                 movement = x;
             }
             TranslateTransition transition = new TranslateTransition();
@@ -2097,68 +2096,68 @@ public class BattleController {
 
         }
 
-        public void changeArrow(){
-            if (open){
+        public void changeArrow() {
+            if (open) {
                 arrow.setImage(new Image(new File("src/resources/inBattle/graveYard/leftArrow.png").toURI().toString()));
-            }else {
+            } else {
                 arrow.setImage(new Image(new File("src/resources/inBattle/graveYard/rightArrow.png").toURI().toString()));
 
             }
         }
 
-        public void clean(){
+        public void clean() {
             leftGrid.getChildren().clear();
             rightgrid.getChildren().clear();
         }
 
-        public void update(){
+        public void update() {
 
             ArrayList<Card> leftCards = players[0].getGraveYard().getCards();
             ArrayList<Card> rightCards = players[1].getGraveYard().getCards();
 
-            leftGrid.setPrefSize(Math.min(leftCards.size()+1,column)*cardWidth,
-                    Math.floor(leftCards.size()/column));
+            leftGrid.setPrefSize(Math.min(leftCards.size() + 1, column) * cardWidth,
+                    Math.floor(leftCards.size() / column));
 
-            rightgrid.setPrefSize(Math.min(rightCards.size()+1,column)*cardWidth,
-                    Math.floor(rightCards.size()/column));
+            rightgrid.setPrefSize(Math.min(rightCards.size() + 1, column) * cardWidth,
+                    Math.floor(rightCards.size() / column));
 
-            for (Card card:leftCards){
-                addACard(card,true);
+            for (Card card : leftCards) {
+                addACard(card, true);
             }
 
-            for(Card card:rightCards){
-                addACard(card,false);
+            for (Card card : rightCards) {
+                addACard(card, false);
             }
         }
 
-        public void addACard(Card card,boolean left){
+        public void addACard(Card card, boolean left) {
             GridPane grid;
-            if (left){
+            if (left) {
                 grid = leftGrid;
-            }else {
+            } else {
                 grid = rightgrid;
             }
             Location lastLocation;
-            if (left){
+            if (left) {
                 lastLocation = lastLeftLocation;
-            }else {
+            } else {
                 lastLocation = lastRightLocation;
             }
-            if (lastLocation == null){
-                lastLocation = new Location(0,0);
-            }else {
+            if (lastLocation == null) {
+                lastLocation = new Location(0, 0);
+            } else {
                 int x = lastLocation.getX();
                 int y = lastLocation.getY();
-                x=(x+1)%column;
-                y=(y+1)%row;
-                lastLocation = new Location(x,y);
+                x = (x + 1) % column;
+                y = (y + 1) % row;
+                lastLocation = new Location(x, y);
             }
             Image cardImage = new Image(new File(card.getGraphicPack().getShopPhotoAddress()).toURI().toString());
             ImageView imageView = new ImageView(cardImage);
-            imageView.relocate(0,0);
+            imageView.relocate(0, 0);
             imageView.setFitHeight(cardHeight);
             imageView.setFitWidth(cardWidth);
-            grid.add(imageView,lastLocation.getX(),lastLocation.getY());
+            grid.add(imageView, lastLocation.getX(), lastLocation.getY());
         }
     }
 
@@ -2194,7 +2193,7 @@ public class BattleController {
 
             if (rightToLeft) {
                 face.relocate(containerWidth, 0);
-                container.relocate(0, -conainerHeight/5);
+                container.relocate(0, -conainerHeight / 5);
                 container.setRotate(180);
             } else {
                 face.relocate(0, 0);
@@ -2497,10 +2496,10 @@ public class BattleController {
                     break;
                 }
             }
-            Media media = new Media(new File(address).toURI().toString());
-            MediaPlayer mediaPlayer = new MediaPlayer(media);
-            mediaPlayer.setStopTime(Duration.seconds(effectTime));
-            mediaPlayer.play();
+//            Media media = new Media(new File(address).toURI().toString());
+//            MediaPlayer mediaPlayer = new MediaPlayer(media);
+//            mediaPlayer.setStopTime(Duration.seconds(effectTime));
+//            mediaPlayer.play();
         }
     }
 
@@ -2510,37 +2509,33 @@ public class BattleController {
     }
 
 
-
-    public void attackRes(String attackerId , String defenderId){
+    public void attackRes(String attackerId, String defenderId) {
         Minion attacker = board.getMinionById(attackerId);
         Minion defender = board.getMinionById(defenderId);
-        attack(attacker,defender);
+        attack(attacker, defender);
     }
 
-    public void moveRes(String minionId,Location target){
+    public void moveRes(String minionId, Location target) {
         Minion minion = board.getMinionById(minionId);
-        move(minion,target);
+        move(minion, target);
     }
 
-    public void insertRes(String cardId,Location target){
+    public void insertRes(String cardId, Location target) {
         Card card = battle.getCardByIdFromHands(cardId);
-        insert(card,target);
+        insert(card, target);
     }
 
-    public void endTurnRes(){
+    public void endTurnRes() {
         endTurn();
     }
 
-    public void useSpecialPowerRes(String heroId,Location target){
+    public void useSpecialPowerRes(String heroId, Location target) {
         Hero hero = (Hero) board.getMinionById(heroId);
-        useSpecialPower(hero,target);
+        useSpecialPower(hero, target);
     }
 
 
-
-
-
-    public void setHistory(BattleHistory battleHistory){
+    public void setHistory(BattleHistory battleHistory) {
         this.lastBattleHistory = battleHistory;
     }
 
