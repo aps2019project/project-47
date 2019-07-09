@@ -563,19 +563,11 @@ public class Board {
     }
 
     public static Parent getRoot() {
-        FXMLLoader fxmlLoader = new FXMLLoader(Board.class.getResource("/layouts/battlePlane.fxml"));
-        try {
-            root = fxmlLoader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        controller = fxmlLoader.getController();
-
-        controller.update();
-        return root;
+        controller = new BattleController();
+        return controller.getRoot();
     }
 
-    public static MyController getController() {
+    public static BattleController getController() {
         return controller;
     }
     public Board clone(){
