@@ -3,6 +3,7 @@ package controllers.graphical;
 import com.gilecode.yagson.YaGson;
 import controllers.console.AccountMenu;
 import controllers.console.BattleMenu;
+import controllers.console.MainMenu;
 import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
 import javafx.animation.TranslateTransition;
@@ -24,7 +25,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
-import models.Account;
 import models.battle.*;
 import models.battle.board.Board;
 import models.battle.board.Location;
@@ -42,7 +42,6 @@ import network.Requests.battle.BattleActionRequest;
 import network.Requests.battle.MatchResultRequest;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.*;
 
 import static models.battle.BattleActionType.*;
@@ -79,7 +78,6 @@ public class BattleController {
     private GraphicButton specialPower;
     private ManaViewer[] manaViewers;
     private GraveYard graveYard;
-    private Account loginAccount = AccountMenu.getLoginAccount();
     private YaGson yaGson = new YaGson();
     private boolean storyMod;
 
@@ -660,7 +658,7 @@ public class BattleController {
 
     private void doAndSendBattleAction(BattleAction battleAction) {
         doOneAction(battleAction);
-        BattleActionRequest battleActionRequest = new BattleActionRequest(loginAccount.getAuthToken(), getUserNameOfOpponent(), battleAction);
+        BattleActionRequest battleActionRequest = new BattleActionRequest(AccountMenu.getLoginAccount().getAuthToken(), getUserNameOfOpponent(), battleAction);
         Client.getWriter().println(yaGson.toJson(battleActionRequest));
         Client.getWriter().flush();
     }
@@ -851,7 +849,7 @@ public class BattleController {
         MyAlert myAlert = new MyAlert(string);
         myAlert.setSpeeds(6000.0, 5.0);
         myAlert.setOnfinishEvent(event -> {
-            Client.getStage().getScene().setRoot(BattleMenu.getRoot());
+            Client.getStage().getScene().setRoot(MainMenu.getRoot());
         });
         myAlert.setMiddleEventHandler(event -> {
             //rainShit();
@@ -868,10 +866,11 @@ public class BattleController {
         MatchResult result = battle.getMatchResult();
         if (result==null)return;
         result.setBattleHistory(lastBattleHistory);
-        loginAccount.getMatchHistory().add(result);
+        AccountMenu.getLoginAccount().getMatchHistorys().add(result);
         YaGson yaGson = new YaGson();
         try {
-            MatchResultRequest matchResultRequest = new MatchResultRequest(loginAccount.getAuthToken(), result);
+            MatchResultRequest matchResultRequest =
+                    new MatchResultRequest(AccountMenu.getLoginAccount().getAuthToken(), result);
             Client.getWriter().println(yaGson.toJson(matchResultRequest));
             Client.getWriter().flush();
         } catch (Exception e) {
@@ -923,7 +922,7 @@ public class BattleController {
             }
             if (win) {
                 AccountMenu.getLoginAccount().addStoryLvl();
-                UpdateAccountRequest updateAccountRequest =  new UpdateAccountRequest(loginAccount);
+                UpdateAccountRequest updateAccountRequest =  new UpdateAccountRequest(AccountMenu.getLoginAccount());
                 String yaJson1 = yaGson.toJson(updateAccountRequest);
                 Client.getWriter().println(yaJson1);
                 Client.getWriter().flush();

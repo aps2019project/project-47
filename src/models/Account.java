@@ -10,11 +10,9 @@ import models.deck.Deck;
 import models.item.Item;
 import views.MyPrinter;
 
-import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 
 public class Account implements Cloneable {
     private String userName;
@@ -22,7 +20,7 @@ public class Account implements Cloneable {
     private String password;
     private transient String authToken;
 
-    private ArrayList<MatchResult> matchHistory;
+    private ArrayList<MatchResult> matchHistorys;
 
     private ArrayList<Card> cards;
     private ArrayList<Item> items;
@@ -34,7 +32,7 @@ public class Account implements Cloneable {
         this.userName = new String(userName);
         this.money = 300_000;
         storyLvl = 1;
-        this.matchHistory = new ArrayList<MatchResult>();
+        this.matchHistorys = new ArrayList<MatchResult>();
         cards = new ArrayList<>();
         items = new ArrayList<>();
         this.decks = new ArrayList<Deck>();
@@ -74,6 +72,32 @@ public class Account implements Cloneable {
         return Character.toString(ch);
     }
 
+    public int getWins() {
+        int count = 0;
+        for (MatchResult matchResult : this.matchHistorys) {
+            if (matchResult.getUser0().equals(userName)) {
+                if (matchResult.getWinner() == 0) count++;
+            }
+            if (matchResult.getUser1().equals(userName)) {
+                if (matchResult.getWinner() == 1) count++;
+            }
+        }
+        return count;
+    }
+
+    public int getLoses(){
+        int count = 0;
+        for (MatchResult matchResult : this.matchHistorys) {
+            if (matchResult.getUser1().equals(userName)) {
+                if (matchResult.getWinner() == 0) count++;
+            }
+            if (matchResult.getUser0().equals(userName)) {
+                if (matchResult.getWinner() == 1) count++;
+            }
+        }
+        return count;
+    }
+
     public void setAuthToken(String authToken) {
         this.authToken = authToken;
     }
@@ -86,8 +110,11 @@ public class Account implements Cloneable {
         return storyLvl;
     }
 
-    public ArrayList<MatchResult> getMatchHistory() {
-        return matchHistory;
+    public ArrayList<MatchResult> getMatchHistorys() {
+        if (matchHistorys==null){
+            matchHistorys= new ArrayList<>();
+        }
+        return matchHistorys;
     }
 
     public Deck getMainDeck() {
@@ -119,25 +146,12 @@ public class Account implements Cloneable {
     }
 
     public void addMatchResult(MatchResult matchResult) {
-        this.matchHistory.add(matchResult);
-    }
-
-    public int numOfWin() {
-        int count = 0;
-        for (MatchResult matchResult : this.matchHistory) {
-            if (matchResult.getUser0().equals(userName)) {
-                if (matchResult.getWinner() == 0) count++;
-            }
-            if (matchResult.getUser1().equals(userName)) {
-                if (matchResult.getWinner() == 1) count++;
-            }
-        }
-        return count;
+        this.matchHistorys.add(matchResult);
     }
 
     public boolean compare(Account account) {
-        if (this.numOfWin() > account.numOfWin()) return true;
-        if (this.numOfWin() < account.numOfWin()) return false;
+        if (this.getWins() > account.getWins()) return true;
+        if (this.getLoses() < account.getLoses()) return false;
         if (this.userName.compareTo(account.userName) < 0) return true;
         return false;
     }
@@ -156,7 +170,7 @@ public class Account implements Cloneable {
     }
 
     public Player makePlayer(int playerNum) {
-        Deck deck =this.mainDeck.clone();
+        Deck deck = this.mainDeck.clone();
         Player player = new Player(playerNum, this.userName, deck, true);
         return player;
     }
@@ -195,7 +209,7 @@ public class Account implements Cloneable {
                 cards.remove(card);
                 moneyRise(card.getPrice());
                 for (Card card1 : Shop.getInstance().getCards().keySet()) {
-                    if (card1.getName().equals(card.getName())){
+                    if (card1.getName().equals(card.getName())) {
                         Shop.getInstance().getCards().replace(card1, Shop.getInstance().getCards().get(card1) + 1);
                         break;
                     }
@@ -212,7 +226,7 @@ public class Account implements Cloneable {
                 items.remove(item);
                 moneyRise(item.getCode());
                 for (Item item1 : Shop.getInstance().getItems().keySet()) {
-                    if (item1.getName().equals(item.getName())){
+                    if (item1.getName().equals(item.getName())) {
                         Shop.getInstance().getItems().replace(item, Shop.getInstance().getItems().get(item1) + 1);
                         break;
                     }

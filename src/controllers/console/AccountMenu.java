@@ -167,7 +167,7 @@ public class AccountMenu {
         sortAccounts();
         for (int i = 0; i < accounts.size(); i++) {
             MyPrinter.purple(i + 1 + "-UserName:" + accounts.get(i).getUserName() +
-                    "-Wins:" + accounts.get(i).numOfWin());
+                    "-Wins:" + accounts.get(i).getWins());
         }
     }
 
