@@ -22,8 +22,4 @@ public class EndTurnRes extends Response {
         return null;
     }
 
-    @Override
-    public void handle(){
-        ((BattleController)Board.getController()).endTurnRes();
-    }
 }

@@ -2,6 +2,7 @@ package controllers.graphical;
 
 import com.gilecode.yagson.YaGson;
 import controllers.MyController;
+import controllers.console.AccountMenu;
 import controllers.console.BattleMenu;
 import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
@@ -25,6 +26,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
+import models.Account;
 import models.battle.*;
 import models.battle.board.Board;
 import models.battle.board.Location;
@@ -37,6 +39,7 @@ import models.cards.minion.SideType;
 import models.cards.spell.Spell;
 import models.cards.spell.TargetForm;
 import network.Client;
+import network.Requests.battle.BattleActionRequest;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -46,6 +49,12 @@ import java.util.*;
 import static models.battle.BattleActionType.*;
 
 public class BattleController {
+
+    public static BattleController instance;
+    {
+        instance = this;
+    }
+
     Double hideAndRiseSpeed = 50.0;
     Double aiPlayerSpeed = 150.0;
     Double reviewSpeed = 150.0;
@@ -71,6 +80,8 @@ public class BattleController {
     private GraphicButton specialPower;
     private ManaViewer[] manaViewers;
     private GraveYard graveYard;
+    private Account loginAccount = AccountMenu.getLoginAccount();
+    private YaGson yaGson = new YaGson();
 
     public BattleController() {
         anchorPane = new AnchorPane();
@@ -162,7 +173,7 @@ public class BattleController {
             if (!players[turn].isHuman()) {
                 return;
             }
-            endTurn();
+            endTurnRequest();
         });
         anchorPane.getChildren().add(endTurn.getParentPane());
 
@@ -574,7 +585,7 @@ public class BattleController {
             return;
         }
         BattleAction battleAction =  new BattleAction(minion.getCardId(),null,target,move);
-        //todo send to server
+        doAndSendBattleAction(battleAction);
     }
 
     public void attackRequest(Minion attacker, Minion defender){
@@ -583,7 +594,7 @@ public class BattleController {
             return;
         }
         BattleAction battleAction =  new BattleAction(attacker.getCardId(),defender.getCardId(),null,attack);
-        //todo send to server
+        doAndSendBattleAction(battleAction);
     }
 
     public void insertRequest(Card card, Location target){
@@ -592,7 +603,7 @@ public class BattleController {
             return;
         }
         BattleAction battleAction =  new BattleAction(card.getCardId(),null,target,insert);
-        //todo send to server
+        doAndSendBattleAction(battleAction);
     }
 
     public void useSpecialPowerRequest(Hero hero, Location target){
@@ -601,7 +612,29 @@ public class BattleController {
             return;
         }
         BattleAction battleAction =  new BattleAction(hero.getCardId(),null,target,useSpecialPower);
-        //todo send to server
+        doAndSendBattleAction(battleAction);
+    }
+
+    public void endTurnRequest(){
+        if (!onServer){
+            endTurn();
+            return;
+        }
+        BattleAction battleAction = new BattleAction(null, null, null, endTurn);
+        doAndSendBattleAction(battleAction);
+    }
+    private void doAndSendBattleAction(BattleAction battleAction) {
+        doOneAction(battleAction);
+        BattleActionRequest battleActionRequest = new BattleActionRequest(loginAccount.getAuthToken(), getUserNameOfOpponent(), battleAction);
+        Client.getWriter().println(yaGson.toJson(battleActionRequest));
+        Client.getWriter().flush();
+    }
+
+    public String getUserNameOfOpponent(){
+        if (battle.getPlayers()[0].isHuman()){
+            return battle.getPlayers()[1].getUserName();
+        }
+        return battle.getPlayers()[0].getUserName();
     }
 
     public void btn_specialPowerClicked() {
@@ -2444,9 +2477,9 @@ public class BattleController {
             rightTT.setCycleCount(1);
 
             upTT.setOnFinished(event -> {
-                MediaPlayer impact = new MediaPlayer(new Media(new File("src/resources/Alert/impact.m4a").toURI().toString()));
-                impact.play();
-                showString();
+//                MediaPlayer impact = new MediaPlayer(new Media(new File("src/resources/Alert/impact.m4a").toURI().toString()));
+//                impact.play();
+//                showString();
             });
 
             leftTT.setOnFinished(middleEventHandler);

@@ -29,9 +29,4 @@ public class AttackRes extends Response {
     public Constants getRequestResult() {
         return null;
     }
-
-    @Override
-    public void handle(){
-
-    }
 }
