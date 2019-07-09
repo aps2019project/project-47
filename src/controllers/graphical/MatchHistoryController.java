@@ -1,13 +1,13 @@
 package controllers.graphical;
 
+import com.jfoenix.controls.JFXButton;
 import controllers.console.AccountMenu;
 import controllers.console.MainMenu;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import models.Account;
 import models.battle.MatchResult;
 import network.Client;
@@ -18,30 +18,34 @@ import java.util.ResourceBundle;
 
 public class MatchHistoryController implements Initializable {
     Account loginAccount = AccountMenu.getLoginAccount();
+    @FXML
+    private GridPane gridPane;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        System.out.println("loaded");
         ArrayList<MatchResult> matchResults = loginAccount.getMatchHistory();
+        int i = 1;
         for (MatchResult matchResult : matchResults){
-            board.getChildren().add(monoMatchResultLabel(matchResult.getUser0(), matchResult.getUser1(), matchResult.getWinner(), matchResult.getGameTime()));
+            String userName1 = matchResult.getUser0();
+            String userName2 = matchResult.getUser1();
+            String winner;
+            if (matchResult.getWinner() == 0)
+                winner = userName1;
+            else
+                winner = userName2;
+            JFXButton reviewButton = new JFXButton("Review");
+            reviewButton.setOnMouseClicked(event -> {
+                //todo add on click for reviewing battle
+            });
+            gridPane.add(new Label(userName1), 0, i);
+            gridPane.add(new Label(userName2), 1, i);
+            gridPane.add(new Label(winner), 2, i);
+            gridPane.add(reviewButton, 3, i);
         }
     }
 
-    @FXML
-    private VBox board;
-
-    @FXML
-    void back() {
+    public void back(MouseEvent mouseEvent) {
         Client.getStage().getScene().setRoot(MainMenu.getRoot());
-    }
-
-    public Label monoMatchResultLabel(String player0, String player1, int winner, Integer turns) {
-        Label label = null;
-        if (winner == 0)
-            label = new Label(player0 + " VS " + player1 + "   winner: " + player0 + " turns: " + turns);
-        else if(winner == 1)
-            label = new Label(player0 + " VS " + player1 + "   winner: " + player1 + " turns: " + turns);
-        label.setStyle("-fx-font-size: 19; -fx-font-weight: 900");
-        return label;
     }
 }
