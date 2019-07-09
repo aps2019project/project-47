@@ -1,13 +1,20 @@
 package network.Responses.battle;
 
 import controllers.Constants;
+import controllers.graphical.BattleController;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import models.Account;
 import models.battle.Battle;
 import models.battle.MatchType;
 import models.battle.Player;
+import models.battle.board.Board;
+import network.Client;
 import network.Requests.battle.StartNewBattleRequest;
 import network.Responses.Response;
 import network.Server;
+
+import java.io.IOException;
 
 public class StartNewBattleResponse extends Response {
     public StartNewBattleResponse(StartNewBattleRequest request){
@@ -28,15 +35,23 @@ public class StartNewBattleResponse extends Response {
         }
         Account account2 = Account.getAccountsMapper().get(request.getAuthToken());
         //todo playerNum chiye daghighan
-        player1 = account1.makePlayer(1);
-        player2 = account2.makePlayer(2);
+        player1 = account1.makePlayer(0);
+        player2 = account2.makePlayer(1);
         matchType = ((StartNewBattleRequest) request).getMatchType();
         numberOfFlags = ((StartNewBattleRequest) request).getNumberOfFlags();
     }
 
     @Override
     public void handleResponse() {
-        Battle battle = new Battle(player1, player2, matchType, numberOfFlags);
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/layouts/battlePlane.fxml"));
+            Client.getStage().getScene().setRoot(root);
+            Battle battle = new Battle(player1, player2, matchType, numberOfFlags);
+            BattleController controller = (BattleController) Board.getController();
+            controller.initializeBattle(battle, true, false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

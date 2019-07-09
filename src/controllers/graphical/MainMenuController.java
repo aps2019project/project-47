@@ -34,12 +34,15 @@ public class MainMenuController extends MyController {
     }
 
     public void goToPlayMenu() {
-        Parent root = null;
         try {
-            root = FXMLLoader.load(getClass().getResource("../../layouts/battleChooseMenu.fxml"));
+            Parent root = FXMLLoader.load(
+                    getClass()
+                            .getResource
+                                    ("../../layouts/battleChooseMenu.fxml"));
+            Client.getStage().getScene().setRoot(root);
         } catch (IOException ignored) {
+            ignored.printStackTrace();
         }
-        Client.getStage().getScene().setRoot(root);
     }
 
     public void goToCollectionMenu() throws IOException {
