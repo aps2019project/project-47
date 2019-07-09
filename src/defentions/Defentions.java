@@ -530,7 +530,7 @@ public class Defentions {
             buffs.add(new Buff(0, 1, 10, BuffType.health_rise, false));
             Effect effect = new Effect(buffs, null, null);
             specialItem.addPassive(effect);
-            Minion minion = new Minion(215, "eagle", 2, 0, 3, 200, CardType.minion,
+            Minion minion = new Minion(215, "eagle", 2, 1, 3, 200, CardType.minion,
                     MinionTargetsType.ranged, 2, specialItem);
             minion.getGraphicPack().setShopPhotoAddress("/resources/cards/boss_shinkage_zendo_portrait_image_hex@2x.png");
             minions.put(minion, 3);
