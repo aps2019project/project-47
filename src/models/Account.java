@@ -72,6 +72,14 @@ public class Account implements Cloneable {
         return Character.toString(ch);
     }
 
+    public int getWins() {
+        return 0;
+    }
+
+    public int getLoses(){
+        return 0;
+    }
+
     public void setAuthToken(String authToken) {
         this.authToken = authToken;
     }
@@ -170,7 +178,7 @@ public class Account implements Cloneable {
     }
 
     public Player makePlayer(int playerNum) {
-        Deck deck =this.mainDeck.clone();
+        Deck deck = this.mainDeck.clone();
         Player player = new Player(playerNum, this.userName, deck, true);
         return player;
     }
@@ -209,7 +217,7 @@ public class Account implements Cloneable {
                 cards.remove(card);
                 moneyRise(card.getPrice());
                 for (Card card1 : Shop.getInstance().getCards().keySet()) {
-                    if (card1.getName().equals(card.getName())){
+                    if (card1.getName().equals(card.getName())) {
                         Shop.getInstance().getCards().replace(card1, Shop.getInstance().getCards().get(card1) + 1);
                         break;
                     }
@@ -226,7 +234,7 @@ public class Account implements Cloneable {
                 items.remove(item);
                 moneyRise(item.getCode());
                 for (Item item1 : Shop.getInstance().getItems().keySet()) {
-                    if (item1.getName().equals(item.getName())){
+                    if (item1.getName().equals(item.getName())) {
                         Shop.getInstance().getItems().replace(item, Shop.getInstance().getItems().get(item1) + 1);
                         break;
                     }

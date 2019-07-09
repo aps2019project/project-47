@@ -3,6 +3,7 @@ package network.Responses;
 import com.gilecode.yagson.YaGson;
 import controllers.Constants;
 import controllers.console.AccountMenu;
+import controllers.graphical.ScoreBoardController;
 import models.Account;
 import network.Requests.account.ScoreBoardRequest;
 
@@ -19,7 +20,7 @@ public class ScoreBoardResponse extends Response{
     @Override
     public void handleRequest() {
         YaGson yaGson = new YaGson();
-        File file = new File("/JSONs/Accounts/");
+        File file = new File("src/JSONs/Accounts/");
         for (File file1 : file.listFiles()){
             try {
                 Scanner scanner = new Scanner(file1);
@@ -35,7 +36,9 @@ public class ScoreBoardResponse extends Response{
 
     @Override
     public void handleResponse() {
-
+        for (int i = 0; i < accounts.size(); i++) {
+            ScoreBoardController.instance.
+        }
     }
 
     @Override
