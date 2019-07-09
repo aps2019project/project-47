@@ -186,6 +186,9 @@ public class ClientHandler extends Thread {
                 clientHandler2.out.flush();
                 continue;
             }
+            if (request instanceof BattleActionRequest){
+
+            }
         }
     }
 
