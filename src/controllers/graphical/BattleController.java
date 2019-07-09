@@ -866,6 +866,7 @@ public class BattleController {
 
     private void sendMatchResult() {
         MatchResult result = battle.getMatchResult();
+        if (result==null)return;
         result.setBattleHistory(lastBattleHistory);
         loginAccount.getMatchHistory().add(result);
         YaGson yaGson = new YaGson();
@@ -2440,7 +2441,6 @@ public class BattleController {
         }
 
         public void start() {
-
             if (nowInAlertt) {
                 return;
             }
