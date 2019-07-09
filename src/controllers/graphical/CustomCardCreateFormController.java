@@ -192,6 +192,12 @@ public class CustomCardCreateFormController implements Initializable {
             newCard.getGraphicPack().setSpawnSoundAddress("src/resources/cards/Mmd_test/spawnSound.m4a");
             newCard.getGraphicPack().setImpactSoundAddress("src/resources/cards/Mmd_test/impactSound.m4a");
             newCard.getGraphicPack().setHitSoundAddress("src/resources/cards/Mmd_test/hitSound.m4a");
+            newCard.setCode(code);
+            try {
+                UniversalShopController.instance.addId(newCard);
+            } catch (NullPointerException e){
+                e.printStackTrace();
+            }
             CreateCardRequest createCardRequest = new CreateCardRequest(newCard);
             YaGson yaGson = new YaGson();
             String yaJson1 = yaGson.toJson(createCardRequest);
@@ -202,7 +208,7 @@ public class CustomCardCreateFormController implements Initializable {
             ap.setText("");
             hp.setText("");
             cost.setText("");
-            AlertHelper.showAlert(Alert.AlertType.INFORMATION , Client.getStage().getOwner() , "WOW!" , "Custom Card Created!");
+            AlertHelper.showAlert(Alert.AlertType.INFORMATION, Client.getStage().getOwner(), "WOW!", "Custom Card Created!");
         } catch (Exception e) {
             //AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "ERROR", e.getMessage());
             e.printStackTrace();
@@ -243,7 +249,7 @@ public class CustomCardCreateFormController implements Initializable {
             AlertHelper.showAlert(Alert.AlertType.INFORMATION, Client.getStage().getOwner(), "Buff Added!", "Buff Added!");
             return buff;
         } catch (Exception e) {
-           // AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "ERROR", e.getMessage());
+            AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "ERROR", e.getMessage());
             e.printStackTrace();
         }
         return null;
@@ -351,7 +357,7 @@ public class CustomCardCreateFormController implements Initializable {
             }
             activationTimeOfSpecialPower.getSelectionModel().clearSelection();
         } catch (Exception e) {
-           // AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "ERROR", Arrays.toString(e.getStackTrace()));
+            AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "ERROR", Arrays.toString(e.getStackTrace()));
             e.printStackTrace();
         }
     }
