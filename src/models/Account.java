@@ -156,14 +156,9 @@ public class Account implements Cloneable {
     }
 
     public Player makePlayer(int playerNum) {
-        try {
-            Deck deck = (Deck) this.mainDeck.clone();
-            Player player = new Player(playerNum, this.userName, deck, true);
-            return player;
-        } catch (CloneNotSupportedException e) {
-            System.out.println(e.getMessage());
-            return null;
-        }
+        Deck deck =this.mainDeck.clone();
+        Player player = new Player(playerNum, this.userName, deck, true);
+        return player;
     }
 
     @Override

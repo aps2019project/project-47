@@ -1,5 +1,6 @@
 package models.deck;
 
+import com.gilecode.yagson.YaGson;
 import controllers.Constants;
 import models.cards.Card;
 import models.cards.CardType;
@@ -11,7 +12,7 @@ import views.MyPrinter;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Deck implements Cloneable {
+public class Deck{
     private String name;
     private ArrayList<Card> cards;
     private Item item;
@@ -55,14 +56,11 @@ public class Deck implements Cloneable {
         return giveCard(0);
     }
 
-    @Override
-    public Object clone() throws CloneNotSupportedException {
-        String string = new String(this.name);
-        ArrayList<Card> cards = new ArrayList<>();
-        for (Card card : this.cards) {
-            cards.add((Card) card.clone());
-        }
-        return new Deck(string, cards, item);
+    public Deck clone(){
+        YaGson yaGson = new YaGson();
+        String clonedStr =  yaGson.toJson(this);
+        Deck newDeck =  yaGson.fromJson(clonedStr,Deck.class);
+        return newDeck;
     }
 
     public void addCard(Card card) {
