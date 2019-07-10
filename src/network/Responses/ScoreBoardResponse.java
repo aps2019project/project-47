@@ -36,6 +36,7 @@ public class ScoreBoardResponse extends Response{
 
     @Override
     public void handleResponse() {
+        //todo clear grid pane for duplicates
         for (int i = 0; i < accounts.size(); i++) {
             ScoreBoardController.instance.addDetails(accounts.get(i), i+1);
         }

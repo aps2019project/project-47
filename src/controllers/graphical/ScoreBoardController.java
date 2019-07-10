@@ -23,6 +23,10 @@ public class ScoreBoardController implements Initializable {
     private YaGson yaGson = new YaGson();
     public static ScoreBoardController instance;
 
+    public GridPane getGridPane() {
+        return gridPane;
+    }
+
     {
         instance = this;
     }
