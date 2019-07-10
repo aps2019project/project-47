@@ -17,6 +17,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ScoreBoardController implements Initializable {
+    private int numberOfRows = 1;
     @FXML
     private GridPane gridPane;
     private Account loginAccount = AccountMenu.getLoginAccount();
@@ -29,6 +30,8 @@ public class ScoreBoardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        if (gridPane.getChildren().size() >= 3)
+            clearGridPane();
         ScoreBoardRequest scoreBoardRequest = new ScoreBoardRequest(loginAccount.getAuthToken());
         Client.getWriter().println(yaGson.toJson(scoreBoardRequest));
         Client.getWriter().flush();
@@ -37,9 +40,15 @@ public class ScoreBoardController implements Initializable {
     public void back(MouseEvent mouseEvent) {
         Client.getStage().getScene().setRoot(MainMenu.getRoot());
     }
-    public void addDetails(Account account, int row){
+
+    public void addDetails(Account account, int row) {
+        numberOfRows++;
         gridPane.add(new Label(account.getUserName()), 0, row);
         gridPane.add(new Label(Integer.toString(account.getWins())), 1, row);
         gridPane.add(new Label(Integer.toString(account.getLoses())), 2, row);
+    }
+
+    public void clearGridPane() {
+        gridPane.getChildren().remove(3, gridPane.getChildren().size());
     }
 }
