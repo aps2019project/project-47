@@ -19,7 +19,7 @@ import java.util.Formatter;
 public class Test {
     public static void main(String[] args) {
         Shop shop = Shop.getInstance();
-        Account Mmd = new Account("Mmd", "1234");
+        Account Mmd = new Account("hossein", "hossein");
         Deck deck1 = new Deck("best");
         ArrayList<Minion> minions = new ArrayList<>(Defentions.defineMinion().keySet());
         ArrayList<Hero> heroes = new ArrayList<>(Defentions.defineHero().keySet());
@@ -35,16 +35,16 @@ public class Test {
         deck1.setItem(items.get(0));
         Mmd.addDeck(deck1);
         Mmd.setMainDeck(deck1);
-        Deck deck2 = new Deck("best2");
-        for (int i = 0; i < 15; i++) {
-            deck2.addCard(minions.get(i));
-        }
-        for (int i = 0; i < 4; i++) {
-            deck2.addCard(spells.get(i));
-        }
-        deck2.addCard(heroes.get(0));
-        deck2.setItem(items.get(0));
-        Mmd.addDeck(deck2);
+//        Deck deck2 = new Deck("best2");
+//        for (int i = 0; i < 15; i++) {
+//            deck2.addCard(minions.get(i));
+//        }
+//        for (int i = 0; i < 4; i++) {
+//            deck2.addCard(spells.get(i));
+//        }
+//        deck2.addCard(heroes.get(0));
+//        deck2.setItem(items.get(0));
+//        Mmd.addDeck(deck2);
         AccountMenu.addAccount(Mmd);
         AccountMenu.setLoginAccount(Mmd);
         for (int i = 101; i < 500; i++) {

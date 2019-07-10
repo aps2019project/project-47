@@ -32,7 +32,7 @@ public class Account implements Cloneable {
         this.userName = new String(userName);
         this.money = 300_000;
         storyLvl = 1;
-        this.matchHistorys = new ArrayList<MatchResult>();
+        this.matchHistorys = new ArrayList<>();
         cards = new ArrayList<>();
         items = new ArrayList<>();
         this.decks = new ArrayList<Deck>();
@@ -74,6 +74,7 @@ public class Account implements Cloneable {
 
     public int getWins() {
         int count = 0;
+        assert this.matchHistorys != null;
         for (MatchResult matchResult : this.matchHistorys) {
             if (matchResult.getUser0().equals(userName)) {
                 if (matchResult.getWinner() == 0) count++;
@@ -85,7 +86,7 @@ public class Account implements Cloneable {
         return count;
     }
 
-    public int getLoses(){
+    public int getLoses() {
         int count = 0;
         for (MatchResult matchResult : this.matchHistorys) {
             if (matchResult.getUser1().equals(userName)) {
@@ -111,8 +112,8 @@ public class Account implements Cloneable {
     }
 
     public ArrayList<MatchResult> getMatchHistorys() {
-        if (matchHistorys==null){
-            matchHistorys= new ArrayList<>();
+        if (matchHistorys == null) {
+            matchHistorys = new ArrayList<>();
         }
         return matchHistorys;
     }
