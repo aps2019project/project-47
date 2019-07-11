@@ -25,13 +25,10 @@ import network.Requests.battle.CancelNewBattleRequest;
 import network.Requests.battle.NewBattleRequest;
 import network.Requests.battle.OnlinePlayersRequest;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 
 public class BattleChooseMenuController extends MyController implements Initializable {
 
@@ -41,7 +38,7 @@ public class BattleChooseMenuController extends MyController implements Initiali
         instance = this;
     }
 
-    public JFXTextField ternText;
+    public JFXTextField turnText;
     public JFXTabPane mainPage;
     public VBox storyGameTab;
     public VBox SingleGameTab;
@@ -80,20 +77,20 @@ public class BattleChooseMenuController extends MyController implements Initiali
         String deckName = decks.getSelectionModel().getSelectedItem();
         Deck selectedDeck = null;
         ArrayList<Deck> decks = AccountMenu.getLoginAccount().getDecks();
-        for (Deck deck : decks) {
-            if (deck.getName().equals(deckName)) {
+        for (Deck deck:decks){
+            if (deck.getName().equals(deckName)){
                 selectedDeck = deck;
                 break;
             }
         }
         Player player0 = AccountMenu.getLoginAccount().makePlayer(0);
-        Player player1 = new Player(1, "pc", selectedDeck.clone(), false);
+        Player player1= new Player(1,"pc",selectedDeck.clone(),false);
         int numOfFlags = Integer.valueOf(numberOfFlags.getText());
-        Battle battle = new Battle(player0, player1, type, numOfFlags);
+        Battle battle = new Battle(player0,player1,type,numOfFlags);
+        setTurnTime(battle);
         Parent root = Board.getRoot();
-        BattleController controller = (BattleController) Board.getController();
+        BattleController controller = Board.getController();
         controller.initializeBattle(battle, false, false);
-        setTurnTime(controller);
         Client.getStage().getScene().setRoot(root);
     }
 
@@ -103,11 +100,12 @@ public class BattleChooseMenuController extends MyController implements Initiali
             Player player0 = account.makePlayer(0);
             StoryGame storyGame = new StoryGame();
             Battle battle = storyGame.story(player0, account.getStoryLvl());
+            setTurnTime(battle);
             Parent root = Board.getRoot();
             BattleController controller = (BattleController) Board.getController();
             controller.initializeBattle(battle, false, false);
             controller.setOnStoryMod();
-            setTurnTime(controller);
+
             Client.getStage().getScene().setRoot(root);
         } catch (NullPointerException e) {
             AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Deck is not complete!", "Deck is not complete!");
@@ -120,11 +118,15 @@ public class BattleChooseMenuController extends MyController implements Initiali
             return;
         String opponentUserName = (otherPlayers.getSelectionModel().getSelectedItem());
         MatchType matchType = (modeOfBattle.getSelectionModel().getSelectedItem());
-        if (numOfFlags.getText().equals("") && matchType != MatchType.kill) return;
-        int nmf = 0;
-        if (matchType != MatchType.kill)
-        nmf = Integer.valueOf(numOfFlags.getText());
-        NewBattleRequest newBattleRequest = new NewBattleRequest(loginAccount.getAuthToken(), opponentUserName, matchType, nmf);
+        if (numOfFlags.getText().equals("") && matchType!=MatchType.kill)return;
+        int nmf = Integer.valueOf(numOfFlags.getText());
+
+        Double turnTime = 2000.0;
+        if (!turnText.getText().equals("")){
+            turnTime = Double.valueOf(turnText.getText());
+        }
+
+        NewBattleRequest newBattleRequest = new NewBattleRequest(loginAccount.getAuthToken(), opponentUserName, matchType, nmf,turnTime);
         Client.getWriter().println(yaGson.toJson(newBattleRequest));
         Client.getWriter().flush();
         cancelButton.setDisable(false);
@@ -218,9 +220,9 @@ public class BattleChooseMenuController extends MyController implements Initiali
         Client.getWriter().flush();
     }
 
-    public void setTurnTime(BattleController battleController){
-        if (!ternText.getText().equals("")){
-            battleController.setTurntime(Double.valueOf(ternText.getText()));
+    public void setTurnTime(Battle battle){
+        if (!turnText.getText().equals("")){
+            battle.setTurnTime(Double.valueOf(turnText.getText()));
         }
     }
 

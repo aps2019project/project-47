@@ -59,9 +59,17 @@ public class NewBattleController implements Initializable {
     private String userNameOfRequest;
     private MatchType matchType;
     private int numberOfFlags;
-
+    private double turnTime;
     public String getUserNameOfRequest() {
         return userNameOfRequest;
+    }
+
+    public double getTurnTime() {
+        return turnTime;
+    }
+
+    public void setTurnTime(double turnTime) {
+        this.turnTime = turnTime;
     }
 
     public void setUserNameOfRequest(String userNameOfRequest) {
@@ -116,7 +124,7 @@ public class NewBattleController implements Initializable {
             reject();
             return;
         }
-        StartNewBattleRequest startNewBattleRequest = new StartNewBattleRequest(loginAccount.getAuthToken(), userNameOfRequest, matchType, numberOfFlags);
+        StartNewBattleRequest startNewBattleRequest = new StartNewBattleRequest(loginAccount.getAuthToken(), userNameOfRequest, matchType, numberOfFlags, turnTime);
         Client.getWriter().println(yaGson.toJson(startNewBattleRequest));
         Client.getWriter().flush();
     }

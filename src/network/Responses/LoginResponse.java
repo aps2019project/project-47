@@ -5,7 +5,9 @@ import controllers.Constants;
 import controllers.console.AccountMenu;
 import controllers.graphical.LoginRegisterController;
 import models.Account;
+import network.Client;
 import network.Requests.account.LoginRequest;
+import network.Requests.battle.UpdateScoreBoardRequest;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -73,5 +75,9 @@ public class LoginResponse extends Response {
     public void handleResponse() {
         AccountMenu.setLoginAccount(account);
         LoginRegisterController.instance.login(this);
+        UpdateScoreBoardRequest updateScoreBoardRequest = new UpdateScoreBoardRequest(null);
+        YaGson yaGson = new YaGson();
+        Client.getWriter().println(yaGson.toJson(updateScoreBoardRequest));
+        Client.getWriter().flush();
     }
 }
