@@ -25,6 +25,7 @@ import models.cards.spell.Spell;
 import models.item.Item;
 import network.Client;
 import network.Requests.shop.BuyRequest;
+import network.Requests.shop.GetCustomCardsRequest;
 import network.Requests.shop.SellRequest;
 import network.Responses.Response;
 
@@ -114,10 +115,18 @@ public class UniversalShopController implements Initializable {
 
     @FXML
     public void setUniversalCollectionMenu() {
+        updateCustomCards();
         initializeCards();
         addCardsToContainer(cards.values());
         copyCardsInSearchSource();
         money.setText("Money : " + loginAccount.getMoney());
+    }
+
+    private void updateCustomCards() {
+        GetCustomCardsRequest getCustomCardsRequest = new GetCustomCardsRequest();
+        String yaJson1 = yaGson.toJson(getCustomCardsRequest);
+        Client.getWriter().println(yaJson1);
+        Client.getWriter().flush();
     }
 
     @FXML
@@ -171,16 +180,22 @@ public class UniversalShopController implements Initializable {
 
     public void addId(Card card) {
         if (card instanceof Spell) {
-            spellIds.add("s" + card.getCode());
-            card.setCardId("s" + card.getCode());
+            if (!spellIds.contains("s" + card.getCode())) {
+                spellIds.add("s" + card.getCode());
+                card.setCardId("s" + card.getCode());
+            }
         }
         if (card instanceof Hero) {
-            heroIds.add("h" + card.getCode());
-            card.setCardId("h" + card.getCode());
+            if (!heroIds.contains("h" + card.getCode())) {
+                heroIds.add("h" + card.getCode());
+                card.setCardId("h" + card.getCode());
+            }
         }
         if (card instanceof Minion) {
-            minionIds.add("m" + card.getCode());
-            card.setCardId("m" + card.getCode());
+            if (!minionIds.contains("m" + card.getCode())) {
+                minionIds.add("m" + card.getCode());
+                card.setCardId("m" + card.getCode());
+            }
         }
     }
 

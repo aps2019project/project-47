@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import models.Message;
 import models.Shop;
 import models.battle.MatchResult;
+import models.cards.Card;
 
 import java.io.*;
 import java.net.ServerSocket;
@@ -19,6 +20,8 @@ import java.util.Properties;
 import java.util.regex.Pattern;
 
 public class Server extends Application {
+
+    public static ArrayList<Card> customCards = new ArrayList<>();
 
     public static ArrayList<Message> messages = new ArrayList<>();
 

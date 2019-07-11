@@ -5,6 +5,7 @@ import controllers.graphical.ServerShopController;
 import models.Shop;
 import network.Requests.Request;
 import network.Requests.shop.CreateCardRequest;
+import network.Server;
 
 public class CreateCardResponse extends Response {
 
@@ -15,6 +16,7 @@ public class CreateCardResponse extends Response {
 
     @Override
     public void handleRequest() {
+        Server.customCards.add(((CreateCardRequest) request).getCard());
         Shop.getInstance().getCards().put(((CreateCardRequest) request).getCard(), 1);
         ServerShopController.instance.addCard(((CreateCardRequest) request).getCard());
     }
