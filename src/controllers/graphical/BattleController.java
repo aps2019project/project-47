@@ -87,6 +87,7 @@ public class BattleController {
     }
 
     public Parent getRoot() {
+        Client.stpoMusic();
         return anchorPane;
     }
 
@@ -97,7 +98,7 @@ public class BattleController {
 
     public void initialize() {
         setBackground();
-//        setMusic();
+        setMusic();
         creatBoardCells();
         creatHandScene();
         createButtons();
@@ -131,7 +132,7 @@ public class BattleController {
         update_specialPower_btn();
         graphicalBoard.updateFlagAndItem();
         updatesOfANewTurn();
-
+        new MyAlert("battle started...").start();
     }
 
     private void setBackground() {
@@ -2409,17 +2410,17 @@ public class BattleController {
             typingSpeed = new Double(5.0);
 
             this.string = string;
-            left = new ImageView(new Image(new File("src/resources/inBattle/buttons/close.png").toURI().toString()));
+            left = new ImageView(new Image(new File("src/resources/Alert/leftImage.png").toURI().toString()));
             left.relocate(-1920, 0);
             left.setFitWidth(1920);
             left.setFitHeight(1080);
 
-            right = new ImageView(new Image(new File("src/resources/inBattle/buttons/close.png").toURI().toString()));
+            right = new ImageView(new Image(new File("src/resources/Alert/rightImage.png").toURI().toString()));
             right.relocate(1920, 0);
             right.setFitWidth(1920);
             right.setFitHeight(1080);
 
-            up = new ImageView(new Image(new File("src/resources/inBattle/buttons/close.png").toURI().toString()));
+            up = new ImageView(new Image(new File("src/resources/Alert/upImage.png").toURI().toString()));
             up.relocate(0, -1080);
             up.setFitWidth(1920);
             up.setFitHeight(1080);
@@ -2495,7 +2496,7 @@ public class BattleController {
 
             upTT.setOnFinished(event -> {
                 MediaPlayer impact = new MediaPlayer(new Media(new File("src/resources/Alert/impact.m4a").toURI().toString()));
-                //impact.play();
+                impact.play();
                 showString();
             });
 
@@ -2551,6 +2552,7 @@ public class BattleController {
     }
 
     private static class MyMediaPlayer {
+
         static Double effectTime = 2.0;
 
         public static void playEffectSoundOfACard(Card card, soundType type) {
@@ -2582,11 +2584,12 @@ public class BattleController {
                     break;
                 }
             }
-//            Media media = new Media(new File(address).toURI().toString());
-//            MediaPlayer mediaPlayer = new MediaPlayer(media);
-//            mediaPlayer.setStopTime(Duration.seconds(effectTime));
-//            mediaPlayer.play();
+            Media media = new Media(new File(address).toURI().toString());
+            MediaPlayer mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.setStopTime(Duration.seconds(effectTime));
+            mediaPlayer.play();
         }
+
     }
 
     private enum soundType {

@@ -6,11 +6,14 @@ import javafx.scene.ImageCursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 import java.io.*;
 import java.net.Socket;
 import java.util.Properties;
+import java.util.Random;
 import java.util.Scanner;
 
 import static network.Server.getPort;
@@ -20,6 +23,7 @@ public class Client extends Application {
     private static Stage stage;
     private static PrintWriter writer;
     private static Scanner serverScanner;
+    private static MediaPlayer music;
 
     public static PrintWriter getWriter() {
         return writer;
@@ -88,5 +92,20 @@ public class Client extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public static void setMusic() {
+        Random random = new Random();
+        String address = "src/resources/music/battle/" + random.nextInt(20) + ".m4a";
+        Media media = new Media(new File(address).toURI().toString());
+        stpoMusic();
+        music = new MediaPlayer(media);
+        music.setVolume(0.2);
+        music.play();
+    }
+    public static void stpoMusic(){
+        if (music != null) {
+            music.stop();
+        }
     }
 }

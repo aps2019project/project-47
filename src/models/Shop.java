@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import models.cards.Card;
 import models.item.Item;
 import models.item.ItemType;
+import network.Client;
 import views.MyPrinter;
 
 import java.io.IOException;
@@ -242,7 +243,7 @@ public class Shop {
             }
             controller = fxmlLoader.getController();
         }
-
+        Client.setMusic();
         return root;
     }
 
