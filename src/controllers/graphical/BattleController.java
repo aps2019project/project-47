@@ -132,7 +132,7 @@ public class BattleController {
         update_specialPower_btn();
         graphicalBoard.updateFlagAndItem();
         updatesOfANewTurn();
-
+        new MyAlert("battle started...").start();
     }
 
     private void setBackground() {
@@ -2410,17 +2410,17 @@ public class BattleController {
             typingSpeed = new Double(5.0);
 
             this.string = string;
-            left = new ImageView(new Image(new File("src/resources/inBattle/buttons/close.png").toURI().toString()));
+            left = new ImageView(new Image(new File("src/resources/Alert/leftImage.png").toURI().toString()));
             left.relocate(-1920, 0);
             left.setFitWidth(1920);
             left.setFitHeight(1080);
 
-            right = new ImageView(new Image(new File("src/resources/inBattle/buttons/close.png").toURI().toString()));
+            right = new ImageView(new Image(new File("src/resources/Alert/rightImage.png").toURI().toString()));
             right.relocate(1920, 0);
             right.setFitWidth(1920);
             right.setFitHeight(1080);
 
-            up = new ImageView(new Image(new File("src/resources/inBattle/buttons/close.png").toURI().toString()));
+            up = new ImageView(new Image(new File("src/resources/Alert/upImage.png").toURI().toString()));
             up.relocate(0, -1080);
             up.setFitWidth(1920);
             up.setFitHeight(1080);
