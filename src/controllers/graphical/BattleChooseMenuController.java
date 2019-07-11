@@ -123,7 +123,7 @@ public class BattleChooseMenuController extends MyController implements Initiali
         if (numOfFlags.getText().equals("") && matchType != MatchType.kill) return;
         int nmf = 0;
         if (matchType != MatchType.kill)
-            nmf = Integer.valueOf(numOfFlags.getText());
+        nmf = Integer.valueOf(numOfFlags.getText());
         NewBattleRequest newBattleRequest = new NewBattleRequest(loginAccount.getAuthToken(), opponentUserName, matchType, nmf);
         Client.getWriter().println(yaGson.toJson(newBattleRequest));
         Client.getWriter().flush();

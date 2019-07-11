@@ -81,7 +81,6 @@ public class Account implements Cloneable {
 
     public int getWins() {
         int count = 0;
-        assert this.matchHistorys != null;
         for (MatchResult matchResult : this.matchHistorys) {
             if (matchResult.getUser0().equals(userName)) {
                 if (matchResult.getWinner() == 0) count++;

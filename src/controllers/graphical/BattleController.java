@@ -40,12 +40,14 @@ import network.Requests.account.UpdateAccountRequest;
 import network.Requests.battle.BattleActionRequest;
 import network.Requests.battle.MatchResultRequest;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.util.*;
 
 import static models.battle.BattleActionType.*;
 
-public class BattleController {
+public class BattleController implements KeyListener {
 
     public static BattleController instance;
 
@@ -93,6 +95,22 @@ public class BattleController {
     public Parent getRoot() {
         Client.stpoMusic();
         return anchorPane;
+    }
+
+    private String cheatText = "";
+
+    @Override
+    public void keyTyped(KeyEvent keyEvent) {
+        int id = keyEvent.getID();
+        //if ()
+    }
+
+    @Override
+    public void keyPressed(KeyEvent keyEvent) {
+    }
+
+    @Override
+    public void keyReleased(KeyEvent keyEvent) {
     }
 
     public void setOnStoryMod(){
@@ -965,7 +983,6 @@ public class BattleController {
             }
         }
     }
-
 
     private class CardScene {
         Pane parentPane;
