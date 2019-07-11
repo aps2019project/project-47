@@ -18,8 +18,8 @@ public class Account implements Cloneable {
     private String userName;
     private int money;
     private String password;
-    private transient String authToken;
-
+    private String authToken;
+    private boolean isOnline;
     private ArrayList<MatchResult> matchHistorys;
 
     private ArrayList<Card> cards;
@@ -39,6 +39,13 @@ public class Account implements Cloneable {
         this.password = password;
     }
 
+    public boolean isOnline() {
+        return isOnline;
+    }
+
+    public void setOnline(boolean online) {
+        isOnline = online;
+    }
 
     private transient static HashMap<String, Account> accountsMapper = new HashMap<>(); //token --> account
 

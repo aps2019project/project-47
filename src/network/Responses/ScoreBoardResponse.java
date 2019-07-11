@@ -19,12 +19,17 @@ public class ScoreBoardResponse extends Response{
     }
     @Override
     public void handleRequest() {
+        AccountMenu.getAccounts().clear();
         YaGson yaGson = new YaGson();
         File file = new File("src/JSONs/Accounts/");
         for (File file1 : file.listFiles()){
             try {
                 Scanner scanner = new Scanner(file1);
                 Account account = yaGson.fromJson(scanner.nextLine(), Account.class);
+                if (isOnline(account))
+                    account.setOnline(true);
+                else
+                    account.setOnline(false);
                 AccountMenu.getAccounts().add(account);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -34,9 +39,19 @@ public class ScoreBoardResponse extends Response{
         this.accounts = AccountMenu.getAccounts();
     }
 
+    private boolean isOnline(Account account){
+        for (Account account1 : Account.getAccountsMapper().values()){
+            if (account1.getUserName().equals(account.getUserName()))
+                return true;
+        }
+        return false;
+    }
+
     @Override
     public void handleResponse() {
-        //todo clear grid pane for duplicates
+        if (ScoreBoardController.loaded){
+            ScoreBoardController.instance.clearGridPane();
+        }
         for (int i = 0; i < accounts.size(); i++) {
             ScoreBoardController.instance.addDetails(accounts.get(i), i+1);
         }

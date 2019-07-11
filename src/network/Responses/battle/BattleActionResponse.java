@@ -1,9 +1,12 @@
 package network.Responses.battle;
 
+import com.gilecode.yagson.YaGson;
 import controllers.Constants;
 import controllers.graphical.BattleController;
 import models.Account;
+import network.Client;
 import network.Requests.battle.BattleActionRequest;
+import network.Requests.battle.UpdateScoreBoardRequest;
 import network.Responses.Response;
 
 public class BattleActionResponse extends Response {
@@ -19,6 +22,10 @@ public class BattleActionResponse extends Response {
     @Override
     public void handleResponse() {
         BattleController.instance.doOneAction(((BattleActionRequest) request).getBattleAction());
+        UpdateScoreBoardRequest updateScoreBoardRequest = new UpdateScoreBoardRequest(null);
+        YaGson yaGson = new YaGson();
+        Client.getWriter().println(yaGson.toJson(updateScoreBoardRequest));
+        Client.getWriter().flush();
     }
 
     @Override

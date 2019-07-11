@@ -219,6 +219,18 @@ public class ClientHandler extends Thread {
                 out.flush();
                 continue;
             }
+            if (request instanceof UpdateScoreBoardRequest){
+                for (Account account : Account.getAccountsMapper().values()){
+                    ScoreBoardRequest scoreBoardRequest = new ScoreBoardRequest(account.getAuthToken());
+                    ScoreBoardResponse scoreBoardResponse = new ScoreBoardResponse(scoreBoardRequest);
+                    scoreBoardResponse.handleRequest();
+                    responseStr = gson.toJson(scoreBoardResponse);
+                    ClientHandler clientHandler = Server.clientHandlers.get(account.getUserName());
+                    clientHandler.out.println(responseStr);
+                    clientHandler.out.flush();
+                    continue;
+                }
+            }
         }
     }
 
