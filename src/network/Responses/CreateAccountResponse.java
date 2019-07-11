@@ -6,28 +6,31 @@ import controllers.Constants;
 import controllers.console.AccountMenu;
 import controllers.graphical.LoginRegisterController;
 import models.Account;
+import network.Client;
 import network.Requests.account.CreateAccountRequest;
+import network.Requests.battle.UpdateScoreBoardRequest;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Formatter;
 
 public class CreateAccountResponse extends Response {
-    public CreateAccountResponse(CreateAccountRequest createAccountRequest){
+    public CreateAccountResponse(CreateAccountRequest createAccountRequest) {
         this.request = createAccountRequest;
     }
+
     @Override
-    public void handleRequest(){
+    public void handleRequest() {
         File accounts = new File("src/JSONs/Accounts");
         String userName = ((CreateAccountRequest) request).getUserName();
         String password = ((CreateAccountRequest) request).getPassword();
-        for (File accountFile : accounts.listFiles()){
-            if (accountFile.getName().startsWith(userName) && accountFile.getName().substring(userName.length()).charAt(0) == '.'){
+        for (File accountFile : accounts.listFiles()) {
+            if (accountFile.getName().startsWith(userName) && accountFile.getName().substring(userName.length()).charAt(0) == '.') {
                 requestResult = Constants.ACCOUNT_EXISTS;
                 break;
             }
         }
-        if (userName.toLowerCase().equals("pc")){
+        if (userName.toLowerCase().equals("pc")) {
             requestResult = Constants.PC_NOT_ALLOWED;
             return;
         }
@@ -56,5 +59,9 @@ public class CreateAccountResponse extends Response {
     @Override
     public void handleResponse() {
         LoginRegisterController.instance.createAccount(requestResult);
+        UpdateScoreBoardRequest updateScoreBoardRequest = new UpdateScoreBoardRequest(null);
+        YaGson yaGson = new YaGson();
+        Client.getWriter().println(yaGson.toJson(updateScoreBoardRequest));
+        Client.getWriter().flush();
     }
 }

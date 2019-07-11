@@ -23,6 +23,7 @@ public class ScoreBoardController implements Initializable {
     private Account loginAccount = AccountMenu.getLoginAccount();
     private YaGson yaGson = new YaGson();
     public static ScoreBoardController instance;
+    public static boolean loaded;
 
     public GridPane getGridPane() {
         return gridPane;
@@ -34,8 +35,7 @@ public class ScoreBoardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        if (gridPane.getChildren().size() >= 3)
-            clearGridPane();
+        loaded = true;
         ScoreBoardRequest scoreBoardRequest = new ScoreBoardRequest(loginAccount.getAuthToken());
         Client.getWriter().println(yaGson.toJson(scoreBoardRequest));
         Client.getWriter().flush();
@@ -50,9 +50,15 @@ public class ScoreBoardController implements Initializable {
         gridPane.add(new Label(account.getUserName()), 0, row);
         gridPane.add(new Label(Integer.toString(account.getWins())), 1, row);
         gridPane.add(new Label(Integer.toString(account.getLoses())), 2, row);
+        if (account.isOnline()){
+            gridPane.add(new Label("Online"), 3, row);
+        }
+        else
+            gridPane.add(new Label("Offline"), 3, row);
     }
 
     public void clearGridPane() {
-        gridPane.getChildren().remove(3, gridPane.getChildren().size());
+        if (gridPane.getChildren().size() >= 4)
+            gridPane.getChildren().remove(4, gridPane.getChildren().size());
     }
 }
