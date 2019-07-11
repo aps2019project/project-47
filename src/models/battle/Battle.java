@@ -38,8 +38,10 @@ public class Battle {
     private MatchResult matchResult;
     private int age;
     private int numOfFlags;
+    public Double turnTime;
 
     public Battle(Player player0, Player player1, MatchType matchType, int numOfFlags) {
+        turnTime = 2000.0;
         this.players = new Player[2];
         players[0] = player0;
         players[1] = player1;
@@ -63,6 +65,10 @@ public class Battle {
         //do items first of each battle
         action_item(find_item_minions_target(0, player0.getItem(), null), player0.getItem());
         action_item(find_item_minions_target(1, player1.getItem(), null), player1.getItem());
+    }
+
+    public void setTurnTime(Double turnTime) {
+        this.turnTime = turnTime;
     }
 
     public Battle(Player[] players, Board board, MatchType matchType) {

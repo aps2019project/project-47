@@ -120,6 +120,7 @@ public class BattleController {
     public void initializeBattle(Battle battle, boolean onServer, boolean onReview) {
         storyMod = false;
         myTime = 0.0;
+        this.timeOfEachTurn = battle.turnTime;
         this.battle = battle;
         this.onServer = onServer;
         this.onReview = onReview;
