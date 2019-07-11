@@ -7,6 +7,7 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import controllers.console.MainMenu;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
@@ -137,9 +138,21 @@ public class CustomCardCreateFormController implements Initializable {
     public void createCustomCard(ActionEvent actionEvent) {
         try {
             String newCardName = cardName.getText();
-            int newCardMp = Integer.parseInt(mp.getText());
-            int newCardAp = Integer.parseInt(ap.getText());
-            int newCardHp = Integer.parseInt(hp.getText());
+            int newCardMp = 0;
+            try {
+                newCardMp = Integer.parseInt(mp.getText());
+            } catch (Exception ignored) {
+            }
+            int newCardAp = 0;
+            try {
+                newCardAp = Integer.parseInt(ap.getText());
+            } catch (Exception ignored) {
+            }
+            int newCardHp = 0;
+            try {
+                Integer.parseInt(hp.getText());
+            } catch (Exception ignored){
+            }
             int newCardPrice = Integer.parseInt(cost.getText());
             int newCardAttackRange = Integer.parseInt(range.getText());
             MinionTargetsType newCardMinionTargetsType = null;
@@ -177,7 +190,6 @@ public class CustomCardCreateFormController implements Initializable {
                     newCard.getGraphicPack().setIdlePhotoAddress("src/resources/cards/Mmd_test/Avalanche_idle.gif");
                     break;
                 case "Spell": {
-                    TargetForm targetForm = getTargetFormSpell();
                     newCard = new Spell(code, newCardName, newCardMp, newCardPrice, spellEffectsNormal, null);
                     newCard.getGraphicPack().setShopPhotoAddress("/resources/cards/CloneCard.png");
                     newCard.getGraphicPack().setIdlePhotoAddress("src/resources/gifs/allAttack.gif");
@@ -193,9 +205,11 @@ public class CustomCardCreateFormController implements Initializable {
             newCard.getGraphicPack().setImpactSoundAddress("src/resources/cards/Mmd_test/impactSound.m4a");
             newCard.getGraphicPack().setHitSoundAddress("src/resources/cards/Mmd_test/hitSound.m4a");
             newCard.setCode(code);
+            if (UniversalShopController.instance == null)
+                FXMLLoader.load(getClass().getResource("../../layouts/UniversalShop.fxml"));
             try {
                 UniversalShopController.instance.addId(newCard);
-            } catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 e.printStackTrace();
             }
             CreateCardRequest createCardRequest = new CreateCardRequest(newCard);
@@ -365,7 +379,7 @@ public class CustomCardCreateFormController implements Initializable {
     public void addEffectSpell(ActionEvent actionEvent) {
         if (isHouseEffectSpell.isSelected()) {
             HouseEffectType type = null;
-            switch (buffType.getSelectionModel().getSelectedItem()) {
+            switch (buffTypeSpell.getSelectionModel().getSelectedItem()) {
                 case "Holy":
                     type = HouseEffectType.holly;
                     break;
@@ -403,11 +417,12 @@ public class CustomCardCreateFormController implements Initializable {
         ForceType forceType1 = getForceType(forceTypeSpell);
         MinionType minionType1 = getMinionType(minionTypeSpell);
         boolean allOfTheme = allOfThemeSpell.isSelected();
+        TargetForm targetForm = getTargetFormSpecialPower(sideType1, forceType1, minionType1, allOfTheme, X0Spell, Y0Spell, X1Spell, Y1Spell);
         X0Spell.setText("");
         X1Spell.setText("");
         Y0Spell.setText("");
         Y1Spell.setText("");
-        return getTargetFormSpecialPower(sideType1, forceType1, minionType1, allOfTheme, X0Spell, Y0Spell, X1Spell, Y1Spell);
+        return targetForm;
     }
 
 

@@ -8,8 +8,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="1080.0" prefWidth="1920.0" styleClass="underBackGround" stylesheets="@stylesheets/mainMenuStyles.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.graphical.MainMenuController">
-    <VBox spacing="30">
+<AnchorPane fx:id="anchorPane" prefHeight="1080.0" prefWidth="1920.0" styleClass="underBackGround" stylesheets="@stylesheets/mainMenuStyles.css" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.graphical.MainMenuController">
+    <VBox spacing="20">
+      <Label />
         <ImageView fitHeight="86" fitWidth="400">
             <VBox.margin>
                 <Insets left="70" top="100" />
@@ -73,12 +74,22 @@
                 </HBox.margin>
                 <Image url="/resources/buttons/bullet.png" />
             </ImageView>
+            <Label onMouseClicked="#learnGame" prefHeight="40.0" prefWidth="500.0" styleClass="menuName" text="LEARN GAME">
+            </Label>
+        </HBox>
+        <HBox>
+            <ImageView fitHeight="60" fitWidth="60" styleClass="menuButton">
+                <HBox.margin>
+                    <Insets left="100.0" top="20.0" />
+                </HBox.margin>
+                <Image url="/resources/buttons/bullet.png" />
+            </ImageView>
             <Label onMouseClicked="#exit" prefHeight="40.0" prefWidth="170.0" styleClass="menuName" text="EXIT">
             </Label>
         </HBox>
         <HBox spacing="30">
             <VBox.margin>
-                <Insets left="1400" top="20" />
+                <Insets left="1400" />
             </VBox.margin>
             <VBox spacing="5">
                 <ImageView fitHeight="96" fitWidth="96" onMouseClicked="#goToScoreBoard" styleClass="menuButton">

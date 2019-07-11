@@ -2,7 +2,6 @@ package controllers.graphical;
 
 import com.gilecode.yagson.YaGson;
 import controllers.console.AccountMenu;
-import controllers.console.BattleMenu;
 import controllers.console.MainMenu;
 import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
@@ -49,6 +48,7 @@ import static models.battle.BattleActionType.*;
 public class BattleController {
 
     public static BattleController instance;
+
     {
         instance = this;
     }
@@ -56,6 +56,8 @@ public class BattleController {
     Double hideAndRiseSpeed = 50.0;
     Double aiPlayerSpeed = 150.0;
     Double reviewSpeed = 150.0;
+    Double timeOfEachTurn = 2000.0;
+    Double myTime;
 
 
     public AnchorPane anchorPane;
@@ -72,6 +74,7 @@ public class BattleController {
     private Player[] players;
     private AnimationTimer aiTimer;
     private AnimationTimer reviewTimer;
+    private AnimationTimer turnTimer;
     private ImageView background;
     private MediaPlayer music;
     private boolean nowInAlertt;
@@ -80,6 +83,7 @@ public class BattleController {
     private GraveYard graveYard;
     private YaGson yaGson = new YaGson();
     private boolean storyMod;
+    private ImageView crusser;
 
     public BattleController() {
         anchorPane = new AnchorPane();
@@ -87,6 +91,7 @@ public class BattleController {
     }
 
     public Parent getRoot() {
+        Client.stpoMusic();
         return anchorPane;
     }
 
@@ -94,10 +99,14 @@ public class BattleController {
         storyMod = true;
     }
 
+    public void setTurntime(Double time){
+        timeOfEachTurn = time;
+    }
+
 
     public void initialize() {
         setBackground();
-//        setMusic();
+        setMusic();
         creatBoardCells();
         creatHandScene();
         createButtons();
@@ -105,10 +114,12 @@ public class BattleController {
         createReviewTimer();
         creatManaViewers();
         creatGraveYard();
+        creatTurnTimer();
     }
 
     public void initializeBattle(Battle battle, boolean onServer, boolean onReview) {
         storyMod = false;
+        myTime = 0.0;
         this.battle = battle;
         this.onServer = onServer;
         this.onReview = onReview;
@@ -131,7 +142,7 @@ public class BattleController {
         update_specialPower_btn();
         graphicalBoard.updateFlagAndItem();
         updatesOfANewTurn();
-
+        new MyAlert("battle started...").start();
     }
 
     private void setBackground() {
@@ -382,6 +393,27 @@ public class BattleController {
         anchorPane.getChildren().add(graveYard.parentPane);
     }
 
+    private void creatTurnTimer(){
+        crusser = new ImageView(new Image(new File("src/resources/inBattle/crusser.png").toURI().toString()));
+        crusser.setFitWidth(100);
+        crusser.setFitHeight(100);
+        anchorPane.getChildren().add(crusser);
+        turnTimer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                if (myTime.equals(timeOfEachTurn)){
+                    if (players[turn].isHuman()){
+                        endTurnRequest();
+                    }
+                    myTime = 0.0;
+                }
+                crusser.relocate(1920*(myTime/ timeOfEachTurn),-50);
+                myTime++;
+            }
+        };
+        turnTimer.start();
+    }
+
 
     private ImageView creatImageViewerOfMinion(Minion minion, MinionImageViewType minionImageViewType) {
         switch (minionImageViewType) {
@@ -586,6 +618,7 @@ public class BattleController {
 
     private void endTurn() {
 
+        myTime = 0.0;
         aiTimer.stop();
         reviewTimer.stop();
 
@@ -805,11 +838,14 @@ public class BattleController {
         if (!onReview) {
             lastBattleHistory.add(new BattleAction(null, null, null, BattleActionType.finish));
         }
+        if (turnTimer!=null){
+            turnTimer.stop();
+        }
 
         if (onServer) {
             //send finish battle requesta//todo
         }
-
+        myTime = 0.0;
         Double hidenTime = 200.0;
 
         Pane pane = new Pane();
@@ -2409,17 +2445,17 @@ public class BattleController {
             typingSpeed = new Double(5.0);
 
             this.string = string;
-            left = new ImageView(new Image(new File("src/resources/inBattle/buttons/close.png").toURI().toString()));
+            left = new ImageView(new Image(new File("src/resources/Alert/leftImage.png").toURI().toString()));
             left.relocate(-1920, 0);
             left.setFitWidth(1920);
             left.setFitHeight(1080);
 
-            right = new ImageView(new Image(new File("src/resources/inBattle/buttons/close.png").toURI().toString()));
+            right = new ImageView(new Image(new File("src/resources/Alert/rightImage.png").toURI().toString()));
             right.relocate(1920, 0);
             right.setFitWidth(1920);
             right.setFitHeight(1080);
 
-            up = new ImageView(new Image(new File("src/resources/inBattle/buttons/close.png").toURI().toString()));
+            up = new ImageView(new Image(new File("src/resources/Alert/upImage.png").toURI().toString()));
             up.relocate(0, -1080);
             up.setFitWidth(1920);
             up.setFitHeight(1080);
@@ -2495,7 +2531,7 @@ public class BattleController {
 
             upTT.setOnFinished(event -> {
                 MediaPlayer impact = new MediaPlayer(new Media(new File("src/resources/Alert/impact.m4a").toURI().toString()));
-                //impact.play();
+                impact.play();
                 showString();
             });
 
@@ -2551,6 +2587,7 @@ public class BattleController {
     }
 
     private static class MyMediaPlayer {
+
         static Double effectTime = 2.0;
 
         public static void playEffectSoundOfACard(Card card, soundType type) {
@@ -2582,11 +2619,12 @@ public class BattleController {
                     break;
                 }
             }
-//            Media media = new Media(new File(address).toURI().toString());
-//            MediaPlayer mediaPlayer = new MediaPlayer(media);
-//            mediaPlayer.setStopTime(Duration.seconds(effectTime));
-//            mediaPlayer.play();
+            Media media = new Media(new File(address).toURI().toString());
+            MediaPlayer mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.setStopTime(Duration.seconds(effectTime));
+            mediaPlayer.play();
         }
+
     }
 
     private enum soundType {
@@ -2623,6 +2661,8 @@ public class BattleController {
     public void setHistory(BattleHistory battleHistory) {
         this.lastBattleHistory = battleHistory;
     }
+
+
 
 }
 

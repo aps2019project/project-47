@@ -54,10 +54,10 @@ public class MatchHistoryController implements Initializable {
     }
 
     public void review(BattleHistory battleHistory){
+        battleHistory = battleHistory.clone();
         Battle battle = (battleHistory.getBattel());
         Parent root = Board.getRoot();
-        System.out.println(battleHistory.battleActions.size());
-        BattleController controller = (BattleController) Board.getController();
+        BattleController controller = Board.getController();
         controller.initializeBattle(battle, false, true);
         controller.setHistory(battleHistory);
         Client.getStage().getScene().setRoot(root);

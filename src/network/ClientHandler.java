@@ -3,6 +3,7 @@ package network;
 import com.gilecode.yagson.YaGson;
 import com.gilecode.yagson.YaGsonBuilder;
 import controllers.Constants;
+import controllers.graphical.CustomCardCreateFormController;
 import models.Account;
 import models.Shop;
 import models.battle.MatchResult;
@@ -12,10 +13,7 @@ import network.Requests.battle.*;
 import network.Requests.chatRoom.LeaveChatRequest;
 import network.Requests.chatRoom.SendMessageRequest;
 import network.Requests.chatRoom.UpdateChatRequest;
-import network.Requests.shop.BuyRequest;
-import network.Requests.shop.CreateCardRequest;
-import network.Requests.shop.FindRequest;
-import network.Requests.shop.SellRequest;
+import network.Requests.shop.*;
 import network.Responses.*;
 import network.Responses.battle.*;
 
@@ -198,6 +196,14 @@ public class ClientHandler extends Thread {
                 createCardResponse.handleRequest();
                 continue;
             }
+            if (request instanceof GetCustomCardsRequest){
+                GetCustomCardsResponse getCustomCardsResponse = new GetCustomCardsResponse();
+                getCustomCardsResponse.handleRequest();
+                responseStr = gson.toJson(getCustomCardsResponse);
+                out.println(responseStr);
+                out.flush();
+                continue;
+            }
             if (request instanceof MatchResultRequest){
                 MatchResult matchResult = ((MatchResultRequest) request).getMatchResult();
                 boolean contains = false;
@@ -217,7 +223,6 @@ public class ClientHandler extends Thread {
                 responseStr = gson.toJson(scoreBoardResponse);
                 out.println(responseStr);
                 out.flush();
-                continue;
             }
             if (request instanceof UpdateScoreBoardRequest){
                 for (Account account : Account.getAccountsMapper().values()){
