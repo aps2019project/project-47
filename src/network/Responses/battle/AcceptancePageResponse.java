@@ -37,6 +37,7 @@ public class AcceptancePageResponse extends Response {
             NewBattleController.instance.setText();
             NewBattleController.instance.setMatchType(this.matchType);
             NewBattleController.instance.setNumberOfFlags(this.numberOfFlags);
+            NewBattleController.instance.setTurnTime(((NewBattleRequest) request).getTurnTime());
         } catch (IOException e) {
             e.printStackTrace();
         }

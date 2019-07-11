@@ -7,12 +7,13 @@ public class StartNewBattleRequest extends Request {
     private String userNameOfOpponent;
     private MatchType matchType;
     private int numberOfFlags;
-
-    public StartNewBattleRequest(String authToken, String userNameOfOpponent, MatchType matchType, int numberOfFlags) {
+    private double turnTime;
+    public StartNewBattleRequest(String authToken, String userNameOfOpponent, MatchType matchType, int numberOfFlags, double turnTime) {
         this.authToken = authToken;// dovomi
         this.userNameOfOpponent = userNameOfOpponent; //avali
         this.matchType = matchType;
         this.numberOfFlags = numberOfFlags;
+        this.turnTime = turnTime;
     }
 
     public String getUserNameOfOpponent() {
