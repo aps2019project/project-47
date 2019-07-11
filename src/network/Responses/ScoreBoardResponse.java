@@ -53,6 +53,8 @@ public class ScoreBoardResponse extends Response{
             ScoreBoardController.instance.clearGridPane();
         }
         for (int i = 0; i < accounts.size(); i++) {
+            if (ScoreBoardController.instance == null)
+                return;
             ScoreBoardController.instance.addDetails(accounts.get(i), i+1);
         }
     }
