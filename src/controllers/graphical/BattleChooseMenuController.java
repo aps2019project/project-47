@@ -121,7 +121,12 @@ public class BattleChooseMenuController extends MyController implements Initiali
         if (numOfFlags.getText().equals("") && matchType!=MatchType.kill)return;
         int nmf = Integer.valueOf(numOfFlags.getText());
 
-        NewBattleRequest newBattleRequest = new NewBattleRequest(loginAccount.getAuthToken(), opponentUserName, matchType, nmf);
+        Double turnTime = 2000.0;
+        if (!turnText.getText().equals("")){
+            turnTime = Double.valueOf(turnText.getText());
+        }
+
+        NewBattleRequest newBattleRequest = new NewBattleRequest(loginAccount.getAuthToken(), opponentUserName, matchType, nmf,turnTime);
         Client.getWriter().println(yaGson.toJson(newBattleRequest));
         Client.getWriter().flush();
         cancelButton.setDisable(false);

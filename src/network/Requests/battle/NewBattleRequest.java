@@ -8,6 +8,7 @@ public class NewBattleRequest extends Request {
     private MatchType matchType;
     private int numOfFlags;
     private double turnTime;
+
     public NewBattleRequest(String authToken, String opponentUserName, MatchType matchType, int numOfFlags, double turnTime){
         this.authToken = authToken;
         this.opponentUserName = opponentUserName;
