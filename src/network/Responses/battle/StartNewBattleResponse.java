@@ -44,7 +44,7 @@ public class StartNewBattleResponse extends Response {
         matchType = ((StartNewBattleRequest) request).getMatchType();
         numberOfFlags = ((StartNewBattleRequest) request).getNumberOfFlags();
         battle = new Battle(player1, player2, matchType, numberOfFlags);
-
+        battle.setTurnTime(((StartNewBattleRequest) request).getTurnTime());
     }
 
     @Override

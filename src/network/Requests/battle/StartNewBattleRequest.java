@@ -27,4 +27,8 @@ public class StartNewBattleRequest extends Request {
     public int getNumberOfFlags() {
         return numberOfFlags;
     }
+
+    public double getTurnTime() {
+        return turnTime;
+    }
 }
