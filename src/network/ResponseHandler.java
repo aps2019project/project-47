@@ -12,7 +12,6 @@ public class ResponseHandler {
     private Thread listener;
     private String currentResponseStr;
     private Response currentResponse;
-    private Object lock = new Object();
 
     private ResponseHandler() {
         Scanner responseScanner = Client.getServerScanner();
@@ -38,27 +37,5 @@ public class ResponseHandler {
         if (responseHandler == null)
             responseHandler = new ResponseHandler();
         return responseHandler;
-    }
-
-
-    public Response getCurrentResponse() {
-        return currentResponse;
-    }
-
-    public void clearResponse() {
-        synchronized (lock) {
-            currentResponse = null;
-            currentResponseStr = null;
-        }
-    }
-
-    public static void waitForResponse() {
-        while (ResponseHandler.getInstance().getCurrentResponse() == null) {
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
     }
 }

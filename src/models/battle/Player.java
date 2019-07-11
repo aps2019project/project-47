@@ -31,7 +31,7 @@ public class Player {
     private ArrayList<Minion> allMinions;
 
     public Player(int playerNum, String userName, Deck deck, boolean human) {
-        this.num_Of_Used_Of_EveryCard = new int[400];
+        this.num_Of_Used_Of_EveryCard = new int[2001];
         for (int i = 0; i < 400; i++) {
             num_Of_Used_Of_EveryCard[i] = 1;
         }
