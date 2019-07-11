@@ -383,6 +383,10 @@ public class BattleController {
         anchorPane.getChildren().add(graveYard.parentPane);
     }
 
+    private void creatTurnTimer(){
+        
+    }
+
 
     private ImageView creatImageViewerOfMinion(Minion minion, MinionImageViewType minionImageViewType) {
         switch (minionImageViewType) {

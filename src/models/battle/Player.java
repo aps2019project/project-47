@@ -209,4 +209,7 @@ public class Player {
         this.human = human;
     }
 
+    public void setName(String name){
+        this.userName = name;
+    }
 }
