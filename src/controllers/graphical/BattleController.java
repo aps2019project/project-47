@@ -2,7 +2,6 @@ package controllers.graphical;
 
 import com.gilecode.yagson.YaGson;
 import controllers.console.AccountMenu;
-import controllers.console.BattleMenu;
 import controllers.console.MainMenu;
 import javafx.animation.Animation;
 import javafx.animation.AnimationTimer;
@@ -49,6 +48,7 @@ import static models.battle.BattleActionType.*;
 public class BattleController {
 
     public static BattleController instance;
+
     {
         instance = this;
     }
@@ -56,6 +56,8 @@ public class BattleController {
     Double hideAndRiseSpeed = 50.0;
     Double aiPlayerSpeed = 150.0;
     Double reviewSpeed = 150.0;
+    Double timeOfEachTurn = 2000.0;
+    Double myTime;
 
 
     public AnchorPane anchorPane;
@@ -72,6 +74,7 @@ public class BattleController {
     private Player[] players;
     private AnimationTimer aiTimer;
     private AnimationTimer reviewTimer;
+    private AnimationTimer turnTimer;
     private ImageView background;
     private MediaPlayer music;
     private boolean nowInAlertt;
@@ -80,6 +83,7 @@ public class BattleController {
     private GraveYard graveYard;
     private YaGson yaGson = new YaGson();
     private boolean storyMod;
+    private ImageView crusser;
 
     public BattleController() {
         anchorPane = new AnchorPane();
@@ -95,6 +99,10 @@ public class BattleController {
         storyMod = true;
     }
 
+    public void setTurntime(Double time){
+        timeOfEachTurn = time;
+    }
+
 
     public void initialize() {
         setBackground();
@@ -106,10 +114,12 @@ public class BattleController {
         createReviewTimer();
         creatManaViewers();
         creatGraveYard();
+        creatTurnTimer();
     }
 
     public void initializeBattle(Battle battle, boolean onServer, boolean onReview) {
         storyMod = false;
+        myTime = 0.0;
         this.battle = battle;
         this.onServer = onServer;
         this.onReview = onReview;
@@ -384,7 +394,24 @@ public class BattleController {
     }
 
     private void creatTurnTimer(){
-        
+        crusser = new ImageView(new Image(new File("src/resources/inBattle/crusser.png").toURI().toString()));
+        crusser.setFitWidth(100);
+        crusser.setFitHeight(100);
+        anchorPane.getChildren().add(crusser);
+        turnTimer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                if (myTime.equals(timeOfEachTurn)){
+                    if (players[turn].isHuman()){
+                        endTurnRequest();
+                    }
+                    myTime = 0.0;
+                }
+                crusser.relocate(1920*(myTime/ timeOfEachTurn),-50);
+                myTime++;
+            }
+        };
+        turnTimer.start();
     }
 
 
@@ -591,6 +618,7 @@ public class BattleController {
 
     private void endTurn() {
 
+        myTime = 0.0;
         aiTimer.stop();
         reviewTimer.stop();
 
@@ -810,11 +838,14 @@ public class BattleController {
         if (!onReview) {
             lastBattleHistory.add(new BattleAction(null, null, null, BattleActionType.finish));
         }
+        if (turnTimer!=null){
+            turnTimer.stop();
+        }
 
         if (onServer) {
             //send finish battle requesta//todo
         }
-
+        myTime = 0.0;
         Double hidenTime = 200.0;
 
         Pane pane = new Pane();
@@ -2630,6 +2661,8 @@ public class BattleController {
     public void setHistory(BattleHistory battleHistory) {
         this.lastBattleHistory = battleHistory;
     }
+
+
 
 }
 

@@ -41,6 +41,7 @@ public class BattleChooseMenuController extends MyController implements Initiali
         instance = this;
     }
 
+    public JFXTextField ternText;
     public JFXTabPane mainPage;
     public VBox storyGameTab;
     public VBox SingleGameTab;
@@ -92,6 +93,7 @@ public class BattleChooseMenuController extends MyController implements Initiali
         Parent root = Board.getRoot();
         BattleController controller = (BattleController) Board.getController();
         controller.initializeBattle(battle, false, false);
+        setTurnTime(controller);
         Client.getStage().getScene().setRoot(root);
     }
 
@@ -105,6 +107,7 @@ public class BattleChooseMenuController extends MyController implements Initiali
             BattleController controller = (BattleController) Board.getController();
             controller.initializeBattle(battle, false, false);
             controller.setOnStoryMod();
+            setTurnTime(controller);
             Client.getStage().getScene().setRoot(root);
         } catch (NullPointerException e) {
             AlertHelper.showAlert(Alert.AlertType.ERROR, Client.getStage().getOwner(), "Deck is not complete!", "Deck is not complete!");
@@ -214,23 +217,10 @@ public class BattleChooseMenuController extends MyController implements Initiali
         Client.getWriter().flush();
     }
 
-    public void reView() {
-        YaGson yaGson = new YaGson();
-        Scanner scanner = null;
-        try {
-            scanner = new Scanner(new FileInputStream("fileName.txt"));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+    public void setTurnTime(BattleController battleController){
+        if (ternText.getText()!=null){
+            battleController.setTurntime(Double.valueOf(ternText.getText()));
         }
-        String scanned = scanner.nextLine();
-        System.out.println(scanned);
-        BattleHistory battleHistory = yaGson.fromJson(scanned, BattleHistory.class);
-        Battle battle = (battleHistory.getBattel());
-        Parent root = Board.getRoot();
-        System.out.println(battleHistory.battleActions.size());
-        BattleController controller = (BattleController) Board.getController();
-        controller.initializeBattle(battle, false, true);
-        controller.setHistory(battleHistory);
-        Client.getStage().getScene().setRoot(root);
     }
+
 }
