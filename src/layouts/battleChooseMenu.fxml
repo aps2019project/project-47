@@ -64,7 +64,7 @@
             <Font name="Ubuntu Bold Italic" size="19.0" />
         </font>
     </JFXButton>
-    <JFXTextField fx:id="ternText" prefHeight="70.0" maxWidth="700.0" style="-fx-background-radius: 10px;" promptText="Turn Time : 2000">
+    <JFXTextField fx:id="ternText" prefHeight="70.0" maxWidth="700.0" style="-fx-background-radius: 10px;" promptText="">
         <font>
             <Font name="Ubuntu Bold Italic" size="19.0" />
         </font>

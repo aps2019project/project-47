@@ -218,7 +218,7 @@ public class BattleChooseMenuController extends MyController implements Initiali
     }
 
     public void setTurnTime(BattleController battleController){
-        if (ternText.getText()!=null){
+        if (!ternText.getText().equals("")){
             battleController.setTurntime(Double.valueOf(ternText.getText()));
         }
     }

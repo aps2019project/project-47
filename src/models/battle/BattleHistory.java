@@ -1,5 +1,6 @@
 package models.battle;
 
+import com.gilecode.yagson.YaGson;
 import models.battle.board.Board;
 
 import java.util.ArrayList;
@@ -27,6 +28,12 @@ public class BattleHistory {
 
     public Battle getBattel(){
         return battle;
+    }
+
+    public BattleHistory clone(){
+        YaGson yaGson  = new YaGson();
+        String clonedStr = yaGson.toJson(this);
+        return yaGson.fromJson(clonedStr,BattleHistory.class);
     }
 
     @Override
