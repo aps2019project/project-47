@@ -79,16 +79,16 @@ public class BattleChooseMenuController extends MyController implements Initiali
         String deckName = decks.getSelectionModel().getSelectedItem();
         Deck selectedDeck = null;
         ArrayList<Deck> decks = AccountMenu.getLoginAccount().getDecks();
-        for (Deck deck:decks){
-            if (deck.getName().equals(deckName)){
+        for (Deck deck : decks) {
+            if (deck.getName().equals(deckName)) {
                 selectedDeck = deck;
                 break;
             }
         }
         Player player0 = AccountMenu.getLoginAccount().makePlayer(0);
-        Player player1= new Player(1,"pc",selectedDeck.clone(),false);
+        Player player1 = new Player(1, "pc", selectedDeck.clone(), false);
         int numOfFlags = Integer.valueOf(numberOfFlags.getText());
-        Battle battle = new Battle(player0,player1,type,numOfFlags);
+        Battle battle = new Battle(player0, player1, type, numOfFlags);
         Parent root = Board.getRoot();
         BattleController controller = (BattleController) Board.getController();
         controller.initializeBattle(battle, false, false);
@@ -117,9 +117,10 @@ public class BattleChooseMenuController extends MyController implements Initiali
             return;
         String opponentUserName = (otherPlayers.getSelectionModel().getSelectedItem());
         MatchType matchType = (modeOfBattle.getSelectionModel().getSelectedItem());
-        if (numOfFlags.getText().equals("") && matchType!=MatchType.kill)return;
-        int nmf = Integer.valueOf(numOfFlags.getText());
-
+        if (numOfFlags.getText().equals("") && matchType != MatchType.kill) return;
+        int nmf = 0;
+        if (matchType != MatchType.kill)
+            nmf = Integer.valueOf(numOfFlags.getText());
         NewBattleRequest newBattleRequest = new NewBattleRequest(loginAccount.getAuthToken(), opponentUserName, matchType, nmf);
         Client.getWriter().println(yaGson.toJson(newBattleRequest));
         Client.getWriter().flush();

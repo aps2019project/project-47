@@ -19,7 +19,7 @@ import java.util.Formatter;
 public class Test {
     public static void main(String[] args) {
         Shop shop = Shop.getInstance();
-        Account Mmd = new Account("hossein", "hossein");
+        Account Mmd = new Account("q", "q");
         Deck deck1 = new Deck("best");
         ArrayList<Minion> minions = new ArrayList<>(Defentions.defineMinion().keySet());
         ArrayList<Hero> heroes = new ArrayList<>(Defentions.defineHero().keySet());
