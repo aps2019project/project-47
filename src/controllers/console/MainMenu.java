@@ -9,6 +9,7 @@ import models.Account;
 import models.Collection;
 import models.battle.MatchResult;
 import models.Shop;
+import network.Client;
 import views.MyPrinter;
 
 import java.io.IOException;
@@ -116,6 +117,7 @@ public class MainMenu {
             }
             controller = fxmlLoader.getController();
         }
+        Client.setMusic();
         return root;
     }
     public static MyController getController() {

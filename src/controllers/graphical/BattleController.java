@@ -87,6 +87,7 @@ public class BattleController {
     }
 
     public Parent getRoot() {
+        Client.stpoMusic();
         return anchorPane;
     }
 
@@ -97,7 +98,7 @@ public class BattleController {
 
     public void initialize() {
         setBackground();
-//        setMusic();
+        setMusic();
         creatBoardCells();
         creatHandScene();
         createButtons();
@@ -2495,7 +2496,7 @@ public class BattleController {
 
             upTT.setOnFinished(event -> {
                 MediaPlayer impact = new MediaPlayer(new Media(new File("src/resources/Alert/impact.m4a").toURI().toString()));
-                //impact.play();
+                impact.play();
                 showString();
             });
 
@@ -2551,6 +2552,7 @@ public class BattleController {
     }
 
     private static class MyMediaPlayer {
+
         static Double effectTime = 2.0;
 
         public static void playEffectSoundOfACard(Card card, soundType type) {
@@ -2582,11 +2584,12 @@ public class BattleController {
                     break;
                 }
             }
-//            Media media = new Media(new File(address).toURI().toString());
-//            MediaPlayer mediaPlayer = new MediaPlayer(media);
-//            mediaPlayer.setStopTime(Duration.seconds(effectTime));
-//            mediaPlayer.play();
+            Media media = new Media(new File(address).toURI().toString());
+            MediaPlayer mediaPlayer = new MediaPlayer(media);
+            mediaPlayer.setStopTime(Duration.seconds(effectTime));
+            mediaPlayer.play();
         }
+
     }
 
     private enum soundType {

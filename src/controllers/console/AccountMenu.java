@@ -234,6 +234,7 @@ public class AccountMenu {
             }
             controller = fxmlLoader.getController();
         }
+        Client.setMusic();
         return root;
     }
 

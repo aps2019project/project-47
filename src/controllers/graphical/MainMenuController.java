@@ -47,6 +47,7 @@ public class MainMenuController extends MyController {
 
     public void goToCollectionMenu() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/layouts/Collection.fxml"));
+        Client.setMusic();
         Client.getStage().getScene().setRoot(root);
     }
 
